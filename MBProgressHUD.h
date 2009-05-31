@@ -118,6 +118,16 @@
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(bool)animated;
 
+/**
+ * Display the HUD
+ */
+- (void) show:(BOOL)animated;
+
+/**
+ * Hide the HUD, this still calls the hudWasHidden delegate.
+ */
+- (void) hide:(BOOL)animated;
+
 @end
 
 

@@ -181,6 +181,17 @@
 
 #pragma mark Showing and execution
 
+- (void) show:(BOOL)animated {
+	[self layoutAndStyle];
+	[self setNeedsDisplay];
+
+	[self showUsingAnimation:animated];
+}
+
+- (void) hide:(BOOL)animated {
+	[self hideUsingAnimation:animated];
+}
+
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(bool)animated {
 	
 	[self layoutAndStyle];
