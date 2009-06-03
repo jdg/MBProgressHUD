@@ -1,7 +1,7 @@
 //
 //  MBProgressHUD.h
-//  Version 0.1
-//  Created by Matej Bukovinski on 8.4.09.
+//  Version 0.11
+//  Created by Matej Bukovinski on 2.6.09.
 //
 
 // This code is distributed under the terms and conditions of the MIT license. 

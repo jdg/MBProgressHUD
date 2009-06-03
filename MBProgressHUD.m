@@ -1,7 +1,7 @@
 //
 //  MBProgressHUD.m
-//  Version 0.1
-//  Created by Matej Bukovinski on 8.4.09.
+//  Version 0.11
+//  Created by Matej Bukovinski on 2.6.09.
 //
 
 #import "MBProgressHUD.h"
@@ -16,6 +16,9 @@
 
 - (void)done;
 
+- (void)updateLabelText:(NSString *)newText;
+- (void)updateLabelText:(NSString *)newText;
+
 @property (assign) float width;
 @property (assign) float height;
 
@@ -24,6 +27,8 @@
 
 
 @implementation MBProgressHUD
+
+#pragma mark Accessors
 
 @synthesize delegate;
 @synthesize labelText;
@@ -34,6 +39,36 @@
 
 @synthesize width;
 @synthesize height;
+
+- (void)setLabelText:(NSString *)newText {
+	[self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(layoutAndStyle) withObject:nil waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+- (void)setDetailsLabelText:(NSString *)newText {
+	[self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(layoutAndStyle) withObject:nil waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+#pragma mark Acessor heplers
+
+- (void)updateLabelText:(NSString *)newText {
+	if (labelText != newText) {
+        [labelText release];
+        labelText = [newText copy];
+    }
+}
+
+- (void)updateDetailsLabelText:(NSString *)newText {
+	if (detailsLabelText != newText) {
+        [detailsLabelText release];
+        detailsLabelText = [newText copy];
+    }
+}
+
+
 
 
 #pragma mark Build up
