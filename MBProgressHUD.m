@@ -1,11 +1,10 @@
 //
 //  MBProgressHUD.m
-//  Version 0.1
-//  Created by Matej Bukovinski on 8.4.09.
+//  Version 0.31
+//  Created by Matej Bukovinski on 30.9.09.
 //
 
 #import "MBProgressHUD.h"
-
 
 @interface MBProgressHUD ()
 
@@ -16,6 +15,13 @@
 
 - (void)done;
 
+- (void)updateLabelText:(NSString *)newText;
+- (void)updateDetailsLabelText:(NSString *)newText;
+- (void)updateProgress;
+- (void)updateIndicators;
+
+@property (retain) UIView *indicator;
+
 @property (assign) float width;
 @property (assign) float height;
 
@@ -25,15 +31,80 @@
 
 @implementation MBProgressHUD
 
+#pragma mark Accessors
+
+@synthesize mode;
+
 @synthesize delegate;
 @synthesize labelText;
 @synthesize detailsLabelText;
 @synthesize opacity;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
+@synthesize progress;
+
+@synthesize indicator;
 
 @synthesize width;
 @synthesize height;
+
+- (void)setMode:(MBProgressHUDMode)newMode {
+	// Dont change mode if it wasn't actually changed to pervent flickering
+	if (mode && mode == newMode) return;
+	mode = newMode;
+	[self performSelectorOnMainThread:@selector(updateIndicators) withObject:nil waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+- (void)setLabelText:(NSString *)newText {
+	[self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+- (void)setDetailsLabelText:(NSString *)newText {
+	[self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+- (void)setProgress:(float)newProgress {
+	progress = newProgress;
+	// Update display ony if showind the determinate progress view
+	if (mode == MBProgressHUDModeDeterminate) {
+		[self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	}
+}
+
+#pragma mark Acessor heplers
+
+- (void)updateLabelText:(NSString *)newText {
+	if (labelText != newText) {
+        [labelText release];
+        labelText = [newText copy];
+    }
+}
+
+- (void)updateDetailsLabelText:(NSString *)newText {
+	if (detailsLabelText != newText) {
+        [detailsLabelText release];
+        detailsLabelText = [newText copy];
+    }
+}
+
+- (void)updateProgress {
+	[(MBRoundProgressView *)indicator setProgress:progress];
+}
+
+- (void)updateIndicators {
+	if (indicator) [indicator removeFromSuperview];
+	if (mode == MBProgressHUDModeDeterminate) 
+		self.indicator = [[MBRoundProgressView alloc] initWithDefaultSize];
+	else {
+		self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		[(UIActivityIndicatorView *)indicator startAnimating];
+	}
+	[self addSubview:indicator];
+}
 
 
 #pragma mark Build up
@@ -44,6 +115,8 @@
 #define LABELFONTSIZE 22.0
 #define LABELDETAILSFONTSIZE 16.0
 
+#define PI 3.14159265358979323846
+
 - (id)initWithWindow:(UIWindow* )window {
 	return [self initWithFrame:window.bounds];
 }
@@ -51,6 +124,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		// Set default values for properties
+		self.mode = MBProgressHUDModeIndeterminate;
 		self.labelText = @"";
 		self.detailsLabelText = @"";
 		self.opacity = 0.9;
@@ -64,20 +138,16 @@
 		// Make invisible for now
 		self.alpha = 0.0;
 		
-		// Add indicator subview
-		indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-
 		// Add label
 		label = [[UILabel alloc] initWithFrame:self.bounds];
 		
 		// Add details label
 		detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
-		
     }
     return self;
 }
 
-- (void)layoutAndStyle {
+- (void)layoutSubviews {
 	
 	CGRect frame = self.bounds;
 	
@@ -87,12 +157,9 @@
 	self.height = indFrame.size.height + 2*MARGIN;
 	
 	// Center the indicator
-	indFrame.origin.x = (frame.size.width-indFrame.size.width)/2;
-	indFrame.origin.y = (frame.size.height-indFrame.size.height)/2;
+	indFrame.origin.x = floor((frame.size.width-indFrame.size.width)/2);
+	indFrame.origin.y = floor((frame.size.height-indFrame.size.height)/2);
 	indicator.frame = indFrame;
-	
-	[indicator startAnimating];
-	[self addSubview:indicator];
 	
 	// Add label if label text was set
 	if (self.labelText != @"") {
@@ -124,15 +191,15 @@
 		self.height = self.height + lHeight + PADDING; 
 		
 		// Move indicator to make room for the label
-		indFrame.origin.y -= (lHeight/2 + PADDING/2);
+		indFrame.origin.y -= (floor(lHeight/2 + PADDING/2));
 		indicator.frame = indFrame;
 		
 		// Set the label position and dimensions
-		CGRect lFrame = CGRectMake((frame.size.width-lWidth)/2, indFrame.origin.y + indFrame.size.height + PADDING, lWidth, lHeight);
+		CGRect lFrame = CGRectMake(floor((frame.size.width-lWidth)/2), floor(indFrame.origin.y + indFrame.size.height + PADDING), lWidth, lHeight);
 		label.frame = lFrame;
 		
 		[self addSubview:label];
-	
+		
 		// Add details label delatils text was set
 		if (self.detailsLabelText != @"") {
 			
@@ -162,15 +229,15 @@
 			self.height = self.height + lHeight + PADDING; 
 			
 			// Move indicator to make room for the new label
-			indFrame.origin.y -= (lHeight/2 + PADDING/2);
+			indFrame.origin.y -= (floor(lHeight/2 + PADDING/2));
 			indicator.frame = indFrame;
 			
 			// Move first label to make room for the new label
-			lFrame.origin.y -= (lHeight/2 + PADDING/2);
+			lFrame.origin.y -= (floor(lHeight/2 + PADDING/2));
 			label.frame = lFrame;
 			
 			// Set label position and dimensions
-			CGRect lFrameD = CGRectMake((frame.size.width-lWidth)/2, lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
+			CGRect lFrameD = CGRectMake(floor((frame.size.width-lWidth)/2), lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
 			detailsLabel.frame = lFrameD;
 			
 			[self addSubview:detailsLabel];
@@ -182,9 +249,7 @@
 #pragma mark Showing and execution
 
 - (void) show:(BOOL)animated {
-	[self layoutAndStyle];
 	[self setNeedsDisplay];
-
 	[self showUsingAnimation:animated];
 }
 
@@ -193,8 +258,6 @@
 }
 
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(bool)animated {
-	
-	[self layoutAndStyle];
 	[self setNeedsDisplay];
 	
 	methodForExecution = method;	
@@ -227,7 +290,8 @@
 
 - (void)done {
 	// If delegate was set make the callback
-	if (delegate != nil && [delegate respondsToSelector:@selector(hudWasHidden)]) {
+	self.alpha = 0.0;
+	if (delegate != nil) {
 		[delegate hudWasHidden];
 	} else {
 		[NSException raise:NSInternalInconsistencyException format:@"Delegate doesn't respond to hudWasHidden"];	
@@ -256,13 +320,15 @@
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
-	// Fade in 
+	// Fade out 
 	if (animated) { 
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.40];
 		[UIView setAnimationDelegate:self];
 		[UIView setAnimationDidStopSelector:@selector(animationFinished: finished: context:)];
-		self.alpha = 0.0;
+		// 0.02 prevents the hud from passing through touches during the animation
+		// the hud will get completely hidden in the done method
+		self.alpha = 0.02;
 		[UIView commitAnimations];
 	} else {
 		self.alpha = 0.0;
@@ -308,5 +374,38 @@
     [super dealloc];
 }
 
+
+@end
+
+
+@implementation MBRoundProgressView
+
+- (id)initWithDefaultSize {
+	return [super initWithFrame:CGRectMake(0.0f, 0.0f, 37.0f, 37.0f)];
+}
+
+- (void)drawRect:(CGRect)rect {
+	CGRect allRect = self.bounds;
+	CGRect circleRect = CGRectMake(allRect.origin.x + 2, allRect.origin.y + 2, 
+								   allRect.size.width - 4, allRect.size.height - 4);
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	// Draw background
+	CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0); // white
+	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 0.1); // translucent white
+	CGContextSetLineWidth(context, 2.0);
+	CGContextFillEllipseInRect(context, circleRect);
+	CGContextStrokeEllipseInRect(context, circleRect);
+	
+	// Draw progress
+	float x =  allRect.size.width / 2;
+	float y =  allRect.size.height / 2;
+	CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0); // white
+	CGContextMoveToPoint(context, x, y);     
+    CGContextAddArc(context, x, y, (allRect.size.width-4)/2, -PI/2, (self.progress*2*PI)-PI/2, 0); 
+    CGContextClosePath(context); 
+    CGContextFillPath(context);
+}
 
 @end
