@@ -1,0 +1,18 @@
+Version 0.31 @ 8.10.09
+- Fix for touch through during the fade-out animation.
+
+Version 0.3 @ 30.9.09
+- Added show: and hide: methods.
+- Now using UIViews layoutSubviews to automate layout calls.
+- Added some floors to round pixel positions and thereby prevent unsharp views.
+- Some additional documentation and code cleanup. 
+
+Version 0.2 @ 21.7.09
+- Added determinate progress mode and switching capabilities between determinate and indeterminate modes. 
+- Various bugfixes. 
+
+Version 0.11 @ 2.6.09.
+- Updated labelText and detailsLabelText properties to support text modifications while the HUD is being shown. 
+
+Version 0.1 @ 2.4.09
+- Initial release.

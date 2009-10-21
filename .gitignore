@@ -1,0 +1,17 @@
+# xcode noise
+build/
+*.xcodeproj/*.pbxuser
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
+*.xcodeproj/*.perspectivev3
+
+# old skool
+.svn
+
+# osx noise
+.DS_Store
+profile
+
+# vim noise
+*~
+*.swp
