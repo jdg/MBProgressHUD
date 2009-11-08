@@ -172,6 +172,8 @@
 
         // Add details label
         detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
+
+        isFinished = NO;
     }
     return self;
 }
@@ -333,11 +335,29 @@
     objectForExecution = [object retain];
     useAnimation = animated;
 
-    // Show HUD view
-    [self showUsingAnimation:useAnimation];
+    if (delay)
+    {
+        [NSThread detachNewThreadSelector:@selector(delayedShow) toTarget:self withObject:nil];
+    }
+    else
+    {
+        // Show HUD view
+        [self showUsingAnimation:useAnimation];
+    }
 
     // Launch execution in new thread
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
+}
+
+- (void)delayedShow
+{
+    NSUInteger usecDelay = delay * 1000;
+    usleep(usecDelay);
+
+    if (!isFinished)
+    {
+        [self showUsingAnimation:useAnimation];
+    }
 }
 
 - (void)launchExecution
@@ -361,6 +381,8 @@
 
 - (void)done
 {
+    isFinished = YES;
+
     // If delegate was set make the callback
     self.alpha = 0.0;
     if (delegate != nil)

@@ -90,6 +90,8 @@ typedef enum
 	float opacity;
 	UIFont* labelFont;
 	UIFont* detailsLabelFont;
+
+    BOOL isFinished;
 }
 
 /** A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with

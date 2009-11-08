@@ -156,7 +156,7 @@
 - (void)myTask
 {
     // Do something usefull in here instead of sleeping ...
-    sleep(1);
+    sleep(1 + (delay / 1000));
     // Labels can be changed during the execution
     //HUD.detailsLabelText = @"Something";
     //sleep(3);
