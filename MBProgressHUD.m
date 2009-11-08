@@ -41,47 +41,47 @@
 
 @synthesize width;
 @synthesize height;
+@synthesize xOffset;
+@synthesize yOffset;
+
+@synthesize delay;
 
 - (void)setMode:(MBProgressHUDMode)newMode
 {
-    // Dont change mode if it wasn't actually changed to pervent flickering
+    // Dont change mode if it wasn't actually changed to prevent flickering
+
     if (mode && (mode == newMode))
     {
         return;
     }
+
     mode = newMode;
-    [self performSelectorOnMainThread:@selector(updateIndicators)
-                           withObject:nil waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil
-                        waitUntilDone:NO];
+
+    [self performSelectorOnMainThread:@selector(updateIndicators) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
 - (void)setLabelText:(NSString*)newText
 {
-    [self performSelectorOnMainThread:@selector(updateLabelText:)
-                           withObject:newText waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil
-                        waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
 - (void)setDetailsLabelText:(NSString*)newText
 {
-    [self performSelectorOnMainThread:@selector(updateDetailsLabelText:)
-                           withObject:newText waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil
-                        waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
 - (void)setProgress:(float)newProgress
 {
     progress = newProgress;
-    // Update display ony if showind the determinate progress view
+
+    // Update display ony if showing the determinate progress view
     if (mode == MBProgressHUDModeDeterminate)
     {
-        [self performSelectorOnMainThread:@selector(updateProgress)
-                               withObject:nil waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(setNeedsDisplay)
-                               withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -152,12 +152,13 @@
     {
         // Set default values for properties
         self.mode = MBProgressHUDModeIndeterminate;
-        self.labelText = @"";
-        self.detailsLabelText = @"";
+        self.labelText = nil;
+        self.detailsLabelText = nil;
         self.opacity = 0.9;
         self.labelFont = [UIFont boldSystemFontOfSize:LABELFONTSIZE];
-        self.detailsLabelFont = [UIFont
-            boldSystemFontOfSize:LABELDETAILSFONTSIZE];
+        self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
+        self.xOffset = 0.0;
+        self.yOffset = 0.0;
 
         // Transparent background
         self.opaque = NO;
@@ -179,25 +180,47 @@
 {
     CGRect frame = self.bounds;
 
-    // Compute HUD dimensions based on indicator size (add margin to HUD
-    // border)
+    // Compute HUD dimensions based on indicator size (add margin to HUD border)
     CGRect indFrame = indicator.bounds;
     self.width = indFrame.size.width + 2 * MARGIN;
     self.height = indFrame.size.height + 2 * MARGIN;
 
-    // Center the indicator
-    indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2);
-    indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2);
+    // Position the indicator
+    indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
+
+#if 0
+    if (indFrame.origin.x < 0.0)
+    {
+        indFrame.origin.x = 0.0;
+    }
+    else if ((indFrame.origin.x + indFrame.size.width) > frame.size.width)
+    {
+        indFrame.origin.x = frame.size.width - indFrame.size.width;
+    }
+#endif
+
+    indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
+
+#if 0
+    if (indFrame.origin.y < 0.0)
+    {
+        indFrame.origin.y = 0.0;
+    }
+    else if ((indFrame.origin.y + indFrame.size.height) > frame.size.height)
+    {
+        indFrame.origin.y = frame.size.height - indFrame.size.height;
+    }
+#endif
+
     indicator.frame = indFrame;
 
     // Add label if label text was set
-    if (self.labelText != @"")
+    if (nil != self.labelText)
     {
         // Get size of label text
         CGSize dims = [self.labelText sizeWithFont:self.labelFont];
 
-        // Compute label dimensions based on font metrics if size is larger
-        // than max then clip the label width
+        // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
         float lWidth;
         if (dims.width <= (frame.size.width - 2 * MARGIN))
@@ -230,22 +253,20 @@
         indicator.frame = indFrame;
 
         // Set the label position and dimensions
-        CGRect lFrame = CGRectMake(floor((frame.size.width - lWidth) / 2),
-                                   floor(indFrame.origin.y +
-                                         indFrame.size.height + PADDING),
+        CGRect lFrame = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
+                                   floor(indFrame.origin.y + indFrame.size.height + PADDING),
                                    lWidth, lHeight);
         label.frame = lFrame;
 
         [self addSubview:label];
 
         // Add details label delatils text was set
-        if (self.detailsLabelText != @"")
+        if (nil != self.detailsLabelText)
         {
             // Get size of label text
             dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
 
-            // Compute label dimensions based on font metrics if size is larger
-            // than max then clip the label width
+            // Compute label dimensions based on font metrics if size is larger than max then clip the label width
             lHeight = dims.height;
             if (dims.width <= (frame.size.width - 2 * MARGIN))
             {
@@ -281,32 +302,29 @@
             label.frame = lFrame;
 
             // Set label position and dimensions
-            CGRect lFrameD = CGRectMake(floor((frame.size.width - lWidth) / 2),
-                                        lFrame.origin.y + lFrame.size.height +
-                                        PADDING, lWidth, lHeight);
+            CGRect lFrameD = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
+                                        lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
             detailsLabel.frame = lFrameD;
 
             [self addSubview:detailsLabel];
-
         }
     }
 }
 
 #pragma mark Showing and execution
 
-- (void) show:(BOOL)animated
+- (void)show:(BOOL)animated
 {
     [self setNeedsDisplay];
     [self showUsingAnimation:animated];
 }
 
-- (void) hide:(BOOL)animated
+- (void)hide:(BOOL)animated
 {
     [self hideUsingAnimation:animated];
 }
 
-- (void)showWhileExecuting:(SEL)method onTarget:(id)target
-                withObject:(id)object animated:(bool)animated
+- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated
 {
     [self setNeedsDisplay];
 
@@ -319,8 +337,7 @@
     [self showUsingAnimation:useAnimation];
 
     // Launch execution in new thread
-    [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self
-                           withObject:nil];
+    [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
 }
 
 - (void)launchExecution
@@ -328,13 +345,11 @@
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
     // Start executing the requested task
-    [targetForExecution performSelector:methodForExecution
-                             withObject:objectForExecution];
+    [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
 
     // Task completed, update view in main thread (note: view operations should
     // be done only in the main thread)
-    [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil
-                        waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
 
     [pool release];
 }
@@ -354,8 +369,7 @@
     }
     else
     {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"Delegate doesn't respond to hudWasHidden"];
+        [NSException raise:NSInternalInconsistencyException format:@"Delegate doesn't respond to hudWasHidden"];
     }
 }
 
@@ -394,8 +408,8 @@
         [UIView setAnimationDuration:0.40];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDidStopSelector:@selector(animationFinished: finished: context:)];
-        // 0.02 prevents the hud from passing through touches during the
-        // animation the hud will get completely hidden in the done method
+        // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
+        // in the done method
         self.alpha = 0.02;
         [UIView commitAnimations];
     }
@@ -413,9 +427,8 @@
     // Center HUD
     CGRect allRect = self.bounds;
     // Draw rounded HUD bacgroud rect
-    CGRect boxRect = CGRectMake((allRect.size.width - self.width) / 2 ,
-                                (allRect.size.height - self.height) / 2,
-                                self.width, self.height);
+    CGRect boxRect = CGRectMake(((allRect.size.width - self.width) / 2) + self.xOffset,
+                                ((allRect.size.height - self.height) / 2) + self.yOffset, self.width, self.height);
     CGContextRef ctxt = UIGraphicsGetCurrentContext();
     [self fillRoundedRect:boxRect inContext:ctxt];
 }
@@ -426,17 +439,11 @@
 
     CGContextBeginPath(context);
     CGContextSetGrayFillColor(context, 0.0, self.opacity);
-    CGContextMoveToPoint(context, CGRectGetMinX(rect) + radius,
-                         CGRectGetMinY(rect));
-    CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMinY(rect)
-                    + radius, radius, 3 * M_PI / 2, 0, 0);
-    CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMaxY(rect)
-                    - radius, radius, 0, M_PI / 2, 0);
-    CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMaxY(rect)
-                    - radius, radius, M_PI / 2, M_PI, 0);
-    CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect)
-                    + radius, radius, M_PI, 3 * M_PI / 2, 0);
-
+    CGContextMoveToPoint(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect));
+    CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMinY(rect) + radius, radius, 3 * M_PI / 2, 0, 0);
+    CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMaxY(rect) - radius, radius, 0, M_PI / 2, 0);
+    CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMaxY(rect) - radius, radius, M_PI / 2, M_PI, 0);
+    CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect) + radius, radius, M_PI, 3 * M_PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
 }
@@ -454,7 +461,6 @@
 }
 @end
 
-
 @implementation MBRoundProgressView
 - (id)initWithDefaultSize
 {
@@ -464,9 +470,8 @@
 - (void)drawRect:(CGRect)rect
 {
     CGRect allRect = self.bounds;
-    CGRect circleRect = CGRectMake(allRect.origin.x + 2, allRect.origin.y + 2,
-                                   allRect.size.width - 4, allRect.size.height
-                                   - 4);
+    CGRect circleRect = CGRectMake(allRect.origin.x + 2, allRect.origin.y + 2, allRect.size.width - 4,
+                                   allRect.size.height - 4);
 
     CGContextRef context = UIGraphicsGetCurrentContext();
 
@@ -478,12 +483,11 @@
     CGContextStrokeEllipseInRect(context, circleRect);
 
     // Draw progress
-    float x =  allRect.size.width / 2;
-    float y =  allRect.size.height / 2;
+    float x = (allRect.size.width / 2);
+    float y = (allRect.size.height / 2);
     CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 1.0); // white
     CGContextMoveToPoint(context, x, y);
-    CGContextAddArc(context, x, y, (allRect.size.width - 4) / 2, -(PI / 2),
-                    (self.progress * 2 * PI) - PI / 2, 0);
+    CGContextAddArc(context, x, y, (allRect.size.width - 4) / 2, -(PI / 2), (self.progress * 2 * PI) - PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
 }

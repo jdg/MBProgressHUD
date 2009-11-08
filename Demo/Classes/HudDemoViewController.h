@@ -9,19 +9,28 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface HudDemoViewController : UIViewController <MBProgressHUDDelegate> {
+@interface HudDemoViewController : UIViewController <MBProgressHUDDelegate>
+{
 	MBProgressHUD *HUD;
+
+    IBOutlet UITextField* xOffsetField;
+    IBOutlet UITextField* yOffsetField;
+    IBOutlet UITextField* delayField;
+
+    float xOffset;
+    float yOffset;
+    NSUInteger delay;
 }
 
-- (IBAction) showSimple:(id)sender;
-- (IBAction) showWithLabel:(id)sender;
-- (IBAction) showWithDetailsLabel:(id)sender;
-- (IBAction) showWithLabelDeterminate:(id)sender;
-- (IBAction) showWithLabelMixed:(id)sender;
+- (IBAction)showSimple:(id)sender;
+- (IBAction)showWithLabel:(id)sender;
+- (IBAction)showWithDetailsLabel:(id)sender;
+- (IBAction)showWithLabelDeterminate:(id)sender;
+- (IBAction)showWithLabelMixed:(id)sender;
 
-- (void) myTask;
-- (void) myProgressTask;
-- (void) myMixedTask;
+- (void)myTask;
+- (void)myProgressTask;
+- (void)myMixedTask;
 
 @end
 
