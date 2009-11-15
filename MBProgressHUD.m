@@ -58,18 +58,21 @@
     mode = newMode;
 
     [self performSelectorOnMainThread:@selector(updateIndicators) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
 - (void)setLabelText:(NSString*)newText
 {
     [self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
 - (void)setDetailsLabelText:(NSString*)newText
 {
     [self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
