@@ -120,6 +120,8 @@
         [indicator removeFromSuperview];
     }
 
+	self.indicator = nil;
+	
     if (mode == MBProgressHUDModeDeterminate)
     {
         self.indicator = [[MBRoundProgressView alloc] initWithDefaultSize];
@@ -378,6 +380,8 @@
 
 - (void)cleanUp
 {
+	self.indicator = nil;
+
     [targetForExecution release];
     [objectForExecution release];
 
