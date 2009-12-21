@@ -12,6 +12,8 @@
 
 - (void)done;
 
+- (void)sleepBeforeShow;
+- (void)delayedShow;
 - (void)updateLabelText:(NSString*)newText;
 - (void)updateDetailsLabelText:(NSString*)newText;
 - (void)updateProgress;
@@ -337,7 +339,7 @@
 
     if (delay)
     {
-        [NSThread detachNewThreadSelector:@selector(delayedShow) toTarget:self withObject:nil];
+        [NSThread detachNewThreadSelector:@selector(sleepBeforeShow) toTarget:self withObject:nil];
     }
     else
     {
@@ -349,15 +351,20 @@
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
 }
 
-- (void)delayedShow
+- (void)sleepBeforeShow
 {
     NSUInteger usecDelay = delay * 1000;
     usleep(usecDelay);
 
     if (!isFinished)
     {
-        [self showUsingAnimation:useAnimation];
+        [self performSelectorOnMainThread:@selector(delayedShow) withObject:nil waitUntilDone:NO];
     }
+}
+
+- (void)delayedShow
+{
+    [self showUsingAnimation:useAnimation];
 }
 
 - (void)launchExecution
