@@ -397,13 +397,12 @@
 
     // If delegate was set make the callback
     self.alpha = 0.0;
-    if (delegate != nil)
+    
+    if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)])
     {
-        [delegate hudWasHidden];
-    }
-    else
-    {
-        [NSException raise:NSInternalInconsistencyException format:@"Delegate doesn't respond to hudWasHidden"];
+      if([delegate respondsToSelector:@selector(hudWasHidden)]) {
+        [delegate performSelector:@selector(hudWasHidden)];
+      }
     }
 }
 

@@ -32,7 +32,8 @@ typedef enum
 } MBProgressHUDMode;
 
 /** Defines callback methods for MBProgressHUD delegates. */
-@protocol MBProgressHUDDelegate
+@protocol MBProgressHUDDelegate <NSObject>
+@required
 /** A callback function that is called after the HUD was fully hidden from the screen. */
 - (void)hudWasHidden;
 @end
