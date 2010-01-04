@@ -144,7 +144,16 @@
 #pragma mark Lifecycle methods
 
 - (id)initWithWindow:(UIWindow *)window {
-    return [self initWithFrame:window.bounds];
+    return [self initWithView:window];
+}
+
+- (id)initWithView:(UIView *)view {
+	// Let's check if the view is nil (this is a common error when using the windw initializer above)
+	if (!view) {
+		[NSException raise:@"MBProgressHUDViewIsNillException" 
+					format:@"The view used in the MBProgressHUD initializer is nil."];
+	}
+	return [self initWithFrame:view.bounds];
 }
 
 - (id)initWithFrame:(CGRect)frame {
