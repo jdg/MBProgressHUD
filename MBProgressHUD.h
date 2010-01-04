@@ -96,6 +96,13 @@ typedef enum {
 
 	float width;
 	float height;
+	
+	BOOL taskInProgress;
+	float graceTime;
+	float minShowTime;
+	NSTimer *graceTimer;
+	NSTimer *minShowTimer;
+	NSDate *showStarted;
 
 	UIView *indicator;
 	UILabel *label;
@@ -171,6 +178,35 @@ typedef enum {
  *The y-ayis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
+
+/*
+ * Grace period is the time (in seconds) that the invoked method may be run without 
+ * showing the HUD. If the task finishes befor the grace time runs out, the HUD will
+ * not be shown at all. 
+ * This may be used to prevent HUD display for very short tasks.
+ * Defaults to 0 (no grace time).
+ * Grace time functionality is only supported when the task status is known!
+ * @see taskInProgress
+ */
+@property (assign) float graceTime;
+
+
+/**
+ * The minimum time (in seconds) that the HUD is shown. 
+ * This avoids the problem of the HUD being shown and than instantly hidden.
+ * Defaults to 0 (no minimum show time).
+ */
+@property (assign) float minShowTime;
+
+/**
+ * Indicates that the executed operation is in progress. Needed for correct graceTime operation.
+ * If you don't set a graceTime (different than 0.0) this does nothing.
+ * This property is automatically set when using showWhileExecuting:onTarget:withObject:animated:.
+ * When threading is done outside of the HUD (i.e., when the show: and hide: methods are used directly),
+ * you need to set this property when your task starts and completes in order to have normal graceTime 
+ * functunality.
+ */
+@property (assign) BOOL taskInProgress;
 
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 

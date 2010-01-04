@@ -15,16 +15,23 @@
 
 - (void)done;
 
-- (void)delayedShow;
 - (void)updateLabelText:(NSString *)newText;
 - (void)updateDetailsLabelText:(NSString *)newText;
 - (void)updateProgress;
 - (void)updateIndicators;
 
+- (void)handleGraceTimer:(NSTimer *)theTimer;
+- (void)handleMinShowTimer:(NSTimer *)theTimer;
+
 @property (retain) UIView *indicator;
 
 @property (assign) float width;
 @property (assign) float height;
+
+@property (retain) NSTimer *graceTimer;
+@property (retain) NSTimer *minShowTimer;
+
+@property (retain) NSDate *showStarted;
 
 @end
 
@@ -50,6 +57,14 @@
 @synthesize height;
 @synthesize xOffset;
 @synthesize yOffset;
+
+@synthesize graceTime;
+@synthesize minShowTime;
+@synthesize graceTimer;
+@synthesize minShowTimer;
+@synthesize taskInProgress;
+
+@synthesize showStarted;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -164,6 +179,8 @@
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
         self.xOffset = 0.0;
         self.yOffset = 0.0;
+		self.graceTime = 0.0;
+		self.minShowTime = 0.0;
 
         // Transparent background
         self.opaque = NO;
@@ -177,6 +194,8 @@
 
         // Add details label
         detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
+		
+		taskInProgress = NO;
     }
     return self;
 }
@@ -187,6 +206,9 @@
     [detailsLabel release];
     [labelText release];
     [detailsLabelText release];
+	[graceTimer release];
+	[minShowTimer release];
+	[showStarted release];
     [super dealloc];
 }
 
@@ -299,31 +321,68 @@
 #pragma mark Showing and execution
 
 - (void)show:(BOOL)animated {
-    [self setNeedsDisplay];
-    [self showUsingAnimation:animated];
+	useAnimation = animated;
+	
+	// If the grace time is set postpone the HUD display
+	if (self.graceTime > 0.0) {
+		self.graceTimer = [NSTimer scheduledTimerWithTimeInterval:self.graceTime 
+														   target:self 
+														 selector:@selector(handleGraceTimer:) 
+														 userInfo:nil 
+														  repeats:NO];
+	} 
+	// ... otherwise show the HUD imediately 
+	else {
+		[self setNeedsDisplay];
+		[self showUsingAnimation:useAnimation];
+	}
 }
 
 - (void)hide:(BOOL)animated {
-    [self hideUsingAnimation:animated];
+	useAnimation = animated;
+	
+	// If the minShow time is set, calculate how long the hud was shown,
+	// and pospone the hiding operation if necessary
+	if (self.minShowTime > 0.0 && showStarted) {
+		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:showStarted];
+		if (interv < self.minShowTime) {
+			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) 
+																 target:self 
+															   selector:@selector(handleMinShowTimer:) 
+															   userInfo:nil 
+																repeats:NO];
+			return;
+		} 
+	}
+	
+	// ... otherwise hide the HUD immediately
+    [self hideUsingAnimation:useAnimation];
+}
+
+- (void)handleGraceTimer:(NSTimer *)theTimer {
+	// Show the HUD only if the task is still running
+	if (taskInProgress) {
+		[self setNeedsDisplay];
+		[self showUsingAnimation:useAnimation];
+	}
+}
+
+- (void)handleMinShowTimer:(NSTimer *)theTimer {
+	[self hideUsingAnimation:useAnimation];
 }
 
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
-    [self setNeedsDisplay];
 
     methodForExecution = method;
     targetForExecution = [target retain];
     objectForExecution = [object retain];
-    useAnimation = animated;
-
-	// Show HUD view
-	[self showUsingAnimation:useAnimation];
 
     // Launch execution in new thread
+	taskInProgress = YES;
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
-}
-
-- (void)delayedShow {
-    [self showUsingAnimation:useAnimation];
+	
+	// Show HUD view
+	[self show:animated];
 }
 
 - (void)launchExecution {
@@ -357,18 +416,21 @@
 }
 
 - (void)cleanUp {
+	taskInProgress = NO;
+	
 	self.indicator = nil;
 
     [targetForExecution release];
     [objectForExecution release];
 
-    [self hideUsingAnimation:useAnimation];
+    [self hide:useAnimation];
 }
 
 #pragma mark -
 #pragma mark Fade in and Fade out
 
 - (void)showUsingAnimation:(BOOL)animated {
+	self.showStarted = [NSDate date];
     // Fade in
     if (animated) {
         [UIView beginAnimations:nil context:NULL];

@@ -37,6 +37,9 @@
     // Should be initialized with the windows frame so the HUD disables all user input by covering the entire screen
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     HUD = [[MBProgressHUD alloc] initWithWindow:window];
+	
+	//HUD.graceTime = 0.5;
+	//HUD.minShowTime = 5.0;
 
     // Add HUD to screen
     [window addSubview:HUD];
