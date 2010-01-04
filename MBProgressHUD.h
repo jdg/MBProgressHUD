@@ -165,12 +165,12 @@ typedef enum {
 @property (assign) float opacity;
 
 /** 
- * The x-axis offset of the HUD relative to the centre of the window. 
+ * The x-axis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float xOffset;
 
 /** 
- *The y-ayis offset of the HUD relative to the centre of the window. 
+ *The y-ayis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
 

@@ -209,27 +209,7 @@
 
     // Position the indicator
     indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
-
-#if 0
-    if (indFrame.origin.x < 0.0) {
-        indFrame.origin.x = 0.0;
-    }
-    else if ((indFrame.origin.x + indFrame.size.width) > frame.size.width) {
-        indFrame.origin.x = frame.size.width - indFrame.size.width;
-    }
-#endif
-
     indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
-
-#if 0
-    if (indFrame.origin.y < 0.0) {
-        indFrame.origin.y = 0.0;
-    }
-    else if ((indFrame.origin.y + indFrame.size.height) > frame.size.height) {
-        indFrame.origin.y = frame.size.height - indFrame.size.height;
-    }
-#endif
-
     indicator.frame = indFrame;
 
     // Add label if label text was set
