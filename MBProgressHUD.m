@@ -1,10 +1,13 @@
+//
 // MBProgressHUD.m
 // Version 0.31
 // Created by Matej Bukovinski on 30.9.09.
+//
 
 #import "MBProgressHUD.h"
 
 @interface MBProgressHUD ()
+
 - (void)hideUsingAnimation:(BOOL)animated;
 - (void)showUsingAnimation:(BOOL)animated;
 
@@ -14,19 +17,22 @@
 
 - (void)sleepBeforeShow;
 - (void)delayedShow;
-- (void)updateLabelText:(NSString*)newText;
-- (void)updateDetailsLabelText:(NSString*)newText;
+- (void)updateLabelText:(NSString *)newText;
+- (void)updateDetailsLabelText:(NSString *)newText;
 - (void)updateProgress;
 - (void)updateIndicators;
 
-@property (retain) UIView* indicator;
+@property (retain) UIView *indicator;
 
 @property (assign) float width;
 @property (assign) float height;
+
 @end
+
 
 @implementation MBProgressHUD
 
+#pragma mark -
 #pragma mark Accessors
 
 @synthesize mode;
@@ -48,12 +54,9 @@
 
 @synthesize delay;
 
-- (void)setMode:(MBProgressHUDMode)newMode
-{
+- (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
-
-    if (mode && (mode == newMode))
-    {
+    if (mode && (mode == newMode)) {
         return;
     }
 
@@ -64,81 +67,70 @@
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
-- (void)setLabelText:(NSString*)newText
-{
+- (void)setLabelText:(NSString *)newText {
     [self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
-- (void)setDetailsLabelText:(NSString*)newText
-{
+- (void)setDetailsLabelText:(NSString *)newText {
     [self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
-- (void)setProgress:(float)newProgress
-{
+- (void)setProgress:(float)newProgress {
     progress = newProgress;
 
     // Update display ony if showing the determinate progress view
-    if (mode == MBProgressHUDModeDeterminate)
-    {
+    if (mode == MBProgressHUDModeDeterminate) {
         [self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
     }
 }
 
+#pragma mark -
 #pragma mark Accessor helpers
 
-- (void)updateLabelText:(NSString*)newText
-{
-    if (labelText != newText)
-    {
+- (void)updateLabelText:(NSString *)newText {
+    if (labelText != newText) {
         [labelText release];
         labelText = [newText copy];
     }
 }
 
-- (void)updateDetailsLabelText:(NSString*)newText
-{
-    if (detailsLabelText != newText)
-    {
+- (void)updateDetailsLabelText:(NSString *)newText {
+    if (detailsLabelText != newText) {
         [detailsLabelText release];
         detailsLabelText = [newText copy];
     }
 }
 
-- (void)updateProgress
-{
-    [(MBRoundProgressView*)indicator setProgress:progress];
+- (void)updateProgress {
+    [(MBRoundProgressView *)indicator setProgress:progress];
 }
 
-- (void)updateIndicators
-{
-    if (indicator)
-    {
+- (void)updateIndicators {
+    if (indicator) {
         [indicator removeFromSuperview];
     }
 
 	self.indicator = nil;
 	
-    if (mode == MBProgressHUDModeDeterminate)
-    {
+    if (mode == MBProgressHUDModeDeterminate) {
         self.indicator = [[MBRoundProgressView alloc] initWithDefaultSize];
     }
-    else
-    {
+    else {
         self.indicator = [[UIActivityIndicatorView alloc]
             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [(UIActivityIndicatorView*)indicator startAnimating];
+        [(UIActivityIndicatorView *)indicator startAnimating];
     }
 
     [self addSubview:indicator];
 }
 
-#pragma mark Build up
+#pragma mark -
+#pragma mark Constants
 
 #define MARGIN 20.0
 #define PADDING 4.0
@@ -148,13 +140,14 @@
 
 #define PI 3.14159265358979323846
 
-- (id)initWithWindow:(UIWindow*)window
-{
+#pragma mark -
+#pragma mark Lifecycle methods
+
+- (id)initWithWindow:(UIWindow *)window {
     return [self initWithFrame:window.bounds];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame])
     {
         // Set default values for properties
@@ -185,8 +178,19 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)dealloc {
+    [indicator release];
+    [label release];
+    [detailsLabel release];
+    [labelText release];
+    [detailsLabelText release];
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Layout
+
+- (void)layoutSubviews {
     CGRect frame = self.bounds;
 
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
@@ -198,12 +202,10 @@
     indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
 
 #if 0
-    if (indFrame.origin.x < 0.0)
-    {
+    if (indFrame.origin.x < 0.0) {
         indFrame.origin.x = 0.0;
     }
-    else if ((indFrame.origin.x + indFrame.size.width) > frame.size.width)
-    {
+    else if ((indFrame.origin.x + indFrame.size.width) > frame.size.width) {
         indFrame.origin.x = frame.size.width - indFrame.size.width;
     }
 #endif
@@ -211,12 +213,10 @@
     indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
 
 #if 0
-    if (indFrame.origin.y < 0.0)
-    {
+    if (indFrame.origin.y < 0.0) {
         indFrame.origin.y = 0.0;
     }
-    else if ((indFrame.origin.y + indFrame.size.height) > frame.size.height)
-    {
+    else if ((indFrame.origin.y + indFrame.size.height) > frame.size.height) {
         indFrame.origin.y = frame.size.height - indFrame.size.height;
     }
 #endif
@@ -224,20 +224,17 @@
     indicator.frame = indFrame;
 
     // Add label if label text was set
-    if (nil != self.labelText)
-    {
+    if (nil != self.labelText) {
         // Get size of label text
         CGSize dims = [self.labelText sizeWithFont:self.labelFont];
 
         // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
         float lWidth;
-        if (dims.width <= (frame.size.width - 2 * MARGIN))
-        {
+        if (dims.width <= (frame.size.width - 2 * MARGIN)) {
             lWidth = dims.width;
         }
-        else
-        {
+        else {
             lWidth = frame.size.width - 4 * MARGIN;
         }
 
@@ -251,8 +248,7 @@
         label.text = self.labelText;
 
         // Update HUD size
-        if (self.width < (lWidth + 2 * MARGIN))
-        {
+        if (self.width < (lWidth + 2 * MARGIN)) {
             self.width = lWidth + 2 * MARGIN;
         }
         self.height = self.height + lHeight + PADDING;
@@ -270,19 +266,16 @@
         [self addSubview:label];
 
         // Add details label delatils text was set
-        if (nil != self.detailsLabelText)
-        {
+        if (nil != self.detailsLabelText) {
             // Get size of label text
             dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
 
             // Compute label dimensions based on font metrics if size is larger than max then clip the label width
             lHeight = dims.height;
-            if (dims.width <= (frame.size.width - 2 * MARGIN))
-            {
+            if (dims.width <= (frame.size.width - 2 * MARGIN)) {
                 lWidth = dims.width;
             }
-            else
-            {
+            else {
                 lWidth = frame.size.width - 4 * MARGIN;
             }
 
@@ -296,8 +289,7 @@
             detailsLabel.text = self.detailsLabelText;
 
             // Update HUD size
-            if (self.width < lWidth)
-            {
+            if (self.width < lWidth) {
                 self.width = lWidth + 2 * MARGIN;
             }
             self.height = self.height + lHeight + PADDING;
@@ -320,21 +312,19 @@
     }
 }
 
+#pragma mark -
 #pragma mark Showing and execution
 
-- (void)show:(BOOL)animated
-{
+- (void)show:(BOOL)animated {
     [self setNeedsDisplay];
     [self showUsingAnimation:animated];
 }
 
-- (void)hide:(BOOL)animated
-{
+- (void)hide:(BOOL)animated {
     [self hideUsingAnimation:animated];
 }
 
-- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated
-{
+- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
     [self setNeedsDisplay];
 
     methodForExecution = method;
@@ -342,12 +332,10 @@
     objectForExecution = [object retain];
     useAnimation = animated;
 
-    if (delay)
-    {
+    if (delay) {
         [NSThread detachNewThreadSelector:@selector(sleepBeforeShow) toTarget:self withObject:nil];
     }
-    else
-    {
+    else {
         // Show HUD view
         [self showUsingAnimation:useAnimation];
     }
@@ -356,25 +344,21 @@
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
 }
 
-- (void)sleepBeforeShow
-{
+- (void)sleepBeforeShow {
     NSUInteger usecDelay = delay * 1000;
     usleep(usecDelay);
 
-    if (!isFinished)
-    {
+    if (!isFinished) {
         [self performSelectorOnMainThread:@selector(delayedShow) withObject:nil waitUntilDone:NO];
     }
 }
 
-- (void)delayedShow
-{
+- (void)delayedShow {
     [self showUsingAnimation:useAnimation];
 }
 
-- (void)launchExecution
-{
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+- (void)launchExecution {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     // Start executing the requested task
     [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
@@ -386,28 +370,24 @@
     [pool release];
 }
 
-- (void)animationFinished:(NSString*)animationID finished:(BOOL)finished context:(void*)context
-{
+- (void)animationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
     [self done];
 }
 
-- (void)done
-{
+- (void)done {
     isFinished = YES;
 
     // If delegate was set make the callback
     self.alpha = 0.0;
     
-    if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)])
-    {
+    if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
       if([delegate respondsToSelector:@selector(hudWasHidden)]) {
         [delegate performSelector:@selector(hudWasHidden)];
       }
     }
 }
 
-- (void)cleanUp
-{
+- (void)cleanUp {
 	self.indicator = nil;
 
     [targetForExecution release];
@@ -416,29 +396,25 @@
     [self hideUsingAnimation:useAnimation];
 }
 
+#pragma mark -
 #pragma mark Fade in and Fade out
 
-- (void)showUsingAnimation:(BOOL)animated
-{
+- (void)showUsingAnimation:(BOOL)animated {
     // Fade in
-    if (animated)
-    {
+    if (animated) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.40];
         self.alpha = 1.0;
         [UIView commitAnimations];
     }
-    else
-    {
+    else {
         self.alpha = 1.0;
     }
 }
 
-- (void)hideUsingAnimation:(BOOL)animated
-{
+- (void)hideUsingAnimation:(BOOL)animated {
     // Fade out
-    if (animated)
-    {
+    if (animated) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.40];
         [UIView setAnimationDelegate:self];
@@ -448,8 +424,7 @@
         self.alpha = 0.02;
         [UIView commitAnimations];
     }
-    else
-    {
+    else {
         self.alpha = 0.0;
         [self done];
     }
@@ -457,8 +432,7 @@
 
 #pragma mark BG Drawing
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     // Center HUD
     CGRect allRect = self.bounds;
     // Draw rounded HUD bacgroud rect
@@ -468,8 +442,7 @@
     [self fillRoundedRect:boxRect inContext:ctxt];
 }
 
-- (void)fillRoundedRect:(CGRect)rect inContext:(CGContextRef)context
-{
+- (void)fillRoundedRect:(CGRect)rect inContext:(CGContextRef)context {
     float radius = 10.0f;
 
     CGContextBeginPath(context);
@@ -483,27 +456,16 @@
     CGContextFillPath(context);
 }
 
-#pragma mark Tear down
-
-- (void)dealloc
-{
-    [indicator release];
-    [label release];
-    [detailsLabel release];
-    [labelText release];
-    [detailsLabelText release];
-    [super dealloc];
-}
 @end
 
+
 @implementation MBRoundProgressView
-- (id)initWithDefaultSize
-{
+
+- (id)initWithDefaultSize {
     return [super initWithFrame:CGRectMake(0.0f, 0.0f, 37.0f, 37.0f)];
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     CGRect allRect = self.bounds;
     CGRect circleRect = CGRectMake(allRect.origin.x + 2, allRect.origin.y + 2, allRect.size.width - 4,
                                    allRect.size.height - 4);
@@ -526,4 +488,5 @@
     CGContextClosePath(context);
     CGContextFillPath(context);
 }
+
 @end

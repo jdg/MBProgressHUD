@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -279,7 +277,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
+									<integer>7</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -315,12 +313,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>D22F7D680F8521D300550BB3</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MBProgressHUD.h</string>
+								<string>HudDemoViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -328,15 +328,19 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>D22F7D690F8521D300550BB3</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MBProgressHUD.h</string>
+										<string>HudDemoViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>D241A93710F1E9B70072229F</string>
+										<string>D241A96510F1FF9F0072229F</string>
 										<key>history</key>
 										<array>
-											<string>D241A93510F1E9B70072229F</string>
-											<string>D241A93610F1E9B70072229F</string>
+											<string>D241A94E10F1FBB20072229F</string>
+											<string>D241A94F10F1FBB20072229F</string>
+											<string>D241A95210F1FBB20072229F</string>
+											<string>D241A95910F1FE0D0072229F</string>
+											<string>D241A96110F1FEFD0072229F</string>
+											<string>D241A96210F1FEFD0072229F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -350,18 +354,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1038, 467}}</string>
+								<string>{{0, 0}, {1038, 673}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 59 1280 719 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>467pt</string>
+							<string>673pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>206pt</string>
+							<string>0pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -375,9 +379,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1038, 179}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 59 1280 719 0 0 1280 778 </string>
+										<string>{{10, 27}, {1038, -27}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -452,7 +454,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1038, 242}}</string>
+										<string>{{10, 27}, {1038, -27}}</string>
+										<key>RubberWindowFrame</key>
+										<string>0 59 1280 719 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -673,7 +677,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>D241A94110F1E9B70072229F</string>
+		<string>D241A95510F1FBB20072229F</string>
 		<string>D241A94210F1E9B70072229F</string>
 		<string>/Users/matej/Documents/Xcode/MBProgressHUD/Demo/HudDemo.xcodeproj</string>
 	</array>

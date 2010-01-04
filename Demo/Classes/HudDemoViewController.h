@@ -9,17 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface HudDemoViewController : UIViewController <MBProgressHUDDelegate>
-{
+@interface HudDemoViewController : UIViewController <MBProgressHUDDelegate> {
 	MBProgressHUD *HUD;
-
-    IBOutlet UITextField* xOffsetField;
-    IBOutlet UITextField* yOffsetField;
-    IBOutlet UITextField* delayField;
-
-    float xOffset;
-    float yOffset;
-    NSUInteger delay;
 }
 
 - (IBAction)showSimple:(id)sender;
