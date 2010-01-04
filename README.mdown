@@ -1,0 +1,50 @@
+MBProgressHUD
+=============
+
+MBProgressHUD is an iPhone drop-in class that displays a translucent HUD with a progress indicator and some optional labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
+
+[![](http://grab.by/grabs/cfab318151331b5f0dfce573bf7ba669.png)](http://grab.by/grabs/64efd841e78d3724f4b9e6cdf1a9be58.png)
+[![](http://grab.by/grabs/051c768a35a3a8dcce5162f6cde4bb6b.png)](http://grab.by/grabs/37edc22342fcafee5cb6480f1114e882.png)
+[![](http://grab.by/grabs/11695987da568e635c4bfb817c247e11.png)](http://grab.by/grabs/11295a7e38b0cfda85b173612f03c2b6.png)
+[![](http://grab.by/grabs/e977015442945e6596d695d55c14bc23.png)](http://grab.by/grabs/b72d772d1b578fe78b40ae30cd6ac66e.png)
+
+Adding MBProgressHUD to your project
+====================================
+
+The simplest way to add the MBProgressHUD to your project is to directly add the `MBProgressHUD.h` and `MBProgressHUD.m` source files to your project.
+
+1. Download the latest code version from the repository (you can simply use the Download Source button and get the zip or tar archive of the master branch).
+2. Extract the archive.
+3. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` to your classes group (in the Groups & Files view). 
+4. Make sure to select Copy items when asked. 
+
+Usage
+=====
+
+A full Xcode demo project is included in the Demo directory. This should give you an idea how to use the class. 
+
+Change-log
+==========
+
+Version 0.32 @ 4.01.10
+- Added minShowTime, graceTime, xOffset, yOffset.
+- Various fixes.
+
+Version 0.31 @ 8.10.09
+- Fix for touch through during the fade-out animation.
+
+Version 0.3 @ 30.9.09
+- Added show: and hide: methods.
+- Now using UIViews layoutSubviews to automate layout calls.
+- Added some floors to round pixel positions and thereby prevent unsharp views.
+- Some additional documentation and code cleanup. 
+
+Version 0.2 @ 21.7.09
+- Added determinate progress mode and switching capabilities between determinate and indeterminate modes. 
+- Various bugfixes. 
+
+Version 0.11 @ 2.6.09.
+- Updated labelText and detailsLabelText properties to support text modifications while the HUD is being shown. 
+
+Version 0.1 @ 2.4.09
+- Initial release.
