@@ -15,7 +15,6 @@
 
 - (void)done;
 
-- (void)sleepBeforeShow;
 - (void)delayedShow;
 - (void)updateLabelText:(NSString *)newText;
 - (void)updateDetailsLabelText:(NSString *)newText;
@@ -51,8 +50,6 @@
 @synthesize height;
 @synthesize xOffset;
 @synthesize yOffset;
-
-@synthesize delay;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -157,8 +154,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame])
-    {
+    if (self = [super initWithFrame:frame]) {
         // Set default values for properties
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
@@ -181,8 +177,6 @@
 
         // Add details label
         detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
-
-        isFinished = NO;
     }
     return self;
 }
@@ -321,25 +315,11 @@
     objectForExecution = [object retain];
     useAnimation = animated;
 
-    if (delay) {
-        [NSThread detachNewThreadSelector:@selector(sleepBeforeShow) toTarget:self withObject:nil];
-    }
-    else {
-        // Show HUD view
-        [self showUsingAnimation:useAnimation];
-    }
+	// Show HUD view
+	[self showUsingAnimation:useAnimation];
 
     // Launch execution in new thread
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
-}
-
-- (void)sleepBeforeShow {
-    NSUInteger usecDelay = delay * 1000;
-    usleep(usecDelay);
-
-    if (!isFinished) {
-        [self performSelectorOnMainThread:@selector(delayedShow) withObject:nil waitUntilDone:NO];
-    }
 }
 
 - (void)delayedShow {

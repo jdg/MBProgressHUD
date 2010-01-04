@@ -97,8 +97,6 @@ typedef enum {
 	float width;
 	float height;
 
-    NSUInteger delay;
-
 	UIView *indicator;
 	UILabel *label;
 	UILabel *detailsLabel;
@@ -173,11 +171,6 @@ typedef enum {
  *The y-ayis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
-
-/** 
- *The number of milliseconds to displaying the HUD after start. 
- */
-@property (assign) NSUInteger delay;
 
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
