@@ -182,6 +182,8 @@
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
 
+		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		
         // Transparent background
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
