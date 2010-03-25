@@ -130,10 +130,10 @@
 	self.indicator = nil;
 	
     if (mode == MBProgressHUDModeDeterminate) {
-        self.indicator = [[MBRoundProgressView alloc] initWithDefaultSize];
+        indicator = [[MBRoundProgressView alloc] initWithDefaultSize];
     }
     else {
-        self.indicator = [[UIActivityIndicatorView alloc]
+        indicator = [[UIActivityIndicatorView alloc]
             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [(UIActivityIndicatorView *)indicator startAnimating];
     }
