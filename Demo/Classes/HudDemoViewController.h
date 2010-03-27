@@ -17,6 +17,8 @@
 - (IBAction)showWithLabel:(id)sender;
 - (IBAction)showWithDetailsLabel:(id)sender;
 - (IBAction)showWithLabelDeterminate:(id)sender;
+- (IBAction)showWithCustomView:(id)sender;
+- (IBAction)showWithLabelOnly:(id)sender;
 - (IBAction)showWithLabelMixed:(id)sender;
 
 - (void)myTask;

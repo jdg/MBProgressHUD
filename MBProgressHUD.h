@@ -36,6 +36,8 @@ typedef enum {
     MBProgressHUDModeIndeterminate,
     /** Progress is shown using a MBRoundProgressView. */
 	MBProgressHUDModeDeterminate,
+	/** Shows a custom view */
+	MBProgressHUDModeCustomView
 } MBProgressHUDMode;
 
 
@@ -57,7 +59,7 @@ typedef enum {
  * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
  */
 @interface MBRoundProgressView : UIProgressView {
-
+	
 }
 
 /**
@@ -85,15 +87,15 @@ typedef enum {
 @interface MBProgressHUD : UIView {
 	
 	MBProgressHUDMode mode;
-
+	
 	SEL methodForExecution;
 	id targetForExecution;
 	id objectForExecution;
 	BOOL useAnimation;
-
+	
     float yOffset;
     float xOffset;
-
+	
 	float width;
 	float height;
 	
@@ -103,21 +105,23 @@ typedef enum {
 	NSTimer *graceTimer;
 	NSTimer *minShowTimer;
 	NSDate *showStarted;
-
+	
 	UIView *indicator;
 	UILabel *label;
 	UILabel *detailsLabel;
-
+	
 	float progress;
-
+	
 	id<MBProgressHUDDelegate> delegate;
 	NSString *labelText;
 	NSString *detailsLabelText;
 	float opacity;
 	UIFont *labelFont;
 	UIFont *detailsLabelFont;
-
+	
     BOOL isFinished;
+	
+	UIView *customView;
 }
 
 /** 
@@ -137,6 +141,12 @@ typedef enum {
  * the HUD's superview (i.e., the view that the HUD will be added to).
  */
 - (id)initWithView:(UIView *)view;
+
+/**
+ * The UIView (i.g., a UIIMageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
+ * For best results use a 37 by 37 pixel view (so the bounds match the build in indicator bounds). 
+ */
+@property (retain) UIView *customView;
 
 /** 
  * MBProgressHUD operation mode. Switches between indeterminate (MBProgressHUDModeIndeterminate) and determinate

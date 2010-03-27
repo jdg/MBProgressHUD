@@ -101,6 +101,32 @@
     [HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
 }
 
+- (IBAction)showWithCustomView:(id)sender {
+	// The hud will dispable all input on the view
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	
+    // Set custom view mode
+    HUD.mode = MBProgressHUDModeCustomView;
+	
+	// Add HUD to screen
+    [self.view addSubview:HUD];
+	
+	// Regisete for HUD callbacks so we can remove it from the window at the right time
+    HUD.delegate = self;
+	
+    HUD.labelText = @"Completed";
+	
+	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+	
+	// This would only show the completed text with no visible custom view
+	// HUD.customView = [[UIView alloc] initWithFrame:CGRectZero];
+	
+	// Show the HUD while the provided method executes in a new thread
+    [HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+}
+
 - (IBAction)showWithLabelMixed:(id)sender {
 	// The hud will dispable all input on the view
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
@@ -155,6 +181,12 @@
     HUD.mode = MBProgressHUDModeIndeterminate;
     HUD.labelText = @"Cleaning up";
     sleep(2);
+	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+	HUD.mode = MBProgressHUDModeCustomView;
+	HUD.labelText = @"Completed";
+	sleep(2);
 }
 
 #pragma mark -
