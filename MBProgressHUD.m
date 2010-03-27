@@ -1,7 +1,7 @@
 //
 // MBProgressHUD.m
-// Version 0.32
-// Created by Matej Bukovinski on 04.01.10.
+// Version 0.33
+// Created by Matej Bukovinski on 2.4.09.
 //
 
 #import "MBProgressHUD.h"

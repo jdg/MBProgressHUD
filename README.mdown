@@ -7,6 +7,7 @@ MBProgressHUD is an iPhone drop-in class that displays a translucent HUD with a 
 [![](http://grab.by/grabs/051c768a35a3a8dcce5162f6cde4bb6b.png)](http://grab.by/grabs/37edc22342fcafee5cb6480f1114e882.png)
 [![](http://grab.by/grabs/11695987da568e635c4bfb817c247e11.png)](http://grab.by/grabs/11295a7e38b0cfda85b173612f03c2b6.png)
 [![](http://grab.by/grabs/e977015442945e6596d695d55c14bc23.png)](http://grab.by/grabs/b72d772d1b578fe78b40ae30cd6ac66e.png)
+[![](http://grab.by/grabs/563906b03b1e9dee499d71af4f193748.png)](http://grab.by/grabs/b2608a107117932ea8c8f5304c34e9e2.png)
 
 Adding MBProgressHUD to your project
 ====================================
@@ -25,6 +26,10 @@ A full Xcode demo project is included in the Demo directory. This should give yo
 
 Change-log
 ==========
+
+Version 0.33 @ 27.03.10
+- Custom view operation mode added.
+- Fixed a memory leak.
 
 Version 0.32 @ 4.01.10
 - Added minShowTime, graceTime, xOffset, yOffset.

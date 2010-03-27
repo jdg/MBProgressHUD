@@ -1,7 +1,7 @@
 //
 //  MBProgressHUD.h
-//  Version 0.32
-//  Created by Matej Bukovinski on 04.01.10.
+//  Version 0.33
+//  Created by Matej Bukovinski on 2.4.09.
 //
 
 // This code is distributed under the terms and conditions of the MIT license. 
@@ -71,7 +71,7 @@ typedef enum {
 @end
 
 /** 
- * Displays a simple HUD window containing a UIActivityIndicatorView and two optional labels for short messages.
+ * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
  * This is a simple drop-in class for displaying a progress HUD view similar to Apples private UIProgressHUD class.
  * The MBProgressHUD window spans over the entire space given to it by the initWithFrame constructor and catches all
@@ -79,9 +79,13 @@ typedef enum {
  * drawn centered as a rounded semi-transparent view witch resizes depending on the user specified content.
  *
  * This view supports three modes of operation:
- * - The default mode displays just a UIActivityIndicatorView.
+ * - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
+ * - MBProgressHUDModeDeterminate - shows a custom round progress indicator (MBRoundProgressView)
+ * - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (@see customView)
+ *
+ * All three modes can have optional labels assigned:
  * - If the labelText property is set and non-empty then a label containing the provided content is placed below the
- *   UIActivityIndicatorView.
+ *   indicator view.
  * - If also the detailsLabelText property is set then another label is placed below the first label.
  */
 @interface MBProgressHUD : UIView {
