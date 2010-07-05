@@ -41,15 +41,11 @@
 #pragma mark -
 #pragma mark Accessors
 
-@synthesize mode;
 
 @synthesize delegate;
-@synthesize labelText;
-@synthesize detailsLabelText;
 @synthesize opacity;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
-@synthesize progress;
 
 @synthesize indicator;
 
@@ -81,16 +77,28 @@
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
+- (MBProgressHUDMode)mode {
+	return mode;
+}
+
 - (void)setLabelText:(NSString *)newText {
     [self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
 }
 
+- (NSString *)labelText {
+	return labelText;
+}
+
 - (void)setDetailsLabelText:(NSString *)newText {
     [self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+}
+
+- (NSString *)detailsLabelText {
+	return detailsLabelText;
 }
 
 - (void)setProgress:(float)newProgress {
@@ -101,6 +109,10 @@
         [self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
         [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
     }
+}
+
+- (float)progress {
+	return progress;
 }
 
 #pragma mark -
