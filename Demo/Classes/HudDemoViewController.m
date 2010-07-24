@@ -7,6 +7,7 @@
 //
 
 #import "HudDemoViewController.h"
+#import <unistd.h>
 
 @implementation HudDemoViewController
 
