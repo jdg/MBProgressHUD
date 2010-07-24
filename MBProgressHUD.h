@@ -28,9 +28,6 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- * MBProgressHUD operation modes.
- */
 typedef enum {
     /** Progress is shown using an UIActivityIndicatorView. This is the default. */
     MBProgressHUDModeIndeterminate,
@@ -39,6 +36,13 @@ typedef enum {
 	/** Shows a custom view */
 	MBProgressHUDModeCustomView
 } MBProgressHUDMode;
+
+typedef enum {
+    /** Opacity animation */
+    MBProgressHUDAnimationFade,
+    /** Opacity + scale animation */
+    MBProgressHUDAnimationZoom
+} MBProgressHUDAnimation;
 
 
 /**
@@ -91,6 +95,7 @@ typedef enum {
 @interface MBProgressHUD : UIView {
 	
 	MBProgressHUDMode mode;
+    MBProgressHUDAnimation animationType;
 	
 	SEL methodForExecution;
 	id targetForExecution;
@@ -155,8 +160,17 @@ typedef enum {
 /** 
  * MBProgressHUD operation mode. Switches between indeterminate (MBProgressHUDModeIndeterminate) and determinate
  * progress (MBProgressHUDModeDeterminate). The default is MBProgressHUDModeIndeterminate.
+ *
+ * @see MBProgressHUDMode
  */
 @property (assign) MBProgressHUDMode mode;
+
+/**
+ * The animation type that should be used when the HUD is shown and hidden. 
+ *
+ * @see MBProgressHUDAnimation
+ */
+@property (assign) MBProgressHUDAnimation animationType;
 
 /** 
  * The HUD delegate object. If set the delegate will receive hudWasHidden callbacks when the HUD was hidden. The

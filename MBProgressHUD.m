@@ -10,27 +10,20 @@
 
 - (void)hideUsingAnimation:(BOOL)animated;
 - (void)showUsingAnimation:(BOOL)animated;
-
 - (void)fillRoundedRect:(CGRect)rect inContext:(CGContextRef)context;
-
 - (void)done;
-
 - (void)updateLabelText:(NSString *)newText;
 - (void)updateDetailsLabelText:(NSString *)newText;
 - (void)updateProgress;
 - (void)updateIndicators;
-
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 
 @property (retain) UIView *indicator;
-
 @property (assign) float width;
 @property (assign) float height;
-
 @property (retain) NSTimer *graceTimer;
 @property (retain) NSTimer *minShowTimer;
-
 @property (retain) NSDate *showStarted;
 
 @end
@@ -41,6 +34,7 @@
 #pragma mark -
 #pragma mark Accessors
 
+@synthesize animationType;
 
 @synthesize delegate;
 @synthesize opacity;
@@ -162,8 +156,8 @@
 #define MARGIN 20.0
 #define PADDING 4.0
 
-#define LABELFONTSIZE 22.0
-#define LABELDETAILSFONTSIZE 16.0
+#define LABELFONTSIZE 16.0
+#define LABELDETAILSFONTSIZE 12.0
 
 #define PI 3.14159265358979323846
 
@@ -186,10 +180,11 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Set default values for properties
+        self.animationType = MBProgressHUDAnimationZoom;
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
-        self.opacity = 0.9;
+        self.opacity = 0.8;
         self.labelFont = [UIFont boldSystemFontOfSize:LABELFONTSIZE];
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
         self.xOffset = 0.0;
@@ -448,12 +443,20 @@
 #pragma mark Fade in and Fade out
 
 - (void)showUsingAnimation:(BOOL)animated {
+    self.alpha = 0.0;
+    if (animationType == MBProgressHUDAnimationZoom) {
+        self.transform = CGAffineTransformMakeScale(1.5, 1.5);
+    }
+    
 	self.showStarted = [NSDate date];
     // Fade in
     if (animated) {
         [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.40];
+        [UIView setAnimationDuration:0.30];
         self.alpha = 1.0;
+        if (animationType == MBProgressHUDAnimationZoom) {
+            self.transform = CGAffineTransformIdentity;
+        }
         [UIView commitAnimations];
     }
     else {
@@ -465,11 +468,14 @@
     // Fade out
     if (animated) {
         [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.40];
+        [UIView setAnimationDuration:0.30];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDidStopSelector:@selector(animationFinished: finished: context:)];
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
+        if (animationType == MBProgressHUDAnimationZoom) {
+            self.transform = CGAffineTransformMakeScale(0.5, 0.5);
+        }
         self.alpha = 0.02;
         [UIView commitAnimations];
     }
