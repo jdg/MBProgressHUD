@@ -28,6 +28,8 @@
 
 #import <UIKit/UIKit.h>
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef enum {
     /** Progress is shown using an UIActivityIndicatorView. This is the default. */
     MBProgressHUDModeIndeterminate,
@@ -44,13 +46,12 @@ typedef enum {
     MBProgressHUDAnimationZoom
 } MBProgressHUDAnimation;
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Defines callback methods for MBProgressHUD delegates.
- */
 @protocol MBProgressHUDDelegate <NSObject>
 
 @required
+
 /** 
  * A callback function that is called after the HUD was fully hidden from the screen. 
  */
@@ -58,13 +59,12 @@ typedef enum {
 
 @end
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
  */
-@interface MBRoundProgressView : UIProgressView {
-	
-}
+@interface MBRoundProgressView : UIProgressView {}
 
 /**
  * Create a 37 by 37 pixel indicator. 
@@ -73,6 +73,8 @@ typedef enum {
 - (id)initWithDefaultSize;
 
 @end
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
