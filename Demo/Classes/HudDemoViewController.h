@@ -20,6 +20,7 @@
 - (IBAction)showWithCustomView:(id)sender;
 - (IBAction)showWithLabelMixed:(id)sender;
 - (IBAction)showUsingBlocks:(id)sender;
+- (IBAction)showOnWindow:(id)sender;
 
 - (void)myTask;
 - (void)myProgressTask;

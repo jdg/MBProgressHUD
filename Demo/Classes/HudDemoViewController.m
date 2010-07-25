@@ -173,6 +173,22 @@
 	});
 }
 
+- (IBAction)showOnWindow:(id)sender {
+	// The hud will dispable all input on the view
+    HUD = [[MBProgressHUD alloc] initWithView:self.view.window];
+	
+    // Add HUD to screen
+    [self.view.window addSubview:HUD];
+	
+    // Regisete for HUD callbacks so we can remove it from the window at the right time
+    HUD.delegate = self;
+	
+    HUD.labelText = @"Loading";
+	
+    // Show the HUD while the provided method executes in a new thread
+    [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+}
+
 #pragma mark -
 #pragma mark Execution code
 

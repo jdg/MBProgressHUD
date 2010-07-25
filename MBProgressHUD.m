@@ -18,6 +18,7 @@
 - (void)updateIndicators;
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
+- (void)setTransformForCurrentOrientation:(BOOL)animated;
 
 @property (retain) UIView *indicator;
 @property (assign) float width;
@@ -227,7 +228,15 @@
 		[NSException raise:@"MBProgressHUDViewIsNillException" 
 					format:@"The view used in the MBProgressHUD initializer is nil."];
 	}
-	return [self initWithFrame:view.bounds];
+	id me = [self initWithFrame:view.bounds];
+	// We need to take care of rotation ourselfs if we're adding the HUD to a window
+	if ([view isKindOfClass:[UIWindow class]]) {
+		[self setTransformForCurrentOrientation:NO];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) 
+													 name:UIDeviceOrientationDidChangeNotification object:nil];
+	}
+	
+	return me;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -262,11 +271,14 @@
         detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		
 		taskInProgress = NO;
+		rotationTransform = CGAffineTransformIdentity;
     }
     return self;
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
     [indicator release];
     [label release];
     [detailsLabel release];
@@ -503,7 +515,7 @@
 - (void)showUsingAnimation:(BOOL)animated {
     self.alpha = 0.0;
     if (animated && animationType == MBProgressHUDAnimationZoom) {
-        self.transform = CGAffineTransformMakeScale(1.5, 1.5);
+        self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5, 1.5));
     }
     
 	self.showStarted = [NSDate date];
@@ -513,7 +525,7 @@
         [UIView setAnimationDuration:0.30];
         self.alpha = 1.0;
         if (animationType == MBProgressHUDAnimationZoom) {
-            self.transform = CGAffineTransformIdentity;
+            self.transform = rotationTransform;
         }
         [UIView commitAnimations];
     }
@@ -532,7 +544,7 @@
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
         if (animationType == MBProgressHUDAnimationZoom) {
-            self.transform = CGAffineTransformMakeScale(0.5, 0.5);
+            self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5, 0.5));
         }
         self.alpha = 0.02;
         [UIView commitAnimations];
@@ -567,6 +579,38 @@
     CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect) + radius, radius, M_PI, 3 * M_PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
+}
+
+#pragma mark -
+#pragma mark Manual oritentation change
+
+#define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+
+- (void)deviceOrientationDidChange:(NSNotification *)notification { 
+	[self setTransformForCurrentOrientation:YES];
+}
+
+- (void)setTransformForCurrentOrientation:(BOOL)animated {
+	UIDeviceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+	NSInteger degrees = 0;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation)) {
+		if (orientation == UIInterfaceOrientationLandscapeLeft) { degrees = -90; } 
+		else { degrees = 90; }
+	} else {
+		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { degrees = 180; } 
+		else { degrees = 0; }
+	}
+	
+	rotationTransform = CGAffineTransformMakeRotation(RADIANS(degrees));
+
+	if (animated) {
+		[UIView beginAnimations:nil context:nil];
+	}
+	[self setTransform:rotationTransform];
+	if (animated) {
+		[UIView commitAnimations];
+	}
 }
 
 @end
