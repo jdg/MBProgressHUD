@@ -14,6 +14,11 @@
 #pragma mark -
 #pragma mark Lifecycle methods
 
+- (void)viewDidLoad {
+	UIView *content = [[self.view subviews] objectAtIndex:0];
+	((UIScrollView *)self.view).contentSize = content.bounds.size;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
@@ -24,6 +29,11 @@
     // In that case you need to explicitly transform the HUD if you need a rotated version (i.g.,
     // self.transform = CGAffineTransformMakeRotation(PI / 2); )
     return YES;	
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	UIView *content = [[self.view subviews] objectAtIndex:0];
+	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
 - (void)dealloc {
@@ -106,6 +116,10 @@
 	// The hud will dispable all input on the view
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
 	
+	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
+	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+	
     // Set custom view mode
     HUD.mode = MBProgressHUDModeCustomView;
 	
@@ -116,10 +130,6 @@
     HUD.delegate = self;
 	
     HUD.labelText = @"Completed";
-	
-	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
-	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
 	
 	// This would only show the completed text with no visible custom view
 	// HUD.customView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -142,6 +152,25 @@
 	
     // Show the HUD while the provided method executes in a new thread
     [HUD showWhileExecuting:@selector(myMixedTask) onTarget:self withObject:nil animated:YES];
+}
+
+- (IBAction)showUsingBlocks:(id)sender {
+	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		// Show the HUD in the main tread 
+		dispatch_async(dispatch_get_main_queue(), ^{
+			// No need to hod onto (retain)
+			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+			hud.labelText = @"Loading";
+		});
+		
+		// Do a taks in the background
+		[self myTask];
+		
+		// Hide the HUD in the main tread 
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+		});
+	});
 }
 
 #pragma mark -

@@ -53,6 +53,7 @@
 @synthesize graceTimer;
 @synthesize minShowTimer;
 @synthesize taskInProgress;
+@synthesize removeFromSuperViewOnHide;
 
 @synthesize customView;
 
@@ -66,9 +67,15 @@
 	
     mode = newMode;
 	
-    [self performSelectorOnMainThread:@selector(updateIndicators) withObject:nil waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	if ([NSThread isMainThread]) {
+		[self updateIndicators];
+		[self setNeedsLayout];
+		[self setNeedsDisplay];
+	} else {
+		[self performSelectorOnMainThread:@selector(updateIndicators) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	}
 }
 
 - (MBProgressHUDMode)mode {
@@ -76,9 +83,15 @@
 }
 
 - (void)setLabelText:(NSString *)newText {
-    [self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	if ([NSThread isMainThread]) {
+		[self updateLabelText:newText];
+		[self setNeedsLayout];
+		[self setNeedsDisplay];
+	} else {
+		[self performSelectorOnMainThread:@selector(updateLabelText:) withObject:newText waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	}
 }
 
 - (NSString *)labelText {
@@ -86,9 +99,15 @@
 }
 
 - (void)setDetailsLabelText:(NSString *)newText {
-    [self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
-    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	if ([NSThread isMainThread]) {
+		[self updateDetailsLabelText:newText];
+		[self setNeedsLayout];
+		[self setNeedsDisplay];
+	} else {
+		[self performSelectorOnMainThread:@selector(updateDetailsLabelText:) withObject:newText waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsLayout) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+	}
 }
 
 - (NSString *)detailsLabelText {
@@ -100,8 +119,13 @@
 	
     // Update display ony if showing the determinate progress view
     if (mode == MBProgressHUDModeDeterminate) {
-        [self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+		if ([NSThread isMainThread]) {
+			[self updateProgress];
+			[self setNeedsDisplay];
+		} else {
+			[self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
+			[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+		}
     }
 }
 
@@ -161,6 +185,35 @@
 
 #define PI 3.14159265358979323846
 
+
+#pragma mark -
+#pragma mark Class methods
+
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+	[view addSubview:hud];
+	[hud show:animated];
+	return [hud autorelease];
+}
+
++ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
+	UIView *viewToRemove = nil;
+	for (UIView *v in [view subviews]) {
+		if ([v isKindOfClass:[MBProgressHUD class]]) {
+			viewToRemove = v;
+		}
+	}
+	if (viewToRemove != nil) {
+		MBProgressHUD *HUD = (MBProgressHUD *)viewToRemove;
+		HUD.removeFromSuperViewOnHide = YES;
+		[HUD hide:animated];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+
 #pragma mark -
 #pragma mark Lifecycle methods
 
@@ -191,6 +244,7 @@
         self.yOffset = 0.0;
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
+		self.removeFromSuperViewOnHide = NO;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
@@ -426,6 +480,10 @@
 			[delegate performSelector:@selector(hudWasHidden)];
 		}
     }
+	
+	if (removeFromSuperViewOnHide) {
+		[self removeFromSuperview];
+	}
 }
 
 - (void)cleanUp {

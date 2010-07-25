@@ -131,9 +131,34 @@ typedef enum {
 	UIFont *detailsLabelFont;
 	
     BOOL isFinished;
+	BOOL removeFromSuperViewOnHide;
 	
 	UIView *customView;
 }
+
+/**
+ * Creates a new hud, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
+ * 
+ * @param view The view that the HUD will be added to
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ */
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
+
+/**
+ * Finds a HUD sibview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ *
+ * @param view The view that is going to be searched for a HUD subview.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @return YES if a HUD was found and removed, NO otherwise. 
+ *
+ * @see hideHUDForView:animated:
+ */
++ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
@@ -238,6 +263,12 @@ typedef enum {
  */
 @property (assign) BOOL taskInProgress;
 
+/**
+ * Removes the HUD from it's parent view when hidden. 
+ * Defaults to NO. 
+ */
+@property (assign) BOOL removeFromSuperViewOnHide;
+
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
@@ -258,8 +289,8 @@ typedef enum {
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
  * (e.g., when using something like NSOperation or calling an asynchronous call like NSUrlRequest).
  *
- * @param animated If set to YES the HUD will appear using a fade animation. If set to NO the HUD will not use
- * animations while appearing.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
  */
 - (void)show:(BOOL)animated;
 
@@ -267,7 +298,7 @@ typedef enum {
  * Hide the HUD, this still calls the hudWasHidden delegate. This is the counterpart of the hide: method. Use it to
  * hide the HUD when your task completes.
  *
- * @param animated If set to YES the HUD will disappear using a fade animation. If set to NO the HUD will not use
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
  */
 - (void)hide:(BOOL)animated;
@@ -281,8 +312,8 @@ typedef enum {
  * @param method The method to be executed while the HUD is shown. This method will be executed in a new thread.
  * @param target The object that the target method belongs to.
  * @param object An optional object to be passed to the method.
- * @param animated If set to YES the HUD will appear and disappear using a fade animation. If set to NO the HUD will
- * not use animations while appearing and disappearing.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 

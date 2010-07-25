@@ -19,6 +19,7 @@
 - (IBAction)showWithLabelDeterminate:(id)sender;
 - (IBAction)showWithCustomView:(id)sender;
 - (IBAction)showWithLabelMixed:(id)sender;
+- (IBAction)showUsingBlocks:(id)sender;
 
 - (void)myTask;
 - (void)myProgressTask;
