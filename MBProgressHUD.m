@@ -444,7 +444,7 @@
 
 - (void)showUsingAnimation:(BOOL)animated {
     self.alpha = 0.0;
-    if (animationType == MBProgressHUDAnimationZoom) {
+    if (animated && animationType == MBProgressHUDAnimationZoom) {
         self.transform = CGAffineTransformMakeScale(1.5, 1.5);
     }
     
