@@ -44,14 +44,14 @@
 #pragma mark IBActions
 
 - (IBAction)showSimple:(id)sender {
-    // The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
 	//HUD.graceTime = 0.5;
 	//HUD.minShowTime = 5.0;
 	
     // Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
     // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -61,11 +61,11 @@
 }
 
 - (IBAction)showWithLabel:(id)sender {
-	// The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
     // Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
     // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -77,11 +77,11 @@
 }
 
 - (IBAction)showWithDetailsLabel:(id)sender {
-    // The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
     // Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
     // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -94,14 +94,14 @@
 }
 
 - (IBAction)showWithLabelDeterminate:(id)sender {
-	// The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
     // Set determinate mode
     HUD.mode = MBProgressHUDModeDeterminate;
 	
     // Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
     // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -113,8 +113,8 @@
 }
 
 - (IBAction)showWithCustomView:(id)sender {
-	// The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
 	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
 	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
@@ -124,7 +124,7 @@
     HUD.mode = MBProgressHUDModeCustomView;
 	
 	// Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
 	// Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -139,11 +139,11 @@
 }
 
 - (IBAction)showWithLabelMixed:(id)sender {
-	// The hud will dispable all input on the view
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
     // Add HUD to screen
-    [self.view addSubview:HUD];
+    [self.navigationController.view addSubview:HUD];
 	
     // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
@@ -159,7 +159,7 @@
 		// Show the HUD in the main tread 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			// No need to hod onto (retain)
-			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 			hud.labelText = @"Loading";
 		});
 		
@@ -168,7 +168,7 @@
 		
 		// Hide the HUD in the main tread 
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 		});
 	});
 }

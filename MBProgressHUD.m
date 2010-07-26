@@ -232,9 +232,9 @@
 	// We need to take care of rotation ourselfs if we're adding the HUD to a window
 	if ([view isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:NO];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) 
-													 name:UIDeviceOrientationDidChangeNotification object:nil];
 	}
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) 
+												 name:UIDeviceOrientationDidChangeNotification object:nil];
 	
 	return me;
 }
@@ -587,7 +587,12 @@
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification { 
-	[self setTransformForCurrentOrientation:YES];
+	if ([self.superview isKindOfClass:[UIWindow class]]) {
+		[self setTransformForCurrentOrientation:YES];
+	}
+	// Stay in sync with the parent view (make sure we cover it fully)
+	self.frame = self.superview.bounds;
+	[self setNeedsDisplay];
 }
 
 - (void)setTransformForCurrentOrientation:(BOOL)animated {
