@@ -242,7 +242,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Set default values for properties
-        self.animationType = MBProgressHUDAnimationZoom;
+        self.animationType = MBProgressHUDAnimationFade;
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
