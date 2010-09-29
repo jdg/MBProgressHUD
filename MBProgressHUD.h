@@ -1,7 +1,7 @@
 //
 //  MBProgressHUD.h
-//  Version 0.32
-//  Created by Matej Bukovinski on 04.01.10.
+//  Version 0.4
+//  Created by Matej Bukovinski on 2.4.09.
 //
 
 // This code is distributed under the terms and conditions of the MIT license. 
@@ -28,23 +28,30 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- * MBProgressHUD operation modes.
- */
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 typedef enum {
     /** Progress is shown using an UIActivityIndicatorView. This is the default. */
     MBProgressHUDModeIndeterminate,
     /** Progress is shown using a MBRoundProgressView. */
 	MBProgressHUDModeDeterminate,
+	/** Shows a custom view */
+	MBProgressHUDModeCustomView
 } MBProgressHUDMode;
 
+typedef enum {
+    /** Opacity animation */
+    MBProgressHUDAnimationFade,
+    /** Opacity + scale animation */
+    MBProgressHUDAnimationZoom
+} MBProgressHUDAnimation;
 
-/**
- * Defines callback methods for MBProgressHUD delegates.
- */
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 @protocol MBProgressHUDDelegate <NSObject>
 
 @required
+
 /** 
  * A callback function that is called after the HUD was fully hidden from the screen. 
  */
@@ -52,13 +59,12 @@ typedef enum {
 
 @end
 
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
  */
-@interface MBRoundProgressView : UIProgressView {
-
-}
+@interface MBRoundProgressView : UIProgressView {}
 
 /**
  * Create a 37 by 37 pixel indicator. 
@@ -68,8 +74,10 @@ typedef enum {
 
 @end
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 /** 
- * Displays a simple HUD window containing a UIActivityIndicatorView and two optional labels for short messages.
+ * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
  * This is a simple drop-in class for displaying a progress HUD view similar to Apples private UIProgressHUD class.
  * The MBProgressHUD window spans over the entire space given to it by the initWithFrame constructor and catches all
@@ -77,23 +85,28 @@ typedef enum {
  * drawn centered as a rounded semi-transparent view witch resizes depending on the user specified content.
  *
  * This view supports three modes of operation:
- * - The default mode displays just a UIActivityIndicatorView.
+ * - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
+ * - MBProgressHUDModeDeterminate - shows a custom round progress indicator (MBRoundProgressView)
+ * - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (@see customView)
+ *
+ * All three modes can have optional labels assigned:
  * - If the labelText property is set and non-empty then a label containing the provided content is placed below the
- *   UIActivityIndicatorView.
+ *   indicator view.
  * - If also the detailsLabelText property is set then another label is placed below the first label.
  */
 @interface MBProgressHUD : UIView {
 	
 	MBProgressHUDMode mode;
-
+    MBProgressHUDAnimation animationType;
+	
 	SEL methodForExecution;
 	id targetForExecution;
 	id objectForExecution;
 	BOOL useAnimation;
-
+	
     float yOffset;
     float xOffset;
-
+	
 	float width;
 	float height;
 	
@@ -103,22 +116,51 @@ typedef enum {
 	NSTimer *graceTimer;
 	NSTimer *minShowTimer;
 	NSDate *showStarted;
-
+	
 	UIView *indicator;
 	UILabel *label;
 	UILabel *detailsLabel;
-
+	
 	float progress;
-
+	
 	id<MBProgressHUDDelegate> delegate;
 	NSString *labelText;
 	NSString *detailsLabelText;
 	float opacity;
 	UIFont *labelFont;
 	UIFont *detailsLabelFont;
-
+	
     BOOL isFinished;
+	BOOL removeFromSuperViewOnHide;
+	
+	UIView *customView;
+	
+	CGAffineTransform rotationTransform;
 }
+
+/**
+ * Creates a new hud, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
+ * 
+ * @param view The view that the HUD will be added to
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ */
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
+
+/**
+ * Finds a HUD sibview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ *
+ * @param view The view that is going to be searched for a HUD subview.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @return YES if a HUD was found and removed, NO otherwise. 
+ *
+ * @see hideHUDForView:animated:
+ */
++ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
@@ -138,11 +180,26 @@ typedef enum {
  */
 - (id)initWithView:(UIView *)view;
 
+/**
+ * The UIView (i.g., a UIIMageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
+ * For best results use a 37 by 37 pixel view (so the bounds match the build in indicator bounds). 
+ */
+@property (retain) UIView *customView;
+
 /** 
  * MBProgressHUD operation mode. Switches between indeterminate (MBProgressHUDModeIndeterminate) and determinate
  * progress (MBProgressHUDModeDeterminate). The default is MBProgressHUDModeIndeterminate.
+ *
+ * @see MBProgressHUDMode
  */
 @property (assign) MBProgressHUDMode mode;
+
+/**
+ * The animation type that should be used when the HUD is shown and hidden. 
+ *
+ * @see MBProgressHUDAnimation
+ */
+@property (assign) MBProgressHUDAnimation animationType;
 
 /** 
  * The HUD delegate object. If set the delegate will receive hudWasHidden callbacks when the HUD was hidden. The
@@ -208,6 +265,12 @@ typedef enum {
  */
 @property (assign) BOOL taskInProgress;
 
+/**
+ * Removes the HUD from it's parent view when hidden. 
+ * Defaults to NO. 
+ */
+@property (assign) BOOL removeFromSuperViewOnHide;
+
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
@@ -228,8 +291,8 @@ typedef enum {
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
  * (e.g., when using something like NSOperation or calling an asynchronous call like NSUrlRequest).
  *
- * @param animated If set to YES the HUD will appear using a fade animation. If set to NO the HUD will not use
- * animations while appearing.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
  */
 - (void)show:(BOOL)animated;
 
@@ -237,7 +300,7 @@ typedef enum {
  * Hide the HUD, this still calls the hudWasHidden delegate. This is the counterpart of the hide: method. Use it to
  * hide the HUD when your task completes.
  *
- * @param animated If set to YES the HUD will disappear using a fade animation. If set to NO the HUD will not use
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
  */
 - (void)hide:(BOOL)animated;
@@ -251,8 +314,8 @@ typedef enum {
  * @param method The method to be executed while the HUD is shown. This method will be executed in a new thread.
  * @param target The object that the target method belongs to.
  * @param object An optional object to be passed to the method.
- * @param animated If set to YES the HUD will appear and disappear using a fade animation. If set to NO the HUD will
- * not use animations while appearing and disappearing.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 

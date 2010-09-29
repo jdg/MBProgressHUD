@@ -16,6 +16,10 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
+		D277FDB311FC834200304321 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB211FC834200304321 /* Default.png */; };
+		D277FDB911FC877E00304321 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB711FC877E00304321 /* Icon.png */; };
+		D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB811FC877E00304321 /* Icon@2x.png */; };
+		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,12 +32,16 @@
 		2899E5210DE3E06400AC0155 /* HudDemoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HudDemoViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28D7ACF60DDB3853001CB0EB /* HudDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemoViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudDemoViewController.m; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudDemoViewController.m; sourceTree = "<group>"; usesTabs = 1; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../../MBProgressHUD.m; sourceTree = "<group>"; };
+		D277FDB211FC834200304321 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark.png"; path = "Images/37x-Checkmark.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +103,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* HudDemoViewController.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				D277FDBF11FC880100304321 /* UI */,
+				D277FDBD11FC879500304321 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -110,6 +118,26 @@
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D277FDBD11FC879500304321 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D277FDB711FC877E00304321 /* Icon.png */,
+				D277FDB811FC877E00304321 /* Icon@2x.png */,
+				D277FDB211FC834200304321 /* Default.png */,
+				D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		D277FDBF11FC880100304321 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2899E5210DE3E06400AC0155 /* HudDemoViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +184,10 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* HudDemoViewController.xib in Resources */,
+				D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */,
+				D277FDB311FC834200304321 /* Default.png in Resources */,
+				D277FDB911FC877E00304321 /* Icon.png in Resources */,
+				D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,11 +240,12 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -222,10 +255,11 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};
