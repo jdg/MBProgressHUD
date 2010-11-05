@@ -48,6 +48,7 @@
 @synthesize height;
 @synthesize xOffset;
 @synthesize yOffset;
+@synthesize margin;
 
 @synthesize graceTime;
 @synthesize minShowTime;
@@ -178,7 +179,6 @@
 #pragma mark -
 #pragma mark Constants
 
-#define MARGIN 20.0
 #define PADDING 4.0
 
 #define LABELFONTSIZE 16.0
@@ -252,6 +252,7 @@
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
         self.xOffset = 0.0;
         self.yOffset = 0.0;
+		self.margin = 20.0;
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
 		self.removeFromSuperViewOnHide = NO;
@@ -300,8 +301,8 @@
 	
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
     CGRect indFrame = indicator.bounds;
-    self.width = indFrame.size.width + 2 * MARGIN;
-    self.height = indFrame.size.height + 2 * MARGIN;
+    self.width = indFrame.size.width + 2 * margin;
+    self.height = indFrame.size.height + 2 * margin;
 	
     // Position the indicator
     indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
@@ -316,11 +317,11 @@
         // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
         float lWidth;
-        if (dims.width <= (frame.size.width - 2 * MARGIN)) {
+        if (dims.width <= (frame.size.width - 2 * margin)) {
             lWidth = dims.width;
         }
         else {
-            lWidth = frame.size.width - 4 * MARGIN;
+            lWidth = frame.size.width - 4 * margin;
         }
 		
         // Set label properties
@@ -333,8 +334,8 @@
         label.text = self.labelText;
 		
         // Update HUD size
-        if (self.width < (lWidth + 2 * MARGIN)) {
-            self.width = lWidth + 2 * MARGIN;
+        if (self.width < (lWidth + 2 * margin)) {
+            self.width = lWidth + 2 * margin;
         }
         self.height = self.height + lHeight + PADDING;
 		
@@ -357,11 +358,11 @@
 			
             // Compute label dimensions based on font metrics if size is larger than max then clip the label width
             lHeight = dims.height;
-            if (dims.width <= (frame.size.width - 2 * MARGIN)) {
+            if (dims.width <= (frame.size.width - 2 * margin)) {
                 lWidth = dims.width;
             }
             else {
-                lWidth = frame.size.width - 4 * MARGIN;
+                lWidth = frame.size.width - 4 * margin;
             }
 			
             // Set label properties
@@ -375,7 +376,7 @@
 			
             // Update HUD size
             if (self.width < lWidth) {
-                self.width = lWidth + 2 * MARGIN;
+                self.width = lWidth + 2 * margin;
             }
             self.height = self.height + lHeight + PADDING;
 			

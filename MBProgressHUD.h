@@ -110,6 +110,8 @@ typedef enum {
 	float width;
 	float height;
 	
+	float margin;
+	
 	BOOL taskInProgress;
 	float graceTime;
 	float minShowTime;
@@ -232,9 +234,16 @@ typedef enum {
 @property (assign) float xOffset;
 
 /** 
- *The y-ayis offset of the HUD relative to the centre of the superview. 
+ * The y-ayis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
+
+/**
+ * The amounth of space between the HUD edge and the HUD elements (labels, indicators or custom views).
+ *
+ * Defaults to 20.0
+ */
+@property (assign) float margin;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
