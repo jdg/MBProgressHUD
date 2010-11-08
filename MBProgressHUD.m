@@ -589,6 +589,9 @@
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification { 
+	if (!self.superview) {
+		return;
+	}
 	if ([self.superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:YES];
 	}
