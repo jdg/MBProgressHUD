@@ -488,8 +488,8 @@
     self.alpha = 0.0;
     
     if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
-		if([delegate respondsToSelector:@selector(hudWasHidden)]) {
-			[delegate performSelector:@selector(hudWasHidden)];
+		if([delegate respondsToSelector:@selector(hudWasHidden:)]) {
+			[delegate performSelector:@selector(hudWasHidden:) withObject:self];
 		}
     }
 	

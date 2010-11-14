@@ -48,6 +48,8 @@ typedef enum {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+@class MBProgressHUD;
+
 @protocol MBProgressHUDDelegate <NSObject>
 
 @required
@@ -55,7 +57,7 @@ typedef enum {
 /** 
  * A callback function that is called after the HUD was fully hidden from the screen. 
  */
-- (void)hudWasHidden;
+- (void)hudWasHidden:(MBProgressHUD *)hud;
 
 @end
 
