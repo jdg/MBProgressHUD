@@ -19,6 +19,9 @@
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
+- (void)cleanUp;
+- (void)deviceOrientationDidChange:(NSNotification*)notification;
+- (void)launchExecution;
 
 @property (retain) UIView *indicator;
 @property (assign) float width;
