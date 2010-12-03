@@ -238,7 +238,8 @@
 #pragma mark -
 #pragma mark MBProgressHUDDelegate methods
 
-- (void)hudWasHidden {
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+	NSLog(@"Hud: %@", hud);
     // Remove HUD from screen when the HUD was hidded
     [HUD removeFromSuperview];
     [HUD release];
