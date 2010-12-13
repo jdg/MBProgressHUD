@@ -535,6 +535,8 @@
     else {
         self.alpha = 1.0;
     }
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
@@ -556,6 +558,8 @@
         self.alpha = 0.0;
         [self done];
     }
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 #pragma mark BG Drawing
