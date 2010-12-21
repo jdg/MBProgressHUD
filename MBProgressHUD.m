@@ -63,6 +63,8 @@
 
 @synthesize showStarted;
 
+@synthesize rectBackgroundColor;
+
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
     if (mode && (mode == newMode)) {
@@ -163,6 +165,10 @@
         [indicator removeFromSuperview];
     }
 	
+	if (mode== MBProgressHUDModeText) {
+		return;
+	}
+	
     if (mode == MBProgressHUDModeDeterminate) {
         self.indicator = [[[MBRoundProgressView alloc] initWithDefaultSize] autorelease];
     }
@@ -257,7 +263,7 @@
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
 		self.removeFromSuperViewOnHide = NO;
-		
+		self.rectBackgroundColor=[UIColor blackColor];
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
         // Transparent background
@@ -282,6 +288,7 @@
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[rectBackgroundColor release];
     [indicator release];
     [label release];
     [detailsLabel release];
@@ -302,6 +309,9 @@
 	
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
     CGRect indFrame = indicator.bounds;
+	if (mode== MBProgressHUDModeText) {
+		indFrame=CGRectZero;
+	} 
     self.width = indFrame.size.width + 2 * MARGIN;
     self.height = indFrame.size.height + 2 * MARGIN;
 	
@@ -574,7 +584,7 @@
     float radius = 10.0f;
 	
     CGContextBeginPath(context);
-    CGContextSetGrayFillColor(context, 0.0, self.opacity);
+	CGContextSetFillColorWithColor(context, [[self.rectBackgroundColor colorWithAlphaComponent:self.opacity] CGColor]);
     CGContextMoveToPoint(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect));
     CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMinY(rect) + radius, radius, 3 * M_PI / 2, 0, 0);
     CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMaxY(rect) - radius, radius, 0, M_PI / 2, 0);

@@ -36,7 +36,9 @@ typedef enum {
     /** Progress is shown using a MBRoundProgressView. */
 	MBProgressHUDModeDeterminate,
 	/** Shows a custom view */
-	MBProgressHUDModeCustomView
+	MBProgressHUDModeCustomView,
+	/** Text-only HUD, without progress indicator or custom view */
+	MBProgressHUDModeText
 } MBProgressHUDMode;
 
 typedef enum {
@@ -138,6 +140,8 @@ typedef enum {
 	UIView *customView;
 	
 	CGAffineTransform rotationTransform;
+	
+	UIColor *rectBackgroundColor;
 }
 
 /**
@@ -321,4 +325,8 @@ typedef enum {
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
+/*
+ * Background color for HUD itself. default: black.
+ */
+@property (retain) UIColor *rectBackgroundColor;
 @end
