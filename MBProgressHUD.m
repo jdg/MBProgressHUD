@@ -44,6 +44,7 @@
 @synthesize opacity;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
+@synthesize useOverlay;
 
 @synthesize indicator;
 
@@ -226,7 +227,7 @@
 }
 
 - (id)initWithView:(UIView *)view {
-	// Let's check if the view is nil (this is a common error when using the windw initializer above)
+	// Let's check if the view is nil (this is a common error when using the window initializer above)
 	if (!view) {
 		[NSException raise:@"MBProgressHUDViewIsNillException" 
 					format:@"The view used in the MBProgressHUD initializer is nil."];
@@ -249,7 +250,6 @@
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
-        self.opacity = 0.8;
         self.labelFont = [UIFont boldSystemFontOfSize:LABELFONTSIZE];
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
         self.xOffset = 0.0;
@@ -257,12 +257,9 @@
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
 		self.removeFromSuperViewOnHide = NO;
+		self.useOverlay = useOverlay;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-		
-        // Transparent background
-        self.opaque = NO;
-        self.backgroundColor = [UIColor clearColor];
 		
         // Make invisible for now
         self.alpha = 0.0;
@@ -277,6 +274,22 @@
 		rotationTransform = CGAffineTransformIdentity;
     }
     return self;
+}
+
+- (void)setUseOverlay:(BOOL)useIt {
+	
+	useOverlay = useIt;
+	
+	if(useOverlay) {
+		self.opaque = YES;
+		self.backgroundColor = [[UIColor colorWithRed:26.0f/255.0f green:26.0f/255.0f blue:26.0f/255.0f alpha:0.5] colorWithAlphaComponent:0.5];//[UIColor colorWithRed:26 green:26 blue:26 alpha:0.5];
+		self.opacity = 1.0;
+	}
+	else {
+		self.opaque = NO;
+		self.backgroundColor = [UIColor clearColor];
+		self.opacity = 0.8;
+	}
 }
 
 - (void)dealloc {
@@ -546,6 +559,9 @@
         [UIView setAnimationDidStopSelector:@selector(animationFinished: finished: context:)];
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
+		if(self.backgroundColor != [UIColor clearColor]) {
+			self.backgroundColor = [UIColor clearColor];
+		}
         if (animationType == MBProgressHUDAnimationZoom) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5, 0.5));
         }
@@ -611,7 +627,7 @@
 	}
 	
 	rotationTransform = CGAffineTransformMakeRotation(RADIANS(degrees));
-
+	
 	if (animated) {
 		[UIView beginAnimations:nil context:nil];
 	}

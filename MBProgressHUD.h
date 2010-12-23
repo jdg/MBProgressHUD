@@ -105,6 +105,7 @@ typedef enum {
 	id targetForExecution;
 	id objectForExecution;
 	BOOL useAnimation;
+	BOOL useOverlay;
 	
     float yOffset;
     float xOffset;
@@ -237,6 +238,11 @@ typedef enum {
  *The y-ayis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
+
+/**
+ * Sets whether overlay is used. Defaults to no overlay.
+ */
+@property (assign) BOOL useOverlay;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
