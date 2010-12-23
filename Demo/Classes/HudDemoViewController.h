@@ -15,6 +15,7 @@
 
 - (IBAction)showSimple:(id)sender;
 - (IBAction)showWithLabel:(id)sender;
+- (IBAction)showWithOverlay:(id)sender;
 - (IBAction)showWithDetailsLabel:(id)sender;
 - (IBAction)showWithLabelDeterminate:(id)sender;
 - (IBAction)showWithCustomView:(id)sender;
