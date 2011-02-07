@@ -59,6 +59,11 @@ typedef enum {
  */
 - (void)hudWasHidden:(MBProgressHUD *)hud;
 
+@optional
+/** 
+ * A callback function that is called after the HUD get's cancelled. 
+ */
+- (void)hudDidCancel;
 @end
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +143,13 @@ typedef enum {
 	UIView *customView;
 	
 	CGAffineTransform rotationTransform;
+	
+	//public
+	BOOL dimBackground, drawStroke, allowsCancelation;
+	
+	//private
+	UIView *_backgroundDimmingView;
+	UIButton *_cancelButton;
 }
 
 /**
@@ -287,6 +299,21 @@ typedef enum {
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
 @property (assign) float progress;
+
+/** 
+ * Makes the background dark when shown 
+ */
+@property (assign) BOOL dimBackground;
+
+/** 
+ * Draws a pretty white line around the HUD window
+ */
+@property (assign) BOOL drawStroke;
+
+/** 
+ * Shows a cancel button that allows a task to be stopped before completion 
+ */
+@property (assign) BOOL allowsCancelation;
 
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so

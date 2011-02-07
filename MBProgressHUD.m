@@ -30,6 +30,9 @@
 @property (retain) NSTimer *minShowTimer;
 @property (retain) NSDate *showStarted;
 
+@property (retain) UIView *_backgroundDimmingView;
+@property (retain) UIButton *_cancelButton;
+
 @end
 
 
@@ -62,6 +65,12 @@
 @synthesize customView;
 
 @synthesize showStarted;
+
+@synthesize dimBackground, drawStroke, allowsCancelation;
+
+//private
+@synthesize _backgroundDimmingView;
+@synthesize _cancelButton;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -291,6 +300,12 @@
 	[minShowTimer release];
 	[showStarted release];
 	[customView release];
+	
+	[_backgroundDimmingView removeFromSuperview];
+	[_backgroundDimmingView release];
+	[_cancelButton removeFromSuperview];
+	[_cancelButton release];
+	
     [super dealloc];
 }
 
@@ -298,6 +313,14 @@
 #pragma mark Layout
 
 - (void)layoutSubviews {
+	
+	if(useAnimation)
+	{
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.30];
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self cache:NO];	
+	}
+	
     CGRect frame = self.bounds;
 	
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
@@ -309,6 +332,8 @@
     indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
     indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
     indicator.frame = indFrame;
+	
+	CGRect lFrame;
 	
     // Add label if label text was set
     if (nil != self.labelText) {
@@ -345,58 +370,112 @@
         indicator.frame = indFrame;
 		
         // Set the label position and dimensions
-        CGRect lFrame = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
+        lFrame = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
                                    floor(indFrame.origin.y + indFrame.size.height + PADDING),
                                    lWidth, lHeight);
         label.frame = lFrame;
 		
         [self addSubview:label];
-		
-        // Add details label delatils text was set
-        if (nil != self.detailsLabelText) {
-            // Get size of label text
-            dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
-			
-            // Compute label dimensions based on font metrics if size is larger than max then clip the label width
-            lHeight = dims.height;
-            if (dims.width <= (frame.size.width - 2 * MARGIN)) {
-                lWidth = dims.width;
-            }
-            else {
-                lWidth = frame.size.width - 4 * MARGIN;
-            }
-			
-            // Set label properties
-            detailsLabel.font = self.detailsLabelFont;
-            detailsLabel.adjustsFontSizeToFitWidth = NO;
-            detailsLabel.textAlignment = UITextAlignmentCenter;
-            detailsLabel.opaque = NO;
-            detailsLabel.backgroundColor = [UIColor clearColor];
-            detailsLabel.textColor = [UIColor whiteColor];
-            detailsLabel.text = self.detailsLabelText;
-			
-            // Update HUD size
-            if (self.width < lWidth) {
-                self.width = lWidth + 2 * MARGIN;
-            }
-            self.height = self.height + lHeight + PADDING;
-			
-            // Move indicator to make room for the new label
-            indFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
-            indicator.frame = indFrame;
-			
-            // Move first label to make room for the new label
-            lFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
-            label.frame = lFrame;
-			
-            // Set label position and dimensions
-            CGRect lFrameD = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
-                                        lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
-            detailsLabel.frame = lFrameD;
-			
-            [self addSubview:detailsLabel];
-        }
     }
+	else
+	{
+		[label removeFromSuperview];
+		[label release];
+		label = nil;
+	}
+	
+	// Add details label delatils text was set
+	if (nil != self.detailsLabelText) {
+		// Get size of label text
+		CGSize dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
+		
+		// Compute label dimensions based on font metrics if size is larger than max then clip the label width
+		float lHeight = dims.height;
+        float lWidth;
+		if (dims.width <= (frame.size.width - 2 * MARGIN)) {
+			lWidth = dims.width;
+		}
+		else {
+			lWidth = frame.size.width - 4 * MARGIN;
+		}
+		
+		// Set label properties
+		detailsLabel.font = self.detailsLabelFont;
+		detailsLabel.adjustsFontSizeToFitWidth = NO;
+		detailsLabel.textAlignment = UITextAlignmentCenter;
+		detailsLabel.opaque = NO;
+		detailsLabel.backgroundColor = [UIColor clearColor];
+		detailsLabel.textColor = [UIColor whiteColor];
+		detailsLabel.text = self.detailsLabelText;
+		
+		// Update HUD size
+		if (self.width < lWidth) {
+			self.width = lWidth + 2 * MARGIN;
+		}
+		self.height = self.height + lHeight + PADDING;
+		
+		// Move indicator to make room for the new label
+		indFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
+		indicator.frame = indFrame;
+		
+		// Move first label to make room for the new label
+		lFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
+		label.frame = lFrame;
+		
+		// Set label position and dimensions
+		CGRect lFrameD = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
+									lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
+		detailsLabel.frame = lFrameD;
+		
+		[self addSubview:detailsLabel];
+	}
+	else
+	{
+		[detailsLabel removeFromSuperview];
+		[detailsLabel release];
+		detailsLabel = nil;
+	}
+	
+	if(self.allowsCancelation)
+	{
+		if(!self._cancelButton)
+		{
+			self._cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+			[self._cancelButton setImage:[UIImage imageNamed:@"CloseButton.png"] forState:UIControlStateNormal];
+			[self._cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+		}
+		
+		self._cancelButton.frame = CGRectMake(((self.bounds.size.width - self.width) / 2) + self.xOffset - 12,
+										 ((self.bounds.size.height - self.height) / 2) + self.yOffset - 12, 29, 29);
+		
+		if(![self._cancelButton superview])
+            [self addSubview:self._cancelButton];
+		
+	}
+	else
+	{
+		if(self._cancelButton)
+		{
+			[self._cancelButton removeFromSuperview];
+			self._cancelButton = nil;
+		}
+	}
+	
+	if(useAnimation)
+	{
+		[UIView commitAnimations];
+	}
+}
+
+- (void)cancel
+{
+	if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
+		if([delegate respondsToSelector:@selector(hudDidCancel)]) {
+			[delegate performSelector:@selector(hudDidCancel)];
+		}
+    }
+	
+	[self hideUsingAnimation:useAnimation];
 }
 
 #pragma mark -
@@ -582,6 +661,21 @@
     CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect) + radius, radius, M_PI, 3 * M_PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
+	
+	//now draw the border
+	if(self.drawStroke)
+	{
+		CGContextBeginPath(context);
+		CGContextSetGrayStrokeColor(context, 1.0, self.opacity);
+		CGContextSetLineWidth(context, 4.0);
+		CGContextMoveToPoint(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect));
+		CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMinY(rect) + radius, radius, 3 * M_PI / 2, 0, 0);
+		CGContextAddArc(context, CGRectGetMaxX(rect) - radius, CGRectGetMaxY(rect) - radius, radius, 0, M_PI / 2, 0);
+		CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMaxY(rect) - radius, radius, M_PI / 2, M_PI, 0);
+		CGContextAddArc(context, CGRectGetMinX(rect) + radius, CGRectGetMinY(rect) + radius, radius, M_PI, 3 * M_PI / 2, 0);
+		CGContextClosePath(context);
+		CGContextStrokePath(context);
+	}
 }
 
 #pragma mark -
