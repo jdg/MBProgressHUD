@@ -193,8 +193,8 @@
 #define MARGIN 20.0
 #define PADDING 4.0
 
-#define LABELFONTSIZE 16.0
-#define LABELDETAILSFONTSIZE 12.0
+#define LABELFONTSIZE 22.0
+#define LABELDETAILSFONTSIZE 18.0
 
 #define PI 3.14159265358979323846
 
@@ -265,7 +265,7 @@
         self.yOffset = 0.0;
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
-		self.removeFromSuperViewOnHide = NO;
+		self.removeFromSuperViewOnHide = YES;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
