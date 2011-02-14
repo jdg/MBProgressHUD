@@ -96,6 +96,10 @@
 }
 
 - (void)setLabelText:(NSString *)newText {
+	
+	if([labelText isEqual:newText])
+		return;
+	
 	if ([NSThread isMainThread]) {
 		[self updateLabelText:newText];
 		[self setNeedsLayout];
@@ -112,6 +116,10 @@
 }
 
 - (void)setDetailsLabelText:(NSString *)newText {
+	
+	if([detailsLabelText isEqual:newText])
+		return;
+	
 	if ([NSThread isMainThread]) {
 		[self updateDetailsLabelText:newText];
 		[self setNeedsLayout];
