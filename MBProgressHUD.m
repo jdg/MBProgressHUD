@@ -380,8 +380,6 @@
 	else
 	{
 		[label removeFromSuperview];
-		[label release];
-		label = nil;
 	}
 	
 	// Add details label delatils text was set
@@ -432,8 +430,6 @@
 	else
 	{
 		[detailsLabel removeFromSuperview];
-		[detailsLabel release];
-		detailsLabel = nil;
 	}
 	
 	if(self.allowsCancelation)
