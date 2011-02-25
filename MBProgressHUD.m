@@ -368,10 +368,10 @@
         label.text = self.labelText;
 		
         // Update HUD size
-        if (self.width < (lWidth + 2 * MARGIN)) {
+        if (self.width < (lWidth + 2 * MARGIN))
             self.width = lWidth + 2 * MARGIN;
-        }
-        self.height = self.height + lHeight + PADDING;
+
+		self.height = self.height + lHeight + PADDING;
 		
         // Move indicator to make room for the label
         indFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
@@ -415,9 +415,9 @@
 		detailsLabel.text = self.detailsLabelText;
 		
 		// Update HUD size
-		if (self.width < lWidth) {
+		if (self.width < lWidth + 2 * MARGIN)
 			self.width = lWidth + 2 * MARGIN;
-		}
+
 		self.height = self.height + lHeight + PADDING;
 		
 		// Move indicator to make room for the new label
