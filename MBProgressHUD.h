@@ -149,6 +149,7 @@ typedef enum {
 	UIViewAnimationTransition animationTransition;
 	
 	//private
+	BOOL _firstLayout;
 	UIView *_backgroundDimmingView;
 	UIButton *_cancelButton;
 }
@@ -318,7 +319,7 @@ typedef enum {
 @property (assign) BOOL allowsCancelation;
 
 /** 
- * The kind of UIViewAnimationTransition when the title/subtitle or custom view get updated
+ * The kind of UIViewAnimationTransition when the title/subtitle or custom view get updated, NOT used when the HUD appears or disappears
  * Defaults to UIViewAnimationTransitionFlipFromRight but will only animate if show: is sent with YES
  */
 @property (assign) UIViewAnimationTransition animationTransition;

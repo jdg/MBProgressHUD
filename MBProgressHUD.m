@@ -294,6 +294,7 @@
 		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
+		_firstLayout = YES;
 		
 		//add the dimming background
 		self._backgroundDimmingView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
@@ -329,7 +330,7 @@
 
 - (void)layoutSubviews {
 	
-	if(useAnimation && self.animationTransition != UIViewAnimationTransitionNone)
+	if(useAnimation && !_firstLayout && self.animationTransition != UIViewAnimationTransitionNone)
 	{
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.30];
@@ -472,10 +473,12 @@
 		}
 	}
 	
-	if(useAnimation && self.animationTransition != UIViewAnimationTransitionNone)
+	if(useAnimation && !_firstLayout && self.animationTransition != UIViewAnimationTransitionNone)
 	{
 		[UIView commitAnimations];
 	}
+	
+	_firstLayout = NO;
 }
 
 #pragma mark -
