@@ -292,6 +292,11 @@
 		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
+		
+		//add the dimming background
+		self._backgroundDimmingView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
+        self._backgroundDimmingView.backgroundColor = [UIColor blackColor];
+        self._backgroundDimmingView.alpha = 0.0;
     }
     return self;
 }
@@ -471,6 +476,20 @@
 	}
 }
 
+#pragma mark -
+#pragma mark Background Adding
+- (void)didMoveToSuperview
+{
+	if(!self._backgroundDimmingView.superview)
+		[self.superview insertSubview:self._backgroundDimmingView belowSubview:self];		
+}
+
+- (void)removeFromSuperview
+{
+	[self._backgroundDimmingView removeFromSuperview];
+	[super removeFromSuperview];
+}
+
 - (void)cancel
 {
 	if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
@@ -572,11 +591,18 @@
 	
     // If delegate was set make the callback
     self.alpha = 0.0;
-    
+	self._backgroundDimmingView.alpha = 0.0;
+
     if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
 		if([delegate respondsToSelector:@selector(hudWasHidden:)]) {
 			[delegate performSelector:@selector(hudWasHidden:) withObject:self];
 		}
+    }
+	
+	if(self._backgroundDimmingView)
+    {
+        [self._backgroundDimmingView removeFromSuperview];
+        self._backgroundDimmingView = nil;
     }
 	
 	if (removeFromSuperViewOnHide) {
@@ -613,10 +639,14 @@
         if (animationType == MBProgressHUDAnimationZoom) {
             self.transform = rotationTransform;
         }
+		
+		self._backgroundDimmingView.alpha = (self.dimBackground ? 0.35:0.0);
+		
         [UIView commitAnimations];
     }
     else {
         self.alpha = 1.0;
+		self._backgroundDimmingView.alpha = (self.dimBackground ? 0.35:0.0);
     }
 }
 
@@ -633,10 +663,12 @@
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5, 0.5));
         }
         self.alpha = 0.02;
+		self._backgroundDimmingView.alpha = 0.0;
         [UIView commitAnimations];
     }
     else {
         self.alpha = 0.0;
+		self._backgroundDimmingView.alpha = 0.0;
         [self done];
     }
 }
