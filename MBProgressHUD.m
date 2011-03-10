@@ -67,6 +67,7 @@
 @synthesize showStarted;
 
 @synthesize dimBackground, drawStroke, allowsCancelation;
+@synthesize animationTransition;
 
 //private
 @synthesize _backgroundDimmingView;
@@ -263,6 +264,7 @@
     if ((self = [super initWithFrame:frame])) {
         // Set default values for properties
         self.animationType = MBProgressHUDAnimationFade;
+		self.animationTransition = UIViewAnimationTransitionFlipFromRight;
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
@@ -327,11 +329,11 @@
 
 - (void)layoutSubviews {
 	
-	if(useAnimation)
+	if(useAnimation && self.animationTransition != UIViewAnimationTransitionNone)
 	{
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.30];
-		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self cache:NO];	
+		[UIView setAnimationTransition:self.animationTransition forView:self cache:NO];	
 	}
 	
     CGRect frame = self.bounds;
@@ -470,7 +472,7 @@
 		}
 	}
 	
-	if(useAnimation)
+	if(useAnimation && self.animationTransition != UIViewAnimationTransitionNone)
 	{
 		[UIView commitAnimations];
 	}

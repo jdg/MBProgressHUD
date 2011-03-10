@@ -146,6 +146,7 @@ typedef enum {
 	
 	//public
 	BOOL dimBackground, drawStroke, allowsCancelation;
+	UIViewAnimationTransition animationTransition;
 	
 	//private
 	UIView *_backgroundDimmingView;
@@ -312,8 +313,15 @@ typedef enum {
 
 /** 
  * Shows a cancel button that allows a task to be stopped before completion 
+ * Will call the delegate's hudDidCancel, and remove the HUD (as if hide: was sent), when the button is pressed
  */
 @property (assign) BOOL allowsCancelation;
+
+/** 
+ * The kind of UIViewAnimationTransition when the title/subtitle or custom view get updated
+ * Defaults to UIViewAnimationTransitionFlipFromRight but will only animate if show: is sent with YES
+ */
+@property (assign) UIViewAnimationTransition animationTransition;
 
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
