@@ -300,6 +300,9 @@
 		self._backgroundDimmingView = [[[UIView alloc] initWithFrame:self.bounds] autorelease];
         self._backgroundDimmingView.backgroundColor = [UIColor blackColor];
         self._backgroundDimmingView.alpha = 0.0;
+		
+		self._backgroundDimmingView.userInteractionEnabled = NO;
+		self.userInteractionEnabled = NO;
     }
     return self;
 }
@@ -597,6 +600,9 @@
     // If delegate was set make the callback
     self.alpha = 0.0;
 	self._backgroundDimmingView.alpha = 0.0;
+	
+	self._backgroundDimmingView.userInteractionEnabled = NO;
+	self.userInteractionEnabled = NO;
 
     if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
 		if([delegate respondsToSelector:@selector(hudWasHidden:)]) {
@@ -648,10 +654,16 @@
 		self._backgroundDimmingView.alpha = (self.dimBackground ? 0.35:0.0);
 		
         [UIView commitAnimations];
+		
+		self._backgroundDimmingView.userInteractionEnabled = YES;
+		self.userInteractionEnabled = YES;
     }
     else {
         self.alpha = 1.0;
 		self._backgroundDimmingView.alpha = (self.dimBackground ? 0.35:0.0);
+		
+		self._backgroundDimmingView.userInteractionEnabled = YES;
+		self.userInteractionEnabled = YES;
     }
 }
 
