@@ -64,13 +64,15 @@ typedef enum {
 /**
  * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
  */
-@interface MBRoundProgressView : UIProgressView {}
+@interface MBRoundProgressView : UIView {
+@private
+    float _progress;
+}
 
 /**
- * Create a 37 by 37 pixel indicator. 
- * This is the same size as used by the larger UIActivityIndicatorView.
+ * Progress (0.0 to 1.0)
  */
-- (id)initWithDefaultSize;
+@property (nonatomic, assign) float progress;
 
 @end
 
