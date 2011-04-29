@@ -199,7 +199,7 @@
 								<string key="NSFrame">{{20, 356}, {280, 40}}</string>
 								<reference key="NSSuperview" ref="821963304"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="295510578"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -208,6 +208,28 @@
 								<reference key="IBUIFont" ref="432819284"/>
 								<int key="IBUIButtonType">1</int>
 								<string key="IBUINormalTitle">On Window</string>
+								<reference key="IBUIHighlightedTitleColor" ref="434568641"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="612289531"/>
+							</object>
+							<object class="IBUIButton" id="295510578">
+								<reference key="NSNextResponder" ref="821963304"/>
+								<int key="NSvFlags">294</int>
+								<string key="NSFrame">{{20, 404}, {280, 40}}</string>
+								<reference key="NSSuperview" ref="821963304"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">3</int>
+								<reference key="IBUIFont" ref="432819284"/>
+								<int key="IBUIButtonType">1</int>
+								<string key="IBUINormalTitle">NSURLConnection</string>
 								<reference key="IBUIHighlightedTitleColor" ref="434568641"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
@@ -238,7 +260,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="612289531"/>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 416}</string>
+						<string key="NSFrameSize">{320, 464}</string>
 						<reference key="NSSuperview" ref="560298147"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="960472997"/>
@@ -251,7 +273,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 460}</string>
+				<string key="NSFrameSize">{320, 464}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="821963304"/>
@@ -343,6 +365,15 @@
 					</object>
 					<int key="connectionID">73</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showURL:</string>
+						<reference key="source" ref="295510578"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -386,6 +417,7 @@
 							<reference ref="302056160"/>
 							<reference ref="960472997"/>
 							<reference ref="626654324"/>
+							<reference ref="295510578"/>
 						</object>
 						<reference key="parent" ref="560298147"/>
 					</object>
@@ -429,6 +461,11 @@
 						<reference key="object" ref="626654324"/>
 						<reference key="parent" ref="821963304"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">76</int>
+						<reference key="object" ref="295510578"/>
+						<reference key="parent" ref="821963304"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -447,6 +484,7 @@
 					<string>54.IBEditorWindowLastContentRect</string>
 					<string>54.IBPluginDependency</string>
 					<string>71.IBPluginDependency</string>
+					<string>76.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
 				</object>
@@ -466,6 +504,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -480,7 +519,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">73</int>
+			<int key="maxID">78</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -494,6 +533,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>showOnWindow:</string>
 							<string>showSimple:</string>
+							<string>showURL:</string>
 							<string>showUsingBlocks:</string>
 							<string>showWithCustomView:</string>
 							<string>showWithDetailsLabel:</string>
@@ -503,6 +543,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -519,6 +560,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>showOnWindow:</string>
 							<string>showSimple:</string>
+							<string>showURL:</string>
 							<string>showUsingBlocks:</string>
 							<string>showWithCustomView:</string>
 							<string>showWithDetailsLabel:</string>
@@ -534,6 +576,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showSimple:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showURL:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

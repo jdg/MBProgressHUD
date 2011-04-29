@@ -151,6 +151,16 @@
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
 
+- (IBAction)showURL:(id)sender {
+	NSURL *URL = [NSURL URLWithString:@"https://github.com/matej/MBProgressHUD/zipball/master"];
+	NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+	
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+	[connection start];
+	
+	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
+}
+
 #pragma mark -
 #pragma mark Execution code
 
@@ -192,6 +202,32 @@
 	HUD.mode = MBProgressHUDModeCustomView;
 	HUD.labelText = @"Completed";
 	sleep(2);
+}
+
+#pragma mark -
+#pragma mark NSURLConnectionDelegete
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	expectedLength = [response expectedContentLength];
+	currentLength = 0;
+	HUD.mode = MBProgressHUDModeDeterminate;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	currentLength += [data length];
+	HUD.progress = currentLength / (float)expectedLength;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+    HUD.mode = MBProgressHUDModeCustomView;
+	[HUD hide:YES afterDelay:2];
+	[connection release];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	[HUD hide:YES];
+	[connection release];
 }
 
 #pragma mark -
