@@ -25,9 +25,6 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // No autoroation support when adding the HUD to a window!
-    // In that case you need to explicitly transform the HUD if you need a rotated version (i.g.,
-    // self.transform = CGAffineTransformMakeRotation(PI / 2); )
     return YES;	
 }
 
