@@ -16,7 +16,8 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
-		D277FDB311FC834200304321 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB211FC834200304321 /* Default.png */; };
+		D263D189136AFEFD00F41F81 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D263D188136AFEFD00F41F81 /* Default@2x.png */; };
+		D263D18B136B001E00F41F81 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D263D18A136B001E00F41F81 /* Default.png */; };
 		D277FDB911FC877E00304321 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB711FC877E00304321 /* Icon.png */; };
 		D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB811FC877E00304321 /* Icon@2x.png */; };
 		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
@@ -38,6 +39,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../../MBProgressHUD.m; sourceTree = "<group>"; };
+		D263D188136AFEFD00F41F81 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		D263D18A136B001E00F41F81 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D277FDB211FC834200304321 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D263D18A136B001E00F41F81 /* Default.png */,
 				D277FDBF11FC880100304321 /* UI */,
 				D277FDBD11FC879500304321 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -123,9 +127,10 @@
 		D277FDBD11FC879500304321 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D277FDB711FC877E00304321 /* Icon.png */,
-				D277FDB811FC877E00304321 /* Icon@2x.png */,
+				D263D188136AFEFD00F41F81 /* Default@2x.png */,
 				D277FDB211FC834200304321 /* Default.png */,
+				D277FDB811FC877E00304321 /* Icon@2x.png */,
+				D277FDB711FC877E00304321 /* Icon.png */,
 				D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */,
 			);
 			name = Images;
@@ -192,7 +197,8 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* HudDemoViewController.xib in Resources */,
 				D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */,
-				D277FDB311FC834200304321 /* Default.png in Resources */,
+				D263D18B136B001E00F41F81 /* Default.png in Resources */,
+				D263D189136AFEFD00F41F81 /* Default@2x.png in Resources */,
 				D277FDB911FC877E00304321 /* Icon.png in Resources */,
 				D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */,
 			);
@@ -225,6 +231,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = HudDemo;
 			};
 			name = Debug;
@@ -237,6 +244,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = HudDemo;
 			};
 			name = Release;

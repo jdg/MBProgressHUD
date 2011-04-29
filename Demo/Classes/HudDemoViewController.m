@@ -12,6 +12,9 @@
 @implementation HudDemoViewController
 
 #pragma mark -
+#pragma mark Constants
+
+#pragma mark -
 #pragma mark Lifecycle methods
 
 - (void)viewDidLoad {
@@ -152,15 +155,16 @@
 }
 
 - (IBAction)showUsingBlocks:(id)sender {
+#ifdef __BLOCKS__
+	// No need to retain (just a local variable)
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+	hud.labelText = @"Loading";
+	
 	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		// Show the HUD in the main tread 
-		dispatch_async(dispatch_get_main_queue(), ^{
-			// No need to hod onto (retain)
-			MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-			hud.labelText = @"Loading";
-		});
 		
 		// Do a taks in the background
+		[self myTask];
+		hud.labelText = @"Some more";
 		[self myTask];
 		
 		// Hide the HUD in the main tread 
@@ -168,6 +172,7 @@
 			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 		});
 	});
+#endif
 }
 
 - (IBAction)showOnWindow:(id)sender {
@@ -192,9 +197,6 @@
 - (void)myTask {
     // Do something usefull in here instead of sleeping ...
     sleep(3);
-    // Labels can be changed during the execution
-    //HUD.detailsLabelText = @"Something";
-    //sleep(3);
 }
 
 - (void)myProgressTask {
