@@ -486,11 +486,9 @@
     // If delegate was set make the callback
     self.alpha = 0.0;
     
-    if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)]) {
-		if([delegate respondsToSelector:@selector(hudWasHidden)]) {
-			[delegate performSelector:@selector(hudWasHidden)];
-		}
-    }
+	if(delegate != nil && [delegate respondsToSelector:@selector(hudWasHidden)]) {
+		[delegate performSelector:@selector(hudWasHidden)];
+	}
 	
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];

@@ -28,6 +28,8 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MBProgressHUDDelegate;
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef enum {
@@ -45,36 +47,6 @@ typedef enum {
     /** Opacity + scale animation */
     MBProgressHUDAnimationZoom
 } MBProgressHUDAnimation;
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-@protocol MBProgressHUDDelegate <NSObject>
-
-@required
-
-/** 
- * A callback function that is called after the HUD was fully hidden from the screen. 
- */
-- (void)hudWasHidden;
-
-@end
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
- */
-@interface MBRoundProgressView : UIView {
-@private
-    float _progress;
-}
-
-/**
- * Progress (0.0 to 1.0)
- */
-@property (nonatomic, assign) float progress;
-
-@end
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -143,7 +115,7 @@ typedef enum {
 }
 
 /**
- * Creates a new hud, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
+ * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
  * 
  * @param view The view that the HUD will be added to
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -302,6 +274,11 @@ typedef enum {
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
  * (e.g., when using something like NSOperation or calling an asynchronous call like NSUrlRequest).
  *
+ * If you need to perform a blocking thask on the main thread, you can try spining the run loop imeidiately after calling this 
+ * method by using:
+ *
+ * [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantPast]];
+ *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
  */
@@ -331,3 +308,35 @@ typedef enum {
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
 @end
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+@protocol MBProgressHUDDelegate <NSObject>
+
+@optional
+
+/** 
+ * Called after the HUD was fully hidden from the screen. 
+ */
+- (void)hudWasHidden;
+
+@end
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * A progress view for showing definite progress by filling up a circle (pie chart).
+ */
+@interface MBRoundProgressView : UIView {
+@private
+    float _progress;
+}
+
+/**
+ * Progress (0.0 to 1.0)
+ */
+@property (nonatomic, assign) float progress;
+
+@end
+
+/////////////////////////////////////////////////////////////////////////////////////////////
