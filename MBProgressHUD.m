@@ -437,6 +437,14 @@
     [self hideUsingAnimation:useAnimation];
 }
 
+- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:delay] afterDelay:delay];
+}
+
+- (void)hideDelayed:(NSNumber *)animated {
+	[self hide:[animated boolValue]];
+}
+
 - (void)handleGraceTimer:(NSTimer *)theTimer {
 	// Show the HUD only if the task is still running
 	if (taskInProgress) {

@@ -46,14 +46,9 @@
 - (IBAction)showSimple:(id)sender {
     // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-	
-	//HUD.graceTime = 0.5;
-	//HUD.minShowTime = 5.0;
-	
-    // Add HUD to screen
     [self.navigationController.view addSubview:HUD];
 	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
+    // Regiser for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
 	
     // Show the HUD while the provided method executes in a new thread
@@ -61,96 +56,70 @@
 }
 
 - (IBAction)showWithLabel:(id)sender {
-	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
 	
-    // Add HUD to screen
-    [self.navigationController.view addSubview:HUD];
-	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
-	
     HUD.labelText = @"Loading";
 	
-    // Show the HUD while the provided method executes in a new thread
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
 
 - (IBAction)showWithDetailsLabel:(id)sender {
-    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
-    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	
-    // Add HUD to screen
+    HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:HUD];
 	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
-	
     HUD.labelText = @"Loading";
     HUD.detailsLabelText = @"updating data";
 	
-    // Show the HUD while the provided method executes in a new thread
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
 
 - (IBAction)showWithLabelDeterminate:(id)sender {
-	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
 	
     // Set determinate mode
     HUD.mode = MBProgressHUDModeDeterminate;
-	
-    // Add HUD to screen
-    [self.navigationController.view addSubview:HUD];
-	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
-    HUD.delegate = self;
-	
+    
+	HUD.delegate = self;
     HUD.labelText = @"Loading";
 	
-    // Show the HUD while the provided method executes in a new thread
+	// myProgressTask uses the HUD instance to update progress
     [HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
 }
 
 - (IBAction)showWithCustomView:(id)sender {
-	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
 	
-	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
+	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
 	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
 	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
 	
     // Set custom view mode
     HUD.mode = MBProgressHUDModeCustomView;
 	
-	// Add HUD to screen
-    [self.navigationController.view addSubview:HUD];
-	
-	// Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
-	
     HUD.labelText = @"Completed";
 	
-	// This would only show the completed text with no visible custom view
-	// HUD.customView = [[UIView alloc] initWithFrame:CGRectZero];
-	
-	// Show the HUD while the provided method executes in a new thread
-    [HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    [HUD show:YES];
+	[HUD hide:YES afterDelay:3];
 }
 
 - (IBAction)showWithLabelMixed:(id)sender {
-	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
 	
-    // Add HUD to screen
-    [self.navigationController.view addSubview:HUD];
-	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
-	
     HUD.labelText = @"Connecting";
 	
-    // Show the HUD while the provided method executes in a new thread
     [HUD showWhileExecuting:@selector(myMixedTask) onTarget:self withObject:nil animated:YES];
 }
 
@@ -161,12 +130,8 @@
 	hud.labelText = @"Loading";
 	
 	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		
 		// Do a taks in the background
 		[self myTask];
-		hud.labelText = @"Some more";
-		[self myTask];
-		
 		// Hide the HUD in the main tread 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -176,18 +141,13 @@
 }
 
 - (IBAction)showOnWindow:(id)sender {
-	// The hud will dispable all input on the view
+	// The hud will dispable all input on the window
     HUD = [[MBProgressHUD alloc] initWithView:self.view.window];
-	
-    // Add HUD to screen
     [self.view.window addSubview:HUD];
 	
-    // Regisete for HUD callbacks so we can remove it from the window at the right time
     HUD.delegate = self;
-	
     HUD.labelText = @"Loading";
 	
-    // Show the HUD while the provided method executes in a new thread
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
 
@@ -241,6 +201,7 @@
     // Remove HUD from screen when the HUD was hidded
     [HUD removeFromSuperview];
     [HUD release];
+	HUD = nil;
 }
 
 @end
