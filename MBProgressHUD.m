@@ -560,11 +560,13 @@
 #pragma mark BG Drawing
 
 - (void)drawRect:(CGRect)rect {
+	
     // Center HUD
     CGRect allRect = self.bounds;
     // Draw rounded HUD bacgroud rect
-    CGRect boxRect = CGRectMake(((allRect.size.width - self.width) / 2) + self.xOffset,
-                                ((allRect.size.height - self.height) / 2) + self.yOffset, self.width, self.height);
+    CGRect boxRect = CGRectMake(roundf((allRect.size.width - self.width) / 2) + self.xOffset,
+                                roundf((allRect.size.height - self.height) / 2) + self.yOffset, self.width, self.height);
+	NSLog(@"%@", NSStringFromCGRect(boxRect));
     CGContextRef ctxt = UIGraphicsGetCurrentContext();
     [self fillRoundedRect:boxRect inContext:ctxt];
 }
