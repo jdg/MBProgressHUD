@@ -18,6 +18,10 @@
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
+- (void)deviceOrientationDidChange:(NSNotification *)notification;
+- (void)hideDelayed:(NSNumber *)animated;
+- (void)launchExecution;
+- (void)cleanUp;
 
 @property (retain) UIView *indicator;
 @property (assign) float width;
@@ -178,10 +182,10 @@
 #pragma mark -
 #pragma mark Constants
 
-#define PADDING 4.0
+#define PADDING 4.0f
 
-#define LABELFONTSIZE 16.0
-#define LABELDETAILSFONTSIZE 12.0
+#define LABELFONTSIZE 16.0f
+#define LABELDETAILSFONTSIZE 12.0f
 
 
 #pragma mark -
@@ -244,14 +248,14 @@
         self.mode = MBProgressHUDModeIndeterminate;
         self.labelText = nil;
         self.detailsLabelText = nil;
-        self.opacity = 0.8;
+        self.opacity = 0.8f;
         self.labelFont = [UIFont boldSystemFontOfSize:LABELFONTSIZE];
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
-        self.xOffset = 0.0;
-        self.yOffset = 0.0;
-		self.margin = 20.0;
-		self.graceTime = 0.0;
-		self.minShowTime = 0.0;
+        self.xOffset = 0.0f;
+        self.yOffset = 0.0f;
+		self.margin = 20.0f;
+		self.graceTime = 0.0f;
+		self.minShowTime = 0.0f;
 		self.removeFromSuperViewOnHide = NO;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -261,7 +265,7 @@
         self.backgroundColor = [UIColor clearColor];
 		
         // Make invisible for now
-        self.alpha = 0.0;
+        self.alpha = 0.0f;
 		
         // Add label
         label = [[UILabel alloc] initWithFrame:self.bounds];
@@ -302,8 +306,8 @@
     self.height = indFrame.size.height + 2 * margin;
 	
     // Position the indicator
-    indFrame.origin.x = floor((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
-    indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
+    indFrame.origin.x = floorf((frame.size.width - indFrame.size.width) / 2) + self.xOffset;
+    indFrame.origin.y = floorf((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
     indicator.frame = indFrame;
 	
     // Add label if label text was set
@@ -337,12 +341,12 @@
         self.height = self.height + lHeight + PADDING;
 		
         // Move indicator to make room for the label
-        indFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
+        indFrame.origin.y -= (floorf(lHeight / 2 + PADDING / 2));
         indicator.frame = indFrame;
 		
         // Set the label position and dimensions
-        CGRect lFrame = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
-                                   floor(indFrame.origin.y + indFrame.size.height + PADDING),
+        CGRect lFrame = CGRectMake(floorf((frame.size.width - lWidth) / 2) + xOffset,
+                                   floorf(indFrame.origin.y + indFrame.size.height + PADDING),
                                    lWidth, lHeight);
         label.frame = lFrame;
 		
@@ -378,15 +382,15 @@
             self.height = self.height + lHeight + PADDING;
 			
             // Move indicator to make room for the new label
-            indFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
+            indFrame.origin.y -= (floorf(lHeight / 2 + PADDING / 2));
             indicator.frame = indFrame;
 			
             // Move first label to make room for the new label
-            lFrame.origin.y -= (floor(lHeight / 2 + PADDING / 2));
+            lFrame.origin.y -= (floorf(lHeight / 2 + PADDING / 2));
             label.frame = lFrame;
 			
             // Set label position and dimensions
-            CGRect lFrameD = CGRectMake(floor((frame.size.width - lWidth) / 2) + xOffset,
+            CGRect lFrameD = CGRectMake(floorf((frame.size.width - lWidth) / 2) + xOffset,
                                         lFrame.origin.y + lFrame.size.height + PADDING, lWidth, lHeight);
             detailsLabel.frame = lFrameD;
 			
@@ -492,7 +496,7 @@
     isFinished = YES;
 	
     // If delegate was set make the callback
-    self.alpha = 0.0;
+    self.alpha = 0.0f;
     
 	if(delegate != nil && [delegate respondsToSelector:@selector(hudWasHidden)]) {
 		[delegate performSelector:@selector(hudWasHidden)];
@@ -518,9 +522,9 @@
 #pragma mark Fade in and Fade out
 
 - (void)showUsingAnimation:(BOOL)animated {
-    self.alpha = 0.0;
+    self.alpha = 0.0f;
     if (animated && animationType == MBProgressHUDAnimationZoom) {
-        self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5, 1.5));
+        self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
     }
     
 	self.showStarted = [NSDate date];
@@ -528,14 +532,14 @@
     if (animated) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.30];
-        self.alpha = 1.0;
+        self.alpha = 1.0f;
         if (animationType == MBProgressHUDAnimationZoom) {
             self.transform = rotationTransform;
         }
         [UIView commitAnimations];
     }
     else {
-        self.alpha = 1.0;
+        self.alpha = 1.0f;
     }
 }
 
@@ -549,13 +553,13 @@
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
         if (animationType == MBProgressHUDAnimationZoom) {
-            self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5, 0.5));
+            self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
         }
-        self.alpha = 0.02;
+        self.alpha = 0.02f;
         [UIView commitAnimations];
     }
     else {
-        self.alpha = 0.0;
+        self.alpha = 0.0f;
         [self done];
     }
 }
@@ -574,12 +578,12 @@
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextBeginPath(context);
-    CGContextSetGrayFillColor(context, 0.0, self.opacity);
+    CGContextSetGrayFillColor(context, 0.0f, self.opacity);
     CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
-    CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMinY(boxRect) + radius, radius, 3 * M_PI / 2, 0, 0);
-    CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMaxY(boxRect) - radius, radius, 0, M_PI / 2, 0);
-    CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMaxY(boxRect) - radius, radius, M_PI / 2, M_PI, 0);
-    CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect) + radius, radius, M_PI, 3 * M_PI / 2, 0);
+    CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMinY(boxRect) + radius, radius, 3 * (float)M_PI / 2, 0, 0);
+    CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMaxY(boxRect) - radius, radius, 0, (float)M_PI / 2, 0);
+    CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMaxY(boxRect) - radius, radius, (float)M_PI / 2, (float)M_PI, 0);
+    CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect) + radius, radius, (float)M_PI, 3 * (float)M_PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
 }
@@ -587,7 +591,7 @@
 #pragma mark -
 #pragma mark Manual oritentation change
 
-#define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+#define RADIANS(degrees) ((degrees * (float)M_PI) / 180.0f)
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification { 
 	if (!self.superview) {
@@ -674,8 +678,8 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
 	
     // Draw background
-    CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0); // white
-    CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 0.1); // translucent white
+    CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white
+    CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 0.1f); // translucent white
     CGContextSetLineWidth(context, 2.0f);
     CGContextFillEllipseInRect(context, circleRect);
     CGContextStrokeEllipseInRect(context, circleRect);
@@ -683,8 +687,8 @@
     // Draw progress
     CGPoint center = CGPointMake(allRect.size.width / 2, allRect.size.height / 2);
     CGFloat radius = (allRect.size.width - 4) / 2;
-    CGFloat startAngle = - (M_PI / 2); // 90 degrees
-    CGFloat endAngle = (self.progress * 2 * M_PI) + startAngle;
+    CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
+    CGFloat endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
     CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white
     CGContextMoveToPoint(context, center.x, center.y);
     CGContextAddArc(context, center.x, center.y, radius, startAngle, endAngle, 0);
