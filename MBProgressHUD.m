@@ -599,7 +599,7 @@
 }
 
 - (void)setTransformForCurrentOrientation:(BOOL)animated {
-	UIDeviceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 	NSInteger degrees = 0;
 	
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
@@ -627,7 +627,9 @@
 @implementation MBRoundProgressView
 
 - (id)initWithDefaultSize {
-    return [super initWithFrame:CGRectMake(0.0f, 0.0f, 37.0f, 37.0f)];
+    self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 37.0f, 37.0f)];
+    self.backgroundColor = [UIColor clearColor];
+    return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -652,6 +654,15 @@
     CGContextAddArc(context, x, y, (allRect.size.width - 4) / 2, -(PI / 2), (self.progress * 2 * PI) - PI / 2, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
+}
+
+-(float)progress {
+    return progress;
+}
+
+-(void)setProgress:(float)newProgress {
+    progress = newProgress;
+    [self setNeedsDisplay];
 }
 
 @end
