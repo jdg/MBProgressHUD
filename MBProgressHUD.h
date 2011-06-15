@@ -67,12 +67,12 @@ typedef enum {
  * A progress view for showing definite progress by filling up a circle (similar to the indicator for building in xcode).
  */
 @interface MBRoundProgressView : UIView {
-    /** Store the progress **/
+    /** Store the progress */
     float progress;
 }
 
-/** Allow setting the progress in the same way as UIProgressView **/
-@property (nonatomic, assign) float progress;
+/** Allow setting the progress in the same way as UIProgressView */
+@property (assign) float progress;
 
 /**
  * Create a 37 by 37 pixel indicator. 
@@ -121,8 +121,9 @@ typedef enum {
 	BOOL taskInProgress;
 	float graceTime;
 	float minShowTime;
+    float hideDelayTime;
 	NSTimer *graceTimer;
-	NSTimer *minShowTimer;
+	NSTimer *hideTimer;
 	NSDate *showStarted;
 	
 	UIView *indicator;
@@ -262,6 +263,16 @@ typedef enum {
  * Defaults to 0 (no minimum show time).
  */
 @property (assign) float minShowTime;
+
+/**
+ * The time (in seconds) to wait after hide is called before
+ * the HUD should hide.
+ * Defaults to 0 (hides instantly)
+ *
+ * This is useful if you have finished your task but wish to change the status to, for example, 'Done'
+ * and display this to the user for a period of time
+ */
+@property (assign) float hideDelayTime;
 
 /**
  * Indicates that the executed operation is in progress. Needed for correct graceTime operation.

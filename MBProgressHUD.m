@@ -17,7 +17,7 @@
 - (void)updateProgress;
 - (void)updateIndicators;
 - (void)handleGraceTimer:(NSTimer *)theTimer;
-- (void)handleMinShowTimer:(NSTimer *)theTimer;
+- (void)handleHideTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
 - (void)cleanUp;
 - (void)deviceOrientationDidChange:(NSNotification*)notification;
@@ -27,7 +27,7 @@
 @property (assign) float width;
 @property (assign) float height;
 @property (retain) NSTimer *graceTimer;
-@property (retain) NSTimer *minShowTimer;
+@property (retain) NSTimer *hideTimer;
 @property (retain) NSDate *showStarted;
 
 @end
@@ -54,8 +54,9 @@
 
 @synthesize graceTime;
 @synthesize minShowTime;
+@synthesize hideDelayTime;
 @synthesize graceTimer;
-@synthesize minShowTimer;
+@synthesize hideTimer;
 @synthesize taskInProgress;
 @synthesize removeFromSuperViewOnHide;
 
@@ -256,6 +257,7 @@
         self.yOffset = 0.0;
 		self.graceTime = 0.0;
 		self.minShowTime = 0.0;
+        self.hideDelayTime = 0.0;
 		self.removeFromSuperViewOnHide = NO;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -288,7 +290,7 @@
     [labelText release];
     [detailsLabelText release];
 	[graceTimer release];
-	[minShowTimer release];
+	[hideTimer release];
 	[showStarted release];
 	[customView release];
     [super dealloc];
@@ -422,21 +424,33 @@
 
 - (void)hide:(BOOL)animated {
 	useAnimation = animated;
-	
-	// If the minShow time is set, calculate how long the hud was shown,
-	// and pospone the hiding operation if necessary
-	if (self.minShowTime > 0.0 && showStarted) {
-		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:showStarted];
-		if (interv < self.minShowTime) {
-			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) 
-																 target:self 
-															   selector:@selector(handleMinShowTimer:) 
-															   userInfo:nil 
-																repeats:NO];
-			return;
-		} 
-	}
-	
+
+    //If the view hasn't been shown yet, hiding it after a time is dumb so we
+    //only care about any of these timers if the thing is actually visible
+    float delayToHide = 0.0;
+    if (showStarted) {
+        NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:showStarted];
+        if (interv < self.minShowTime) {
+            delayToHide = (self.minShowTime - interv);
+        }
+        //if the hide delay is greater than the time remaining on minShowTime
+        //then minShowTime is irrelevant so set it to the delayToHideTime
+        if (self.hideDelayTime > delayToHide) {
+            delayToHide = self.hideDelayTime;
+        }
+    }
+    
+    //Having calculated which number to trust, if we're left with a delay, wait
+    //this long before hiding the
+    if (delayToHide > 0.0) {
+        self.hideTimer = [NSTimer scheduledTimerWithTimeInterval:delayToHide 
+                                                             target:self 
+                                                           selector:@selector(handleHideTimer:) 
+                                                           userInfo:nil 
+                                                            repeats:NO];
+        return;
+    }
+
 	// ... otherwise hide the HUD immediately
     [self hideUsingAnimation:useAnimation];
 }
@@ -449,7 +463,7 @@
 	}
 }
 
-- (void)handleMinShowTimer:(NSTimer *)theTimer {
+- (void)handleHideTimer:(NSTimer *)theTimer {
 	[self hideUsingAnimation:useAnimation];
 }
 
