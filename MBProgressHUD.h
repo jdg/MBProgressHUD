@@ -6,7 +6,7 @@
 
 // This code is distributed under the terms and conditions of the MIT license. 
 
-// Copyright (c) 2009 Matej Bukovinski
+// Copyright (c) 2011 Matej Bukovinski
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
