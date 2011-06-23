@@ -86,6 +86,8 @@ typedef enum {
 	
 	float margin;
 	
+	BOOL dimBackground;
+	
 	BOOL taskInProgress;
 	float graceTime;
 	float minShowTime;
@@ -219,6 +221,11 @@ typedef enum {
  */
 @property (assign) float margin;
 
+/** 
+ * Cover the HUD background view with a radial gradient. 
+ */
+@property (assign) BOOL dimBackground;
+
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
  * showing the HUD. If the task finishes befor the grace time runs out, the HUD will
@@ -268,11 +275,6 @@ typedef enum {
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
 @property (assign) float progress;
-
-/** 
- * Show HUD with a radial gradient 
- */
-@property (assign) BOOL canShowGradient;
 
 
 /** 

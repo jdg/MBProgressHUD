@@ -55,6 +55,7 @@
 @synthesize xOffset;
 @synthesize yOffset;
 @synthesize margin;
+@synthesize dimBackground;
 
 @synthesize graceTime;
 @synthesize minShowTime;
@@ -66,7 +67,6 @@
 @synthesize customView;
 
 @synthesize showStarted;
-@synthesize canShowGradient;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -256,6 +256,7 @@
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
         self.xOffset = 0.0f;
         self.yOffset = 0.0f;
+		self.dimBackground = NO;
 		self.margin = 20.0f;
 		self.graceTime = 0.0f;
 		self.minShowTime = 0.0f;
@@ -577,13 +578,13 @@
 	
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    if (canShowGradient) {
+    if (dimBackground) {
         //Gradient colours
         size_t gradLocationsNum = 2;
-        CGFloat gradLocations[2] = { 0.0, 1.0 };
-        CGFloat gradColors[8] = { 0,0,0,0.0, 0,0,0,0.75}; 
+        CGFloat gradLocations[2] = {0.0f, 1.0f};
+        CGFloat gradColors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.75f}; 
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGGradientRef gradient = CGGradientCreateWithColorComponents (colorSpace, gradColors, gradLocations, gradLocationsNum);
+        CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, gradColors, gradLocations, gradLocationsNum);
         
         //Gradient center
         CGPoint gradCenter= CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
