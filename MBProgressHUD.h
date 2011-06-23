@@ -270,6 +270,12 @@ typedef enum {
 @property (assign) float progress;
 
 /** 
+ * Show HUD with a radial gradient 
+ */
+@property (assign) BOOL canShowGradient;
+
+
+/** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
  * (e.g., when using something like NSOperation or calling an asynchronous call like NSUrlRequest).
