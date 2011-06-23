@@ -66,6 +66,7 @@
 @synthesize customView;
 
 @synthesize showStarted;
+@synthesize canShowGradient;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -574,6 +575,26 @@
 
 - (void)drawRect:(CGRect)rect {
 	
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    if (canShowGradient) {
+        //Gradient colours
+        size_t gradLocationsNum = 2;
+        CGFloat gradLocations[2] = { 0.0, 1.0 };
+        CGFloat gradColors[8] = { 0,0,0,0.0, 0,0,0,0.75}; 
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        CGGradientRef gradient = CGGradientCreateWithColorComponents (colorSpace, gradColors, gradLocations, gradLocationsNum);
+        
+        //Gradient center
+        CGPoint gradCenter= CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+        //Gradient radius
+        float gradRadius = MIN(self.bounds.size.width , self.bounds.size.height) ;
+        //Gradient draw
+        CGContextDrawRadialGradient (context, gradient, gradCenter,
+                                     0, gradCenter, gradRadius,
+                                     kCGGradientDrawsAfterEndLocation);
+    }    
+    
     // Center HUD
     CGRect allRect = self.bounds;
     // Draw rounded HUD bacgroud rect
@@ -582,7 +603,6 @@
 	// Corner radius
 	float radius = 10.0f;
 	
-	CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextBeginPath(context);
     CGContextSetGrayFillColor(context, 0.0f, self.opacity);
     CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
