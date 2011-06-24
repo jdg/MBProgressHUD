@@ -352,7 +352,7 @@
     indFrame.origin.y = floor((frame.size.height - indFrame.size.height) / 2) + self.yOffset;
     indicator.frame = indFrame;
 	
-	CGRect lFrame;
+	CGRect lFrame = CGRectZero;
 	
     // Add label if label text was set
     if (nil != self.labelText) {
