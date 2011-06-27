@@ -157,6 +157,7 @@
 	
 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	[connection start];
+	[connection release];
 	
 	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
 }
@@ -237,12 +238,10 @@
 	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
     HUD.mode = MBProgressHUDModeCustomView;
 	[HUD hide:YES afterDelay:2];
-	[connection release];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	[HUD hide:YES];
-	[connection release];
 }
 
 #pragma mark -

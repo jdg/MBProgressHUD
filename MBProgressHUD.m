@@ -585,6 +585,7 @@
         CGFloat gradColors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.75f}; 
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, gradColors, gradLocations, gradLocationsNum);
+		CGColorSpaceRelease(colorSpace);
         
         //Gradient center
         CGPoint gradCenter= CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
@@ -594,6 +595,7 @@
         CGContextDrawRadialGradient (context, gradient, gradCenter,
                                      0, gradCenter, gradRadius,
                                      kCGGradientDrawsAfterEndLocation);
+		CGGradientRelease(gradient);
     }    
     
     // Center HUD
