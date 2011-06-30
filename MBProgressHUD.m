@@ -183,9 +183,10 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
     self = [super initWithFrame:frame];
 	if (self) {
 		background = [[UIView alloc] initWithFrame:self.bounds];
-		[background setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.8f]];
-		[background setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
-		[[background layer] setCornerRadius:10.0f];
+		background.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8f];
+		background.opaque = NO;
+		background.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+		background.layer.cornerRadius = 10.0f;
 		[self addSubview:background];
 		
         // Set default values for properties
