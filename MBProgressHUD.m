@@ -11,7 +11,6 @@
 - (void)hideUsingAnimation:(BOOL)animated;
 - (void)showUsingAnimation:(BOOL)animated;
 - (void)done;
-- (void)updateProgress;
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
@@ -101,22 +100,13 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
 	
     // Update display ony if showing the determinate progress view
     if (mode == MBProgressHUDModeDeterminate) {
-		if ([NSThread isMainThread]) {
-			[self updateProgress];
-			[self setNeedsDisplay];
-		} else {
-			[self performSelectorOnMainThread:@selector(updateProgress) withObject:nil waitUntilDone:NO];
-			[self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
-		}
+		NSAssert([NSThread isMainThread], @"Must set progress on main thread");
+		[(MBRoundProgressView *)indicator setProgress:progress];
     }
 }
 
 - (float)progress {
 	return progress;
-}
-
-- (void)updateProgress {
-    [(MBRoundProgressView *)indicator setProgress:progress];
 }
 
 #pragma mark -
