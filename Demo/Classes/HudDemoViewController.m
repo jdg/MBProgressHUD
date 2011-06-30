@@ -61,7 +61,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
     HUD.delegate = self;
-    HUD.labelText = @"Loading";
+    HUD.label.text = @"Loading";
 	
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
@@ -72,8 +72,8 @@
     [self.navigationController.view addSubview:HUD];
 	
     HUD.delegate = self;
-    HUD.labelText = @"Loading";
-    HUD.detailsLabelText = @"updating data";
+    HUD.label.text = @"Loading";
+    HUD.detailsLabel.text = @"updating data";
 	
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
@@ -87,7 +87,7 @@
     HUD.mode = MBProgressHUDModeDeterminate;
     
 	HUD.delegate = self;
-    HUD.labelText = @"Loading";
+    HUD.label.text = @"Loading";
 	
 	// myProgressTask uses the HUD instance to update progress
     [HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
@@ -106,7 +106,7 @@
     HUD.mode = MBProgressHUDModeCustomView;
 	
     HUD.delegate = self;
-    HUD.labelText = @"Completed";
+    HUD.label.text = @"Completed";
 	
     [HUD show:YES];
 	[HUD hide:YES afterDelay:3];
@@ -118,7 +118,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
     HUD.delegate = self;
-    HUD.labelText = @"Connecting";
+    HUD.label.text = @"Connecting";
 	
     [HUD showWhileExecuting:@selector(myMixedTask) onTarget:self withObject:nil animated:YES];
 }
@@ -127,7 +127,7 @@
 #ifdef __BLOCKS__
 	// No need to retain (just a local variable)
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-	hud.labelText = @"Loading";
+	hud.label.text = @"Loading";
 	
 	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		// Do a taks in the background
@@ -146,7 +146,7 @@
     [self.view.window addSubview:HUD];
 	
     HUD.delegate = self;
-    HUD.labelText = @"Loading";
+    HUD.label.text = @"Loading";
 	
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
@@ -200,7 +200,7 @@
     sleep(2);
     // Switch to determinate mode
     HUD.mode = MBProgressHUDModeDeterminate;
-    HUD.labelText = @"Progress";
+    HUD.label.text = @"Progress";
     float progress = 0.0f;
     while (progress < 1.0f)
     {
@@ -210,13 +210,13 @@
     }
     // Back to indeterminate mode
     HUD.mode = MBProgressHUDModeIndeterminate;
-    HUD.labelText = @"Cleaning up";
+    HUD.label.text = @"Cleaning up";
     sleep(2);
 	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
 	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
 	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
 	HUD.mode = MBProgressHUDModeCustomView;
-	HUD.labelText = @"Completed";
+	HUD.label.text = @"Completed";
 	sleep(2);
 }
 
