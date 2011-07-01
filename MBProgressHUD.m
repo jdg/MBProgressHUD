@@ -84,8 +84,8 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
 	CGRect indFrame = self.indicator.frame;
 	indFrame.origin.y = margin;
 	indFrame.origin.x = floorf(background.frame.size.width / 2.0 - indFrame.size.width / 2.0);
-	[indicator setFrame:indFrame];
-	indicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+	self.indicator.frame = indFrame;
+	self.indicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 	
     [background addSubview:indicator];
 	[self setNeedsLayout];
