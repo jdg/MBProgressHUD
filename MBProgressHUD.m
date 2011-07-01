@@ -175,6 +175,7 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
 		background = [[UIView alloc] initWithFrame:self.bounds];
 		background.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8f];
 		background.opaque = NO;
+		background.center = CGPointMake(floorf(frame.size.width / 2.0), floorf(frame.size.height / 2.0));
 		background.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		background.layer.cornerRadius = 10.0f;
 		[self addSubview:background];
@@ -281,11 +282,7 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
         }
     }
 	
-	// Center HUD
-    CGRect boxRect = CGRectMake(roundf((bounds.size.width - width) / 2),
-                                roundf((bounds.size.height - height) / 2), 
-								width, height);
-	[background setFrame:boxRect];
+	background.bounds = CGRectMake(0, 0, width, height);
 	
 	// Size and position labels
 	CGRect lFrame = label.frame;
