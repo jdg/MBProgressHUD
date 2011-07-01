@@ -175,7 +175,7 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
 		background = [[UIView alloc] initWithFrame:self.bounds];
 		background.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8f];
 		background.opaque = NO;
-		background.center = CGPointMake(floorf(frame.size.width / 2.0), floorf(frame.size.height / 2.0));
+		background.center = CGPointMake(roundf(frame.size.width / 2.0), roundf(frame.size.height / 2.0));
 		background.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 		background.layer.cornerRadius = 10.0f;
 		[self addSubview:background];
@@ -199,8 +199,7 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
         self.alpha = 0.0f;
 		
         // Add label
-        label = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, margin / 2.0, 0)];
-		label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        label = [[UILabel alloc] initWithFrame:self.bounds];
         label.font = [UIFont boldSystemFontOfSize:LABELFONTSIZE];
         label.adjustsFontSizeToFitWidth = NO;
         label.textAlignment = UITextAlignmentCenter;
@@ -211,8 +210,7 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
 		[background addSubview:label];
 		
         // Add details label
-        detailsLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.bounds, margin / 2.0, 0)];
-		detailsLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		detailsLabel.font = [UIFont boldSystemFontOfSize:LABELDETAILSFONTSIZE];
 		detailsLabel.adjustsFontSizeToFitWidth = NO;
 		detailsLabel.textAlignment = UITextAlignmentCenter;
@@ -282,18 +280,19 @@ static NSString *MBProgressHUDLabelContext = @"MBProgressHUDLabelContext";
         }
     }
 	
+	// Make sure width and height are evenly divisible by two, or fractional 
+	// offset would result for labels (which are centered)
+	width = roundf(width / 2.0) * 2.0;
+	height = roundf(height / 2.0) * 2.0;
+	
 	background.bounds = CGRectMake(0, 0, width, height);
 	
 	// Size and position labels
-	CGRect lFrame = label.frame;
-	lFrame.origin.y = floorf(margin + indFrame.size.height + PADDING);
-	lFrame.size.height = lHeight;
-	label.frame = lFrame;
+	label.frame = CGRectMake(margin, floorf(margin + indFrame.size.height + PADDING), 
+							 width - margin * 2, lHeight);
 	
-	CGRect dlFrame = detailsLabel.frame;
-	dlFrame.origin.y = lFrame.origin.y + lFrame.size.height + PADDING;
-	dlFrame.size.height = dlHeight;
-	detailsLabel.frame = dlFrame;
+	detailsLabel.frame = CGRectMake(margin, label.frame.origin.y + label.frame.size.height + PADDING, 
+									width - margin * 2, dlHeight);
 }
 
 + (NSArray *)labelKeyPaths {
