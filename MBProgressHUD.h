@@ -27,6 +27,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @protocol MBProgressHUDDelegate;
 
@@ -78,12 +79,6 @@ typedef enum {
 	id objectForExecution;
 	BOOL useAnimation;
 	
-    float yOffset;
-    float xOffset;
-	
-	float width;
-	float height;
-	
 	float margin;
 	
 	BOOL dimBackground;
@@ -95,6 +90,7 @@ typedef enum {
 	NSTimer *minShowTimer;
 	NSDate *showStarted;
 	
+	UIView *background;
 	UIView *indicator;
 	UILabel *label;
 	UILabel *detailsLabel;
@@ -102,11 +98,6 @@ typedef enum {
 	float progress;
 	
 	id<MBProgressHUDDelegate> delegate;
-	NSString *labelText;
-	NSString *detailsLabelText;
-	float opacity;
-	UIFont *labelFont;
-	UIFont *detailsLabelFont;
 	
     BOOL isFinished;
 	BOOL removeFromSuperViewOnHide;
@@ -164,6 +155,25 @@ typedef enum {
  */
 @property (retain) UIView *customView;
 
+/**
+ * The UIView that surrounds the indicator and labels. This defaults to a view
+ * with corner radius 10.0 and background color of black 80% alpha.
+ */
+@property (nonatomic, retain, readonly) UIView *background;
+
+/**
+ * A label displayed beneath the indicator. You can set the font and text and 
+ * the HUD will automatically resize.
+ */
+@property (nonatomic, retain, readonly) UILabel *label;
+
+/**
+ * A label displayed beneath the main label. Like label, it automatically 
+ * resizes and positions when you set font or text. You *must* have label set
+ * to display some text for this label to appear.
+ */
+@property (nonatomic, retain, readonly) UILabel *detailsLabel;
+
 /** 
  * MBProgressHUD operation mode. Switches between indeterminate (MBProgressHUDModeIndeterminate) and determinate
  * progress (MBProgressHUDModeDeterminate). The default is MBProgressHUDModeIndeterminate.
@@ -185,34 +195,6 @@ typedef enum {
  * object will not be retained.
  */
 @property (assign) id<MBProgressHUDDelegate> delegate;
-
-/** 
- * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
- * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
- * set to @"", then no message is displayed.
- */
-@property (copy) NSString *labelText;
-
-/** 
- * An optional details message displayed below the labelText message. This message is displayed only if the labelText
- * property is also set and is different from an empty string (@"").
- */
-@property (copy) NSString *detailsLabelText;
-
-/** 
- * The opacity of the HUD window. Defaults to 0.9 (90% opacity). 
- */
-@property (assign) float opacity;
-
-/** 
- * The x-axis offset of the HUD relative to the centre of the superview. 
- */
-@property (assign) float xOffset;
-
-/** 
- * The y-ayis offset of the HUD relative to the centre of the superview. 
- */
-@property (assign) float yOffset;
 
 /**
  * The amounth of space between the HUD edge and the HUD elements (labels, indicators or custom views).
@@ -260,16 +242,6 @@ typedef enum {
  * Defaults to NO. 
  */
 @property (assign) BOOL removeFromSuperViewOnHide;
-
-/** 
- * Font to be used for the main label. Set this property if the default is not adequate. 
- */
-@property (retain) UIFont* labelFont;
-
-/** 
- * Font to be used for the details label. Set this property if the default is not adequate. 
- */
-@property (retain) UIFont* detailsLabelFont;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
