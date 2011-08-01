@@ -642,7 +642,7 @@
 
 - (void)hideUsingAnimation:(BOOL)animated {
     // Fade out
-    if (animated) {
+    if (animated && showStarted) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.30];
         [UIView setAnimationDelegate:self];
