@@ -54,6 +54,7 @@
 @synthesize height;
 @synthesize xOffset;
 @synthesize yOffset;
+@synthesize minSize;
 @synthesize margin;
 @synthesize dimBackground;
 
@@ -261,6 +262,7 @@
 		self.graceTime = 0.0f;
 		self.minShowTime = 0.0f;
 		self.removeFromSuperViewOnHide = NO;
+		self.minSize = CGSizeZero;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
@@ -401,6 +403,13 @@
             [self addSubview:detailsLabel];
         }
     }
+	
+	if (self.width < minSize.width) {
+		self.width = minSize.width;
+	} 
+	if (self.height < minSize.height) {
+		self.height = minSize.height;
+	}
 }
 
 #pragma mark -

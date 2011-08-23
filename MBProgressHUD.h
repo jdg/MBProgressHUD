@@ -84,6 +84,8 @@ typedef enum {
 	float width;
 	float height;
 	
+	CGSize minSize;
+	
 	float margin;
 	
 	BOOL dimBackground;
@@ -276,6 +278,10 @@ typedef enum {
  */
 @property (assign) float progress;
 
+/**
+ * The minimum size of the HUD bezel. Defaults to CGSizeZero.
+ */
+@property (assign) CGSize minSize;
 
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
