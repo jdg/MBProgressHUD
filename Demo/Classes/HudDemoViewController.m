@@ -74,6 +74,7 @@
     HUD.delegate = self;
     HUD.labelText = @"Loading";
     HUD.detailsLabelText = @"updating data";
+    HUD.detailsLabelText = @"updating data\nNow also in multiple lines.";
 	
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
