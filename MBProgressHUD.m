@@ -324,7 +324,7 @@
         // Compute label dimensions based on font metrics if size is larger than max then clip the label width
         float lHeight = dims.height;
         float lWidth;
-        if (dims.width <= (frame.size.width - 2 * margin)) {
+        if (dims.width <= (frame.size.width - 4 * margin)) {
             lWidth = dims.width;
         }
         else {
