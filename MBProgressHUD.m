@@ -360,17 +360,6 @@
 		
         // Add details label delatils text was set
         if (nil != self.detailsLabelText) {
-            // Get size of label text
-            dims = [self.detailsLabelText sizeWithFont:self.detailsLabelFont];
-			
-            // Compute label dimensions based on font metrics if size is larger than max then clip the label width
-            lHeight = dims.height;
-            if (dims.width <= (frame.size.width - 2 * margin)) {
-                lWidth = dims.width;
-            }
-            else {
-                lWidth = frame.size.width - 4 * margin;
-            }
 			
             // Set label properties
             detailsLabel.font = self.detailsLabelFont;
@@ -380,6 +369,11 @@
             detailsLabel.backgroundColor = [UIColor clearColor];
             detailsLabel.textColor = [UIColor whiteColor];
             detailsLabel.text = self.detailsLabelText;
+            detailsLabel.numberOfLines = 0;
+
+            CGSize labelSize = [detailsLabel sizeThatFits:CGSizeMake(frame.size.width-4*margin, CGFLOAT_MAX)];
+            lHeight = labelSize.height;
+            lWidth = labelSize.width;
 			
             // Update HUD size
             if (self.width < lWidth) {
