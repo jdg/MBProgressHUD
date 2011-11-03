@@ -642,8 +642,12 @@
 	if (!self.superview) {
 		return;
 	}
+	
 	if ([self.superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:YES];
+	} else {
+		self.bounds = self.superview.bounds;
+		[self setNeedsDisplay];
 	}
 }
 
