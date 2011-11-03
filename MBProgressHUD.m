@@ -371,7 +371,8 @@
             detailsLabel.text = self.detailsLabelText;
             detailsLabel.numberOfLines = 0;
 
-            CGSize labelSize = [detailsLabel sizeThatFits:CGSizeMake(frame.size.width-4*margin, CGFLOAT_MAX)];
+			CGFloat maxHeight = frame.size.height - self.height - 2*margin;
+			CGSize labelSize = [detailsLabel.text sizeWithFont:detailsLabel.font constrainedToSize:CGSizeMake(frame.size.width - 4*margin, maxHeight) lineBreakMode:detailsLabel.lineBreakMode];
             lHeight = labelSize.height;
             lWidth = labelSize.width;
 			
