@@ -73,7 +73,8 @@
 	
     HUD.delegate = self;
     HUD.labelText = @"Loading";
-    HUD.detailsLabelText = @"updating data";
+    HUD.detailsLabelText = @"udating data";
+	HUD.square = YES;
 	
     [HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
@@ -119,6 +120,7 @@
 	
     HUD.delegate = self;
     HUD.labelText = @"Connecting";
+	HUD.minSize = CGSizeMake(135.f, 135.f);
 	
     [HUD showWhileExecuting:@selector(myMixedTask) onTarget:self withObject:nil animated:YES];
 }
