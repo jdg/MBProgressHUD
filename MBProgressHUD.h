@@ -285,7 +285,7 @@ typedef enum {
 @property (assign) CGSize minSize;
 
 /**
- * Force the HUD dimensions to be eual if possible. 
+ * Force the HUD dimensions to be equal if possible. 
  */
 @property (assign, getter = isSquare) BOOL square;
 
