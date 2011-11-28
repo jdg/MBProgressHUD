@@ -25,6 +25,7 @@
 - (void)hideDelayed:(NSNumber *)animated;
 - (void)launchExecution;
 - (void)cleanUp;
+- (void)hideAnimatedAfterDelayOnMainThread:(id)userInfo;
 
 @property (retain) UIView *indicator;
 @property (assign) float width;
@@ -461,8 +462,21 @@
     [self hideUsingAnimation:useAnimation];
 }
 
+- (void)hideAnimatedAfterDelayOnMainThread:(id)userInfo
+{
+    BOOL animated = [[userInfo objectForKey:@"animated"] boolValue];
+    NSTimeInterval delay = [[userInfo objectForKey:@"delay"] doubleValue];
+    [self performSelector:@selector(hideDelayed:) 
+               withObject:[NSNumber numberWithBool:animated] 
+               afterDelay:delay];
+}
+
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
-	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:delay] afterDelay:delay];
+    [self performSelectorOnMainThread:@selector(hideAnimatedAfterDelayOnMainThread:) 
+                           withObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithDouble:delay], @"delay", 
+                                          [NSNumber numberWithBool:animated], @"animated", nil] 
+                        waitUntilDone:YES];
 }
 
 - (void)hideDelayed:(NSNumber *)animated {
