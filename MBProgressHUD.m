@@ -309,7 +309,14 @@
     CGRect frame = self.bounds;
 	
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
-    CGRect indFrame = indicator.bounds;
+    
+    // In iOS 4.2, using the bounds as the base rect here breaks layout (the
+    // origin's x value is returned as the y).
+    CGRect indFrame = CGRectMake(indicator.bounds.origin.x,
+                                 indicator.bounds.origin.y,
+                                 indicator.bounds.size.width,
+                                 indicator.bounds.size.height);
+    
     self.width = indFrame.size.width + 2 * margin;
     self.height = indFrame.size.height + 2 * margin;
 	
