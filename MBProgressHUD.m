@@ -250,6 +250,20 @@
 	}
 }
 
++ (int)hideAllHUDForView:(UIView *)view animated:(BOOL)animated {
+	int HUDCounter = 0;
+
+	for (UIView *view in [view subviews]) {
+		if ([view isKindOfClass:[MBProgressHUD class]]) {
+			HUDCounter++;
+			MBProgressHUD *hud = (MBProgressHUD *)view;
+			hud.removeFromSuperViewOnHide = YES;
+			[hud hide:animated];
+		}
+	}
+
+	return HUDCounter;
+};
 
 #pragma mark -
 #pragma mark Lifecycle methods
