@@ -132,7 +132,7 @@ typedef enum {
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds a HUD sibview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ * Finds a HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -142,6 +142,18 @@ typedef enum {
  * @see hideHUDForView:animated:
  */
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
+
+/**
+ * Finds all the HUD subviews and hides them. The counterpart to this method is showHUDAddedTo:animated:.
+ *
+ * @param view The view that is going to be searched for HUD subviews.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @return the number of HUD found in the subviews and removed.
+ *
+ * @see hideAllHUDForView:animated:
+ */
++ (int)hideAllHUDForView:(UIView *)view animated:(BOOL)animated;
 
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
