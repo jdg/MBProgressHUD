@@ -139,6 +139,16 @@ typedef enum {
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
+ * Finds a HUD subview and returns it. This is used internally by hideHUDForFiew:animated:, but can also be useful externally.
+ *
+ * @param view The view that is going to be searched for a HUD subview.
+ * @return A reference to the last HUD subview discovered.
+ *
+ * @see hideHUDForView:animated:
+ */
++ (MBProgressHUD *)findHUDForView:(UIView *)view;
+
+/**
  * Finds a HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
