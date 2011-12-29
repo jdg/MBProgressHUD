@@ -156,7 +156,7 @@ typedef enum {
  * animations while disappearing.
  * @return YES if a HUD was found and removed, NO otherwise. 
  *
- * @see hideHUDForView:animated:
+ * @see showHUDAddedTo:animated:
  */
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
