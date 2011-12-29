@@ -132,14 +132,14 @@ typedef enum {
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds a HUD sibview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ * Finds a HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
  * @return YES if a HUD was found and removed, NO otherwise. 
  *
- * @see hideHUDForView:animated:
+ * @see showHUDAddedTo:animated:
  */
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
