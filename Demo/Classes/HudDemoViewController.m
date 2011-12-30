@@ -130,10 +130,19 @@
 	// No need to retain (just a local variable)
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 	hud.labelText = @"Loading";
+	hud.minSize = CGSizeMake(135.f, 135.f); // size to fit the checkmark later
 	
 	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		// Do a taks in the background
 		[self myTask];
+		
+		// demonstrate how findHUDForView: works by changing the state
+		MBProgressHUD *aHud = [MBProgressHUD findHUDForView:self.navigationController.view];
+		aHud.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+		aHud.mode = MBProgressHUDModeCustomView;
+		aHud.labelText = @"Completed";
+		sleep(1);
+		
 		// Hide the HUD in the main tread 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];

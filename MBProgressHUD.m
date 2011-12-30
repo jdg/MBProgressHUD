@@ -203,13 +203,18 @@
 	return [hud autorelease];
 }
 
-+ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-	UIView *viewToRemove = nil;
++ (MBProgressHUD *)findHUDForView:(UIView *)view {
+	MBProgressHUD *hud = nil;
 	for (UIView *v in [view subviews]) {
 		if ([v isKindOfClass:[MBProgressHUD class]]) {
-			viewToRemove = v;
+			hud = (MBProgressHUD *)v;
 		}
 	}
+	return hud;
+}
+
++ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
+	MBProgressHUD *viewToRemove = [MBProgressHUD findHUDForView:view];
 	if (viewToRemove != nil) {
 		MBProgressHUD *HUD = (MBProgressHUD *)viewToRemove;
 		HUD.removeFromSuperViewOnHide = YES;
