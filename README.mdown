@@ -50,6 +50,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 Change-log
 ==========
 
+**Version 0.41** @ 03.01.12
+
+- Support for ARC.
+
 **Version 0.4** @ 25.07.10
 
 - Different animation modes. Default set to zoom.

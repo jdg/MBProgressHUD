@@ -104,8 +104,12 @@ typedef enum {
 	
 	float progress;
 	
+#if __has_feature(objc_arc)
+	id<MBProgressHUDDelegate> __weak delegate;
+#else
 	id<MBProgressHUDDelegate> delegate;
-	NSString *labelText;
+#endif
+    NSString *labelText;
 	NSString *detailsLabelText;
 	float opacity;
 	UIFont *labelFont;
@@ -165,8 +169,11 @@ typedef enum {
  * The UIView (i.g., a UIIMageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the build in indicator bounds). 
  */
+#if __has_feature(objc_arc)
+@property (strong) UIView *customView;
+#else
 @property (retain) UIView *customView;
-
+#endif
 /** 
  * MBProgressHUD operation mode. Switches between indeterminate (MBProgressHUDModeIndeterminate) and determinate
  * progress (MBProgressHUDModeDeterminate). The default is MBProgressHUDModeIndeterminate.
@@ -187,8 +194,11 @@ typedef enum {
  * delegate should conform to the MBProgressHUDDelegate protocol and implement the hudWasHidden method. The delegate
  * object will not be retained.
  */
+#if __has_feature(objc_arc)
+@property (weak) id<MBProgressHUDDelegate> delegate;
+#else
 @property (assign) id<MBProgressHUDDelegate> delegate;
-
+#endif
 /** 
  * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
  * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
@@ -267,13 +277,19 @@ typedef enum {
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
+#if __has_feature(objc_arc)
+@property (strong) UIFont* labelFont;
+#else
 @property (retain) UIFont* labelFont;
-
+#endif
 /** 
  * Font to be used for the details label. Set this property if the default is not adequate. 
  */
+#if __has_feature(objc_arc)
+@property (strong) UIFont* detailsLabelFont;
+#else
 @property (retain) UIFont* detailsLabelFont;
-
+#endif
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
