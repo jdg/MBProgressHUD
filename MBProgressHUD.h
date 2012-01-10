@@ -1,6 +1,6 @@
 //
 //  MBProgressHUD.h
-//  Version 0.4
+//  Version 0.4.1 by Angel91
 //  Created by Matej Bukovinski on 2.4.09.
 //
 
@@ -27,6 +27,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <objc/message.h>
 
 @protocol MBProgressHUDDelegate;
 
@@ -105,7 +106,7 @@ typedef enum {
 	float progress;
 	
 #if __has_feature(objc_arc)
-	id<MBProgressHUDDelegate> __weak delegate;
+	id<MBProgressHUDDelegate> __unsafe_unretained delegate;
 #else
 	id<MBProgressHUDDelegate> delegate;
 #endif
@@ -195,7 +196,7 @@ typedef enum {
  * object will not be retained.
  */
 #if __has_feature(objc_arc)
-@property (weak) id<MBProgressHUDDelegate> delegate;
+@property (unsafe_unretained) id<MBProgressHUDDelegate> delegate;
 #else
 @property (assign) id<MBProgressHUDDelegate> delegate;
 #endif
