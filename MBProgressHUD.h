@@ -1,6 +1,6 @@
 //
 //  MBProgressHUD.h
-//  Version 0.4
+//  Version 0.4.1 by Angel91
 //  Created by Matej Bukovinski on 2.4.09.
 //
 
@@ -27,6 +27,7 @@
 // THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <objc/message.h>
 
 @protocol MBProgressHUDDelegate;
 

@@ -1,6 +1,6 @@
 //
 // MBProgressHUD.m
-// Version 0.4
+// Version 0.4.1 by Angel91
 // Created by Matej Bukovinski on 2.4.09.
 //
 
@@ -538,8 +538,11 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 #endif	
     // Start executing the requested task
-    [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
+    
+    //[targetForExecution performSelector:methodForExecution withObject:objectForExecution];
 	
+    objc_msgSend(objectForExecution, methodForExecution); //using this function you no longer see any memory leak warning
+    
     // Task completed, update view in main thread (note: view operations should
     // be done only in the main thread)
     [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
