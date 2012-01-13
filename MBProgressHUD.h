@@ -103,12 +103,6 @@ typedef enum {
 	UILabel *detailsLabel;
 	
 	float progress;
-	
-#if __has_feature(objc_arc)
-	id<MBProgressHUDDelegate> __weak delegate;
-#else
-	id<MBProgressHUDDelegate> delegate;
-#endif
     NSString *labelText;
 	NSString *detailsLabelText;
 	float opacity;
@@ -194,8 +188,10 @@ typedef enum {
  * delegate should conform to the MBProgressHUDDelegate protocol and implement the hudWasHidden method. The delegate
  * object will not be retained.
  */
-#if __has_feature(objc_arc)
+#if __has_feature(objc_arc_weak)
 @property (weak) id<MBProgressHUDDelegate> delegate;
+#elif __has_feature(objc_arc)
+@property (unsafe_unretained) id<MBProgressHUDDelegate> delegate;
 #else
 @property (assign) id<MBProgressHUDDelegate> delegate;
 #endif
