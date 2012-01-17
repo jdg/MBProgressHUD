@@ -19,19 +19,26 @@
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
 - (void)cleanUp;
-- (void)deviceOrientationDidChange:(NSNotification*)notification;
 - (void)launchExecution;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
 - (void)launchExecution;
 - (void)cleanUp;
 
+#if __has_feature(objc_arc)
+@property (strong) UIView *indicator;
+@property (strong) NSTimer *graceTimer;
+@property (strong) NSTimer *minShowTimer;
+@property (strong) NSDate *showStarted;
+#else
 @property (retain) UIView *indicator;
-@property (assign) float width;
-@property (assign) float height;
 @property (retain) NSTimer *graceTimer;
 @property (retain) NSTimer *minShowTimer;
 @property (retain) NSDate *showStarted;
+#endif
+
+@property (assign) float width;
+@property (assign) float height;
 
 @end
 
@@ -149,14 +156,18 @@
 
 - (void)updateLabelText:(NSString *)newText {
     if (labelText != newText) {
+#if !__has_feature(objc_arc)
         [labelText release];
+#endif
         labelText = [newText copy];
     }
 }
 
 - (void)updateDetailsLabelText:(NSString *)newText {
     if (detailsLabelText != newText) {
+#if !__has_feature(objc_arc)
         [detailsLabelText release];
+#endif
         detailsLabelText = [newText copy];
     }
 }
@@ -171,13 +182,22 @@
     }
 	
     if (mode == MBProgressHUDModeDeterminate) {
+#if __has_feature(objc_arc)
+        self.indicator = [[MBRoundProgressView alloc] init];
+#else
         self.indicator = [[[MBRoundProgressView alloc] init] autorelease];
-    }
+#endif
+}
     else if (mode == MBProgressHUDModeCustomView && self.customView != nil){
         self.indicator = self.customView;
     } else {
+#if __has_feature(objc_arc)
+		self.indicator = [[UIActivityIndicatorView alloc]
+						   initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+#else
 		self.indicator = [[[UIActivityIndicatorView alloc]
 						   initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+#endif
         [(UIActivityIndicatorView *)indicator startAnimating];
 	}
 	
@@ -200,7 +220,11 @@
 	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
 	[view addSubview:hud];
 	[hud show:animated];
+#if __has_feature(objc_arc)
+	return hud;
+#else
 	return [hud autorelease];
+#endif
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
@@ -245,6 +269,15 @@
 	return me;
 }
 
+- (void)removeFromSuperview {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIDeviceOrientationDidChangeNotification
+                                                  object:nil];
+    
+    [super removeFromSuperview];
+}
+
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 	if (self) {
@@ -287,9 +320,8 @@
     return self;
 }
 
+#if !__has_feature(objc_arc)
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
     [indicator release];
     [label release];
     [detailsLabel release];
@@ -301,6 +333,7 @@
 	[customView release];
     [super dealloc];
 }
+#endif
 
 #pragma mark -
 #pragma mark Layout
@@ -484,9 +517,14 @@
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
 	
     methodForExecution = method;
+#if __has_feature(objc_arc)
+    targetForExecution = target;
+    objectForExecution = object;	
+#else
     targetForExecution = [target retain];
     objectForExecution = [object retain];
-	
+#endif
+    
     // Launch execution in new thread
 	taskInProgress = YES;
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
@@ -496,8 +534,9 @@
 }
 
 - (void)launchExecution {
+#if !__has_feature(objc_arc)
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
+#endif	
     // Start executing the requested task
     [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
 	
@@ -505,7 +544,9 @@
     // be done only in the main thread)
     [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
 	
+#if !__has_feature(objc_arc)
     [pool release];
+#endif
 }
 
 - (void)animationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
@@ -536,8 +577,10 @@
 	
 	self.indicator = nil;
 	
+#if !__has_feature(objc_arc)
     [targetForExecution release];
     [objectForExecution release];
+#endif
 	
     [self hide:useAnimation];
 }
