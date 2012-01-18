@@ -104,10 +104,12 @@ typedef enum {
 	
 	float progress;
 	
-#if __has_feature(objc_arc)
-	id<MBProgressHUDDelegate> __weak delegate;
+#if __has_feature(objc_arc_weak)
+    id<MBProgressHUDDelegate> __weak delegate;
+#elif __has_feature(objc_arc)
+    id<MBProgressHUDDelegate> __unsafe_unretained delegate;
 #else
-	id<MBProgressHUDDelegate> delegate;
+  	id<MBProgressHUDDelegate> delegate;
 #endif
     NSString *labelText;
 	NSString *detailsLabelText;
