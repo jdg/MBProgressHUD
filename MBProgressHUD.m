@@ -538,7 +538,10 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 #endif	
     // Start executing the requested task
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
+    #pragma clang diagnostic pop
 	
     // Task completed, update view in main thread (note: view operations should
     // be done only in the main thread)
