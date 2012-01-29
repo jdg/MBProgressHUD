@@ -235,6 +235,24 @@
 	return HUDCounter;
 };
 
++ (BOOL)stopIndicatorInHUDForView:(UIView *)view settingText:(NSString *)title andDetailText:(NSString *)detail {
+	UIView *viewToStop = nil;
+	for (UIView *v in [view subviews]) {
+		if ([v isKindOfClass:[MBProgressHUD class]]) {
+			viewToStop = v;
+		}
+	}
+	if (viewToStop != nil) {
+		MBProgressHUD *hud = (MBProgressHUD *)viewToStop;
+		[((UIActivityIndicatorView *)hud.indicator) stopAnimating];
+        [hud setLabelText:title];
+        [hud setDetailsLabelText:detail];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
 #pragma mark -
 #pragma mark Lifecycle methods
 

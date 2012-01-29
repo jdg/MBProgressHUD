@@ -155,6 +155,18 @@ typedef enum {
  */
 + (int)hideAllHUDForView:(UIView *)view animated:(BOOL)animated;
 
+/**
+ * Stops the activity indicator in a HUD subview and change its text and detail text.
+ *
+ * @param view The view that is going to be searched for HUD subviews.
+ * @param title the text to set in the labelText.
+ * @param detail the text to set in the detailLabelText.
+ * @return YES if a HUD was found, its activity indicator was stopped and the text labels were changed.
+ *
+ * @see hideAllHUDForView:animated:
+ */
++ (BOOL)stopIndicatorInHUDForView:(UIView *)view settingText:(NSString *)title andDetailText:(NSString *)detail;
+
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
  * window.bounds as the parameter.
