@@ -342,7 +342,8 @@
     CGRect frame = self.bounds;
 	
     // Compute HUD dimensions based on indicator size (add margin to HUD border)
-    CGRect indFrame = indicator.bounds;
+    CGRect indFrame = CGRectZero; // CGRect indFrame = indicator.bounds; <- This line caused issues on armv6 architecture / Release mode, with iOS SDK 5.0 and LLVM 3.0 compiler
+    indFrame.size = indicator.bounds.size;
     self.width = indFrame.size.width + 2 * margin;
     self.height = indFrame.size.height + 2 * margin;
 	
