@@ -322,6 +322,7 @@
 
 #if !__has_feature(objc_arc)
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [indicator release];
     [label release];
     [detailsLabel release];
