@@ -318,8 +318,10 @@
     return self;
 }
 
-#if !__has_feature(objc_arc)
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+#if !__has_feature(objc_arc)
     [indicator release];
     [label release];
     [detailsLabel release];
@@ -330,8 +332,8 @@
 	[showStarted release];
 	[customView release];
     [super dealloc];
-}
 #endif
+}
 
 #pragma mark -
 #pragma mark Layout
