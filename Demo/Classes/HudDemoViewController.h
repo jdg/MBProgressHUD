@@ -11,7 +11,7 @@
 
 @interface HudDemoViewController : UIViewController <MBProgressHUDDelegate> {
 	MBProgressHUD *HUD;
-	
+
 	long long expectedLength;
 	long long currentLength;
 }
@@ -20,6 +20,7 @@
 - (IBAction)showWithLabel:(id)sender;
 - (IBAction)showWithDetailsLabel:(id)sender;
 - (IBAction)showWithLabelDeterminate:(id)sender;
+- (IBAction)showWIthLabelAnnularDeterminate:(id)sender;
 - (IBAction)showWithCustomView:(id)sender;
 - (IBAction)showWithLabelMixed:(id)sender;
 - (IBAction)showUsingBlocks:(id)sender;
