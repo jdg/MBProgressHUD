@@ -28,10 +28,12 @@ If you have a git tracked project, you can add MBProgressHUD as a submodule to y
 3. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` to your classes group (in the Groups & Files view). 
 4. Don't select Copy items and select a suitable Reference type (relative to project should work fine most of the time). 
 
+You can also add MBProgressHUD as a static library to your workspace. See [this article](http://blog.carbonfive.com/2011/04/04/using-open-source-static-libraries-in-xcode-4/#using_a_static_library) for details. 
+
 Usage
 =====
 
-Extensive documentation is provided in the header file (MBProgressHUD.h). In additiona a full Xcode demo project is included in the Demo directory. 
+Extensive documentation is provided in the header file (MBProgressHUD.h). In addition a full Xcode demo project is included in the Demo directory. 
 
 License
 =======
