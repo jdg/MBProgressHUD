@@ -134,7 +134,7 @@
     progress = newProgress;
 	
     // Update display ony if showing the determinate progress view
-    if (mode == MBProgressHUDModeDeterminate) {
+    if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 		if ([NSThread isMainThread]) {
 			[self updateProgress];
 			[self setNeedsDisplay];
@@ -179,12 +179,15 @@
         [indicator removeFromSuperview];
     }
 	
-    if (mode == MBProgressHUDModeDeterminate) {
+    if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 #if __has_feature(objc_arc)
         self.indicator = [[MBRoundProgressView alloc] init];
 #else
         self.indicator = [[[MBRoundProgressView alloc] init] autorelease];
 #endif
+      if (mode == MBProgressHUDModeAnnularDeterminate) {
+        [(MBRoundProgressView *)self.indicator setIsAnnular:YES];
+      }
 }
     else if (mode == MBProgressHUDModeCustomView && self.customView != nil){
         self.indicator = self.customView;
@@ -733,6 +736,8 @@
 
 @implementation MBRoundProgressView
 
+@synthesize isAnnular = _isAnnular;
+
 #pragma mark -
 #pragma mark Accessors
 
@@ -757,6 +762,7 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
 		self.opaque = NO;
+      self.isAnnular = NO;
     }
     return self;
 }
@@ -765,12 +771,36 @@
 #pragma mark Drawing
 
 - (void)drawRect:(CGRect)rect {
-    
+
     CGRect allRect = self.bounds;
     CGRect circleRect = CGRectInset(allRect, 2.0f, 2.0f);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+  if (_isAnnular) {
+    // Draw background
+    
+    CGFloat lineWidth = 5.f;
+    UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
+    processBackgroundPath.lineWidth = lineWidth;
+    processBackgroundPath.lineCapStyle = kCGLineCapRound;
+    CGPoint center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    CGFloat radius = (self.bounds.size.width - lineWidth)/2;
+    CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
+    CGFloat endAngle = (2 * (float)M_PI) + startAngle;
+    [processBackgroundPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+    [[UIColor colorWithRed:1 green:1 blue:1 alpha:0.1] set];
+    [processBackgroundPath stroke];
+    
+    // Draw progress
+    UIBezierPath *processPath = [UIBezierPath bezierPath];
+    processPath.lineCapStyle = kCGLineCapRound;
+    processPath.lineWidth = lineWidth;
+    endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
+    [processPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+    [[UIColor whiteColor] set];
+    [processPath stroke];
+  } else {
     // Draw background
     CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white
     CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 0.1f); // translucent white
@@ -788,6 +818,7 @@
     CGContextAddArc(context, center.x, center.y, radius, startAngle, endAngle, 0);
     CGContextClosePath(context);
     CGContextFillPath(context);
+  }
 }
 
 @end

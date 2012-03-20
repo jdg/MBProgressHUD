@@ -37,6 +37,7 @@ typedef enum {
     MBProgressHUDModeIndeterminate,
     /** Progress is shown using a MBRoundProgressView. */
 	MBProgressHUDModeDeterminate,
+  MBProgressHUDModeAnnularDeterminate,
 	/** Shows a custom view */
 	MBProgressHUDModeCustomView
 } MBProgressHUDMode;
@@ -390,12 +391,15 @@ typedef enum {
 @interface MBRoundProgressView : UIView {
 @private
     float _progress;
+  BOOL _isAnnular;
 }
 
 /**
  * Progress (0.0 to 1.0)
  */
 @property (nonatomic, assign) float progress;
+
+@property (nonatomic, assign) BOOL isAnnular;
 
 @end
 
