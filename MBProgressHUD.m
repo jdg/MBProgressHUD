@@ -228,42 +228,48 @@
 #endif
 }
 
-+ (MBProgressHUD *)findHUDForView:(UIView *)view {
++ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
+	MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+	if (hud != nil) {
+		hud.removeFromSuperViewOnHide = YES;
+		[hud hide:animated];
+		return YES;
+	}
+	return NO;
+}
+
++ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
+	NSArray *huds = [self allHUDsForView:view];
+	for (MBProgressHUD *hud in huds) {
+		hud.removeFromSuperViewOnHide = YES;
+		[hud hide:animated];
+	}
+	return [huds count];
+}
+
++ (MBProgressHUD *)HUDForView:(UIView *)view {
 	MBProgressHUD *hud = nil;
-	for (UIView *v in [view subviews]) {
-		if ([v isKindOfClass:[MBProgressHUD class]]) {
-			hud = (MBProgressHUD *)v;
+	NSArray *subviews = view.subviews;
+	Class hudClass = [MBProgressHUD class];
+	for (UIView *view in subviews) {
+		if ([view isKindOfClass:hudClass]) {
+			hud = (MBProgressHUD *)view;
 		}
 	}
 	return hud;
 }
 
-+ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUD *viewToRemove = [MBProgressHUD findHUDForView:view];
-	if (viewToRemove != nil) {
-		MBProgressHUD *HUD = (MBProgressHUD *)viewToRemove;
-		HUD.removeFromSuperViewOnHide = YES;
-		[HUD hide:animated];
-		return YES;
-	} else {
-		return NO;
-	}
-}
-
-+ (int)hideAllHUDForView:(UIView *)view animated:(BOOL)animated {
-	int HUDCounter = 0;
-
-	for (UIView *view in [view subviews]) {
-		if ([view isKindOfClass:[MBProgressHUD class]]) {
-			HUDCounter++;
-			MBProgressHUD *hud = (MBProgressHUD *)view;
-			hud.removeFromSuperViewOnHide = YES;
-			[hud hide:animated];
++ (NSArray *)allHUDsForView:(UIView *)view {
+	NSMutableArray *huds = [NSMutableArray array];
+	NSArray *subviews = view.subviews;
+	Class hudClass = [MBProgressHUD class];
+	for (UIView *view in subviews) {
+		if ([view isKindOfClass:hudClass]) {
+			[huds addObject:view];
 		}
 	}
-
-	return HUDCounter;
-};
+	return [NSArray arrayWithArray:huds];
+}
 
 #pragma mark -
 #pragma mark Lifecycle methods

@@ -139,16 +139,6 @@ typedef enum {
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds a HUD subview and returns it. This is used internally by hideHUDForFiew:animated:, but can also be useful externally.
- *
- * @param view The view that is going to be searched for a HUD subview.
- * @return A reference to the last HUD subview discovered.
- *
- * @see hideHUDForView:animated:
- */
-+ (MBProgressHUD *)findHUDForView:(UIView *)view;
-
-/**
  * Finds a HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
@@ -170,7 +160,27 @@ typedef enum {
  *
  * @see hideAllHUDForView:animated:
  */
-+ (int)hideAllHUDForView:(UIView *)view animated:(BOOL)animated;
++ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated;
+
+/**
+ * Finds a HUD subview and returns it. This is used internally by hideHUDForFiew:animated:, but can also be useful externally.
+ *
+ * @param view The view that is going to be searched for a HUD subview.
+ * @return A reference to the last HUD subview discovered.
+ *
+ * @see hideHUDForView:animated:
+ */
++ (MBProgressHUD *)HUDForView:(UIView *)view;
+
+/**
+ * Finds all HUD subviews and returns them. This is used internally by hideAllHUDsForView:animated:, but can also be useful externally.
+ *
+ * @param view The view that is going to be searched for HUD subviews.
+ * @return All found HUD views (array of MBProgressHUD objects).
+ *
+ * @see hideAllHUDsForView:animated:
+ */
++ (NSArray *)allHUDsForView:(UIView *)view;
 
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
