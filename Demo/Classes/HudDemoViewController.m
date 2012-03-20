@@ -11,6 +11,7 @@
 
 @implementation HudDemoViewController
 
+
 #pragma mark -
 #pragma mark Constants
 
@@ -178,6 +179,22 @@
 	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
 }
 
+- (IBAction)tapToCancel:(id)sender {
+	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	/**
+	 * Do not use showWhileExecuting:onTarget:withObject:animated: to start this HUD.
+	 * because user has the responsibility to clean up when HUD was canceled
+	 */
+	HUD.enableCancel = YES;
+	HUD.labelText = @"Loading";
+	HUD.detailsLabelText = @"Tap to cancel";
+	[HUD show:YES];
+}
+
 
 - (IBAction)showWithGradient:(id)sender {
 
@@ -268,6 +285,10 @@
     [HUD removeFromSuperview];
     [HUD release];
 	HUD = nil;
+}
+
+- (void)hudWasCanceled:(MBProgressHUD *)hud {
+	/* Clean up */
 }
 
 @end

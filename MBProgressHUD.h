@@ -124,6 +124,7 @@ typedef enum {
 	UIView *customView;
 	
 	CGAffineTransform rotationTransform;
+  BOOL _enableCancel;
 }
 
 /**
@@ -314,6 +315,11 @@ typedef enum {
  */
 @property (assign, getter = isSquare) BOOL square;
 
+/**
+ * Enable tap to cancel progress.
+ */
+@property (nonatomic, assign) BOOL enableCancel;
+
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
@@ -380,6 +386,8 @@ typedef enum {
  * @see hudWasHidden:
  */
 - (void)hudWasHidden __attribute__ ((deprecated)); 
+
+- (void)hudWasCanceled:(MBProgressHUD *)hud;
 
 @end
 

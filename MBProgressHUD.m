@@ -22,6 +22,8 @@
 - (void)launchExecution;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
+- (CGRect)boxRect;
+- (void)cancelProgress:(id)sender;
 
 #if __has_feature(objc_arc)
 @property (strong) UIView *indicator;
@@ -74,6 +76,7 @@
 @synthesize customView;
 
 @synthesize showStarted;
+@synthesize enableCancel = _enableCancel;
 
 - (void)setMode:(MBProgressHUDMode)newMode {
     // Dont change mode if it wasn't actually changed to prevent flickering
@@ -299,6 +302,7 @@
 		self.removeFromSuperViewOnHide = NO;
 		self.minSize = CGSizeZero;
 		self.square = NO;
+    self.enableCancel = NO;
 		
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
@@ -453,6 +457,15 @@
 	if (self.height < minSize.height) {
 		self.height = minSize.height;
 	}
+  // Add top gesture to view
+  UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelProgress:)];
+  tapGesture.numberOfTapsRequired = 1;
+  tapGesture.numberOfTouchesRequired = 1;
+  [self addGestureRecognizer:tapGesture];
+#if !__has_feature(objc_arc)
+  [tapGesture release];
+#endif
+
 }
 
 #pragma mark -
@@ -530,6 +543,7 @@
     
     // Launch execution in new thread
 	taskInProgress = YES;
+
     [NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
 	
 	// Show HUD view
@@ -547,7 +561,9 @@
 #pragma clang diagnostic pop
     // Task completed, update view in main thread (note: view operations should
     // be done only in the main thread)
-    [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
+  if (taskInProgress) {
+    [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];    
+  }
 	
 #if !__has_feature(objc_arc)
     [pool release];
@@ -579,14 +595,12 @@
 
 - (void)cleanUp {
 	taskInProgress = NO;
-	
 	self.indicator = nil;
-	
+  
 #if !__has_feature(objc_arc)
     [targetForExecution release];
     [objectForExecution release];
 #endif
-	
     [self hide:useAnimation];
 }
 
@@ -636,6 +650,29 @@
     }
 }
 
+- (CGRect)boxRect {
+  return CGRectMake(roundf((self.bounds.size.width - self.width) / 2) + self.xOffset,
+                    roundf((self.bounds.size.height - self.height) / 2) + self.yOffset, self.width, self.height);
+}
+
+- (void)cancelProgress:(id)sender {
+  if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
+    UITapGestureRecognizer *gesture = (UITapGestureRecognizer *)sender;
+    CGPoint tap = [gesture locationInView:self];
+    CGRect boxRect = [self boxRect];
+    if (tap.x > CGRectGetMinX(boxRect) && tap.x < CGRectGetMaxX(boxRect) &&
+        tap.y > CGRectGetMinY(boxRect) && tap.y < CGRectGetMaxY(boxRect) &&
+        _enableCancel && !taskInProgress) {
+      // call delegate, user has the responsibilty to clean up
+      if (delegate && [delegate respondsToSelector:@selector(hudWasCanceled:)]) {
+        [delegate hudWasCanceled:self];
+      }
+      // Cancel progress
+      [self hide:animationType];
+    }
+  }
+}
+
 #pragma mark BG Drawing
 
 - (void)drawRect:(CGRect)rect {
@@ -663,10 +700,9 @@
     }    
     
     // Center HUD
-    CGRect allRect = self.bounds;
+    
     // Draw rounded HUD bacgroud rect
-    CGRect boxRect = CGRectMake(roundf((allRect.size.width - self.width) / 2) + self.xOffset,
-                                roundf((allRect.size.height - self.height) / 2) + self.yOffset, self.width, self.height);
+  CGRect boxRect = [self boxRect];
 	// Corner radius
 	float radius = 10.0f;
 	
