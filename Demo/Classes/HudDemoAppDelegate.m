@@ -16,17 +16,15 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
-    // Override point for customization after app launch    
-    [window addSubview:navController.view];
-    [window makeKeyAndVisible];
+	[window addSubview:navController.view];
+	[window makeKeyAndVisible];
 }
 
 
 - (void)dealloc {
-    [navController release];
-    [window release];
-    [super dealloc];
+	[navController release];
+	[window release];
+	[super dealloc];
 }
 
 
