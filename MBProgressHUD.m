@@ -659,6 +659,7 @@
         self.alpha = 0.0f;
         [self done];
     }
+	self.showStarted = nil;
 }
 
 #pragma mark BG Drawing
