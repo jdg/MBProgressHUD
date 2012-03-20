@@ -19,6 +19,7 @@
 		D277FDB311FC834200304321 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB211FC834200304321 /* Default.png */; };
 		D277FDB911FC877E00304321 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB711FC877E00304321 /* Icon.png */; };
 		D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB811FC877E00304321 /* Icon@2x.png */; };
+		D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */; };
 		D2A6FD1D13ABC5A200BFE4C9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */; };
 		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 		D277FDB211FC834200304321 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark@2x.png"; path = "Images/37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark.png"; path = "Images/37x-Checkmark.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +132,7 @@
 				D277FDB211FC834200304321 /* Default.png */,
 				D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */,
 				D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */,
+				D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				D277FDB911FC877E00304321 /* Icon.png in Resources */,
 				D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */,
 				D2A6FD1D13ABC5A200BFE4C9 /* Default@2x.png in Resources */,
+				D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
