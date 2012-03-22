@@ -1,15 +1,15 @@
 MBProgressHUD
 =============
 
-MBProgressHUD is an iPhone drop-in class that displays a translucent HUD with a progress indicator and some optional labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
-
-MBProgressHUD is iOS4 and iPad compatible and released under the MIT license (see MBProgressHUD.h).
+MBProgressHUD is an iOS drop-in class that displays a translucent HUD with a progress indicator and some optional labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
 
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/1-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/1.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/2-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/2.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/3-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/3.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/4-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/4.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/5-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/5.png)
+[![](http://dl.dropbox.com/u/378729/MBProgressHUD/6-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/6.png)
+[![](http://dl.dropbox.com/u/378729/MBProgressHUD/7-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/7.png)
 
 Adding MBProgressHUD to your project
 ====================================
@@ -51,6 +51,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Change-log
 ==========
+
+**Version 0.5** @ 22.03.12
+
+- Major source code modernization and cleanup (KVO, layout code, instance vars, etc.).
+- New annular determinate mode.
+- New text only mode. 
+- Added a static library project and Xcode 4 workspace. 
+- Added methods to find and return HUD(s) on a view.
+- Various bug fixes. 
+- Various demo project enhancements (hi-res rescues, new samples). 
+
+IMPORTANT: Requires LLVM 3+.
 
 **Version 0.41** @ 03.01.12
 
