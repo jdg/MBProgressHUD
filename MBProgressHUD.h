@@ -187,7 +187,7 @@ typedef enum {
 /** 
  * Shows the HUD while a background task is executing in a new thread, then hides the HUD.
  *
- * This method also takes care of NSAutoreleasePools so your method does not have to be concerned with setting up a
+ * This method also takes care of autorelease pools so your method does not have to be concerned with setting up a
  * pool.
  *
  * @param method The method to be executed while the HUD is shown. This method will be executed in a new thread.
