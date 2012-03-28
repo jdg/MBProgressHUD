@@ -76,10 +76,10 @@ typedef enum {
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
- * This is a simple drop-in class for displaying a progress HUD view similar to Apples private UIProgressHUD class.
+ * This is a simple drop-in class for displaying a progress HUD view similar to Apple's private UIProgressHUD class.
  * The MBProgressHUD window spans over the entire space given to it by the initWithFrame constructor and catches all
  * user input on this region, thereby preventing the user operations on components below the view. The HUD itself is
- * drawn centered as a rounded semi-transparent view witch resizes depending on the user specified content.
+ * drawn centered as a rounded semi-transparent view which resizes depending on the user specified content.
  *
  * This view supports four modes of operation:
  * - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
@@ -98,8 +98,8 @@ typedef enum {
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
  * 
  * @param view The view that the HUD will be added to
- * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
- * animations while disappearing.
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
  * @return A reference to the created HUD.
  *
  * @see hideHUDForView:animated:
@@ -108,7 +108,7 @@ typedef enum {
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds the tompost HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -134,7 +134,7 @@ typedef enum {
 + (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds the topomost HUD subview and returns it. 
+ * Finds the top-most HUD subview and returns it. 
  *
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
@@ -152,17 +152,17 @@ typedef enum {
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
- * (e.g., when using something like NSOperation or calling an asynchronous call like NSUrlRequest).
+ * (e.g., when using something like NSOperation or calling an asynchronous call like NSURLRequest).
  *
- * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
- * animations while disappearing.
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
  *
  * @see animationType
  */
 - (void)show:(BOOL)animated;
 
 /** 
- * Hide the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the hide: method. Use it to
+ * Hide the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -173,7 +173,7 @@ typedef enum {
 - (void)hide:(BOOL)animated;
 
 /** 
- * Hide the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the hide: method. Use it to
+ * Hide the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -187,14 +187,14 @@ typedef enum {
 /** 
  * Shows the HUD while a background task is executing in a new thread, then hides the HUD.
  *
- * This method also takes care of NSAutoreleasePools so your method does not have to be concerned with setting up a
+ * This method also takes care of autorelease pools so your method does not have to be concerned with setting up a
  * pool.
  *
  * @param method The method to be executed while the HUD is shown. This method will be executed in a new thread.
  * @param target The object that the target method belongs to.
  * @param object An optional object to be passed to the method.
- * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
- * animations while disappearing.
+ * @param animated If set to YES the HUD will (dis)appear using the current animationType. If set to NO the HUD will not use
+ * animations while (dis)appearing.
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
@@ -231,8 +231,8 @@ typedef enum {
 @property (assign) MBProgressHUDAnimation animationType;
 
 /**
- * The UIView (e.g., a UIIMageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
- * For best results use a 37 by 37 pixel view (so the bounds match the build in indicator bounds). 
+ * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
+ * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
 @property (MB_STRONG) UIView *customView;
 
@@ -284,7 +284,7 @@ typedef enum {
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
- * showing the HUD. If the task finishes befor the grace time runs out, the HUD will
+ * showing the HUD. If the task finishes before the grace time runs out, the HUD will
  * not be shown at all. 
  * This may be used to prevent HUD display for very short tasks.
  * Defaults to 0 (no grace time).
@@ -306,12 +306,12 @@ typedef enum {
  * This property is automatically set when using showWhileExecuting:onTarget:withObject:animated:.
  * When threading is done outside of the HUD (i.e., when the show: and hide: methods are used directly),
  * you need to set this property when your task starts and completes in order to have normal graceTime 
- * functunality.
+ * functionality.
  */
 @property (assign) BOOL taskInProgress;
 
 /**
- * Removes the HUD from it's parent view when hidden. 
+ * Removes the HUD from its parent view when hidden. 
  * Defaults to NO. 
  */
 @property (assign) BOOL removeFromSuperViewOnHide;
