@@ -44,7 +44,7 @@ You can also add MBProgressHUD as a static library to your workspace. See [this 
 Usage
 =====
 
-The main guideline you need to follow when dealing with MBProgressHUD, or any kind of UI component for that matter, while running long-lasting tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up in the main thread and than spin the task that you want to performa into a new thread. 
+The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and than spinning the task, that you want to perform, off onto a new thread. 
 
 ```obj-c
 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -69,23 +69,35 @@ hud.labelText = @"Loading";
 }];
 ```
 
-Some MBProgressHUD setters are considered thread safe and can be called from background threads. Those include `setMode:`, `setCustomView:`, `setLabelText:`, `setLabelFont:`, `setDetailsLabelText:`, `setDetailsLabelFont:` and `setProgress:`.
+UI updates should always be done on the main thread. Some MBProgressHUD setters are hoverer considered "thread safe" and can be called from background threads. Those also include `setMode:`, `setCustomView:`, `setLabelText:`, `setLabelFont:`, `setDetailsLabelText:`, `setDetailsLabelFont:` and `setProgress:`.
 
-For more examples, take a look at the bundled demo project. Extensive documentation is provided in the header file (MBProgressHUD.h). 
+If you need to run your long-running task in the main thread, you should perform it with a slight delay, so UIKit will have enough time to update the UI (i.e., draw the HUD) before you block the main thread with your task.
+
+```obj-c
+[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+	// Do something...
+	[MBProgressHUD hideHUDForView:self.view animated:YES];
+});
+```
+
+You should be aware that any HUD updates issued inside the above block won't be displayed until the block completes.
+
+For more examples, including how to use MBProgressHUD with asynchronous operations such as NSURLConnection, take a look at the bundled demo project. Extensive API documentation is provided in the header file (MBProgressHUD.h).
 
 License
 =======
 
 This code is distributed under the terms and conditions of the MIT license. 
 
-Copyright (c) 2012 Matej Bukovinski
+Copyright (c) 2009-2012 Matej Bukovinski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 
 Change-log
 ==========
@@ -97,7 +109,7 @@ Change-log
 - New text only mode. 
 - Added a static library project and Xcode 4 workspace. 
 - Added methods to find and return HUD(s) on a view.
-- Various bug fixes. 
+- Various bug fixes.
 - Various demo project enhancements (hi-res rescues, new samples). 
 
 IMPORTANT: Requires LLVM 3+.
@@ -138,7 +150,7 @@ IMPORTANT: Requires LLVM 3+.
 **Version 0.2** @ 21.7.09
 
 - Added determinate progress mode and switching capabilities between determinate and indeterminate modes. 
-- Various bugfixes. 
+- Various bug-fixes.
 
 **Version 0.11** @ 2.6.09.
 
