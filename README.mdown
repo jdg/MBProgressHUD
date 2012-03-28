@@ -60,10 +60,10 @@ If you need to configure the HUD you can do this by using the MBProgressHUD refe
 
 ```obj-c
 MBProgressHUD hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-HUD.mode = MBProgressHUDModeAnnularDeterminate;
-HUD.labelText = @"Loading";
-[self doSomethingInBackgroundWithProgressCallback:^(float porgress) {
-	HUD.progress = porgress;
+hud.mode = MBProgressHUDModeAnnularDeterminate;
+hud.labelText = @"Loading";
+[self doSomethingInBackgroundWithProgressCallback:^(float progress) {
+	hud.progress = progress;
 } completionCallback:^{
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 }];
