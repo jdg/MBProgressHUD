@@ -199,7 +199,7 @@ typedef enum {
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
 /** 
- * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
+ * Initializes the HUD with the window's bounds. Calls the designated constructor with
  * window.bounds as the parameter.
  *
  * @param window The window instance that will provide the bounds for the HUD. Should be the same instance as
@@ -208,7 +208,7 @@ typedef enum {
 - (id)initWithWindow:(UIWindow *)window;
 
 /**
- * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
+ * Initializes the HUD with the view's bounds. Calls the designated constructor with
  * view.bounds as the parameter
  * 
  * @param view The view instance that will provide the bounds for the HUD. Should be the same instance as
