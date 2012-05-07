@@ -8,13 +8,13 @@
 
 
 #if __has_feature(objc_arc)
-	#define MB_AUTORELEASE(exp) exp
-	#define MB_RELEASE(exp) exp
-	#define MB_RETAIN(exp) exp
+#define MB_AUTORELEASE(exp) exp
+#define MB_RELEASE(exp) exp
+#define MB_RETAIN(exp) exp
 #else
-	#define MB_AUTORELEASE(exp) [exp autorelease]
-	#define MB_RELEASE(exp) [exp release]
-	#define MB_RETAIN(exp) [exp retain]
+#define MB_AUTORELEASE(exp) [exp autorelease]
+#define MB_RELEASE(exp) [exp release]
+#define MB_RETAIN(exp) [exp retain]
 #endif
 
 
@@ -44,10 +44,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
 
-@property (MB_STRONG) UIView *indicator;
-@property (MB_STRONG) NSTimer *graceTimer;
-@property (MB_STRONG) NSTimer *minShowTimer;
-@property (MB_STRONG) NSDate *showStarted;
+@property (nonatomic, MB_STRONG) UIView *indicator;
+@property (nonatomic, MB_STRONG) NSTimer *graceTimer;
+@property (nonatomic, MB_STRONG) NSTimer *minShowTimer;
+@property (nonatomic, MB_STRONG) NSDate *showStarted;
 @property (assign) CGSize size;
 
 @end
@@ -167,8 +167,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.minSize = CGSizeZero;
 		self.square = NO;
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin 
-								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-
+        | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
 		// Transparent background
 		self.opaque = NO;
 		self.backgroundColor = [UIColor clearColor];
@@ -224,7 +224,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
 		self.graceTimer = [NSTimer scheduledTimerWithTimeInterval:self.graceTime target:self 
-						   selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
+                                                         selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
 	} 
 	// ... otherwise show the HUD imediately 
 	else {
@@ -241,7 +241,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:showStarted];
 		if (interv < self.minShowTime) {
 			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self 
-								selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
+                                                               selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
 			return;
 		} 
 	}
@@ -450,11 +450,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
 		totalSize.height += kPadding;
 	}
-
+    
 	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
 	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
 	CGSize detailsLabelSize = [detailsLabel.text sizeWithFont:detailsLabel.font 
-								constrainedToSize:maxSize lineBreakMode:detailsLabel.lineBreakMode];
+                                            constrainedToSize:maxSize lineBreakMode:detailsLabel.lineBreakMode];
 	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
 	totalSize.height += detailsLabelSize.height;
 	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
