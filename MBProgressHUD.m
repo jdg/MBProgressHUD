@@ -44,10 +44,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
 
-@property (nonatomic, MB_STRONG) UIView *indicator;
-@property (nonatomic, MB_STRONG) NSTimer *graceTimer;
-@property (nonatomic, MB_STRONG) NSTimer *minShowTimer;
-@property (nonatomic, MB_STRONG) NSDate *showStarted;
+@property (atomic, MB_STRONG) UIView *indicator;
+@property (atomic, MB_STRONG) NSTimer *graceTimer;
+@property (atomic, MB_STRONG) NSTimer *minShowTimer;
+@property (atomic, MB_STRONG) NSDate *showStarted;
 @property (assign) CGSize size;
 
 @end
