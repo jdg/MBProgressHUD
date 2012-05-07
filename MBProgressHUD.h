@@ -56,19 +56,19 @@ typedef enum {
 
 #ifndef MB_STRONG
 #if __has_feature(objc_arc)
-	#define MB_STRONG strong
+#define MB_STRONG strong
 #else
-	#define MB_STRONG retain
+#define MB_STRONG retain
 #endif
 #endif
 
 #ifndef MB_WEAK
 #if __has_feature(objc_arc_weak)
-	#define MB_WEAK weak
+#define MB_WEAK weak
 #elif __has_feature(objc_arc)
-	#define MB_WEAK unsafe_unretained
+#define MB_WEAK unsafe_unretained
 #else
-	#define MB_WEAK assign
+#define MB_WEAK assign
 #endif
 #endif
 
@@ -234,7 +234,7 @@ typedef enum {
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
-@property (MB_STRONG) UIView *customView;
+@property (atomic, MB_STRONG) UIView *customView;
 
 /** 
  * The HUD delegate object. 
@@ -319,12 +319,12 @@ typedef enum {
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* labelFont;
+@property (atomic, MB_STRONG) UIFont* labelFont;
 
 /** 
  * Font to be used for the details label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* detailsLabelFont;
+@property (atomic, MB_STRONG) UIFont* detailsLabelFont;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
