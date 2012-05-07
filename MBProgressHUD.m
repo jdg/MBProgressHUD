@@ -124,9 +124,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	MBProgressHUD *hud = nil;
 	NSArray *subviews = view.subviews;
 	Class hudClass = [MBProgressHUD class];
-	for (UIView *view in subviews) {
-		if ([view isKindOfClass:hudClass]) {
-			hud = (MBProgressHUD *)view;
+	for (UIView *aView in subviews) {
+		if ([aView isKindOfClass:hudClass]) {
+			hud = (MBProgressHUD *)aView;
 		}
 	}
 	return hud;
@@ -136,9 +136,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	NSMutableArray *huds = [NSMutableArray array];
 	NSArray *subviews = view.subviews;
 	Class hudClass = [MBProgressHUD class];
-	for (UIView *view in subviews) {
-		if ([view isKindOfClass:hudClass]) {
-			[huds addObject:view];
+	for (UIView *aView in subviews) {
+		if ([aView isKindOfClass:hudClass]) {
+			[huds addObject:aView];
 		}
 	}
 	return [NSArray arrayWithArray:huds];
@@ -432,6 +432,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)layoutSubviews {
 	
+	// Entirely cover the parent view
+	UIView *parent = self.superview;
+	if (parent) {
+		self.frame = parent.bounds;
+	}
 	CGRect bounds = self.bounds;
 	
 	// Determine the total widt and height needed
