@@ -341,6 +341,16 @@ typedef enum {
  */
 @property (assign, getter = isSquare) BOOL square;
 
+/**
+ * Set the HUD to listen to double tap gesture.
+ */
+@property (nonatomic, assign, setter = setListenToDoubleTapGesture:) BOOL listenToDoubleTapGesture;
+
+/**
+ * The block used when the gesture is recognized
+ */
+@property (assign) void (^doubleTapGestureBlock)(void);
+
 @end
 
 

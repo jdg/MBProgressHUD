@@ -222,8 +222,17 @@
 
 - (void)myMixedTask {
 	// Indeterminate mode
+	// Set the block but don't enable the gesture recognizer
+	[HUD setListenToDoubleTapGesture:NO];
+	[HUD setDoubleTapGestureBlock:^{
+		NSLog(@"Double tap!!");
+	}];
 	sleep(2);
 	// Switch to determinate mode
+	
+	// Enable the recognizer
+	[HUD setListenToDoubleTapGesture:YES];
+
 	HUD.mode = MBProgressHUDModeDeterminate;
 	HUD.labelText = @"Progress";
 	float progress = 0.0f;
@@ -233,6 +242,10 @@
 		HUD.progress = progress;
 		usleep(50000);
 	}
+	
+	// Disable the recognizer again
+	[HUD setListenToDoubleTapGesture:NO];
+
 	// Back to indeterminate mode
 	HUD.mode = MBProgressHUDModeIndeterminate;
 	HUD.labelText = @"Cleaning up";
