@@ -50,6 +50,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (MB_STRONG) NSDate *showStarted;
 @property (assign) CGSize size;
 
+// Private
+@property (MB_STRONG) UITapGestureRecognizer *doubleTapRecognizer;
+
 @end
 
 
@@ -91,6 +94,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+@synthesize listenToDoubleTapGesture = _listenToDoubleTapGesture;
+@synthesize doubleTapRecognizer = _doubleTapRecognizer;
+@synthesize doubleTapGestureBlock = _doubleTapGestureBlock;
 
 #pragma mark - Class methods
 
@@ -213,6 +219,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[minShowTimer release];
 	[showStarted release];
 	[customView release];
+    [_doubleTapRecognizer release];
 	[super dealloc];
 #endif
 }
@@ -657,6 +664,41 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (animated) {
 		[UIView commitAnimations];
 	}
+}
+
+#pragma mark - Custom setters
+
+- (void) setListenToDoubleTapGesture:(BOOL) value {
+    _listenToDoubleTapGesture = value;
+    
+    if (value) {
+        
+        // If the tap recognizer is already allocated, than no need to create another one
+        if (_doubleTapRecognizer)
+            return;
+
+        UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        [tapRecognizer setNumberOfTapsRequired:2];
+        
+        [self addGestureRecognizer:tapRecognizer];
+        self.doubleTapRecognizer = tapRecognizer;
+
+#if !__has_feature(objc_arc)
+        [tapRecognizer release];
+#endif
+
+    } else {
+        [self removeGestureRecognizer:_doubleTapRecognizer];
+        self.doubleTapRecognizer = nil;
+    }
+}
+
+#pragma mark - Gesture recognizer methods
+
+- (void) handleTap: (UITapGestureRecognizer*)recognizer {
+    if (recognizer == _doubleTapRecognizer) {
+        _doubleTapGestureBlock();
+    }
 }
 
 @end
