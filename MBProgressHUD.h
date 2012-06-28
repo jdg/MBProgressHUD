@@ -50,7 +50,8 @@ typedef enum {
 	/** Opacity animation */
 	MBProgressHUDAnimationFade,
 	/** Opacity + scale animation */
-	MBProgressHUDAnimationZoom
+	MBProgressHUDAnimationZoomIn,
+	MBProgressHUDAnimationZoomOut
 } MBProgressHUDAnimation;
 
 
