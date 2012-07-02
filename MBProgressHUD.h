@@ -281,6 +281,12 @@ typedef enum {
  */
 @property (assign) float opacity;
 
+/**
+ * The color of the HUD window. Defaults to black. If this property is set, opacity is set using this UIColor and the 
+ * opacity property is not used
+ */
+@property (assign) CGColorRef color;
+
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
  */

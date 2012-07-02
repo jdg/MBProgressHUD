@@ -69,6 +69,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize animationType;
 @synthesize delegate;
 @synthesize opacity;
+@synthesize color;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
 @synthesize indicator;
@@ -155,6 +156,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
+        self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.xOffset = 0.0f;
@@ -550,7 +552,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	if (dimBackground) {
+	if (self.dimBackground) {
 		//Gradient colours
 		size_t gradLocationsNum = 2;
 		CGFloat gradLocations[2] = {0.0f, 1.0f};
@@ -568,6 +570,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 									 kCGGradientDrawsAfterEndLocation);
 		CGGradientRelease(gradient);
 	}
+
+    // Set background rect color
+    if(self.color){
+        CGContextSetFillColorWithColor(context, self.color); 
+    } else {
+        CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+    }
+
 	
 	// Center HUD
 	CGRect allRect = self.bounds;
