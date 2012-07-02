@@ -344,6 +344,34 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[self show:animated];
 }
 
+#if NS_BLOCKS_AVAILABLE
+- (void)showWhileExecutingBlock:(void (^)())block animated:(BOOL)animated {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        block();
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self cleanUp];
+        });
+    });
+    
+    [self show:animated];
+}
+
+- (void)showWhileExecutingBlock:(void (^)())block completion:(void (^)())completion animated:(BOOL)animated {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        block();
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            completion();
+            
+            [self cleanUp];
+        });
+    });
+    
+    [self show:animated];
+}
+#endif
+
 - (void)launchExecution {
 	@autoreleasepool {
 #pragma clang diagnostic push

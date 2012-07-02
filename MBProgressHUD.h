@@ -198,6 +198,26 @@ typedef enum {
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
+#if NS_BLOCKS_AVAILABLE
+/** 
+ * Shows the HUD while a block is executing, then hides the HUD.
+ * @param block The block to be executed while the HUD is shown.
+ * @param animated If set to YES the HUD will (dis)appear using the current animationType. If set to NO the HUD will not use
+ * animations while (dis)appearing.
+ */
+- (void)showWhileExecutingBlock:(void (^)())block animated:(BOOL)animated;
+
+/** 
+ * Shows the HUD while a block is executing, executes completion block, and then hides the HUD.
+ *
+ * @param block The block to be executed while the HUD is shown.
+ * @param completion The block to be executed on completion.
+ * @param animated If set to YES the HUD will (dis)appear using the current animationType. If set to NO the HUD will
+ * not use animations while (dis)appearing.
+ */
+- (void)showWhileExecutingBlock:(void (^)())block completion:(void (^)())completion animated:(BOOL)animated;
+#endif
+
 /** 
  * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
  * window.bounds as the parameter.
