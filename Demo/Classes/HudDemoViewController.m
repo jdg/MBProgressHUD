@@ -136,18 +136,16 @@
 
 - (IBAction)showUsingBlocks:(id)sender {
 #ifdef __BLOCKS__
-	// No need to retain (just a local variable)
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-	hud.labelText = @"Loading";
 	
-	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		// Do a taks in the background
+	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	HUD.delegate = self;
+	HUD.labelText = @"With a block";
+	
+	[HUD showWhileExecutingBlock:^{
 		[self myTask];
-		// Hide the HUD in the main tread
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-		});
-	});
+	} animated:YES];
+	
 #endif
 }
 
