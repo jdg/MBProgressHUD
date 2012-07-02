@@ -586,7 +586,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 								roundf((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
 	float radius = 10.0f;
 	CGContextBeginPath(context);
-	CGContextSetGrayFillColor(context, 0.0f, self.opacity);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
 	CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMinY(boxRect) + radius, radius, 3 * (float)M_PI / 2, 0, 0);
 	CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMaxY(boxRect) - radius, radius, 0, (float)M_PI / 2, 0);

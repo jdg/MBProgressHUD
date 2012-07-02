@@ -200,6 +200,17 @@
 	[hud hide:YES afterDelay:3];
 }
 
+- (IBAction)showWithColor:(id)sender{
+	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// Set the hud to display with a color
+	HUD.color = [UIColor colorWithRed:0.23 green:0.50 blue:0.82 alpha:0.90].CGColor;
+	
+	HUD.delegate = self;
+	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];	
+}
+
 #pragma mark -
 #pragma mark Execution code
 
