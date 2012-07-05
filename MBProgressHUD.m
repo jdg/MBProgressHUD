@@ -69,6 +69,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize animationType;
 @synthesize delegate;
 @synthesize opacity;
+@synthesize color;
 @synthesize labelFont;
 @synthesize detailsLabelFont;
 @synthesize indicator;
@@ -155,6 +156,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
+        self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.xOffset = 0.0f;
@@ -344,6 +346,34 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[self show:animated];
 }
 
+#if NS_BLOCKS_AVAILABLE
+- (void)showWhileExecutingBlock:(void (^)())block animated:(BOOL)animated {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        block();
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self cleanUp];
+        });
+    });
+    
+    [self show:animated];
+}
+
+- (void)showWhileExecutingBlock:(void (^)())block completion:(void (^)())completion animated:(BOOL)animated {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        block();
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            completion();
+            
+            [self cleanUp];
+        });
+    });
+    
+    [self show:animated];
+}
+#endif
+
 - (void)launchExecution {
 	@autoreleasepool {
 #pragma clang diagnostic push
@@ -522,7 +552,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	if (dimBackground) {
+	if (self.dimBackground) {
 		//Gradient colours
 		size_t gradLocationsNum = 2;
 		CGFloat gradLocations[2] = {0.0f, 1.0f};
@@ -540,10 +570,18 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 									 kCGGradientDrawsAfterEndLocation);
 		CGGradientRelease(gradient);
 	}
+
+    // Set background rect color
+    if(self.color){
+        CGContextSetFillColorWithColor(context, self.color); 
+    } else {
+        CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+    }
+
 	
 	// Center HUD
 	CGRect allRect = self.bounds;
-	// Draw rounded HUD bacgroud rect
+	// Draw rounded HUD backgroud rect
 	CGRect boxRect = CGRectMake(roundf((allRect.size.width - size.width) / 2) + self.xOffset,
 								roundf((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
 	float radius = 10.0f;
