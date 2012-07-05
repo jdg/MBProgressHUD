@@ -92,6 +92,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+#if NS_BLOCKS_AVAILABLE
+@synthesize completionBlock;
+#endif
 
 #pragma mark - Class methods
 
@@ -327,7 +330,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	self.alpha = 0.0f;
 	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
 		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
-	} 
+	}
+#if NS_BLOCKS_AVAILABLE
+	if (self.completionBlock) {
+		self.completionBlock();
+		self.completionBlock = NULL;
+	}
+#endif
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
 	}
@@ -347,31 +356,34 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #if NS_BLOCKS_AVAILABLE
-- (void)showWhileExecutingBlock:(void (^)())block animated:(BOOL)animated {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block {
+	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	[self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:NULL];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)())completion {
+	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	[self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:completion];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue {
+	[self showAnimated:animated whileExecutingBlock:block onQueue:queue	completionBlock:NULL];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
+	 completionBlock:(MBProgressHUDCompletionBlock)completion {
+	
+	self.completionBlock = completion;
+	dispatch_async(queue, ^(void) {
         block();
-        
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             [self cleanUp];
         });
     });
-    
     [self show:animated];
 }
 
-- (void)showWhileExecutingBlock:(void (^)())block completion:(void (^)())completion animated:(BOOL)animated {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        block();
-        
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            completion();
-            
-            [self cleanUp];
-        });
-    });
-    
-    [self show:animated];
-}
 #endif
 
 - (void)launchExecution {

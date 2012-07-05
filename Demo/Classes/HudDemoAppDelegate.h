@@ -10,6 +10,7 @@
 
 @class HudDemoViewController;
 
+
 @interface HudDemoAppDelegate : NSObject <UIApplicationDelegate> {
 	UIWindow *window;
 	UINavigationController *navController;

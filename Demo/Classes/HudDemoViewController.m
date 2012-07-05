@@ -135,17 +135,17 @@
 }
 
 - (IBAction)showUsingBlocks:(id)sender {
-#ifdef __BLOCKS__
+#if NS_BLOCKS_AVAILABLE
+	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:hud];
+	hud.labelText = @"With a block";
 	
-	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-	[self.navigationController.view addSubview:HUD];
-	HUD.delegate = self;
-	HUD.labelText = @"With a block";
-	
-	[HUD showWhileExecutingBlock:^{
+	[hud showAnimated:YES whileExecutingBlock:^{
 		[self myTask];
-	} animated:YES];
-	
+	} completionBlock:^{
+		[hud removeFromSuperview];
+		[hud release];
+	}];
 #endif
 }
 
