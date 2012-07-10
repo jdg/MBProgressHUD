@@ -218,6 +218,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[minShowTimer release];
 	[showStarted release];
 	[customView release];
+#if NS_BLOCKS_AVAILABLE
+	[completionBlock release];
+#endif
 	[super dealloc];
 #endif
 }
