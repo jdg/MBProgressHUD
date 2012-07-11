@@ -169,6 +169,7 @@
 	[connection release];
 	
 	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
+	HUD.delegate = self;
 }
 
 
