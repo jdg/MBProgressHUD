@@ -567,7 +567,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)drawRect:(CGRect)rect {
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+	UIGraphicsPushContext(context);
+
 	if (self.dimBackground) {
 		//Gradient colours
 		size_t gradLocationsNum = 2;
@@ -609,6 +610,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect) + radius, radius, (float)M_PI, 3 * (float)M_PI / 2, 0);
 	CGContextClosePath(context);
 	CGContextFillPath(context);
+
+	UIGraphicsPopContext();
 }
 
 #pragma mark - KVO
