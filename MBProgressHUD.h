@@ -312,10 +312,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float opacity;
 
 /**
- * The color of the HUD window. Defaults to black. If this property is set, opacity is set using this UIColor and the 
- * opacity property is not used
+ * The color of the HUD window. Defaults to black. If this property is set, color is set using
+ * this UIColor and the opacity property is not used.  using retain because performing copy on
+ * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
  */
-@property (assign) CGColorRef color;
+@property (retain) UIColor *color;
 
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
