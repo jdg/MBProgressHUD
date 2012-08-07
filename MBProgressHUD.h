@@ -353,6 +353,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /**
  * The minimum time (in seconds) that the HUD is shown. 
  * This avoids the problem of the HUD being shown and than instantly hidden.
+ * This can be used on a HUD that is already being shown in order to
+ * extend the minimum time the HUD is to be shown (useful for changing text status).
  * Defaults to 0 (no minimum show time).
  */
 @property (assign) float minShowTime;
