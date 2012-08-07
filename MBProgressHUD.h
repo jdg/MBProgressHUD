@@ -316,7 +316,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * this UIColor and the opacity property is not used.  using retain because performing copy on
  * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
  */
-@property (retain) UIColor *color;
+@property (MB_STRONG) UIColor *color;
 
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
