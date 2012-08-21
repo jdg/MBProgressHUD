@@ -51,6 +51,7 @@ typedef enum {
 	MBProgressHUDAnimationFade,
 	/** Opacity + scale animation */
 	MBProgressHUDAnimationZoom
+	MBProgressHUDAnimationZoomReverse
 } MBProgressHUDAnimation;
 
 

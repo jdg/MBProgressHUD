@@ -284,8 +284,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)showUsingAnimation:(BOOL)animated {
 	self.alpha = 0.0f;
-	if (animated && animationType == MBProgressHUDAnimationZoom) {
-		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
+	if (animated) {
+		if (animationType == MBProgressHUDAnimationZoom) {
+			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
+		}
+		else if (animationType == MBProgressHUDAnimationZoomReverse) {
+			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
+		}
 	}
 	self.showStarted = [NSDate date];
 	// Fade in
@@ -314,6 +319,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// in the done method
 		if (animationType == MBProgressHUDAnimationZoom) {
 			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
+		}
+		else if (animationType == MBProgressHUDAnimationZoomReverse) {
+			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
 		}
 		self.alpha = 0.02f;
 		[UIView commitAnimations];
