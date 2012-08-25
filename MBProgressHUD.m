@@ -405,7 +405,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
 	 completionBlock:(MBProgressHUDCompletionBlock)completion {
-	
+	self.taskInProgress = YES;
 	self.completionBlock = completion;
 	dispatch_async(queue, ^(void) {
         block();
@@ -413,7 +413,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
             [self cleanUp];
         });
     });
-    [self show:animated];
+  [self show:animated];
 }
 
 #endif
