@@ -44,11 +44,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
 
-@property (MB_STRONG) UIView *indicator;
-@property (MB_STRONG) NSTimer *graceTimer;
-@property (MB_STRONG) NSTimer *minShowTimer;
-@property (MB_STRONG) NSDate *showStarted;
-@property (assign) CGSize size;
+@property (atomic, MB_STRONG) UIView *indicator;
+@property (atomic, MB_STRONG) NSTimer *graceTimer;
+@property (atomic, MB_STRONG) NSTimer *minShowTimer;
+@property (atomic, MB_STRONG) NSDate *showStarted;
+@property (atomic, assign) CGSize size;
 
 @end
 
@@ -694,14 +694,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	
 	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-	float radians = 0;
+	CGFloat radians = 0;
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
-		if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -M_PI_2; } 
-		else { radians = M_PI_2; }
+		if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -(CGFloat)M_PI_2; } 
+		else { radians = (CGFloat)M_PI_2; }
 		// Window coordinates differ!
 		self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
 	} else {
-		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = M_PI; } 
+		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = (CGFloat)M_PI; } 
 		else { radians = 0; }
 	}
 	rotationTransform = CGAffineTransformMakeRotation(radians);
@@ -779,7 +779,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
 		CGFloat endAngle = (2 * (float)M_PI) + startAngle;
 		[processBackgroundPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-		[[UIColor colorWithRed:1 green:1 blue:1 alpha:0.1] set];
+		[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.1f] set];
 		[processBackgroundPath stroke];
 		// Draw progress
 		UIBezierPath *processPath = [UIBezierPath bezierPath];
