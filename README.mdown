@@ -44,7 +44,7 @@ You can also add MBProgressHUD as a static library to your workspace. See [this 
 Usage
 =====
 
-The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and than spinning the task, that you want to perform, off onto a new thread. 
+The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and then spinning the task, that you want to perform, off onto a new thread. 
 
 ```objective-c
 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
