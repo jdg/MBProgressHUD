@@ -679,16 +679,22 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification { 
-	UIView *superview = self.superview;
-	if (!superview) {
-		return;
-	} else if ([superview isKindOfClass:[UIWindow class]]) {
-		[self setTransformForCurrentOrientation:YES];
-	} else {
-		self.bounds = self.superview.bounds;
-		[self setNeedsDisplay];
-	}
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+    
+    @try {
+        UIView *superview = self.superview;
+        if (!superview) {
+            return;
+        } else if ([superview isKindOfClass:[UIWindow class]]) {
+            [self setTransformForCurrentOrientation:YES];
+        } else {
+            self.bounds = self.superview.bounds;
+            [self setNeedsDisplay];
+        }
+    }
+    @catch (NSException *exception) {
+        // Silently ignore the exception which may occur in some cases
+    }
 }
 
 - (void)setTransformForCurrentOrientation:(BOOL)animated {	
