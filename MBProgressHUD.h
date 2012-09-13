@@ -216,6 +216,15 @@ typedef enum {
  */
 - (id)initWithView:(UIView *)view;
 
+/**
+ * Set the HUD to listen to tap gesture.
+ *
+ * @param value Whether or not to listen to tap gesture
+ * @param numberOfTaps The number of taps required to trigger the gesture. If value is FALSE, this
+ * parameter is ignored.
+ */
+- (void) setListenToTapGesture:(BOOL) value numberOfTaps:(int) numberOfTaps;
+
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  *
@@ -340,6 +349,11 @@ typedef enum {
  * Force the HUD dimensions to be equal if possible. 
  */
 @property (assign, getter = isSquare) BOOL square;
+
+/**
+ * The block used when the gesture is recognized
+ */
+@property (assign) void (^tapGestureBlock)(void);
 
 @end
 
