@@ -61,6 +61,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UILabel *label;
 	UILabel *detailsLabel;
 	BOOL isFinished;
+    BOOL isHidingWithAnimation;
 	CGAffineTransform rotationTransform;
 }
 
@@ -306,8 +307,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
+    // Already hiding with animation. Don't try again
+    if (isHidingWithAnimation) return;
+    
 	// Fade out
 	if (animated && showStarted) {
+        isHidingWithAnimation = YES;
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.30];
 		[UIView setAnimationDelegate:self];
@@ -331,6 +336,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)animationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
+    isHidingWithAnimation = NO;
 	[self done];
 }
 
