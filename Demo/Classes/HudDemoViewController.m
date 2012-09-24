@@ -18,7 +18,7 @@
 #pragma mark Lifecycle methods
 
 - (void)viewDidLoad {
-	UIView *content = [[self.view subviews] objectAtIndex:0];
+	UIView *content = [self.view subviews][0];
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
@@ -27,7 +27,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	UIView *content = [[self.view subviews] objectAtIndex:0];
+	UIView *content = [self.view subviews][0];
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
