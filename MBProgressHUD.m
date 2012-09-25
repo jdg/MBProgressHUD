@@ -274,7 +274,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
-	self.alpha = 0.0f;
 	if (animated && animationType == MBProgressHUDAnimationZoom) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
 	}
