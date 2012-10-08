@@ -16,7 +16,7 @@
 @synthesize navController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-	[window addSubview:navController.view];
+	window.rootViewController = navController;
 	[window makeKeyAndVisible];
 }
 
