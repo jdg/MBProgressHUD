@@ -285,6 +285,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
+    if([UIApplication sharedApplication].networkActivityIndicatorVisible)
+        self.showNetworkActivityIndicator = NO;
+    
     if(self.showNetworkActivityIndicator)
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
