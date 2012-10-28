@@ -106,6 +106,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return MB_AUTORELEASE(hud);
 }
 
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view
+                         animated:(BOOL)animated
+         networkActivityIndicator:(BOOL)showNetworkActivityIndicator {
+	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+	[view addSubview:hud];
+    hud.showNetworkActivityIndicator = showNetworkActivityIndicator;
+	[hud show:animated];
+	return MB_AUTORELEASE(hud);
+}
+
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
 	MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
 	if (hud != nil) {
