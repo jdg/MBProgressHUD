@@ -79,6 +79,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize square;
 @synthesize margin;
 @synthesize dimBackground;
+@synthesize showNetworkActivityIndicator;
 @synthesize graceTime;
 @synthesize minShowTime;
 @synthesize graceTimer;
@@ -165,6 +166,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
+        self.showNetworkActivityIndicator = NO;
 		self.margin = 20.0f;
 		self.graceTime = 0.0f;
 		self.minShowTime = 0.0f;
@@ -283,6 +285,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
+    if(self.showNetworkActivityIndicator)
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
 	self.alpha = 0.0f;
 	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
@@ -306,6 +311,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
+    if(self.showNetworkActivityIndicator)
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
 	// Fade out
 	if (animated && showStarted) {
 		[UIView beginAnimations:nil context:NULL];

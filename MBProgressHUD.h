@@ -341,6 +341,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (atomic, assign) BOOL dimBackground;
 
+/**
+ * Show the network activitiy indicator
+ */
+@property (atomic, assign) BOOL showNetworkActivityIndicator;
+
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
  * showing the HUD. If the task finishes before the grace time runs out, the HUD will
