@@ -9,23 +9,21 @@
 #import "HudDemoAppDelegate.h"
 #import "HudDemoViewController.h"
 
+
 @implementation HudDemoAppDelegate
 
 @synthesize window;
 @synthesize navController;
 
-
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-	[window addSubview:navController.view];
+	window.rootViewController = navController;
 	[window makeKeyAndVisible];
 }
-
 
 - (void)dealloc {
 	[navController release];
 	[window release];
 	[super dealloc];
 }
-
 
 @end

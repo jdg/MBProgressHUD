@@ -50,7 +50,9 @@ typedef enum {
 	/** Opacity animation */
 	MBProgressHUDAnimationFade,
 	/** Opacity + scale animation */
-	MBProgressHUDAnimationZoom
+	MBProgressHUDAnimationZoom,
+	MBProgressHUDAnimationZoomOut = MBProgressHUDAnimationZoom,
+	MBProgressHUDAnimationZoomIn
 } MBProgressHUDAnimation;
 
 
@@ -71,6 +73,12 @@ typedef enum {
 	#define MB_WEAK assign
 #endif
 #endif
+
+#if NS_BLOCKS_AVAILABLE
+typedef void (^MBProgressHUDCompletionBlock)();
+#endif
+
+
 
 
 /** 
@@ -149,6 +157,24 @@ typedef enum {
  */
 + (NSArray *)allHUDsForView:(UIView *)view;
 
+/**
+ * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
+ * window.bounds as the parameter.
+ *
+ * @param window The window instance that will provide the bounds for the HUD. Should be the same instance as
+ * the HUD's superview (i.e., the window that the HUD will be added to).
+ */
+- (id)initWithWindow:(UIWindow *)window;
+
+/**
+ * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
+ * view.bounds as the parameter
+ *
+ * @param view The view instance that will provide the bounds for the HUD. Should be the same instance as
+ * the HUD's superview (i.e., the view that the HUD will be added to).
+ */
+- (id)initWithView:(UIView *)view;
+
 /** 
  * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
@@ -198,23 +224,49 @@ typedef enum {
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
-/** 
- * Initializes the HUD with the window's bounds. Calls the designated constructor with
- * window.bounds as the parameter.
- *
- * @param window The window instance that will provide the bounds for the HUD. Should be the same instance as
- * the HUD's superview (i.e., the window that the HUD will be added to).
- */
-- (id)initWithWindow:(UIWindow *)window;
+#if NS_BLOCKS_AVAILABLE
 
 /**
- * Initializes the HUD with the view's bounds. Calls the designated constructor with
- * view.bounds as the parameter
- * 
- * @param view The view instance that will provide the bounds for the HUD. Should be the same instance as
- * the HUD's superview (i.e., the view that the HUD will be added to).
+ * Shows the HUD while a block is executing on a background queue, then hides the HUD.
+ *
+ * @see showAnimated:whileExecutingBlock:onQueue:completion:
  */
-- (id)initWithView:(UIView *)view;
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block;
+
+/**
+ * Shows the HUD while a block is executing on a background queue, then hides the HUD.
+ *
+ * @see showAnimated:whileExecutingBlock:onQueue:completion:
+ */
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ * Shows the HUD while a block is executing on the specified dispatch queue, then hides the HUD.
+ *
+ * @see showAnimated:whileExecutingBlock:onQueue:completion:
+ */
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue;
+
+/** 
+ * Shows the HUD while a block is executing on the specified dispatch queue, executes completion block on the main queue, and then hides the HUD.
+ *
+ * @param animated If set to YES the HUD will (dis)appear using the current animationType. If set to NO the HUD will
+ * not use animations while (dis)appearing.
+ * @param block The block to be executed while the HUD is shown.
+ * @param queue The dispatch queue on which the block should be execouted.
+ * @param completion The block to be executed on completion.
+ *
+ * @see completionBlock
+ */
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
+		  completionBlock:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ * A block that gets called after the HUD was completely hiden.
+ */
+@property (atomic, copy) MBProgressHUDCompletionBlock completionBlock;
+
+#endif
 
 /**
  * Set the HUD to listen to tap gesture.
@@ -230,66 +282,73 @@ typedef enum {
  *
  * @see MBProgressHUDMode
  */
-@property (assign) MBProgressHUDMode mode;
+@property (atomic, assign) MBProgressHUDMode mode;
 
 /**
  * The animation type that should be used when the HUD is shown and hidden. 
  *
  * @see MBProgressHUDAnimation
  */
-@property (assign) MBProgressHUDAnimation animationType;
+@property (atomic, assign) MBProgressHUDAnimation animationType;
 
 /**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
-@property (MB_STRONG) UIView *customView;
+@property (atomic, MB_STRONG) UIView *customView;
 
 /** 
  * The HUD delegate object. 
  *
  * @see MBProgressHUDDelegate
  */
-@property (MB_WEAK) id<MBProgressHUDDelegate> delegate;
+@property (atomic, MB_WEAK) id<MBProgressHUDDelegate> delegate;
 
 /** 
  * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
  * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
  * set to @"", then no message is displayed.
  */
-@property (copy) NSString *labelText;
+@property (atomic, copy) NSString *labelText;
 
 /** 
  * An optional details message displayed below the labelText message. This message is displayed only if the labelText
  * property is also set and is different from an empty string (@""). The details text can span multiple lines. 
  */
-@property (copy) NSString *detailsLabelText;
+@property (atomic, copy) NSString *detailsLabelText;
 
 /** 
- * The opacity of the HUD window. Defaults to 0.9 (90% opacity). 
+ * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
-@property (assign) float opacity;
+@property (atomic, assign) float opacity;
+
+/**
+ * The color of the HUD window. Defaults to black. If this property is set, color is set using
+ * this UIColor and the opacity property is not used.  using retain because performing copy on
+ * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
+ */
+@property (atomic, MB_STRONG) UIColor *color;
 
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float xOffset;
+@property (atomic, assign) float xOffset;
 
 /** 
  * The y-ayis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float yOffset;
+@property (atomic, assign) float yOffset;
 
 /**
  * The amounth of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
  * Defaults to 20.0
  */
-@property (assign) float margin;
+@property (atomic, assign) float margin;
 
 /** 
  * Cover the HUD background view with a radial gradient. 
  */
-@property (assign) BOOL dimBackground;
+@property (atomic, assign) BOOL dimBackground;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
@@ -300,14 +359,14 @@ typedef enum {
  * Grace time functionality is only supported when the task status is known!
  * @see taskInProgress
  */
-@property (assign) float graceTime;
+@property (atomic, assign) float graceTime;
 
 /**
  * The minimum time (in seconds) that the HUD is shown. 
  * This avoids the problem of the HUD being shown and than instantly hidden.
  * Defaults to 0 (no minimum show time).
  */
-@property (assign) float minShowTime;
+@property (atomic, assign) float minShowTime;
 
 /**
  * Indicates that the executed operation is in progress. Needed for correct graceTime operation.
@@ -317,38 +376,38 @@ typedef enum {
  * you need to set this property when your task starts and completes in order to have normal graceTime 
  * functionality.
  */
-@property (assign) BOOL taskInProgress;
+@property (atomic, assign) BOOL taskInProgress;
 
 /**
  * Removes the HUD from its parent view when hidden. 
  * Defaults to NO. 
  */
-@property (assign) BOOL removeFromSuperViewOnHide;
+@property (atomic, assign) BOOL removeFromSuperViewOnHide;
 
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* labelFont;
+@property (atomic, MB_STRONG) UIFont* labelFont;
 
 /** 
  * Font to be used for the details label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* detailsLabelFont;
+@property (atomic, MB_STRONG) UIFont* detailsLabelFont;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
-@property (assign) float progress;
+@property (atomic, assign) float progress;
 
 /**
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
-@property (assign) CGSize minSize;
+@property (atomic, assign) CGSize minSize;
 
 /**
  * Force the HUD dimensions to be equal if possible. 
  */
-@property (assign, getter = isSquare) BOOL square;
+@property (atomic, assign, getter = isSquare) BOOL square;
 
 /**
  * The block used when the gesture is recognized

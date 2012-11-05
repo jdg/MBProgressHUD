@@ -44,9 +44,9 @@ You can also add MBProgressHUD as a static library to your workspace. See [this 
 Usage
 =====
 
-The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and than spinning the task, that you want to perform, off onto a new thread. 
+The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and then spinning the task, that you want to perform, off onto a new thread. 
 
-```Objective-C
+```objective-c
 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 	// Do something...
@@ -58,7 +58,7 @@ dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 
 If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns. 
 
-```Objective-C
+```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 hud.mode = MBProgressHUDModeAnnularDeterminate;
 hud.labelText = @"Loading";
@@ -73,7 +73,7 @@ UI updates should always be done on the main thread. Some MBProgressHUD setters 
 
 If you need to run your long-running task in the main thread, you should perform it with a slight delay, so UIKit will have enough time to update the UI (i.e., draw the HUD) before you block the main thread with your task.
 
-```Objective-C
+```objective-c
 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
 dispatch_after(popTime, dispatch_get_main_queue(), ^(void){

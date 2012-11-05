@@ -135,19 +135,17 @@
 }
 
 - (IBAction)showUsingBlocks:(id)sender {
-#ifdef __BLOCKS__
-	// No need to retain (just a local variable)
-	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-	hud.labelText = @"Loading";
+#if NS_BLOCKS_AVAILABLE
+	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:hud];
+	hud.labelText = @"With a block";
 	
-	dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		// Do a taks in the background
+	[hud showAnimated:YES whileExecutingBlock:^{
 		[self myTask];
-		// Hide the HUD in the main tread
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-		});
-	});
+	} completionBlock:^{
+		[hud removeFromSuperview];
+		[hud release];
+	}];
 #endif
 }
 
@@ -171,6 +169,7 @@
 	[connection release];
 	
 	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
+	HUD.delegate = self;
 }
 
 
@@ -200,6 +199,17 @@
 	hud.removeFromSuperViewOnHide = YES;
 	
 	[hud hide:YES afterDelay:3];
+}
+
+- (IBAction)showWithColor:(id)sender{
+	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// Set the hud to display with a color
+	HUD.color = [UIColor colorWithRed:0.23 green:0.50 blue:0.82 alpha:0.90];
+	
+	HUD.delegate = self;
+	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];	
 }
 
 #pragma mark -
