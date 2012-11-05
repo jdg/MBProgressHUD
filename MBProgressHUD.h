@@ -266,8 +266,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (atomic, copy) MBProgressHUDCompletionBlock completionBlock;
 
-#endif
-
 /**
  * Set the HUD to listen to tap gesture.
  *
@@ -276,6 +274,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * parameter is ignored.
  */
 - (void) setListenToTapGesture:(BOOL) value numberOfTaps:(int) numberOfTaps;
+
+#endif
 
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
@@ -409,10 +409,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (atomic, assign, getter = isSquare) BOOL square;
 
+#if NS_BLOCKS_AVAILABLE
+
 /**
  * The block used when the gesture is recognized
  */
 @property (assign) void (^tapGestureBlock)(void);
+
+#endif
 
 @end
 
