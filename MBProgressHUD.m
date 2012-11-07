@@ -426,7 +426,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)setupLabels {
 	label = [[UILabel alloc] initWithFrame:self.bounds];
 	label.adjustsFontSizeToFitWidth = NO;
-	label.textAlignment = UITextAlignmentCenter;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+    label.textAlignment = UITextAlignmentCenter;
+#else
+    label.textAlignment = NSTextAlignmentCenter;
+#endif
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor whiteColor];
@@ -437,7 +441,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
-	detailsLabel.textAlignment = UITextAlignmentCenter;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
+    label.textAlignment = UITextAlignmentCenter;
+#else
+    label.textAlignment = NSTextAlignmentCenter;
+#endif
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
 	detailsLabel.textColor = [UIColor whiteColor];
