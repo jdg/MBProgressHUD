@@ -16,3 +16,6 @@ profile
 # vim noise
 *~
 *.swp
+
+# AppCode noise
+.idea/
