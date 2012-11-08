@@ -442,9 +442,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    label.textAlignment = UITextAlignmentCenter;
+    detailsLabel.textAlignment = UITextAlignmentCenter;
 #else
-    label.textAlignment = NSTextAlignmentCenter;
+    detailsLabel.textAlignment = NSTextAlignmentCenter;
 #endif
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
