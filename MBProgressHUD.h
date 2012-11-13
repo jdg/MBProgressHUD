@@ -74,6 +74,12 @@ typedef enum {
 #endif
 #endif
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+	#define MBLabelAlignmentCenter NSTextAlignmentCenter
+#else
+	#define MBLabelAlignmentCenter UITextAlignmentCenter
+#endif
+
 #if NS_BLOCKS_AVAILABLE
 typedef void (^MBProgressHUDCompletionBlock)();
 #endif
