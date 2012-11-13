@@ -50,6 +50,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSDate *showStarted;
 @property (atomic, assign) CGSize size;
 
+// Private
+@property (MB_STRONG) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 
@@ -94,6 +97,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize size;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
+@synthesize tapRecognizer = _tapRecognizer;
+@synthesize tapGestureBlock = _tapGestureBlock;
 #endif
 
 #pragma mark - Class methods
@@ -221,6 +226,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[customView release];
 #if NS_BLOCKS_AVAILABLE
 	[completionBlock release];
+    [_tapRecognizer release];
 #endif
 	[super dealloc];
 #endif
@@ -721,6 +727,37 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (animated) {
 		[UIView commitAnimations];
 	}
+}
+
+#pragma mark - Gesture recognizer methods
+
+- (void) setListenToTapGesture:(BOOL) value numberOfTaps:(int) numberOfTaps {
+    if (value) {
+        
+        // If the tap recognizer is already allocated, than no need to create another one
+        if (_tapRecognizer)
+            return;
+        
+        UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        [tapRecognizer setNumberOfTapsRequired:numberOfTaps];
+        
+        [self addGestureRecognizer:tapRecognizer];
+        self.tapRecognizer = tapRecognizer;
+        
+#if !__has_feature(objc_arc)
+        [tapRecognizer release];
+#endif
+        
+    } else {
+        [self removeGestureRecognizer:_tapRecognizer];
+        self.tapRecognizer = nil;
+    }
+}
+
+- (void) handleTap: (UITapGestureRecognizer*)recognizer {
+    if (recognizer == _tapRecognizer) {
+        _tapGestureBlock();
+    }
 }
 
 @end

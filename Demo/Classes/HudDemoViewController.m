@@ -232,10 +232,20 @@
 
 - (void)myMixedTask {
 	// Indeterminate mode
+	// Set the block but don't enable the gesture recognizer
+	[HUD setListenToTapGesture:NO numberOfTaps:2];
+	[HUD setTapGestureBlock:^{
+		NSLog(@"You double tapped me!");
+	}];
 	sleep(2);
 	// Switch to determinate mode
+	
+	// Enable the recognizer
+	[HUD setListenToTapGesture:YES numberOfTaps:2];
+
 	HUD.mode = MBProgressHUDModeDeterminate;
 	HUD.labelText = @"Progress";
+	HUD.detailsLabelText = @"Double tap and watch the console";
 	float progress = 0.0f;
 	while (progress < 1.0f)
 	{
@@ -243,6 +253,12 @@
 		HUD.progress = progress;
 		usleep(50000);
 	}
+	
+	// Disable the recognizer again
+	[HUD setListenToTapGesture:NO numberOfTaps:2];
+	
+	HUD.detailsLabelText = @"Now double tap doesn't work anymore";
+
 	// Back to indeterminate mode
 	HUD.mode = MBProgressHUDModeIndeterminate;
 	HUD.labelText = @"Cleaning up";
@@ -252,6 +268,7 @@
 	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
 	HUD.mode = MBProgressHUDModeCustomView;
 	HUD.labelText = @"Completed";
+	HUD.detailsLabelText = @"Double tap and watch the console";
 	sleep(2);
 }
 
