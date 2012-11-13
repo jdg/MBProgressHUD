@@ -122,6 +122,22 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
+ * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
+ *
+ * @param view The view that the HUD will be added to
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
+ * @param networkActivityIndicator If set to YES the system network activity indicator will be displayed as well
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ * @see animationType
+ */
++ (MBProgressHUD *)showHUDAddedTo:(UIView *)view
+                         animated:(BOOL)animated
+         networkActivityIndicator:(BOOL)showNetworkActivityIndicator;
+
+/**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
@@ -346,6 +362,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Cover the HUD background view with a radial gradient. 
  */
 @property (assign) BOOL dimBackground;
+
+/**
+ * Show the network activitiy indicator
+ */
+@property (atomic, assign) BOOL showNetworkActivityIndicator;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
