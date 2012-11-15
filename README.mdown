@@ -25,21 +25,24 @@ You will need LLVM 3.0 or later in order to build MBProgressHUD.
 Adding MBProgressHUD to your project
 ====================================
 
+Source files
+------------
+
 The simplest way to add the MBProgressHUD to your project is to directly add the `MBProgressHUD.h` and `MBProgressHUD.m` source files to your project.
 
-1. Download the latest code version from the repository (you can simply use the Download Source button and get the zip or tar archive of the master branch).
-2. Extract the archive.
-3. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` to your classes group (in the Groups & Files view). 
-4. Make sure to select Copy items when asked. 
+1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project. 
+2. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
+3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
-If you have a git tracked project, you can add MBProgressHUD as a submodule to your project. 
+Static library
+--------------
 
-1. Move inside your git tracked project.
-2. Add MBProgressHUD as a submodule using `git submodule add git://github.com/matej/MBProgressHUD.git MBProgressHUD` .
-3. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` to your classes group (in the Groups & Files view). 
-4. Don't select Copy items and select a suitable Reference type (relative to project should work fine most of the time). 
+You can also add MBProgressHUD as a static library to your project or workspace. 
 
-You can also add MBProgressHUD as a static library to your workspace. See [this article](http://blog.carbonfive.com/2011/04/04/using-open-source-static-libraries-in-xcode-4/#using_a_static_library) for details. 
+1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project. 
+2. Open your project in Xcode, than drag and drop `MBProgressHUD.xcodeproj` onto your project or workspace (use the "Product Navigator view"). 
+3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. 
+4. Include MBProgressHUD wherever you need it with `#import <MBProgressHUD/MBProgressHUD.h>`.
 
 Usage
 =====
@@ -90,14 +93,6 @@ License
 =======
 
 This code is distributed under the terms and conditions of the MIT license. 
-
-Copyright (c) 2009-2012 Matej Bukovinski
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Change-log
 ==========
