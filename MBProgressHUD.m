@@ -127,7 +127,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (MBProgressHUD *)HUDForView:(UIView *)view {
 	NSArray *subviews = view.subviews;
 	Class hudClass = [MBProgressHUD class];
-	for (UIView *aView in subviews) {
+	for (NSUInteger i = subviews.count - 1; i >= 0; i--) {
+		UIView *aView = [subviews objectAtIndex:i];
 		if ([aView isKindOfClass:hudClass]) {
 			return (MBProgressHUD *)aView;
 		}
