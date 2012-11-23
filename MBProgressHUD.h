@@ -431,6 +431,18 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (nonatomic, assign) float progress;
 
+/**
+ * Indicator progress color.
+ * Defaults to white [UIColor whiteColor]
+ */
+@property (nonatomic, MB_STRONG) UIColor *progressTintColor;
+
+/**
+ * Indicator background (non-progress) color.
+ * Defaults to translucent white (alpha 0.1)
+ */
+@property (nonatomic, MB_STRONG) UIColor *backgroundTintColor;
+
 /*
  * Display mode - NO = round or YES = annular. Defaults to round.
  */
