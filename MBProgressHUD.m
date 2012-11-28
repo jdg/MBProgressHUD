@@ -43,6 +43,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)launchExecution;
 - (void)deviceOrientationDidChange:(NSNotification *)notification;
 - (void)hideDelayed:(NSNumber *)animated;
+- (void)cancelDelayedShowAndHideTimers;
 
 @property (atomic, MB_STRONG) UIView *indicator;
 @property (atomic, MB_STRONG) NSTimer *graceTimer;
@@ -231,6 +232,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	useAnimation = animated;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
+		// Do not allow other delayed shows to interfere
+		[self cancelDelayedShowAndHideTimers];
 		self.graceTimer = [NSTimer scheduledTimerWithTimeInterval:self.graceTime target:self 
 						   selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
 	} 
@@ -246,6 +249,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// If the minShow time is set, calculate how long the hud was shown,
 	// and pospone the hiding operation if necessary
 	if (self.minShowTime > 0.0 && showStarted) {
+		// Do not allow other delayed hides to interfere
+		[self cancelDelayedShowAndHideTimers];
 		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:showStarted];
 		if (interv < self.minShowTime) {
 			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self 
@@ -282,6 +287,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
+	// Do not allow a previously scheduled hide to hide the HUD prematurely.
+	// NOTE: Do not purposely call hideDelayed: before showing the HUD because it
+	// will not be hidden.
+	[self cancelDelayedShowAndHideTimers];
 	self.alpha = 0.0f;
 	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
@@ -305,6 +314,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
+	[self cancelDelayedShowAndHideTimers];
 	// Fade out
 	if (animated && showStarted) {
 		[UIView beginAnimations:nil context:NULL];
@@ -348,6 +358,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
 	}
+}
+
+- (void)cancelDelayedShowAndHideTimers
+{
+	// Cancel previous timers that could show or hide the HUD
+	[self.minShowTimer invalidate];
+	[self.graceTimer invalidate];
+	// Cancel previous calls to hide:afterDelay
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDelayed:) object:[NSNumber numberWithBool:YES]];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDelayed:) object:[NSNumber numberWithBool:NO]];
 }
 
 #pragma mark - Threading
