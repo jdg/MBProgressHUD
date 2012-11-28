@@ -208,6 +208,10 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Hide the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
+ * To avoid conflicts, any call to show the HUD will cause an outstanding delayed hide to be invalidated. This means that
+ * hide:afterDelay: must be called *after* the HUD is shown. The HUD may be shown again (for example, with different text)
+ * without interference from the previous delayed hide.
+ *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
  * @param delay Delay in secons until the HUD is hidden.
@@ -360,7 +364,10 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 /**
  * The minimum time (in seconds) that the HUD is shown. 
- * This avoids the problem of the HUD being shown and than instantly hidden.
+ * This avoids the problem of the HUD being shown and then instantly hidden.
+ * Showing the same HUD multiple times (for example, with different text) will
+ * cause the timer to be reset such that the HUD remains visible for the
+ * specified minimum time after the last show call.
  * Defaults to 0 (no minimum show time).
  */
 @property (assign) float minShowTime;
