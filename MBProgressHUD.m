@@ -92,6 +92,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+@dynamic labelTextColor;
+@dynamic detailsLabelTextColor;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -158,7 +160,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
-        self.color = nil;
+      self.color = nil;
+      self.detailsLabelTextColor = nil;
+      self.labelTextColor = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.xOffset = 0.0f;
@@ -719,6 +723,24 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (animated) {
 		[UIView commitAnimations];
 	}
+}
+
+#pragma mark - Colored labels
+
+- (void)setLabelTextColor:(UIColor *)labelTextColor {
+   label.textColor = labelTextColor;
+}
+
+- (UIColor *)labelTextColor {
+   return label.textColor;
+}
+
+- (void)setDetailsLabelTextColor:(UIColor *)detailsLabelTextColor {
+   detailsLabel.textColor = detailsLabelTextColor;
+}
+
+- (UIColor *)detailsLabelTextColor {
+   return detailsLabel.textColor;
 }
 
 @end
