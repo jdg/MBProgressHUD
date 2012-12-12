@@ -17,6 +17,12 @@
 	#define MB_RETAIN(exp) [exp retain]
 #endif
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+    #define MBLabelAlignmentCenter NSTextAlignmentCenter
+#else
+    #define MBLabelAlignmentCenter UITextAlignmentCenter
+#endif
+
 
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
