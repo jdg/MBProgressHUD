@@ -210,7 +210,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
- * @param delay Delay in secons until the HUD is hidden.
+ * @param delay Delay in seconds until the HUD is hidden.
  *
  * @see animationType
  */
@@ -259,7 +259,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @param animated If set to YES the HUD will (dis)appear using the current animationType. If set to NO the HUD will
  * not use animations while (dis)appearing.
  * @param block The block to be executed while the HUD is shown.
- * @param queue The dispatch queue on which the block should be execouted.
+ * @param queue The dispatch queue on which the block should be executed.
  * @param completion The block to be executed on completion.
  *
  * @see completionBlock
@@ -268,7 +268,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 		  completionBlock:(MBProgressHUDCompletionBlock)completion;
 
 /**
- * A block that gets called after the HUD was completely hiden.
+ * A block that gets called after the HUD was completely hidden.
  */
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 
@@ -337,7 +337,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float yOffset;
 
 /**
- * The amounth of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
+ * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
  * Defaults to 20.0
  */
 @property (assign) float margin;
