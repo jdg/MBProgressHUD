@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F8E3005169BC62B008A3F19 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F8E3003169BC62B008A3F19 /* MBProgressHUD.h */; };
+		7F8E3006169BC62B008A3F19 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8E3004169BC62B008A3F19 /* MBProgressHUD.m */; };
 		D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A74C1518C70F00E13FB8 /* Foundation.framework */; };
-		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
 		D286A76F1518CAAD00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76E1518CAAD00E13FB8 /* CoreGraphics.framework */; };
-		D286A7851518CBEE00E13FB8 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = D286A7511518C70F00E13FB8 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F8E3003169BC62B008A3F19 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		7F8E3004169BC62B008A3F19 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		D286A7491518C70F00E13FB8 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D286A74C1518C70F00E13FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D286A7511518C70F00E13FB8 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
-		D286A7521518C70F00E13FB8 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
 		D286A75D1518C89600E13FB8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D286A76E1518CAAD00E13FB8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -37,10 +37,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F8E3002169BC62B008A3F19 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				7F8E3003169BC62B008A3F19 /* MBProgressHUD.h */,
+				7F8E3004169BC62B008A3F19 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		D286A73E1518C70E00E13FB8 = {
 			isa = PBXGroup;
 			children = (
-				D286A74E1518C70F00E13FB8 /* MBProgressHUD */,
+				7F8E3002169BC62B008A3F19 /* MBProgressHUD */,
 				D286A74B1518C70F00E13FB8 /* Frameworks */,
 				D286A74A1518C70F00E13FB8 /* Products */,
 			);
@@ -64,15 +73,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D286A74E1518C70F00E13FB8 /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				D286A7511518C70F00E13FB8 /* MBProgressHUD.h */,
-				D286A7521518C70F00E13FB8 /* MBProgressHUD.m */,
-			);
-			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -80,7 +80,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D286A7851518CBEE00E13FB8 /* MBProgressHUD.h in Headers */,
+				7F8E3005169BC62B008A3F19 /* MBProgressHUD.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */,
+				7F8E3006169BC62B008A3F19 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
