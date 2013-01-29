@@ -192,12 +192,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (id)initWithView:(UIView *)view {
 	NSAssert(view, @"View must not be nil.");
-	id me = [self initWithFrame:view.bounds];
-	// We need to take care of rotation ourselfs if we're adding the HUD to a window
-	if ([view isKindOfClass:[UIWindow class]]) {
-		[self setTransformForCurrentOrientation:NO];
-	}
-	return me;
+	return [self initWithFrame:view.bounds];
 }
 
 - (id)initWithWindow:(UIWindow *)window {
@@ -277,6 +272,15 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)handleMinShowTimer:(NSTimer *)theTimer {
 	[self hideUsingAnimation:useAnimation];
+}
+
+#pragma mark - View Hierrarchy
+
+- (void)didMoveToSuperview {
+	// We need to take care of rotation ourselfs if we're adding the HUD to a window
+	if ([self.superview isKindOfClass:[UIWindow class]]) {
+		[self setTransformForCurrentOrientation:NO];
+	}
 }
 
 #pragma mark - Internal show & hide operations
