@@ -332,7 +332,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float xOffset;
 
 /** 
- * The y-ayis offset of the HUD relative to the centre of the superview. 
+ * The y-axis offset of the HUD relative to the centre of the superview. 
  */
 @property (assign) float yOffset;
 
