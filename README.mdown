@@ -44,7 +44,7 @@ You can also add MBProgressHUD as a static library to your project or workspace.
 
 1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project. 
 2. Open your project in Xcode, than drag and drop `MBProgressHUD.xcodeproj` onto your project or workspace (use the "Product Navigator view"). 
-3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. 
+3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. You might also need to add `MBProgressHUD` to the Target Dependencies list. 
 4. Include MBProgressHUD wherever you need it with `#import <MBProgressHUD/MBProgressHUD.h>`.
 
 -----
