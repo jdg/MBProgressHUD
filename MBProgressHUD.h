@@ -314,6 +314,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (copy) NSString *detailsLabelText;
 
+
+/**
+ * Hide the HUD when tapped on it.
+ */
+@property (atomic, assign) BOOL hidesWhenTapped;
+
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
