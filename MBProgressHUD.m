@@ -62,8 +62,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UILabel *detailsLabel;
 	BOOL isFinished;
 	CGAffineTransform rotationTransform;
-	UITapGestureRecognizer *cancelTapGestureRecognizer;
-	BOOL hideAnimated;
+    UITapGestureRecognizer *cancelTapGestureRecognizer;
+    BOOL hideAnimated;
 }
 
 #pragma mark - Properties
@@ -100,28 +100,28 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #endif
 
 - (BOOL)hidesWhenTapped {
-	return _hidesWhenTapped;
+    return _hidesWhenTapped;
 }
 
 - (void)setHidesWhenTapped:(BOOL)hidesWhenTapped {
-	[self setHidesWhenTapped:hidesWhenTapped animated:YES];
+    [self setHidesWhenTapped:hidesWhenTapped animated:YES];
 }
 
 - (void)setHidesWhenTapped:(BOOL)hidesWhenTapped animated:(BOOL)animated {
-	if (hidesWhenTapped) {
-		cancelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudWasTapped)];
-		[self addGestureRecognizer:cancelTapGestureRecognizer];
-	}
-	else if (cancelTapGestureRecognizer != nil){
-		[self removeGestureRecognizer:cancelTapGestureRecognizer];
-		cancelTapGestureRecognizer = nil;
-	}
-	hideAnimated = animated;
-	_hidesWhenTapped = hidesWhenTapped;
+    if (hidesWhenTapped) {
+        cancelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudWasTapped)];
+        [self addGestureRecognizer:cancelTapGestureRecognizer];
+    }
+    else if (cancelTapGestureRecognizer != nil){
+        [self removeGestureRecognizer:cancelTapGestureRecognizer];
+        cancelTapGestureRecognizer = nil;
+    }
+    hideAnimated = animated;
+    _hidesWhenTapped = hidesWhenTapped;
 }
 
 - (void)hudWasTapped {
-	[self hide:hideAnimated];
+    [self hide:hideAnimated];
 }
 
 #pragma mark - Class methods
@@ -186,7 +186,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
-		self.color = nil;
+        self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.xOffset = 0.0f;
@@ -415,11 +415,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	self.taskInProgress = YES;
 	self.completionBlock = completion;
 	dispatch_async(queue, ^(void) {
-		block();
-		dispatch_async(dispatch_get_main_queue(), ^(void) {
-			[self cleanUp];
-		});
-	});
+        block();
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self cleanUp];
+        });
+    });
   [self show:animated];
 }
 
@@ -626,12 +626,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		CGGradientRelease(gradient);
 	}
 
-	// Set background rect color
-	if (self.color) {
-		CGContextSetFillColorWithColor(context, self.color.CGColor);
-	} else {
-		CGContextSetGrayFillColor(context, 0.0f, self.opacity);
-	}
+    // Set background rect color
+    if (self.color) {
+        CGContextSetFillColorWithColor(context, self.color.CGColor);
+    } else {
+        CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+    }
 
 	
 	// Center HUD
