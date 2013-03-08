@@ -62,8 +62,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UILabel *detailsLabel;
 	BOOL isFinished;
 	CGAffineTransform rotationTransform;
-    UITapGestureRecognizer *cancelTapGestureRecognizer;
-    BOOL hideAnimated;
+	UITapGestureRecognizer *cancelTapGestureRecognizer;
+	BOOL hideAnimated;
 }
 
 #pragma mark - Properties
@@ -100,28 +100,28 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #endif
 
 - (BOOL)hidesWhenTapped {
-    return _hidesWhenTapped;
+	return _hidesWhenTapped;
 }
 
 - (void)setHidesWhenTapped:(BOOL)hidesWhenTapped {
-    [self setHidesWhenTapped:hidesWhenTapped animated:YES];
+	[self setHidesWhenTapped:hidesWhenTapped animated:YES];
 }
 
 - (void)setHidesWhenTapped:(BOOL)hidesWhenTapped animated:(BOOL)animated {
-    if (hidesWhenTapped) {
-        cancelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudWasTapped)];
-        [self addGestureRecognizer:cancelTapGestureRecognizer];
-    }
-    else if (cancelTapGestureRecognizer != nil){
-        [self removeGestureRecognizer:cancelTapGestureRecognizer];
-        cancelTapGestureRecognizer = nil;
-    }
-    hideAnimated = animated;
-    _hidesWhenTapped = hidesWhenTapped;
+	if (hidesWhenTapped) {
+		cancelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudWasTapped)];
+		[self addGestureRecognizer:cancelTapGestureRecognizer];
+	}
+	else if (cancelTapGestureRecognizer != nil){
+		[self removeGestureRecognizer:cancelTapGestureRecognizer];
+		cancelTapGestureRecognizer = nil;
+	}
+	hideAnimated = animated;
+	_hidesWhenTapped = hidesWhenTapped;
 }
 
 - (void)hudWasTapped {
-    [self hide:hideAnimated];
+	[self hide:hideAnimated];
 }
 
 #pragma mark - Class methods
