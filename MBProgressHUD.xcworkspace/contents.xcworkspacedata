@@ -10,4 +10,7 @@
    <FileRef
       location = "group:README.mdown">
    </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
 </Workspace>
