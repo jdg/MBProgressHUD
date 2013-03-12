@@ -98,15 +98,15 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Class methods
 
-+ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+	MBProgressHUD *hud = [[self alloc] initWithView:view];
 	[view addSubview:hud];
 	[hud show:animated];
 	return MB_AUTORELEASE(hud);
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUD *hud = [MBProgressHUD HUDForView:view];
+	MBProgressHUD *hud = [self HUDForView:view];
 	if (hud != nil) {
 		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
@@ -116,7 +116,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
-	NSArray *huds = [self allHUDsForView:view];
+	NSArray *huds = [MBProgressHUD allHUDsForView:view];
 	for (MBProgressHUD *hud in huds) {
 		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
@@ -124,11 +124,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return [huds count];
 }
 
-+ (MBProgressHUD *)HUDForView:(UIView *)view {
-	Class hudClass = [MBProgressHUD class];
++ (instancetype)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
-		if ([subview isKindOfClass:hudClass]) {
+		if ([subview isKindOfClass:self]) {
 			return (MBProgressHUD *)subview;
 		}
 	}
@@ -138,9 +137,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (NSArray *)allHUDsForView:(UIView *)view {
 	NSMutableArray *huds = [NSMutableArray array];
 	NSArray *subviews = view.subviews;
-	Class hudClass = [MBProgressHUD class];
 	for (UIView *aView in subviews) {
-		if ([aView isKindOfClass:hudClass]) {
+		if ([aView isKindOfClass:self]) {
 			[huds addObject:aView];
 		}
 	}
