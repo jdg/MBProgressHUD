@@ -9,13 +9,6 @@ Pod::Spec.new do |s|
                     with some additional features.
                    DESC
   s.homepage     = "http://www.bukovinski.com"
-  s.screenshots = [ "http://dl.dropbox.com/u/378729/MBProgressHUD/1.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/2.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/3.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/4.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/5.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/6.png",
-                    "http://dl.dropbox.com/u/378729/MBProgressHUD/7.png" ]
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'Matej Bukovinski' => 'matej@bukovinski.com' }
   s.source       = { :git => "https://github.com/matej/MBProgressHUD.git", :tag => s.version.to_s }
