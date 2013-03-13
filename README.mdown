@@ -1,6 +1,4 @@
-MBProgressHUD
-=============
--------------
+# MBProgressHUD
 
 MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
 
@@ -12,9 +10,7 @@ MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an in
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/6-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/6.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/7-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/7.png)
 
-------------
-Requirements
-============
+## Requirements
 
 MBProgressHUD works on any iOS version and is compatible with both ARC and non-ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
@@ -24,21 +20,25 @@ MBProgressHUD works on any iOS version and is compatible with both ARC and non-A
 
 You will need LLVM 3.0 or later in order to build MBProgressHUD. 
 
-------------------------------------
-Adding MBProgressHUD to your project
-====================================
+## Adding MBProgressHUD to your project
 
-Source files
-------------
+### Cocoapods
 
-The simplest way to add the MBProgressHUD to your project is to directly add the `MBProgressHUD.h` and `MBProgressHUD.m` source files to your project.
+[CocoaPods](http://cocoapods.org) is the recommended way to add MBProgressHUD to your project.
 
-1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project. 
+1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 0.5'`
+2. Install the pod(s) by running `pod install`.
+3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
+
+### Source files
+
+Alternatively you can directly add the `MBProgressHUD.h` and `MBProgressHUD.m` source files to your project.
+
+1. Download the [latest code version](https://github.com/matej/MBProgressHUD/archive/master.zip) or add the repository as a git submodule to your git-tracked project. 
 2. Open your project in Xcode, than drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
-Static library
---------------
+### Static library
 
 You can also add MBProgressHUD as a static library to your project or workspace. 
 
@@ -47,9 +47,7 @@ You can also add MBProgressHUD as a static library to your project or workspace.
 3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. You might also need to add `MBProgressHUD` to the Target Dependencies list. 
 4. Include MBProgressHUD wherever you need it with `#import <MBProgressHUD/MBProgressHUD.h>`.
 
------
-Usage
-=====
+## Usage
 
 The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and then spinning the task, that you want to perform, off onto a new thread. 
 
@@ -93,15 +91,12 @@ You should be aware that any HUD updates issued inside the above block won't be 
 
 For more examples, including how to use MBProgressHUD with asynchronous operations such as NSURLConnection, take a look at the bundled demo project. Extensive API documentation is provided in the header file (MBProgressHUD.h).
 
--------
-License
-=======
 
-This code is distributed under the terms and conditions of the MIT license. 
+## License
 
-----------
-Change-log
-==========
+This code is distributed under the terms and conditions of the [MIT license](LICENSE). 
+
+## Change-log
 
 **Version 0.5** @ 22.03.12
 
