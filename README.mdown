@@ -72,7 +72,7 @@ hud.labelText = @"Loading";
 [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
 	hud.progress = progress;
 } completionCallback:^{
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
+	[hud hide:YES];
 }];
 ```
 
