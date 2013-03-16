@@ -98,7 +98,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Class methods
 
-+ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
 	MBProgressHUD *hud = [[self alloc] initWithView:view];
 	[view addSubview:hud];
 	[hud show:animated];
@@ -124,7 +124,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return [huds count];
 }
 
-+ (instancetype)HUDForView:(UIView *)view {
++ (MB_INSTANCETYPE)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
 		if ([subview isKindOfClass:self]) {
