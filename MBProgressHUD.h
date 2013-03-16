@@ -56,6 +56,14 @@ typedef enum {
 } MBProgressHUDAnimation;
 
 
+#ifndef MB_INSTANCETYPE
+    #if __has_feature(objc_instancetype)
+        #define MB_INSTANCETYPE instancetype
+    #else
+        #define MB_INSTANCETYPE id
+    #endif
+#endif
+
 #ifndef MB_STRONG
 #if __has_feature(objc_arc)
 	#define MB_STRONG strong
@@ -111,7 +119,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @see hideHUDForView:animated:
  * @see animationType
  */
-+ (MBProgressHUD *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
@@ -145,7 +153,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
  */
-+ (MBProgressHUD *)HUDForView:(UIView *)view;
++ (MB_INSTANCETYPE)HUDForView:(UIView *)view;
 
 /**
  * Finds all HUD subviews and returns them.
