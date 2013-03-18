@@ -57,11 +57,11 @@ typedef enum {
 
 
 #ifndef MB_INSTANCETYPE
-    #if __has_feature(objc_instancetype)
-        #define MB_INSTANCETYPE instancetype
-    #else
-        #define MB_INSTANCETYPE id
-    #endif
+#if __has_feature(objc_instancetype)
+	#define MB_INSTANCETYPE instancetype
+#else
+	#define MB_INSTANCETYPE id
+#endif
 #endif
 
 #ifndef MB_STRONG
