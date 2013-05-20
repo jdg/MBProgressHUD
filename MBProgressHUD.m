@@ -479,7 +479,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[self addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
-		[self.indicator removeFromSuperview];
+		[indicator removeFromSuperview];
 		FlatProgressView* flatProgressView = [[FlatProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 20.0f)];
 		flatProgressView.progressColor = [UIColor whiteColor];
 		flatProgressView.progressRemainingColor = [UIColor clearColor];
