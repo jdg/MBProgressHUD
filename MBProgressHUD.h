@@ -38,6 +38,8 @@ typedef enum {
 	MBProgressHUDModeIndeterminate,
 	/** Progress is shown using a round, pie-chart like, progress view. */
 	MBProgressHUDModeDeterminate,
+	/** Progress is shown using a horizontal progress bar */
+	MBProgressHUDModeDeterminateHorizontalBar,
 	/** Progress is shown using a ring-shaped progress view. */
 	MBProgressHUDModeAnnularDeterminate,
 	/** Shows a custom view */

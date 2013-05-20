@@ -28,6 +28,18 @@ static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
 
+@interface FlatProgressView : UIView
+
+@property (nonatomic, readwrite) float minValue;
+@property (nonatomic, readwrite) float maxValue;
+@property (nonatomic, readwrite) float progress;
+@property (nonatomic, strong) UIColor *lineColor;
+@property (nonatomic, strong) UIColor *progressRemainingColor;
+@property (nonatomic, strong) UIColor *progressColor;
+
+-(void)setNewRect:(CGRect)newFrame;
+
+@end
 
 @interface MBProgressHUD ()
 
@@ -466,6 +478,15 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[(UIActivityIndicatorView *)indicator startAnimating];
 		[self addSubview:indicator];
 	}
+	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
+		[self.indicator removeFromSuperview];
+		FlatProgressView* flatProgressView = [[FlatProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 20.0f)];
+		flatProgressView.progressColor = [UIColor whiteColor];
+		flatProgressView.progressRemainingColor = [UIColor clearColor];
+		flatProgressView.lineColor = [UIColor whiteColor];
+        self.indicator = MB_AUTORELEASE(flatProgressView);
+		[self addSubview:indicator];
+	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 		if (!isRoundIndicator) {
 			// Update to determinante indicator
@@ -859,6 +880,197 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	[self setNeedsDisplay];
+}
+
+@end
+
+@implementation FlatProgressView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+	{
+		_minValue = 0;
+		_maxValue = 1;
+		_progress = 0;
+		self.backgroundColor = [UIColor clearColor];
+		_lineColor = [UIColor whiteColor];
+		_progressColor = [UIColor darkGrayColor];
+		_progressRemainingColor = [UIColor lightGrayColor];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+	
+#if !__has_feature(objc_arc)
+	
+	[_lineColor release];
+	[_progressColor release];
+	[_progressRemainingColor release];
+	
+#endif
+	
+}
+
+- (void)drawRect:(CGRect)rect
+{
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	// setup properties
+	CGContextSetLineWidth(context, 2);
+	CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
+	CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
+	
+	// draw line border
+	float radius = (rect.size.height / 2) - 2;
+	CGContextMoveToPoint(context, 2, rect.size.height/2);
+	CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
+	CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
+	CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
+	CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
+	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
+	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
+	CGContextFillPath(context);
+	
+	// draw progress background
+	CGContextMoveToPoint(context, 2, rect.size.height/2);
+	CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
+	CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
+	CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
+	CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
+	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
+	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
+	CGContextStrokePath(context);
+	
+	// setup to draw progress color
+	CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
+	radius = radius - 2;
+	float amount = (self.progress/(self.maxValue - self.minValue)) * (rect.size.width);
+	
+	// if progress is in the middle area
+	if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4))
+	{
+		// top
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
+		CGContextAddLineToPoint(context, amount, 4);
+		CGContextAddLineToPoint(context, amount, radius + 4);
+		
+		// bottom
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
+		CGContextAddLineToPoint(context, amount, rect.size.height - 4);
+		CGContextAddLineToPoint(context, amount, radius + 4);
+		
+		CGContextFillPath(context);
+	}
+	
+	// progress is in the right arc
+	else if (amount > radius + 4)
+	{
+		float x = amount - (rect.size.width - radius - 4);
+		
+		// top
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
+		CGContextAddLineToPoint(context, rect.size.width - radius - 4, 4);
+		float angle = -acos(x/radius);
+		if (isnan(angle)) angle = 0;
+		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI, angle, 0);
+		CGContextAddLineToPoint(context, amount, rect.size.height/2);
+		
+		// bottom
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
+		CGContextAddLineToPoint(context, rect.size.width - radius - 4, rect.size.height - 4);
+		angle = acos(x/radius);
+		if (isnan(angle)) angle = 0;
+		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, -M_PI, angle, 1);
+		CGContextAddLineToPoint(context, amount, rect.size.height/2);
+		
+		CGContextFillPath(context);
+	}
+	
+	// progress is in the left arc
+	else if (amount < radius + 4 && amount > 0)
+	{
+		// top
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
+		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
+		
+		// bottom
+		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
+		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
+		
+		CGContextFillPath(context);
+	}
+}
+
+-(void)setNewRect:(CGRect)newFrame
+{
+	self.frame = newFrame;
+	[self setNeedsDisplay];
+}
+
+-(void)setMinValue:(float)newMin
+{
+	_minValue = newMin;
+	[self setNeedsDisplay];
+}
+
+-(void)setMaxValue:(float)newMax
+{
+	_maxValue = newMax;
+	[self setNeedsDisplay];
+}
+
+-(void)setProgress:(float)newValue
+{
+	_progress = newValue;
+	[self setNeedsDisplay];
+}
+
+-(void)setLineColor:(UIColor *)newColor
+{
+	
+#if !__has_feature(objc_arc)
+	
+	[_lineColor release];
+	
+#endif
+	
+	_lineColor = newColor;
+	[self setNeedsDisplay];
+}
+
+-(void)setProgressColor:(UIColor *)newColor
+{
+#if !__has_feature(objc_arc)
+	
+	[_progressColor release];
+	
+#endif
+	
+	_progressColor = newColor;
+	[self setNeedsDisplay];
+}
+
+-(void)setProgressRemainingColor:(UIColor *)newColor
+{
+	
+#if !__has_feature(objc_arc)
+	
+	[_progressRemainingColor release];
+	
+#endif
+	
+	_progressRemainingColor = newColor;
 	[self setNeedsDisplay];
 }
 
