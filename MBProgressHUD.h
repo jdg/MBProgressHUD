@@ -270,7 +270,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /**
  * A block that gets called after the HUD was completely hidden.
  */
-@property (copy) MBProgressHUDCompletionBlock completionBlock;
+@property (copy, atomic) MBProgressHUDCompletionBlock completionBlock;
 
 #endif
 
@@ -279,73 +279,73 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @see MBProgressHUDMode
  */
-@property (assign) MBProgressHUDMode mode;
+@property (assign, nonatomic) MBProgressHUDMode mode;
 
 /**
  * The animation type that should be used when the HUD is shown and hidden. 
  *
  * @see MBProgressHUDAnimation
  */
-@property (assign) MBProgressHUDAnimation animationType;
+@property (assign, nonatomic) MBProgressHUDAnimation animationType;
 
 /**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
-@property (MB_STRONG) UIView *customView;
+@property (MB_STRONG, nonatomic) UIView *customView;
 
 /** 
  * The HUD delegate object. 
  *
  * @see MBProgressHUDDelegate
  */
-@property (MB_WEAK) id<MBProgressHUDDelegate> delegate;
+@property (MB_WEAK, nonatomic) id<MBProgressHUDDelegate> delegate;
 
 /** 
  * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
  * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
  * set to @"", then no message is displayed.
  */
-@property (copy) NSString *labelText;
+@property (copy, nonatomic) NSString *labelText;
 
 /** 
  * An optional details message displayed below the labelText message. This message is displayed only if the labelText
  * property is also set and is different from an empty string (@""). The details text can span multiple lines. 
  */
-@property (copy) NSString *detailsLabelText;
+@property (copy, nonatomic) NSString *detailsLabelText;
 
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
-@property (assign) float opacity;
+@property (assign, nonatomic) float opacity;
 
 /**
  * The color of the HUD window. Defaults to black. If this property is set, color is set using
  * this UIColor and the opacity property is not used.  using retain because performing copy on
  * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
  */
-@property (MB_STRONG) UIColor *color;
+@property (MB_STRONG, nonatomic) UIColor *color;
 
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float xOffset;
+@property (assign, nonatomic) float xOffset;
 
 /** 
  * The y-axis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float yOffset;
+@property (assign, nonatomic) float yOffset;
 
 /**
  * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
  * Defaults to 20.0
  */
-@property (assign) float margin;
+@property (assign, nonatomic) float margin;
 
 /** 
  * Cover the HUD background view with a radial gradient. 
  */
-@property (assign) BOOL dimBackground;
+@property (assign, nonatomic) BOOL dimBackground;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
@@ -356,14 +356,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Grace time functionality is only supported when the task status is known!
  * @see taskInProgress
  */
-@property (assign) float graceTime;
+@property (assign, atomic) float graceTime;
 
 /**
  * The minimum time (in seconds) that the HUD is shown. 
  * This avoids the problem of the HUD being shown and than instantly hidden.
  * Defaults to 0 (no minimum show time).
  */
-@property (assign) float minShowTime;
+@property (assign, atomic) float minShowTime;
 
 /**
  * Indicates that the executed operation is in progress. Needed for correct graceTime operation.
@@ -373,38 +373,38 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * you need to set this property when your task starts and completes in order to have normal graceTime 
  * functionality.
  */
-@property (assign) BOOL taskInProgress;
+@property (assign, atomic) BOOL taskInProgress;
 
 /**
  * Removes the HUD from its parent view when hidden. 
  * Defaults to NO. 
  */
-@property (assign) BOOL removeFromSuperViewOnHide;
+@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
 
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* labelFont;
+@property (MB_STRONG, nonatomic) UIFont* labelFont;
 
 /** 
  * Font to be used for the details label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* detailsLabelFont;
+@property (MB_STRONG, nonatomic) UIFont* detailsLabelFont;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
-@property (assign) float progress;
+@property (assign, nonatomic) float progress;
 
 /**
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
-@property (assign) CGSize minSize;
+@property (assign, nonatomic) CGSize minSize;
 
 /**
  * Force the HUD dimensions to be equal if possible. 
  */
-@property (assign, getter = isSquare) BOOL square;
+@property (assign, getter = isSquare, nonatomic) BOOL square;
 
 @end
 
