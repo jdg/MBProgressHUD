@@ -911,7 +911,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[_lineColor release];
 	[_progressColor release];
 	[_progressRemainingColor release];
-	
+	[super dealloc];	
 #endif
 	
 }
