@@ -28,18 +28,6 @@ static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
 
-@interface FlatProgressView : UIView
-
-@property (nonatomic, readwrite) float minValue;
-@property (nonatomic, readwrite) float maxValue;
-@property (nonatomic, readwrite) float progress;
-@property (nonatomic, strong) UIColor *lineColor;
-@property (nonatomic, strong) UIColor *progressRemainingColor;
-@property (nonatomic, strong) UIColor *progressColor;
-
--(void)setNewRect:(CGRect)newFrame;
-
-@end
 
 @interface MBProgressHUD ()
 
@@ -479,12 +467,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[self addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
+		// Update to bar determinate indicator
 		[indicator removeFromSuperview];
-		FlatProgressView* flatProgressView = [[FlatProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 20.0f)];
-		flatProgressView.progressColor = [UIColor whiteColor];
-		flatProgressView.progressRemainingColor = [UIColor clearColor];
-		flatProgressView.lineColor = [UIColor whiteColor];
-        self.indicator = MB_AUTORELEASE(flatProgressView);
+        self.indicator = MB_AUTORELEASE([[MBBarProgressView alloc] init]);
 		[self addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
@@ -885,39 +870,39 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 @end
 
-@implementation FlatProgressView
 
-- (id)initWithFrame:(CGRect)frame
-{
+@implementation MBBarProgressView
+
+- (id)init {
+	return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
+}
+
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self)
-	{
-		_minValue = 0;
-		_maxValue = 1;
-		_progress = 0;
-		self.backgroundColor = [UIColor clearColor];
+    if (self) {
+		_progress = 0.f;
 		_lineColor = [UIColor whiteColor];
-		_progressColor = [UIColor darkGrayColor];
-		_progressRemainingColor = [UIColor lightGrayColor];
+		_progressColor = [UIColor whiteColor];
+		_progressRemainingColor = [UIColor clearColor];
+		self.backgroundColor = [UIColor clearColor];
+		self.opaque = NO;
+		[self registerForKVO];
     }
     return self;
 }
 
-- (void)dealloc
-{
-	
+
+- (void)dealloc {
+	[self unregisterFromKVO];
 #if !__has_feature(objc_arc)
-	
 	[_lineColor release];
 	[_progressColor release];
 	[_progressRemainingColor release];
-	[super dealloc];	
+	[super dealloc];
 #endif
-	
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	// setup properties
@@ -949,11 +934,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// setup to draw progress color
 	CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
 	radius = radius - 2;
-	float amount = (self.progress/(self.maxValue - self.minValue)) * (rect.size.width);
+	float amount = self.progress * rect.size.width;
 	
 	// if progress is in the middle area
-	if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4))
-	{
+	if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4)) {
 		// top
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
@@ -970,8 +954,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	
 	// progress is in the right arc
-	else if (amount > radius + 4)
-	{
+	else if (amount > radius + 4) {
 		float x = amount - (rect.size.width - radius - 4);
 		
 		// top
@@ -996,8 +979,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	
 	// progress is in the left arc
-	else if (amount < radius + 4 && amount > 0)
-	{
+	else if (amount < radius + 4 && amount > 0) {
 		// top
 		CGContextMoveToPoint(context, 4, rect.size.height/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
@@ -1012,65 +994,25 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 }
 
--(void)setNewRect:(CGRect)newFrame
-{
-	self.frame = newFrame;
-	[self setNeedsDisplay];
+#pragma mark - KVO
+
+- (void)registerForKVO {
+	for (NSString *keyPath in [self observableKeypaths]) {
+		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
+	}
 }
 
--(void)setMinValue:(float)newMin
-{
-	_minValue = newMin;
-	[self setNeedsDisplay];
+- (void)unregisterFromKVO {
+	for (NSString *keyPath in [self observableKeypaths]) {
+		[self removeObserver:self forKeyPath:keyPath];
+	}
 }
 
--(void)setMaxValue:(float)newMax
-{
-	_maxValue = newMax;
-	[self setNeedsDisplay];
+- (NSArray *)observableKeypaths {
+	return [NSArray arrayWithObjects:@"lineColor", @"progressRemainingColor", @"progressColor", @"progress", nil];
 }
 
--(void)setProgress:(float)newValue
-{
-	_progress = newValue;
-	[self setNeedsDisplay];
-}
-
--(void)setLineColor:(UIColor *)newColor
-{
-	
-#if !__has_feature(objc_arc)
-	
-	[_lineColor release];
-	
-#endif
-	
-	_lineColor = newColor;
-	[self setNeedsDisplay];
-}
-
--(void)setProgressColor:(UIColor *)newColor
-{
-#if !__has_feature(objc_arc)
-	
-	[_progressColor release];
-	
-#endif
-	
-	_progressColor = newColor;
-	[self setNeedsDisplay];
-}
-
--(void)setProgressRemainingColor:(UIColor *)newColor
-{
-	
-#if !__has_feature(objc_arc)
-	
-	[_progressRemainingColor release];
-	
-#endif
-	
-	_progressRemainingColor = newColor;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	[self setNeedsDisplay];
 }
 
