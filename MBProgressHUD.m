@@ -738,35 +738,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @end
 
 
-@implementation MBRoundProgressView {
-	float _progress;
-	BOOL _annular;
-}
-
-#pragma mark - Properties
-
-@synthesize progressTintColor = _progressTintColor;
-@synthesize backgroundTintColor = _backgroundTintColor;
-
-#pragma mark - Accessors
-
-- (float)progress {
-	return _progress;
-}
-
-- (void)setProgress:(float)progress {
-	_progress = progress;
-	[self setNeedsDisplay];
-}
-
-- (BOOL)isAnnular {
-	return _annular;
-}
-
-- (void)setAnnular:(BOOL)annular {
-	_annular = annular;
-	[self setNeedsDisplay];
-}
+@implementation MBRoundProgressView
 
 #pragma mark - Lifecycle
 
@@ -861,7 +833,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"progressTintColor", @"backgroundTintColor", nil];
+	return [NSArray arrayWithObjects:@"progressTintColor", @"backgroundTintColor", @"progress", @"annular", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
