@@ -845,6 +845,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 @implementation MBBarProgressView
 
+#pragma mark - Lifecycle
+
 - (id)init {
 	return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
@@ -863,7 +865,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     return self;
 }
 
-
 - (void)dealloc {
 	[self unregisterFromKVO];
 #if !__has_feature(objc_arc)
@@ -873,6 +874,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[super dealloc];
 #endif
 }
+
+#pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
 	CGContextRef context = UIGraphicsGetCurrentContext();
