@@ -80,7 +80,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
 	// Set determinate mode
-	HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
+	HUD.mode = MBProgressHUDModeDeterminate;
 	
 	HUD.delegate = self;
 	HUD.labelText = @"Loading";
