@@ -86,6 +86,7 @@ typedef enum {
 
 #if NS_BLOCKS_AVAILABLE
 typedef void (^MBProgressHUDCompletionBlock)();
+typedef void (^MBProgressHUDTappedBlock)();
 #endif
 
 
@@ -273,6 +274,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * A block that gets called after the HUD was completely hidden.
  */
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
+
+/**
+ * A block that gets called when the HUD was tapped.
+ */
+@property (copy) MBProgressHUDTappedBlock tappedBlock;
 
 #endif
 

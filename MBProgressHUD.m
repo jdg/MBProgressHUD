@@ -183,6 +183,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Make it invisible for now
 		self.alpha = 0.0f;
 		
+		// Add gesture recognizer for tapping
+		UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudWasTapped:)];
+		[self addGestureRecognizer:tap];
+		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
 		
@@ -262,6 +266,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)hideDelayed:(NSNumber *)animated {
 	[self hide:[animated boolValue]];
+}
+
+- (void)hudWasTapped:(UITapGestureRecognizer *)sender {
+	if (self.tappedBlock)
+		self.tappedBlock();
 }
 
 #pragma mark - Timer callbacks
