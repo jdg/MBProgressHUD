@@ -218,6 +218,17 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
+/**
+ * The HUD will hide when tapped on it. Either with or without animation.
+ *
+ * @param hidesWhenTapped If set to YES, the HUD will disappear when tapped on it.
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ *
+ * @see hidesWhenTapped
+ */
+- (void)setHidesWhenTapped:(BOOL)hidesWhenTapped animated:(BOOL)animated;
+
 /** 
  * Shows the HUD while a background task is executing in a new thread, then hides the HUD.
  *
@@ -315,6 +326,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * property is also set and is different from an empty string (@""). The details text can span multiple lines. 
  */
 @property (copy) NSString *detailsLabelText;
+
+
+/**
+ * Hide the HUD when tapped on it.
+ */
+@property (atomic, assign) BOOL hidesWhenTapped;
 
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
