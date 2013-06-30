@@ -27,6 +27,7 @@
 - (IBAction)showUsingBlocks:(id)sender;
 - (IBAction)showOnWindow:(id)sender;
 - (IBAction)showURL:(id)sender;
+- (IBAction)showWithBlurredBackground:(id)sender;
 
 - (void)myTask;
 - (void)myProgressTask;

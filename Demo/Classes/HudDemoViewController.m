@@ -226,6 +226,17 @@
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];	
 }
 
+- (IBAction)showWithBlurredBackground:(id)sender {
+	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// Set the hud to display with a color
+	HUD.backgroundBlurAmount = 8.0f;
+	
+	HUD.delegate = self;
+	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+}
+
 #pragma mark -
 #pragma mark Execution code
 

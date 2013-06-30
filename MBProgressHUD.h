@@ -29,6 +29,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import <CoreImage/CoreImage.h>
 
 @protocol MBProgressHUDDelegate;
 
@@ -348,6 +349,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Cover the HUD background view with a radial gradient. 
  */
 @property (assign) BOOL dimBackground;
+
+/**
+ * Amount of blur to be applied to the background. Default value is 0 (no blur)
+ */
+@property (assign) CGFloat backgroundBlurAmount;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
