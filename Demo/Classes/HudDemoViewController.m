@@ -9,16 +9,20 @@
 #import "HudDemoViewController.h"
 #import <unistd.h>
 
-@implementation HudDemoViewController
 
-#pragma mark -
-#pragma mark Constants
+#define SCREENSHOT_MODE 0
+
+
+@implementation HudDemoViewController
 
 #pragma mark -
 #pragma mark Lifecycle methods
 
 - (void)viewDidLoad {
 	UIView *content = [[self.view subviews] objectAtIndex:0];
+#if SCREENSHOT_MODE
+	[content.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+#endif
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
