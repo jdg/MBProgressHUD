@@ -6,7 +6,6 @@
 
 #import "MBProgressHUD.h"
 
-
 #if __has_feature(objc_arc)
 	#define MB_AUTORELEASE(exp) exp
 	#define MB_RELEASE(exp) exp
@@ -85,6 +84,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize square;
 @synthesize margin;
 @synthesize dimBackground;
+@synthesize backgroundBlurAmount;
 @synthesize graceTime;
 @synthesize minShowTime;
 @synthesize graceTimer;
@@ -168,6 +168,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
+        self.backgroundBlurAmount = 0.0f;
 		self.margin = 20.0f;
 		self.graceTime = 0.0f;
 		self.minShowTime = 0.0f;
@@ -579,7 +580,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height = minSize.height;
 	}
 	
-	self.size = totalSize;
+	self.size = totalSize;    
 }
 
 #pragma mark BG Drawing
@@ -614,7 +615,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     } else {
         CGContextSetGrayFillColor(context, 0.0f, self.opacity);
     }
-
+    
+    // Apply background blur
+    [self drawBlurredBackground:self.backgroundBlurAmount inRect:self.bounds];
 	
 	// Center HUD
 	CGRect allRect = self.bounds;
@@ -632,6 +635,56 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGContextFillPath(context);
 
 	UIGraphicsPopContext();
+}
+
+- (void)drawBlurredBackground:(CGFloat)blurRadius inRect:(CGRect)rect
+{
+	if (blurRadius == 0.0f || self.hidden) {
+		return;
+	}
+	
+	self.hidden = YES; // make the hud invisible as it should not be rendered!
+	
+	// walk up the view hierarchy to find the first view that is opaque
+	UIView* viewToRender = self.superview;
+	while (!viewToRender.opaque) {
+		if (viewToRender.superview) {
+			viewToRender = viewToRender.superview;
+		} else {
+			break; // maybe the window isn't set opaque!
+		}
+	}
+	
+	CGRect renderRect = [viewToRender convertRect:rect fromView:self];
+	
+	UIGraphicsBeginImageContext(rect.size);
+	
+	CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -CGRectGetMinX(renderRect), CGRectGetMaxY(renderRect));
+	CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1.0f, -1.0f);
+	
+	[viewToRender.layer renderInContext:UIGraphicsGetCurrentContext()];
+	
+	CGImageRef blurInputReference = [UIGraphicsGetImageFromCurrentImageContext() CGImage];
+	
+	UIGraphicsEndImageContext();
+	
+	self.hidden = NO; // make the hud visible again for display!
+	
+	// blur the rendered background
+	CIImage* inputImage = [CIImage imageWithCGImage:blurInputReference];
+	CIFilter* blur = [CIFilter filterWithName:@"CIGaussianBlur"];
+	[blur setDefaults];
+	[blur setValue:@(blurRadius) forKey:@"inputRadius"];
+	[blur setValue:inputImage forKey:@"inputImage"];
+	
+	CIImage* outputImage = [blur outputImage];
+	CIContext* context = [CIContext contextWithOptions:nil];
+	CGImageRef blurOutput = [context createCGImage:outputImage fromRect:outputImage.extent];
+	
+	// render the blured background - note we need to use the extent of the output image, as it is larger as the original rect!
+	CGContextDrawImage(UIGraphicsGetCurrentContext(), outputImage.extent, blurOutput);
+	
+	CGImageRelease(blurOutput);
 }
 
 #pragma mark - KVO

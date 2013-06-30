@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B344ACB178030E20047BEDB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B344ACA178030E20047BEDB /* QuartzCore.framework */; };
+		2B344ACF178031010047BEDB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B344ACE178031010047BEDB /* CoreImage.framework */; };
 		D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A74C1518C70F00E13FB8 /* Foundation.framework */; };
 		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B344ACA178030E20047BEDB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2B344ACE178031010047BEDB /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		D286A7491518C70F00E13FB8 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D286A74C1518C70F00E13FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D286A7511518C70F00E13FB8 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
@@ -28,6 +32,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B344ACF178031010047BEDB /* CoreImage.framework in Frameworks */,
+				2B344ACB178030E20047BEDB /* QuartzCore.framework in Frameworks */,
 				D286A76F1518CAAD00E13FB8 /* CoreGraphics.framework in Frameworks */,
 				D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */,
 				D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */,
@@ -57,6 +63,8 @@
 		D286A74B1518C70F00E13FB8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B344ACE178031010047BEDB /* CoreImage.framework */,
+				2B344ACA178030E20047BEDB /* QuartzCore.framework */,
 				D286A76E1518CAAD00E13FB8 /* CoreGraphics.framework */,
 				D286A75D1518C89600E13FB8 /* UIKit.framework */,
 				D286A74C1518C70F00E13FB8 /* Foundation.framework */,
