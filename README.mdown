@@ -98,4 +98,4 @@ This code is distributed under the terms and conditions of the [MIT license](LIC
 
 ## Change-log
 
-A brief summary of each MBProgressHUD release can be found on the [wiky](https://github.com/matej/MBProgressHUD/wiki/Change-log). 
+A brief summary of each MBProgressHUD release can be found on the [wiki](https://github.com/matej/MBProgressHUD/wiki/Change-log). 
