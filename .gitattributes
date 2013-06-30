@@ -1,1 +1,0 @@
-*.pbxproj -crlf -diff -merge
