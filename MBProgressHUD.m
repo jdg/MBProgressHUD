@@ -27,7 +27,7 @@
 	#define MB_TEXTSIZE(text, font) [text length] > 0 ? [text \
 		sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
 #else
-	#define MB_TEXTSIZE(text, font) [text sizeWithFont:font];
+	#define MB_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithFont:font] : CGSizeZero;
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -35,8 +35,8 @@
 		boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) \
 		attributes:@{NSFontAttributeName:font} context:nil].size : CGSizeZero;
 #else
-	#define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text sizeWithFont:font \
-		constrainedToSize:maxSize lineBreakMode:mode];
+	#define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
+		sizeWithFont:font constrainedToSize:maxSize lineBreakMode:mode] : CGSizeZero;
 #endif
 
 
