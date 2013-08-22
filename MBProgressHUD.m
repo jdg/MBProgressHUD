@@ -416,7 +416,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)cleanUp {
 	taskInProgress = NO;
-    [indicator removeFromSuperview];
+	[indicator removeFromSuperview];
 	self.indicator = nil;
 #if !__has_feature(objc_arc)
 	[targetForExecution release];
