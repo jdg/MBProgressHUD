@@ -359,8 +359,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)done {
 	isFinished = YES;
 	self.alpha = 0.0f;
-	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
-		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
+	if (removeFromSuperViewOnHide) {
+		[self removeFromSuperview];
 	}
 #if NS_BLOCKS_AVAILABLE
 	if (self.completionBlock) {
@@ -368,8 +368,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.completionBlock = NULL;
 	}
 #endif
-	if (removeFromSuperViewOnHide) {
-		[self removeFromSuperview];
+	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
+		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
 	}
 }
 
