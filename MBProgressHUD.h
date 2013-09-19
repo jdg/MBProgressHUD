@@ -408,6 +408,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign, getter = isSquare) BOOL square;
 
+/**
+ * Custom the HUD view's corner radius, default is 10.
+ */
+@property (atomic, assign) float cornerRadius;
+
 @end
 
 
