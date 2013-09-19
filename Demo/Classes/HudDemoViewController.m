@@ -265,9 +265,13 @@
 	HUD.mode = MBProgressHUDModeIndeterminate;
 	HUD.labelText = @"Cleaning up";
 	sleep(2);
-	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
-	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+	// UIImageView is a UIKit class, we have to initialize it on the main thread
+	__block UIImageView *imageView;
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+		imageView = [[UIImageView alloc] initWithImage:image];
+	});
+	HUD.customView = [imageView autorelease];
 	HUD.mode = MBProgressHUDModeCustomView;
 	HUD.labelText = @"Completed";
 	sleep(2);
