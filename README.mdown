@@ -26,7 +26,7 @@ You will need LLVM 3.0 or later in order to build MBProgressHUD.
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add MBProgressHUD to your project.
 
-1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 0.7'`
+1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 0.8'`
 2. Install the pod(s) by running `pod install`.
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
