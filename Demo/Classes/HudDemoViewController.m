@@ -179,7 +179,7 @@
 }
 
 - (IBAction)showURL:(id)sender {
-	NSURL *URL = [NSURL URLWithString:@"https://github.com/matej/MBProgressHUD/zipball/master"];
+	NSURL *URL = [NSURL URLWithString:@"http://a1408.g.akamai.net/5/1408/1388/2005110403/1a1a1ad948be278cff2d96046ad90768d848b41947aa1986/sample_iPod.m4v.zip"];
 	NSURLRequest *request = [NSURLRequest requestWithURL:URL];
 	
 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -277,7 +277,7 @@
 #pragma mark NSURLConnectionDelegete
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	expectedLength = [response expectedContentLength];
+	expectedLength = MAX([response expectedContentLength], 1);
 	currentLength = 0;
 	HUD.mode = MBProgressHUDModeDeterminate;
 }
