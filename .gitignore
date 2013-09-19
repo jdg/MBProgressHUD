@@ -5,6 +5,7 @@ build/
 *.mode2v3
 *.perspectivev3
 xcuserdata/
+DerivedData/
 
 # old skool
 .svn
