@@ -6,6 +6,7 @@
 
 #import "MBProgressHUD.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #if __has_feature(objc_arc)
 	#define MB_AUTORELEASE(exp) exp
@@ -195,7 +196,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 		// Transparent background
 		self.opaque = NO;
-		self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.2f];
+            self.opacity = 1.f;
+        }
+		
 		// Make it invisible for now
 		self.alpha = 0.0f;
 		
@@ -450,7 +457,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.textAlignment = MBLabelAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
+    UIColor *textColor = [UIColor whiteColor];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        textColor = [UIColor blackColor];
+    }
+	label.textColor = textColor;
 	label.font = self.labelFont;
 	label.text = self.labelText;
 	[self addSubview:label];
@@ -461,7 +472,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.textAlignment = MBLabelAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
-	detailsLabel.textColor = [UIColor whiteColor];
+	detailsLabel.textColor = textColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.text = self.detailsLabelText;
@@ -478,6 +489,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[indicator removeFromSuperview];
 		self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
 										 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            UIActivityIndicatorView *activityIndicatorView = (UIActivityIndicatorView *) indicator;
+            activityIndicatorView.color = [UIColor grayColor];
+        }
+        
 		[(UIActivityIndicatorView *)indicator startAnimating];
 		[self addSubview:indicator];
 	}
@@ -485,6 +502,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Update to bar determinate indicator
 		[indicator removeFromSuperview];
         self.indicator = MB_AUTORELEASE([[MBBarProgressView alloc] init]);
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            MBBarProgressView *progressView = (MBBarProgressView *) indicator;
+            progressView.lineColor = [UIColor blackColor];
+            progressView.progressColor = [UIColor grayColor];
+        }
+        
 		[self addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
@@ -492,6 +515,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 			// Update to determinante indicator
 			[indicator removeFromSuperview];
 			self.indicator = MB_AUTORELEASE([[MBRoundProgressView alloc] init]);
+            
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+                MBRoundProgressView *progressView = (MBRoundProgressView *) indicator;
+                progressView.progressTintColor = [UIColor grayColor];
+            }
+            
 			[self addSubview:indicator];
 		}
 		if (mode == MBProgressHUDModeAnnularDeterminate) {
@@ -626,9 +655,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     if (self.color) {
         CGContextSetFillColorWithColor(context, self.color.CGColor);
     } else {
-        CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+        CGContextSetGrayFillColor(context, SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 1.0f : 0.f, self.opacity);
     }
-
 	
 	// Center HUD
 	CGRect allRect = self.bounds;
