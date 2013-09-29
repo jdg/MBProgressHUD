@@ -346,6 +346,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 /** 
  * Cover the HUD background view with a radial gradient. 
+ * Enabled by default on iOS 7+, disabled by default on previous versions. 
  */
 @property (assign) BOOL dimBackground;
 
