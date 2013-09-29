@@ -505,7 +505,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
             MBBarProgressView *progressView = (MBBarProgressView *) indicator;
             progressView.lineColor = [UIColor blackColor];
-            progressView.progressColor = [UIColor grayColor];
+            progressView.progressColor = [UIColor blackColor];
         }
         
 		[self addSubview:indicator];
@@ -518,7 +518,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
             
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
                 MBRoundProgressView *progressView = (MBRoundProgressView *) indicator;
-                progressView.progressTintColor = [UIColor grayColor];
+                progressView.progressTintColor = [UIColor blackColor];
             }
             
 			[self addSubview:indicator];
