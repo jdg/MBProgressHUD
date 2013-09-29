@@ -46,8 +46,8 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
 	#define MB_IF_IOS7_OR_GREATER(...) \
 		if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) { __VA_ARGS__ }
-	#else
-		#define IF_IOS7_OR_GREATER(...)
+#else
+	#define MB_IF_IOS7_OR_GREATER(...)
 #endif
 
 #define MB_IF_PRE_IOS7(...)  \
