@@ -715,7 +715,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	} else if ([superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:YES];
 	} else {
-		self.bounds = self.superview.bounds;
+		self.frame = self.superview.bounds;
 		[self setNeedsDisplay];
 	}
 }
