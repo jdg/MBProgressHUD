@@ -317,6 +317,16 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (copy) NSString *detailsLabelText;
 
 /** 
+ * Details Label text color, default: white
+ */
+@property (nonatomic, MB_WEAK) UIColor *labelTextColor;
+
+/** 
+ * Details Label text color, default: white
+ */
+@property (nonatomic, MB_WEAK) UIColor *detailsLabelTextColor;
+
+/** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
 @property (assign) float opacity;
