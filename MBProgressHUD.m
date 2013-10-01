@@ -107,7 +107,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize opacity;
 @synthesize color;
 @synthesize labelFont;
+@synthesize labelColor;
 @synthesize detailsLabelFont;
+@synthesize detailsLabelColor;
 @synthesize indicator;
 @synthesize xOffset;
 @synthesize yOffset;
@@ -194,7 +196,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.opacity = 0.8f;
         self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
+        MB_IF_PRE_IOS7(self.labelColor = [UIColor whiteColor];)
+		MB_IF_IOS7_OR_GREATER(self.labelColor = [UIColor blackColor];)
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
+        MB_IF_PRE_IOS7(self.detailsLabelColor = [UIColor whiteColor];)
+		MB_IF_IOS7_OR_GREATER(self.detailsLabelColor = [UIColor blackColor];)
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
@@ -470,9 +476,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.textAlignment = MBLabelAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
-    UIColor *textColor = [UIColor whiteColor];
-	MB_IF_IOS7_OR_GREATER(textColor = [UIColor blackColor];)
-	label.textColor = textColor;
+	label.textColor = self.labelColor;
 	label.font = self.labelFont;
 	label.text = self.labelText;
 	[self addSubview:label];
@@ -483,7 +487,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.textAlignment = MBLabelAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
-	detailsLabel.textColor = textColor;
+	detailsLabel.textColor = self.detailsLabelColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.text = self.detailsLabelText;
@@ -693,8 +697,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", 
-			@"detailsLabelText", @"detailsLabelFont", @"progress", nil];
+	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
+			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -712,10 +716,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		label.text = self.labelText;
 	} else if ([keyPath isEqualToString:@"labelFont"]) {
 		label.font = self.labelFont;
+	} else if ([keyPath isEqualToString:@"labelColor"]) {
+		label.textColor = self.labelColor;
 	} else if ([keyPath isEqualToString:@"detailsLabelText"]) {
 		detailsLabel.text = self.detailsLabelText;
 	} else if ([keyPath isEqualToString:@"detailsLabelFont"]) {
 		detailsLabel.font = self.detailsLabelFont;
+	} else if ([keyPath isEqualToString:@"detailsLabelColor"]) {
+		detailsLabel.textColor = self.detailsLabelColor;
 	} else if ([keyPath isEqualToString:@"progress"]) {
 		if ([indicator respondsToSelector:@selector(setProgress:)]) {
 			[(id)indicator setProgress:progress];
