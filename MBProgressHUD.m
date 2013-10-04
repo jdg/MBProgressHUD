@@ -116,6 +116,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+@dynamic activityIndicatorColor;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -472,6 +473,23 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.text = self.detailsLabelText;
 	[self addSubview:detailsLabel];
 }
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
+-(void)setActivityIndicatorColor:(UIColor *)activityIndicatorColor
+{
+  if(self.indicator && [indicator isKindOfClass:[UIActivityIndicatorView class]]) {
+      ((UIActivityIndicatorView*)self.indicator).color = activityIndicatorColor;
+  }
+}
+
+-(UIColor*)activityIndicatorColor
+{
+  if(self.indicator && [indicator isKindOfClass:[UIActivityIndicatorView class]]) {
+    return ((UIActivityIndicatorView*)self.indicator).color;
+  }
+  return nil;
+}
+#endif
 
 - (void)updateIndicators {
 	
