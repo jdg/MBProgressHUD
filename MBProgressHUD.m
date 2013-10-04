@@ -116,7 +116,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
 @dynamic activityIndicatorColor;
+#endif
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
