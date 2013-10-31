@@ -116,6 +116,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+@synthesize progressTintColor;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -512,6 +513,17 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[indicator removeFromSuperview];
 		self.indicator = nil;
 	}
+}
+
+-(void)changeProgressTintColor:(UIColor *)tint_color
+{
+    BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
+    
+    if (isRoundIndicator)
+    {
+        MBRoundProgressView *view = (MBRoundProgressView *)self.indicator;
+        view.progressTintColor = tint_color;
+    }
 }
 
 #pragma mark - Layout

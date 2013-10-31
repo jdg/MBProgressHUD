@@ -345,7 +345,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float margin;
 
 /**
- * The corner radius for th HUD
+ * The corner radius for the HUD
  * Defaults to 10.0
  */
 @property (assign) float cornerRadius;
@@ -413,6 +413,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
 @property (assign) float progress;
+
+/**
+ * The color of the progress indicator.
+ */
+@property (MB_STRONG) UIColor *progressTintColor;
+
+-(void)setProgressTintColor:(UIColor *)tint_color;
 
 /**
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
