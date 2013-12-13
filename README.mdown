@@ -10,6 +10,8 @@ Project now requir `Accelerate.framework` library.
 
 For the record, the blur effect is only supported on iOS7 or obove. I am still working on things under iOS7, pull requests are welcome! If there is any problem, please let me know.
 
+Also Edited some text color of the example project to debug the effect.
+
 [![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/1.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/1.png)
 [![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/2.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/2.png)
 [![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/3.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/3.png)

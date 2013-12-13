@@ -535,10 +535,10 @@ typedef enum {
 
 @interface MMBlurComponents : NSObject
 
-@property(nonatomic, MB_WEAK) CGFloat radius;
+@property(nonatomic) CGFloat radius;
 @property(nonatomic, MB_STRONG) UIColor *tintColor;
 @property(nonatomic, MB_WEAK) CGFloat saturationDeltaFactor;
-@property(nonatomic, MB_STRONG) UIImage *maskImage;
+@property(nonatomic) UIImage *maskImage;
 
 ///Light color effect.
 + (MMBlurComponents *) lightEffect;
