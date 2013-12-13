@@ -6,7 +6,7 @@ Blurred background like original iOS7 have been added!!! You can just use it lik
 
 The blur idea is come from [7Blur](https://github.com/justinmfischer/7blur). I add it to MBProgress and fit it to both ARC and non-ARC.
 
-Project now requir `libMBProgressHUD.a` library.
+Project now requir `Accelerate.framework` library.
 
 For the record, the blur effect is only supported on iOS7 or obove. I am still working on things under iOS7, pull requests are welcome! If there is any problem, please let me know.
 
