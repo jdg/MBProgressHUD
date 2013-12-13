@@ -72,6 +72,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
 @property (atomic, assign) CGSize size;
+@property (atomic, MB_STRONG) MMBlurView *blurView;
 
 @end
 
@@ -196,6 +197,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.removeFromSuperViewOnHide = NO;
 		self.minSize = CGSizeZero;
 		self.square = NO;
+        //Only support iOS7 above now
+        self.blur = iOS_7_Above;
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin 
 								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 
@@ -216,6 +219,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return self;
 }
 
+- (void)setBlur:(BOOL)blur{
+    _blur = blur&&iOS_7_Above;
+}
+
 - (id)initWithView:(UIView *)view {
 	NSAssert(view, @"View must not be nil.");
 	return [self initWithFrame:view.bounds];
@@ -228,6 +235,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)dealloc {
 	[self unregisterFromNotifications];
 	[self unregisterFromKVO];
+    self.blurView = nil;
 #if !__has_feature(objc_arc)
 	[color release];
 	[indicator release];
@@ -629,10 +637,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 
     // Set background rect color
-    if (self.color) {
-        CGContextSetFillColorWithColor(context, self.color.CGColor);
-    } else {
-        CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+    if(self.blur){
+        CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+    }else{
+        if (self.color) {
+            CGContextSetFillColorWithColor(context, self.color.CGColor);
+        } else {
+            CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+        }
     }
 
 	
@@ -641,6 +653,28 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// Draw rounded HUD backgroud rect
 	CGRect boxRect = CGRectMake(round((allRect.size.width - size.width) / 2) + self.xOffset,
 								round((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
+    
+    //set the blur view
+    if(self.blur){
+        if(!self.blurView){
+            self.blurView = [MMBlurView loadWithLocation:boxRect.origin parent:self.superview frame:boxRect];
+            [self addSubview:self.blurView];
+            [self sendSubviewToBack:self.blurView];
+        }
+        CGRect frame = self.blurView.frame;
+        frame.origin = boxRect.origin;
+        self.blurView.frame = frame;
+        if(self.darkBlur)
+            [self.blurView blurWithColor:[MMBlurComponents darkEffect]];
+        else
+            [self.blurView blurWithColor:[MMBlurComponents lightEffect]];
+    }else{
+        if(self.blurView){
+            [self.blurView removeFromSuperview];
+            self.blurView = nil;
+        }
+    }
+    
 	float radius = self.cornerRadius;
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
@@ -1016,3 +1050,387 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 @end
+
+
+@interface MMBlurView ()
+
+@property(nonatomic, MB_WEAK) UIView *parent;
+@property(nonatomic, MB_WEAK) CGPoint location;
+@property(nonatomic, MB_WEAK) MMBlurType blurType;
+@property(nonatomic, MB_STRONG) MMBlurComponents *colorComponents;
+@property(nonatomic, MB_STRONG) UIImageView *backgroundImageView;
+@property(nonatomic, MB_WEAK) dispatch_source_t timer;
+//Property with retain or strong attribute must be of object type
+@end
+
+@implementation MMBlurView
+
+- (void)dealloc{
+    self.backgroundImageView = nil;
+    self.colorComponents = nil;
+#if !__has_feature(objc_arc)
+	[super dealloc];
+#endif
+}
+
++ (MMBlurView *) load:(UIView *) view {
+    MMBlurView *blur = MB_AUTORELEASE([[MMBlurView alloc]initWithFrame:CGRectZero]);
+    blur.parent = view;
+    blur.location = CGPointMake(0, 64);
+    blur.frame = CGRectMake(blur.location.x, -(blur.frame.size.height + blur.location.y), blur.frame.size.width, blur.frame.size.height);
+    
+    return blur;
+}
+
++ (MMBlurView *) loadWithLocation:(CGPoint) point parent:(UIView *) view {
+    MMBlurView *blur = MB_AUTORELEASE([[MMBlurView alloc]initWithFrame:CGRectZero]);
+    blur.parent = view;
+    blur.location = point;
+    blur.frame = CGRectMake(0, 0, blur.frame.size.width, blur.frame.size.height);
+    return blur;
+}
+
++ (MMBlurView *) loadWithLocation:(CGPoint) point parent:(UIView *) view frame:(CGRect)frame{
+    MMBlurView *blur = MB_AUTORELEASE([[MMBlurView alloc]initWithFrame:frame]);
+    blur.parent = view;
+    blur.location = point;
+    return blur;
+}
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if(self){
+        _backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        [self addSubview:self.backgroundImageView];
+        self.backgroundImageView.layer.cornerRadius = 10.0;
+        self.backgroundImageView.clipsToBounds = YES;
+        self.backgroundImageView.layer.masksToBounds = YES;
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    self.backgroundImageView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+}
+
+- (void) unload {
+    if(self.timer != nil) {
+        
+        dispatch_source_cancel(self.timer);
+        self.timer = nil;
+    }
+    [self removeFromSuperview];
+}
+
+- (void) blurBackground {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(CGRectGetWidth(self.parent.frame), CGRectGetHeight(self.parent.frame)), NO, 1);
+    
+    //Snapshot finished in 0.051982 seconds.
+    [self.parent drawViewHierarchyInRect:CGRectMake(0, 0, CGRectGetWidth(self.parent.frame), CGRectGetHeight(self.parent.frame)) afterScreenUpdates:NO];
+    
+    __block UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        //Blur finished in 0.004884 seconds.
+        snapshot = [snapshot applyBlurWithCrop:CGRectMake(self.location.x, self.location.y, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)) resize:CGSizeMake(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)) blurRadius:self.colorComponents.radius tintColor:self.colorComponents.tintColor saturationDeltaFactor:self.colorComponents.saturationDeltaFactor maskImage:self.colorComponents.maskImage];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.backgroundImageView.image = snapshot;
+        });
+    });
+}
+
+- (void) blurWithColor:(MMBlurComponents *) components {
+    if(self.blurType == MMBlurUndefined) {
+        self.blurType = MMStaticBlur;
+        self.colorComponents = components;
+    }
+    
+    [self blurBackground];
+}
+
+- (void) blurWithColor:(MMBlurComponents *) components updateInterval:(float) interval {
+    self.blurType = MMLiveBlur;
+    self.colorComponents = components;
+    
+    self.timer = DispatchTimer(interval * NSEC_PER_SEC, 1ull * NSEC_PER_SEC, dispatch_get_main_queue(), ^{[self blurWithColor:components];});
+}
+
+dispatch_source_t DispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block) {
+    
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    if (timer) {
+        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);
+        dispatch_source_set_event_handler(timer, block);
+        
+        dispatch_resume(timer);
+    }
+    
+    return timer;
+}
+
+@end
+
+@implementation MMBlurComponents
+
+- (void)dealloc{
+    self.tintColor = nil;
+    self.maskImage = nil;
+#if !__has_feature(objc_arc)
+	[super dealloc];
+#endif
+}
+
++ (MMBlurComponents *) lightEffect {
+    MMBlurComponents *components = MB_AUTORELEASE([[MMBlurComponents alloc] init]);
+    components.radius = 6;
+    components.tintColor = [UIColor colorWithWhite:.8f alpha:.2f];
+    components.saturationDeltaFactor = 1.8f;
+    components.maskImage = nil;
+    return components;
+}
+
++ (MMBlurComponents *) darkEffect {
+    MMBlurComponents *components = MB_AUTORELEASE([[MMBlurComponents alloc] init]);
+    components.radius = 8;
+    components.tintColor = [UIColor colorWithRed:0.0f green:0.0 blue:0.0f alpha:.5f];
+    components.saturationDeltaFactor = 3.0f;
+    components.maskImage = nil;
+    return components;
+}
+
++ (MMBlurComponents *) coralEffect {
+    MMBlurComponents *components = MB_AUTORELEASE([[MMBlurComponents alloc] init]);
+    components.radius = 8;
+    components.tintColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:.1f];
+    components.saturationDeltaFactor = 3.0f;
+    components.maskImage = nil;
+    return components;
+}
+
++ (MMBlurComponents *) neonEffect {
+    MMBlurComponents *components = MB_AUTORELEASE([[MMBlurComponents alloc] init]);
+    components.radius = 8;
+    components.tintColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:.1f];
+    components.saturationDeltaFactor = 3.0f;
+    components.maskImage = nil;
+    return components;
+}
+
++ (MMBlurComponents *) skyEffect {
+    MMBlurComponents *components = MB_AUTORELEASE([[MMBlurComponents alloc] init]);
+    components.radius = 8;
+    components.tintColor = [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:.1f];
+    components.saturationDeltaFactor = 3.0f;
+    components.maskImage = nil;
+    return components;
+}
+
+@end
+
+#import <Accelerate/Accelerate.h>
+
+#define scaleDownFactor 4
+
+@implementation UIImage (ImageEffects)
+
+- (UIImage *)applyBlurWithCrop:(CGRect) bounds resize:(CGSize) size blurRadius:(CGFloat) blurRadius tintColor:(UIColor *) tintColor saturationDeltaFactor:(CGFloat) saturationDeltaFactor maskImage:(UIImage *) maskImage {
+    
+    if (self.size.width < 1 || self.size.height < 1) {
+        NSLog (@"*** error: invalid size: (%.2f x %.2f). Both dimensions must be >= 1: %@", self.size.width, self.size.height, self);
+        return nil;
+    }
+    
+    if (!self.CGImage) {
+        NSLog (@"*** error: image must be backed by a CGImage: %@", self);
+        return nil;
+    }
+    
+    if (maskImage && !maskImage.CGImage) {
+        NSLog (@"*** error: maskImage must be backed by a CGImage: %@", maskImage);
+        return nil;
+    }
+    
+    //Crop
+    UIImage *outputImage = nil;
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([self CGImage], bounds);
+    outputImage = [UIImage imageWithCGImage:imageRef];
+    
+    CGImageRelease(imageRef);
+    
+    //Re-Size
+    CGImageRef sourceRef = [outputImage CGImage];
+    NSUInteger sourceWidth = CGImageGetWidth(sourceRef);
+    NSUInteger sourceHeight = CGImageGetHeight(sourceRef);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    unsigned char *sourceData = (unsigned char*) calloc(sourceHeight * sourceWidth * 4, sizeof(unsigned char));
+    
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger sourceBytesPerRow = bytesPerPixel * sourceWidth;
+    NSUInteger bitsPerComponent = 8;
+    
+    CGContextRef context = CGBitmapContextCreate(sourceData, sourceWidth, sourceHeight, bitsPerComponent, sourceBytesPerRow, colorSpace, kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Big);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, sourceWidth, sourceHeight), sourceRef);
+    CGContextRelease(context);
+    
+    NSUInteger destWidth = (NSUInteger) size.width / scaleDownFactor;
+    NSUInteger destHeight = (NSUInteger) size.height / scaleDownFactor;
+    NSUInteger destBytesPerRow = bytesPerPixel * destWidth;
+    
+    unsigned char *destData = (unsigned char*) calloc(destHeight * destWidth * 4, sizeof(unsigned char));
+    
+    vImage_Buffer src = {
+        .data = sourceData,
+        .height = sourceHeight,
+        .width = sourceWidth,
+        .rowBytes = sourceBytesPerRow
+    };
+    
+    vImage_Buffer dest = {
+        .data = destData,
+        .height = destHeight,
+        .width = destWidth,
+        .rowBytes = destBytesPerRow
+    };
+    
+    vImageScale_ARGB8888 (&src, &dest, NULL, kvImageNoInterpolation);
+    
+    free(sourceData);
+    
+    CGContextRef destContext = CGBitmapContextCreate(destData, destWidth, destHeight, bitsPerComponent, destBytesPerRow, colorSpace, kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Big);
+    
+    CGImageRef destRef = CGBitmapContextCreateImage(destContext);
+    
+    outputImage = [UIImage imageWithCGImage:destRef];
+    
+    CGImageRelease(destRef);
+    
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(destContext);
+    
+    free(destData);
+    
+    //Blur
+    CGRect imageRect = { CGPointZero, outputImage.size };
+    
+    BOOL hasBlur = blurRadius > __FLT_EPSILON__;
+    BOOL hasSaturationChange = fabs(saturationDeltaFactor - 1.) > __FLT_EPSILON__;
+    
+    if (hasBlur || hasSaturationChange) {
+        
+        UIGraphicsBeginImageContextWithOptions(outputImage.size, NO, 1);
+        
+        CGContextRef effectInContext = UIGraphicsGetCurrentContext();
+        
+        CGContextScaleCTM(effectInContext, 1.0, -1.0);
+        CGContextTranslateCTM(effectInContext, 0, -outputImage.size.height);
+        CGContextDrawImage(effectInContext, imageRect, outputImage.CGImage);
+        
+        vImage_Buffer effectInBuffer;
+        
+        effectInBuffer.data     = CGBitmapContextGetData(effectInContext);
+        effectInBuffer.width    = CGBitmapContextGetWidth(effectInContext);
+        effectInBuffer.height   = CGBitmapContextGetHeight(effectInContext);
+        effectInBuffer.rowBytes = CGBitmapContextGetBytesPerRow(effectInContext);
+        
+        UIGraphicsBeginImageContextWithOptions(outputImage.size, NO, 1);
+        
+        CGContextRef effectOutContext = UIGraphicsGetCurrentContext();
+        vImage_Buffer effectOutBuffer;
+        
+        effectOutBuffer.data     = CGBitmapContextGetData(effectOutContext);
+        effectOutBuffer.width    = CGBitmapContextGetWidth(effectOutContext);
+        effectOutBuffer.height   = CGBitmapContextGetHeight(effectOutContext);
+        effectOutBuffer.rowBytes = CGBitmapContextGetBytesPerRow(effectOutContext);
+        
+        if (hasBlur) {
+            CGFloat inputRadius = blurRadius * 1;
+            NSUInteger radius = floor(inputRadius * 3. * sqrt(2 * M_PI) / 4 + 0.5);
+            
+            if (radius % 2 != 1) {
+                radius += 1;
+            }
+            
+            vImageBoxConvolve_ARGB8888(&effectInBuffer, &effectOutBuffer, NULL, 0, 0, radius, radius, 0, kvImageEdgeExtend);
+            vImageBoxConvolve_ARGB8888(&effectOutBuffer, &effectInBuffer, NULL, 0, 0, radius, radius, 0, kvImageEdgeExtend);
+            vImageBoxConvolve_ARGB8888(&effectInBuffer, &effectOutBuffer, NULL, 0, 0, radius, radius, 0, kvImageEdgeExtend);
+        }
+        
+        BOOL effectImageBuffersAreSwapped = NO;
+        
+        if (hasSaturationChange) {
+            
+            CGFloat s = saturationDeltaFactor;
+            CGFloat floatingPointSaturationMatrix[] = {
+                0.0722 + 0.9278 * s,  0.0722 - 0.0722 * s,  0.0722 - 0.0722 * s,  0,
+                0.7152 - 0.7152 * s,  0.7152 + 0.2848 * s,  0.7152 - 0.7152 * s,  0,
+                0.2126 - 0.2126 * s,  0.2126 - 0.2126 * s,  0.2126 + 0.7873 * s,  0,
+                0,                    0,                    0,  1,
+            };
+            
+            const int32_t divisor = 256;
+            NSUInteger matrixSize = sizeof(floatingPointSaturationMatrix)/sizeof(floatingPointSaturationMatrix[0]);
+            int16_t saturationMatrix[matrixSize];
+            
+            for (NSUInteger i = 0; i < matrixSize; ++i) {
+                saturationMatrix[i] = (int16_t)roundf(floatingPointSaturationMatrix[i] * divisor);
+            }
+            
+            if (hasBlur) {
+                vImageMatrixMultiply_ARGB8888(&effectOutBuffer, &effectInBuffer, saturationMatrix, divisor, NULL, NULL, kvImageNoFlags);
+                effectImageBuffersAreSwapped = YES;
+            } else {
+                vImageMatrixMultiply_ARGB8888(&effectInBuffer, &effectOutBuffer, saturationMatrix, divisor, NULL, NULL, kvImageNoFlags);
+            }
+        }
+        
+        if (!effectImageBuffersAreSwapped)
+            outputImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        if (effectImageBuffersAreSwapped)
+            outputImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(outputImage.size, NO, 1);
+    CGContextRef outputContext = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(outputContext, 1.0, -1.0);
+    CGContextTranslateCTM(outputContext, 0, -outputImage.size.height);
+    
+    CGContextDrawImage(outputContext, imageRect, outputImage.CGImage);
+    
+    if (hasBlur) {
+        CGContextSaveGState(outputContext);
+        if (maskImage) {
+            CGContextClipToMask(outputContext, imageRect, maskImage.CGImage);
+        }
+        CGContextDrawImage(outputContext, imageRect, outputImage.CGImage);
+        CGContextRestoreGState(outputContext);
+    }
+    
+    if (tintColor) {
+        CGContextSaveGState(outputContext);
+        CGContextSetFillColorWithColor(outputContext, tintColor.CGColor);
+        CGContextFillRect(outputContext, imageRect);
+        CGContextRestoreGState(outputContext);
+    }
+    
+    outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
+}
+
+@end
+
