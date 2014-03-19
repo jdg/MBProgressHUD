@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.homepage     = "http://www.bukovinski.com"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'Matej Bukovinski' => 'matej@bukovinski.com' }
-  s.source       = { :git => "https://github.com/lloydsheng/MBProgressHUD.git" }
+  s.source       = { :git => "https://github.com/matej/MBProgressHUD.git", :tag => s.version.to_s }
   s.platform     = :ios
   s.source_files = '*.{h,m}'
   s.framework    = "CoreGraphics"
