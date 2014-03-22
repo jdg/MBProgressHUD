@@ -210,6 +210,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
+        
+        self.layer.shadowOffset = CGSizeMake(0, 0);
+        self.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.layer.shadowOpacity = 0.75f;
+        self.layer.shadowRadius = 1.0;
 		
 		[self setupLabels];
 		[self updateIndicators];
@@ -467,6 +472,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.textColor = self.labelColor;
 	label.font = self.labelFont;
 	label.text = self.labelText;
+    label.layer.shadowOffset = CGSizeMake(0, 0);
+    label.layer.shadowColor = [[UIColor blackColor] CGColor];
+    label.layer.shadowRadius = 1.0;
+    label.layer.shadowOpacity = 0.75;
 	[self addSubview:label];
 	
 	detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
@@ -479,6 +488,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.text = self.detailsLabelText;
+    detailsLabel.layer.shadowOffset = CGSizeMake(0, 0);
+    detailsLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
+    detailsLabel.layer.shadowRadius = 1.0;
+    detailsLabel.layer.shadowOpacity = 0.75;
 	[self addSubview:detailsLabel];
 }
 
@@ -814,6 +827,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		_progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
 		_backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];
 		[self registerForKVO];
+        
+        self.layer.shadowOffset = CGSizeMake(0, 0);
+        self.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.layer.shadowOpacity = 0.75f;
+        self.layer.shadowRadius = 1.0;
+
 	}
 	return self;
 }
@@ -918,6 +937,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		_progressRemainingColor = [UIColor clearColor];
 		self.backgroundColor = [UIColor clearColor];
 		self.opaque = NO;
+        self.layer.shadowOffset = CGSizeMake(0, 0);
+        self.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.layer.shadowOpacity = 0.75f;
+        self.layer.shadowRadius = 1.0;
 		[self registerForKVO];
     }
     return self;
