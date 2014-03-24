@@ -1,4 +1,4 @@
-# MBProgressHUD [![Build Status](https://travis-ci.org/matej/MBProgressHUD.png)](https://travis-ci.org/matej/MBProgressHUD)
+# MBProgressHUD With Blurred Background [![Build Status](https://travis-ci.org/matej/MBProgressHUD.png)](https://travis-ci.org/matej/MBProgressHUD)
 
 ##What's new
 
