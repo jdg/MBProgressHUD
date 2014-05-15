@@ -419,6 +419,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign) CGSize minSize;
 
+
+/**
+ * The actual size of the HUD bezel.
+ */
+@property (atomic, assign, readonly) CGSize size;
+
+
 /**
  * Force the HUD dimensions to be equal if possible. 
  */
