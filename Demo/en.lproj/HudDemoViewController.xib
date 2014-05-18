@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4457.9" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment version="528" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3682.9"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HudDemoViewController">
@@ -24,7 +24,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Simple indeterminate progress">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="0.65713389598540151" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -39,7 +39,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="With label">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.02797103102189781" green="0.65713389598540151" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -54,7 +54,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="With details label">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.02797103102189781" green="0.65713389598540151" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="disabled" title="With details label"/>
@@ -71,7 +71,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Determinate mode">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="0.65713389598540151" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -86,7 +86,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Annular determinate mode">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="0.19112112226277372" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -101,7 +101,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Bar determinate mode">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.41856751824817512" green="0.19112112226277372" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -116,7 +116,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Mode switching">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.41856751824817445" green="0.52449247262773724" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -131,7 +131,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Using blocks">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.41856751824817445" green="0.57111085766423353" blue="0.27683052007299269" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -146,7 +146,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="On Window">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.41856751824817445" green="0.88070255474452552" blue="0.27683052007299269" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -161,7 +161,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="NSURLConnection">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="0.88070255474452552" blue="0.27683052007299269" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -176,7 +176,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Custom view">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.41856751824817445" green="0.84258097627737227" blue="0.61915488138686137" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -191,7 +191,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Dim background">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.42749201642335766" green="0.35569685218978103" blue="0.69140625" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -206,7 +206,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Text only">
-                                <color key="titleColor" red="0.19607843" green="0.30980393000000001" blue="0.52156866000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.42749201642335766" green="1" blue="0.69140625" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted">
@@ -221,11 +221,8 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" title="Colored">
-                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="1" green="1" blue="0.69140625" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="showWithColor:" destination="-1" eventType="touchUpInside" id="116"/>

@@ -1,14 +1,25 @@
-# MBProgressHUD [![Build Status](https://travis-ci.org/matej/MBProgressHUD.png)](https://travis-ci.org/matej/MBProgressHUD)
+# MBProgressHUD With Blurred Background [![Build Status](https://travis-ci.org/matej/MBProgressHUD.png)](https://travis-ci.org/matej/MBProgressHUD)
+
+##What's new
+
+Blurred background like original iOS7 have been added!!! You can just use it like what you did before, but the effect has added.
+
+The blur idea is come from [7Blur](https://github.com/justinmfischer/7blur). I add it to MBProgress and fit it to both ARC and non-ARC.
+
+Project now requir `Accelerate.framework` library.
+
+For the record, the blur effect is only supported on iOS7 or obove. I am still working on things under iOS7, pull requests are welcome! If there is any problem, please let me know.
+
+Also edited some text color of the example project to debug the effect.
+
+[![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/1.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/1.png)
+[![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/2.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/2.png)
+[![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/3.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/3.png)
+[![](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/4.png)](https://dl.dropboxusercontent.com/u/54381455/MBProgressHUD/4.png)
+
+##The Olds
 
 MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
-
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/1-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/1.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/2-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/2.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/3-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/3.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/4-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/4.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/5-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/5.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/6-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/6.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/7-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/7.png)
 
 ## Requirements
 
