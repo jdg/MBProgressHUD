@@ -44,7 +44,7 @@
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
-
+static const NSTimeInterval kProgressTimerInterval = 0.25;  // In seconds
 
 @interface MBProgressHUD ()
 
@@ -61,6 +61,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)updateIndicators;
 - (void)handleGraceTimer:(NSTimer *)theTimer;
 - (void)handleMinShowTimer:(NSTimer *)theTimer;
+- (void)handleProgressTimer:(NSTimer *)theTimer;
+- (void)stopProgressTimer;
 - (void)setTransformForCurrentOrientation:(BOOL)animated;
 - (void)cleanUp;
 - (void)launchExecution;
@@ -85,6 +87,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UILabel *detailsLabel;
 	BOOL isFinished;
 	CGAffineTransform rotationTransform;
+    NSTimer *progressTimer;
+    NSTimeInterval endProgressTimeInterval;
 }
 
 #pragma mark - Properties
@@ -127,6 +131,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	MBProgressHUD *hud = [[self alloc] initWithView:view];
 	[view addSubview:hud];
 	[hud show:animated];
+	return MB_AUTORELEASE(hud);
+}
+
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view withDeterminateProgressTime:(NSTimeInterval)progressTime animated:(BOOL)animated {
+	MBProgressHUD *hud = [[self alloc] initWithView:view];
+	[view addSubview:hud];
+    [hud showWithDeterminateProgressTime:progressTime animated:animated];
 	return MB_AUTORELEASE(hud);
 }
 
@@ -228,6 +239,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)dealloc {
 	[self unregisterFromNotifications];
 	[self unregisterFromKVO];
+    [progressTimer invalidate];
 #if !__has_feature(objc_arc)
 	[color release];
 	[indicator release];
@@ -239,6 +251,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[minShowTimer release];
 	[showStarted release];
 	[customView release];
+    [progressTimer release];
 #if NS_BLOCKS_AVAILABLE
 	[completionBlock release];
 #endif
@@ -260,6 +273,20 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[self setNeedsDisplay];
 		[self showUsingAnimation:useAnimation];
 	}
+}
+
+- (void)showWithDeterminateProgressTime:(NSTimeInterval)progressTime animated:(BOOL)animated
+{
+    if( progressTime > 0.0 )
+    {
+        [self stopProgressTimer];
+        self.progress = 0.0;
+        self.mode = MBProgressHUDModeDeterminate;
+        endProgressTimeInterval = progressTime;
+        progressTimer = [NSTimer scheduledTimerWithTimeInterval:kProgressTimerInterval target:self selector:@selector(handleProgressTimer:) userInfo:nil repeats:YES];
+    }
+    
+    [self show:animated];
 }
 
 - (void)hide:(BOOL)animated {
@@ -298,6 +325,47 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)handleMinShowTimer:(NSTimer *)theTimer {
 	[self hideUsingAnimation:useAnimation];
+}
+
+- (void)handleProgressTimer:(NSTimer *)theTimer {
+    if( self.progress < 0.0 ) {
+        self.progress = 0.0;
+    }
+    else if( self.progress > 1.0 ) {
+        self.progress = 1.0;
+    }
+    
+    NSTimeInterval percentRemaining = 1.0 - self.progress;
+    NSTimeInterval timeRemaining = endProgressTimeInterval * percentRemaining;
+
+    if( endProgressTimeInterval <= 0.0 ) {
+        self.progress = 1.0;
+        timeRemaining = 0.0;
+    }
+    else {
+        timeRemaining -= kProgressTimerInterval;
+        if( timeRemaining < 0.0 ) {
+            timeRemaining = 0.0;
+        }
+    
+        self.progress = (endProgressTimeInterval - timeRemaining) / endProgressTimeInterval;
+    }
+    
+    if( timeRemaining == 0 ) {
+        [self stopProgressTimer];
+    }
+}
+
+- (void)stopProgressTimer
+{
+    if( progressTimer != nil )
+    {
+        [progressTimer invalidate];
+#if !__has_feature(objc_arc)
+        [progressTimer release];
+#endif
+        progressTimer = nil;
+    }
 }
 
 #pragma mark - View Hierrarchy
@@ -366,6 +434,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	isFinished = YES;
 	self.alpha = 0.0f;
+
+    [self stopProgressTimer];
+
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
 	}

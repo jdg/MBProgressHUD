@@ -124,6 +124,22 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
+ * Creates a new HUD, adds it to provided view and shows it. The HUD is created using a mode of MBProgressHUDModeDeterminate
+ * and will count down until the given time is reached. When the countdown time reaches 0 it is still up to the caller to
+ * hide the progress HUD (see hideHUDForView:animated:).
+ *
+ * @param view The view that the HUD will be added to
+ * @param progressTime in seconds
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ * @see animationType
+ */
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view withDeterminateProgressTime:(NSTimeInterval)progressTime animated:(BOOL)animated;
+
+/**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
@@ -194,6 +210,21 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @see animationType
  */
 - (void)show:(BOOL)animated;
+
+/**
+ * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
+ * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
+ * (e.g., when using something like NSOperation or calling an asynchronous call like NSURLRequest).
+ * The HUD is created using a mode of MBProgressHUDModeDeterminate and will count down until the given time is reached.
+ * When the countdown time reaches 0 it is still up to the caller to hide the progress HUD (see hideHUDForView:animated:).
+ *
+ * @param progressTime in seconds
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
+ *
+ * @see animationType
+ */
+- (void)showWithDeterminateProgressTime:(NSTimeInterval)progressTime animated:(BOOL)animated;
 
 /** 
  * Hide the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
