@@ -57,6 +57,16 @@ typedef enum {
 	MBProgressHUDAnimationZoomIn
 } MBProgressHUDAnimation;
 
+typedef enum {
+    MBProgressHUDPositionTop                = (1 << 0),
+	MBProgressHUDPositionCenterVertical     = (1 << 1),
+    MBProgressHUDPositionBottom             = (1 << 2),
+    MBProgressHUDPositionLeft               = (1 << 3),
+    MBProgressHUDPositionCenterHorizontal   = (1 << 4),
+    MBProgressHUDPositionRight              = (1 << 5),
+    MBProgressHUDPositionCenter = MBProgressHUDPositionCenterHorizontal | MBProgressHUDPositionCenterVertical,
+} MBProgressHUDPosition;
+
 
 #ifndef MB_INSTANCETYPE
 #if __has_feature(objc_instancetype)
@@ -291,6 +301,16 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) MBProgressHUDAnimation animationType;
 
 /**
+ * Where on the screen the HUD should be positioned.  The default is MBProgressHUDPositionCenter.
+ * xOffset and yOffset are applied relative to this position.
+ *
+ * @see MBProgressHUDPosition
+ * @see xOffset
+ * @see yOffset
+ */
+@property (assign) MBProgressHUDPosition position;
+
+/**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
@@ -329,12 +349,16 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (MB_STRONG) UIColor *color;
 
 /** 
- * The x-axis offset of the HUD relative to the centre of the superview. 
+ * The x-axis offset of the HUD relative to its position in the superview.
+ *
+ * @see position
  */
 @property (assign) float xOffset;
 
 /** 
- * The y-axis offset of the HUD relative to the centre of the superview. 
+ * The y-axis offset of the HUD relative to its position in the superview. 
+ *
+ * @see position
  */
 @property (assign) float yOffset;
 

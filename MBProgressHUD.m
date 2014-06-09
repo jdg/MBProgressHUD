@@ -79,6 +79,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Properties
 
 @synthesize animationType;
+@synthesize position;
 @synthesize delegate;
 @synthesize opacity;
 @synthesize color;
@@ -168,6 +169,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Set default values for properties
 		self.animationType = MBProgressHUDAnimationFade;
 		self.mode = MBProgressHUDModeIndeterminate;
+        self.position = MBProgressHUDPositionCenter;
 		self.labelText = nil;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
@@ -188,8 +190,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.minSize = CGSizeZero;
 		self.square = NO;
 		self.contentMode = UIViewContentModeCenter;
-		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
-								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 
 		// Transparent background
 		self.opaque = NO;
@@ -534,7 +535,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	CGRect bounds = self.bounds;
 	
-	// Determine the total widt and height needed
+	// Determine the total width and height needed
 	CGFloat maxWidth = bounds.size.width - 4 * margin;
 	CGSize totalSize = CGSizeZero;
 	
@@ -562,12 +563,45 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	totalSize.width += 2 * margin;
 	totalSize.height += 2 * margin;
+    
+	// Enforce minsize and square rules
+    CGSize finalSize = totalSize;
+	if (square) {
+		CGFloat max = MAX(finalSize.width, finalSize.height);
+		if (max <= bounds.size.width - 2 * margin) {
+			finalSize.width = max;
+		}
+		if (max <= bounds.size.height - 2 * margin) {
+			finalSize.height = max;
+		}
+	}
+	if (finalSize.width < minSize.width) {
+		finalSize.width = minSize.width;
+	}
+	if (finalSize.height < minSize.height) {
+		finalSize.height = minSize.height;
+	}
 	
-	// Position elements
-	CGFloat yPos = round(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
+	// Calculate offsets
+    CGFloat yPos;
+    if (position & MBProgressHUDPositionTop) {
+        yPos = round((finalSize.height - totalSize.height) / 2) + margin + yOffset;
+    } else if (position & MBProgressHUDPositionBottom) {
+        yPos = round(bounds.size.height - totalSize.height) - round((finalSize.height - totalSize.height) / 2) + margin + yOffset;
+    } else {
+        yPos = round(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
+    }
 	CGFloat xPos = xOffset;
+    
+    // Position elements
 	indicatorF.origin.y = yPos;
-	indicatorF.origin.x = round((bounds.size.width - indicatorF.size.width) / 2) + xPos;
+    if (position & MBProgressHUDPositionLeft) {
+        indicatorF.origin.x = round((totalSize.width - indicatorF.size.width) / 2) + round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else if (position & MBProgressHUDPositionRight) {
+        indicatorF.origin.x = round(bounds.size.width - totalSize.width + ((totalSize.width - indicatorF.size.width) / 2)) - round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else {
+        indicatorF.origin.x = round((bounds.size.width - indicatorF.size.width) / 2) + xPos;
+    }
 	indicator.frame = indicatorF;
 	yPos += indicatorF.size.height;
 	
@@ -576,7 +610,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	CGRect labelF;
 	labelF.origin.y = yPos;
-	labelF.origin.x = round((bounds.size.width - labelSize.width) / 2) + xPos;
+    if (position & MBProgressHUDPositionLeft) {
+        labelF.origin.x = round((totalSize.width - labelSize.width) / 2) + round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else if (position & MBProgressHUDPositionRight) {
+        labelF.origin.x = round(bounds.size.width - totalSize.width + ((totalSize.width - labelSize.width) / 2)) - round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else {
+        labelF.origin.x = round((bounds.size.width - labelSize.width) / 2) + xPos;
+    }
 	labelF.size = labelSize;
 	label.frame = labelF;
 	yPos += labelF.size.height;
@@ -586,28 +626,17 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	CGRect detailsLabelF;
 	detailsLabelF.origin.y = yPos;
-	detailsLabelF.origin.x = round((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
+    if (position & MBProgressHUDPositionLeft) {
+        detailsLabelF.origin.x = round((totalSize.width - detailsLabelSize.width) / 2) + round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else if (position & MBProgressHUDPositionRight) {
+        detailsLabelF.origin.x = round(bounds.size.width - totalSize.width + ((totalSize.width - detailsLabelSize.width) / 2)) - round((finalSize.width - totalSize.width) / 2) + xPos;
+    } else {
+        detailsLabelF.origin.x = round((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
+    }
 	detailsLabelF.size = detailsLabelSize;
 	detailsLabel.frame = detailsLabelF;
 	
-	// Enforce minsize and quare rules
-	if (square) {
-		CGFloat max = MAX(totalSize.width, totalSize.height);
-		if (max <= bounds.size.width - 2 * margin) {
-			totalSize.width = max;
-		}
-		if (max <= bounds.size.height - 2 * margin) {
-			totalSize.height = max;
-		}
-	}
-	if (totalSize.width < minSize.width) {
-		totalSize.width = minSize.width;
-	} 
-	if (totalSize.height < minSize.height) {
-		totalSize.height = minSize.height;
-	}
-	
-	size = totalSize;
+	size = finalSize;
 }
 
 #pragma mark BG Drawing
@@ -644,11 +673,26 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 
 	
-	// Center HUD
+	// Draw HUD
 	CGRect allRect = self.bounds;
 	// Draw rounded HUD backgroud rect
-	CGRect boxRect = CGRectMake(round((allRect.size.width - size.width) / 2) + self.xOffset,
-								round((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
+    CGFloat xOrigin;
+    if (position & MBProgressHUDPositionLeft) {
+        xOrigin = self.xOffset;
+    } else if (position & MBProgressHUDPositionRight) {
+        xOrigin = round(allRect.size.width - size.width) + self.xOffset;
+    } else {
+        xOrigin = round((allRect.size.width - size.width) / 2) + self.xOffset;
+    }
+    CGFloat yOrigin;
+    if (position & MBProgressHUDPositionTop) {
+        yOrigin = self.yOffset;
+    } else if (position & MBProgressHUDPositionBottom) {
+        yOrigin = round(allRect.size.height - size.height) + self.yOffset;
+    } else {
+        yOrigin = round((allRect.size.height - size.height) / 2) + self.yOffset;
+    }
+	CGRect boxRect = CGRectMake(xOrigin, yOrigin, size.width, size.height);
 	float radius = self.cornerRadius;
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
