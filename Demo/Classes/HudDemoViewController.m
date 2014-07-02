@@ -9,16 +9,20 @@
 #import "HudDemoViewController.h"
 #import <unistd.h>
 
-@implementation HudDemoViewController
 
-#pragma mark -
-#pragma mark Constants
+#define SCREENSHOT_MODE 0
+
+
+@implementation HudDemoViewController
 
 #pragma mark -
 #pragma mark Lifecycle methods
 
 - (void)viewDidLoad {
 	UIView *content = [[self.view subviews] objectAtIndex:0];
+#if SCREENSHOT_MODE
+	[content.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+#endif
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
@@ -175,7 +179,7 @@
 }
 
 - (IBAction)showURL:(id)sender {
-	NSURL *URL = [NSURL URLWithString:@"https://github.com/matej/MBProgressHUD/zipball/master"];
+	NSURL *URL = [NSURL URLWithString:@"http://a1408.g.akamai.net/5/1408/1388/2005110403/1a1a1ad948be278cff2d96046ad90768d848b41947aa1986/sample_iPod.m4v.zip"];
 	NSURLRequest *request = [NSURLRequest requestWithURL:URL];
 	
 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -261,9 +265,13 @@
 	HUD.mode = MBProgressHUDModeIndeterminate;
 	HUD.labelText = @"Cleaning up";
 	sleep(2);
-	// The sample image is based on the work by www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
-	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+	// UIImageView is a UIKit class, we have to initialize it on the main thread
+	__block UIImageView *imageView;
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+		imageView = [[UIImageView alloc] initWithImage:image];
+	});
+	HUD.customView = [imageView autorelease];
 	HUD.mode = MBProgressHUDModeCustomView;
 	HUD.labelText = @"Completed";
 	sleep(2);
@@ -273,7 +281,7 @@
 #pragma mark NSURLConnectionDelegete
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	expectedLength = [response expectedContentLength];
+	expectedLength = MAX([response expectedContentLength], 1);
 	currentLength = 0;
 	HUD.mode = MBProgressHUDModeDeterminate;
 }

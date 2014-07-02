@@ -6,6 +6,7 @@ build/
 *.perspectivev3
 xcuserdata/
 DerivedData/
+*.xccheckout
 
 # old skool
 .svn
