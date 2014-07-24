@@ -72,6 +72,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
 @property (atomic, assign) CGSize size;
+@property (atomic, assign) BOOL isGoingToBeHidden;
 
 @end
 
@@ -117,6 +118,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
+@synthesize isGoingToBeHidden;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -152,7 +154,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (MB_INSTANCETYPE)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
-		if ([subview isKindOfClass:self]) {
+		if ([subview isKindOfClass:self] && !((MBProgressHUD*)subview).isGoingToBeHidden) {
 			return (MBProgressHUD *)subview;
 		}
 	}
@@ -267,6 +269,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated {
+    isGoingToBeHidden = YES;
 	useAnimation = animated;
 	// If the minShow time is set, calculate how long the hud was shown,
 	// and pospone the hiding operation if necessary
