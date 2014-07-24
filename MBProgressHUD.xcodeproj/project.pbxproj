@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1315DD7617804CBC0032507D /* MBProgressHUD.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D286A7511518C70F00E13FB8 /* MBProgressHUD.h */; };
+		CDCBE85B18A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CDCBE85A18A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.m */; };
+		CDCBE85C18A5C39300AB73A1 /* MBProgressHUD+GlobalHUD.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDCBE85918A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.h */; };
 		D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A74C1518C70F00E13FB8 /* Foundation.framework */; };
 		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
@@ -21,6 +23,7 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				CDCBE85C18A5C39300AB73A1 /* MBProgressHUD+GlobalHUD.h in CopyFiles */,
 				1315DD7617804CBC0032507D /* MBProgressHUD.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -29,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		1315DD73178045000032507D /* MBProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		CDCBE85918A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+GlobalHUD.h"; sourceTree = SOURCE_ROOT; };
+		CDCBE85A18A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+GlobalHUD.m"; sourceTree = SOURCE_ROOT; };
 		D286A7491518C70F00E13FB8 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D286A74C1518C70F00E13FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D286A7511518C70F00E13FB8 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
@@ -91,6 +96,8 @@
 			children = (
 				D286A7511518C70F00E13FB8 /* MBProgressHUD.h */,
 				D286A7521518C70F00E13FB8 /* MBProgressHUD.m */,
+				CDCBE85918A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.h */,
+				CDCBE85A18A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.m */,
 				1315DD72178044770032507D /* Supporting Files */,
 			);
 			path = MBProgressHUD;
@@ -148,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDCBE85B18A5C32900AB73A1 /* MBProgressHUD+GlobalHUD.m in Sources */,
 				D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

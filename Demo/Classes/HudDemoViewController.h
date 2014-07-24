@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "MBProgressHUD+GlobalHUD.h"
 
 @interface HudDemoViewController : UIViewController <MBProgressHUDDelegate> {
 	MBProgressHUD *HUD;
