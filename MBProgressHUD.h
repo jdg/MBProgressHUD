@@ -415,6 +415,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float progress;
 
 /**
+ * The color of the progress indicator.
+ */
+@property (MB_STRONG) UIColor *progressTintColor;
+
+-(void)changeProgressTintColor:(UIColor *)tint_color;
+
+/**
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
 @property (assign) CGSize minSize;
