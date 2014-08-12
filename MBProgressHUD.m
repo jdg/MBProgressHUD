@@ -106,9 +106,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize detailsLabelText;
 @synthesize progress;
 @synthesize size;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
-@dynamic activityIndicatorColor;
-#endif
+@synthesize activityIndicatorColor;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -178,6 +176,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.labelColor = [UIColor whiteColor];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.detailsLabelColor = [UIColor whiteColor];
+		self.activityIndicatorColor = [UIColor whiteColor];
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
@@ -477,35 +476,23 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[self addSubview:detailsLabel];
 }
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
--(void)setActivityIndicatorColor:(UIColor *)activityIndicatorColor
-{
-  if(self.indicator && [indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-      ((UIActivityIndicatorView*)self.indicator).color = activityIndicatorColor;
-  }
-}
-
--(UIColor*)activityIndicatorColor
-{
-  if(self.indicator && [indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-    return ((UIActivityIndicatorView*)self.indicator).color;
-  }
-  return nil;
-}
-#endif
-
 - (void)updateIndicators {
 	
 	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
 	
-	if (mode == MBProgressHUDModeIndeterminate &&  !isActivityIndicator) {
-		// Update to indeterminate indicator
-		[indicator removeFromSuperview];
-		self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
-										 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
-		[(UIActivityIndicatorView *)indicator startAnimating];
-		[self addSubview:indicator];
+	if (mode == MBProgressHUDModeIndeterminate) {
+		if (!isActivityIndicator) {
+			// Update to indeterminate indicator
+			[indicator removeFromSuperview];
+			self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
+											 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
+			[(UIActivityIndicatorView *)indicator startAnimating];
+			[self addSubview:indicator];
+		}
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
+		[(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
+#endif
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
@@ -691,7 +678,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (NSArray *)observableKeypaths {
 	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
-			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", nil];
+			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -703,7 +690,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateUIForKeypath:(NSString *)keyPath {
-	if ([keyPath isEqualToString:@"mode"] || [keyPath isEqualToString:@"customView"]) {
+	if ([keyPath isEqualToString:@"mode"] || [keyPath isEqualToString:@"customView"] ||
+		[keyPath isEqualToString:@"activityIndicatorColor"]) {
 		[self updateIndicators];
 	} else if ([keyPath isEqualToString:@"labelText"]) {
 		label.text = self.labelText;
