@@ -773,6 +773,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	if (animated) {
 		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDuration:0.3];
 	}
 	[self setTransform:rotationTransform];
 	if (animated) {
