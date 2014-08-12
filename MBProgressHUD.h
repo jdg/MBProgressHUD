@@ -433,6 +433,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign, getter = isSquare) BOOL square;
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
+/**
+ * The color of the activity indicator. Defaults to [UIColor whiteColor]
+ */
+@property() UIColor *activityIndicatorColor;
+#endif
+
 @end
 
 
