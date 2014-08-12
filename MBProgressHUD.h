@@ -409,6 +409,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (MB_STRONG) UIColor* detailsLabelColor;
 
+/**
+ * The color of the activity indicator. Defaults to [UIColor whiteColor]
+ * Does nothing on pre iOS 5.
+ */
+@property (MB_STRONG) UIColor *activityIndicatorColor;
+
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
