@@ -345,7 +345,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign) float margin;
 
 /**
- * The corner radius for th HUD
+ * The corner radius for the HUD
  * Defaults to 10.0
  */
 @property (assign) float cornerRadius;
@@ -418,6 +418,15 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
 @property (assign) CGSize minSize;
+
+
+/**
+ * The actual size of the HUD bezel.
+ * You can use this to limit touch handling on the bezel aria only.
+ * @see https://github.com/jdg/MBProgressHUD/pull/200
+ */
+@property (atomic, assign, readonly) CGSize size;
+
 
 /**
  * Force the HUD dimensions to be equal if possible. 
