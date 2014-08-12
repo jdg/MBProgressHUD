@@ -54,26 +54,16 @@ static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
 
 
-@interface MBProgressHUD ()
-
-- (void)setupLabels;
-- (void)registerForKVO;
-- (void)unregisterFromKVO;
-- (NSArray *)observableKeypaths;
-- (void)registerForNotifications;
-- (void)unregisterFromNotifications;
-- (void)updateUIForKeypath:(NSString *)keyPath;
-- (void)hideUsingAnimation:(BOOL)animated;
-- (void)showUsingAnimation:(BOOL)animated;
-- (void)done;
-- (void)updateIndicators;
-- (void)handleGraceTimer:(NSTimer *)theTimer;
-- (void)handleMinShowTimer:(NSTimer *)theTimer;
-- (void)setTransformForCurrentOrientation:(BOOL)animated;
-- (void)cleanUp;
-- (void)launchExecution;
-- (void)deviceOrientationDidChange:(NSNotification *)notification;
-- (void)hideDelayed:(NSNumber *)animated;
+@interface MBProgressHUD () {
+	BOOL useAnimation;
+	SEL methodForExecution;
+	id targetForExecution;
+	id objectForExecution;
+	UILabel *label;
+	UILabel *detailsLabel;
+	BOOL isFinished;
+	CGAffineTransform rotationTransform;
+}
 
 @property (atomic, MB_STRONG) UIView *indicator;
 @property (atomic, MB_STRONG) NSTimer *graceTimer;
@@ -84,16 +74,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @end
 
 
-@implementation MBProgressHUD {
-	BOOL useAnimation;
-	SEL methodForExecution;
-	id targetForExecution;
-	id objectForExecution;
-	UILabel *label;
-	UILabel *detailsLabel;
-	BOOL isFinished;
-	CGAffineTransform rotationTransform;
-}
+@implementation MBProgressHUD
 
 #pragma mark - Properties
 
