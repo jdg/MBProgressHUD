@@ -79,7 +79,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *graceTimer;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
-@property (atomic, assign) CGSize size;
+
 
 @end
 
@@ -619,7 +619,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height = minSize.height;
 	}
 	
-	self.size = totalSize;
+	size = totalSize;
 }
 
 #pragma mark BG Drawing
