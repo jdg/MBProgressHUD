@@ -1,6 +1,6 @@
 //
 // MBProgressHUD.m
-// Version 0.8
+// Version 0.9
 // Created by Matej Bukovinski on 2.4.09.
 //
 
