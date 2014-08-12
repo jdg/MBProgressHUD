@@ -200,7 +200,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.removeFromSuperViewOnHide = NO;
 		self.minSize = CGSizeZero;
 		self.square = NO;
-		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin 
+		self.contentMode = UIViewContentModeCenter;
+		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
 								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 
 		// Transparent background
@@ -532,6 +533,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Layout
 
 - (void)layoutSubviews {
+	[super layoutSubviews];
 	
 	// Entirely cover the parent view
 	UIView *parent = self.superview;
@@ -732,7 +734,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification { 
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
 	UIView *superview = self.superview;
 	if (!superview) {
 		return;
@@ -744,7 +746,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 }
 
-- (void)setTransformForCurrentOrientation:(BOOL)animated {	
+- (void)setTransformForCurrentOrientation:(BOOL)animated {
 	// Stay in sync with the superview
 	if (self.superview) {
 		self.bounds = self.superview.bounds;
