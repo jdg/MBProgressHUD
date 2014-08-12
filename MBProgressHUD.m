@@ -305,10 +305,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - View Hierrarchy
+- (BOOL)shouldPerformOrientationTransform
+{
+    BOOL isRunningPreiOS8 = (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1);
+    // prior to iOS8 code needs to take care of rotation if it is being added to the window
+    return isRunningPreiOS8 && [self.superview isKindOfClass:[UIWindow class]];
+}
 
 - (void)didMoveToSuperview {
-	// We need to take care of rotation ourselfs if we're adding the HUD to a window
-	if ([self.superview isKindOfClass:[UIWindow class]]) {
+
+	if ([self shouldPerformOrientationTransform]) {
 		[self setTransformForCurrentOrientation:NO];
 	}
 }
@@ -727,7 +733,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UIView *superview = self.superview;
 	if (!superview) {
 		return;
-	} else if ([superview isKindOfClass:[UIWindow class]]) {
+	} else if ([self shouldPerformOrientationTransform]) {
 		[self setTransformForCurrentOrientation:YES];
 	} else {
 		self.frame = self.superview.bounds;
