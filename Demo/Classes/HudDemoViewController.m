@@ -25,6 +25,8 @@
 }
 
 @property (retain, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
+@property (retain, nonatomic) IBOutlet UISegmentedControl *verticalSegmentedControl;
+@property (retain, nonatomic) IBOutlet UISegmentedControl *horizontalSegmentedControl;
 
 @end
 
@@ -57,10 +59,31 @@
 
 - (void)dealloc {
 	[_buttons release];
+	[_verticalSegmentedControl release];
+	[_horizontalSegmentedControl release];
 	[super dealloc];
 }
 
 #pragma mark - Actions
+
+- (MBProgressHUDPosition)getPosition {
+	MBProgressHUDPosition position = 0;
+	if (self.horizontalSegmentedControl.selectedSegmentIndex == 0) {
+		position |= MBProgressHUDPositionLeft;
+	} else if (self.horizontalSegmentedControl.selectedSegmentIndex == 2) {
+		position |= MBProgressHUDPositionRight;
+	} else {
+		position |= MBProgressHUDPositionCenterHorizontal;
+	}
+	if (self.verticalSegmentedControl.selectedSegmentIndex == 0) {
+		position |= MBProgressHUDPositionTop;
+	} else if (self.verticalSegmentedControl.selectedSegmentIndex == 2) {
+		position |= MBProgressHUDPositionBottom;
+	} else {
+		position |= MBProgressHUDPositionCenterVertical;
+	}
+	return position;
+}
 
 - (IBAction)showSimple:(id)sender {
 	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
@@ -69,6 +92,7 @@
 	
 	// Regiser for HUD callbacks so we can remove it from the window at the right time
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	
 	// Show the HUD while the provided method executes in a new thread
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
@@ -80,6 +104,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Loading";
 	
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
@@ -91,6 +116,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Loading";
 	HUD.detailsLabelText = @"updating data";
 	HUD.square = YES;
@@ -107,6 +133,7 @@
 	HUD.mode = MBProgressHUDModeDeterminate;
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Loading";
 	
 	// myProgressTask uses the HUD instance to update progress
@@ -121,6 +148,7 @@
 	HUD.mode = MBProgressHUDModeAnnularDeterminate;
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Loading";
 	
 	// myProgressTask uses the HUD instance to update progress
@@ -136,6 +164,7 @@
 	HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	
 	// myProgressTask uses the HUD instance to update progress
 	[HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
@@ -154,6 +183,7 @@
 	HUD.mode = MBProgressHUDModeCustomView;
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Completed";
 	
 	[HUD show:YES];
@@ -166,6 +196,7 @@
 	[self.navigationController.view addSubview:HUD];
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Connecting";
 	HUD.minSize = CGSizeMake(135.f, 135.f);
 	
@@ -193,6 +224,7 @@
 	[self.view.window addSubview:HUD];
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	HUD.labelText = @"Loading";
 	
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
@@ -208,6 +240,7 @@
 	
 	HUD = [[MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES] retain];
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 }
 
 
@@ -220,6 +253,7 @@
 	
 	// Regiser for HUD callbacks so we can remove it from the window at the right time
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	
 	// Show the HUD while the provided method executes in a new thread
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
@@ -231,6 +265,7 @@
 	
 	// Configure for text only and offset down
 	hud.mode = MBProgressHUDModeText;
+	hud.position = [self getPosition];
 	hud.labelText = @"Some message...";
 	hud.margin = 10.f;
 	hud.removeFromSuperViewOnHide = YES;
@@ -246,6 +281,7 @@
 	HUD.color = [UIColor colorWithRed:0.23 green:0.50 blue:0.82 alpha:0.90];
 	
 	HUD.delegate = self;
+	HUD.position = [self getPosition];
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];	
 }
 
