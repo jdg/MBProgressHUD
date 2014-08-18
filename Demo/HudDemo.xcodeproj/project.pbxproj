@@ -282,6 +282,7 @@
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = HudDemo;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -295,6 +296,7 @@
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = HudDemo;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
