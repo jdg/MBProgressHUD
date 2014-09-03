@@ -313,7 +313,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)showUsingSavedAnimation {
 	// cancel delayed hide calls
-	[NSRunLoop cancelPreviousPerformRequestsWithTarget:self];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[self setNeedsDisplay];
 	[self showUsingAnimation:useAnimation];
 }
