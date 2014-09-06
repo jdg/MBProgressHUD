@@ -63,6 +63,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	UILabel *detailsLabel;
 	BOOL isFinished;
 	CGAffineTransform rotationTransform;
+    UIButton *button;
 }
 
 @property (atomic, MB_STRONG) UIView *indicator;
@@ -107,6 +108,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize progress;
 @synthesize size;
 @synthesize activityIndicatorColor;
+@synthesize buttonTitle;
+@synthesize buttonTitleColor;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
@@ -188,6 +191,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.removeFromSuperViewOnHide = NO;
 		self.minSize = CGSizeZero;
 		self.square = NO;
+        self.buttonTitle = nil;
+        self.buttonTitleColor = [UIColor whiteColor];
 		self.contentMode = UIViewContentModeCenter;
 		self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
 								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -475,6 +480,17 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.text = self.detailsLabelText;
 	[self addSubview:detailsLabel];
+
+    button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = self.bounds;
+    button.opaque = NO;
+    button.backgroundColor = [UIColor clearColor];
+    [button setTitleColor:[UIColor colorWithRed:0.0f green:122.0f/255.0f blue:255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorWithRed:0.0f green:122.0f/255.0f blue:255.0f alpha:0.4f] forState:UIControlStateHighlighted];
+    [button setTitle:self.buttonTitle forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:20.0f];
+    [self addSubview:button];
 }
 
 - (void)updateIndicators {
@@ -552,7 +568,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height += kPadding;
 	}
 
-	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
+    NSDictionary *attributes = @{NSFontAttributeName:button.titleLabel.font};
+    CGSize buttonSize = [[button titleForState:UIControlStateNormal] sizeWithAttributes:attributes];
+    buttonSize.width = MIN(buttonSize.width, maxWidth);
+    totalSize.width = MAX(totalSize.width, buttonSize.width);
+    totalSize.height += buttonSize.height;
+    if (buttonSize.height > 0.f && indicatorF.size.height > 0.f) {
+        totalSize.height += kPadding;
+    }
+
+	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin;
 	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
 	CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
 	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
@@ -581,7 +606,17 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	labelF.size = labelSize;
 	label.frame = labelF;
 	yPos += labelF.size.height;
-	
+
+    if (buttonSize.height > 0.f && indicatorF.size.height > 0.f) {
+        yPos += kPadding * 2;
+    }
+    CGRect buttonF;
+    buttonF.origin.y = yPos;
+    buttonF.origin.x = roundf((bounds.size.width - buttonSize.width) / 2) + xPos;
+    buttonF.size = buttonSize;
+    button.frame = buttonF;
+    yPos += buttonF.size.height;
+
 	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
 		yPos += kPadding;
 	}
@@ -679,7 +714,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (NSArray *)observableKeypaths {
 	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
-			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor", nil];
+			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor",
+            @"buttonTitle", @"buttonTitleColor", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -706,6 +742,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		detailsLabel.font = self.detailsLabelFont;
 	} else if ([keyPath isEqualToString:@"detailsLabelColor"]) {
 		detailsLabel.textColor = self.detailsLabelColor;
+    } else if ([keyPath isEqualToString:@"buttonTitle"]) {
+        [button setTitle:self.buttonTitle forState:UIControlStateNormal];
+    } else if ([keyPath isEqualToString:@"buttonTitleColor"]) {
+        [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
+        [button setTitleColor:[self.buttonTitleColor colorWithAlphaComponent:0.4f] forState:UIControlStateHighlighted];
 	} else if ([keyPath isEqualToString:@"progress"]) {
 		if ([indicator respondsToSelector:@selector(setProgress:)]) {
 			[(id)indicator setValue:@(progress) forKey:@"progress"];
@@ -770,6 +811,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (animated) {
 		[UIView commitAnimations];
 	}
+}
+
+#pragma mark - Action
+
+- (IBAction)buttonAction:(id)sender {
+    if ([delegate respondsToSelector:@selector(hudTappedButton:)]) {
+        [delegate performSelector:@selector(hudTappedButton:) withObject:self];
+    }
 }
 
 @end

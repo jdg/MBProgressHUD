@@ -316,6 +316,17 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (copy) NSString *detailsLabelText;
 
+
+/**
+ * The text of button title. Defaults to nil.
+ */
+@property (copy) NSString *buttonTitle;
+
+/**
+ * The color of button title. Defaults to [UIColor whiteColor].
+ */
+@property (copy) UIColor *buttonTitleColor;
+
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
@@ -450,6 +461,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Called after the HUD was fully hidden from the screen. 
  */
 - (void)hudWasHidden:(MBProgressHUD *)hud;
+
+/**
+ * Called after the button was tapped.
+ */
+- (void)hudTappedButton:(MBProgressHUD *)hud;
 
 @end
 
