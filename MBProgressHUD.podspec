@@ -16,4 +16,5 @@ Pod::Spec.new do |s|
   s.source_files = '*.{h,m}'
   s.framework    = "CoreGraphics"
   s.requires_arc = true
+  s.ios.deployment_target = "6.0"
 end
