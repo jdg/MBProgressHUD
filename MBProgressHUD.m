@@ -304,7 +304,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     BOOL __block isPreiOS8;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        isPreiOS8 = ![UITraitCollection class];
+        isPreiOS8 = ![[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)];
     });
     
 	// prior to iOS8 code needs to take care of rotation if it is being added to the window
