@@ -535,24 +535,24 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	CGRect bounds = self.bounds;
 	
-	// Determine the total widt and height needed
-	CGFloat maxWidth = bounds.size.width - 4 * margin;
+	// Determine the total width and height needed
+	CGFloat maxWidth = CGRectGetWidth(bounds) - 4 * margin;
 	CGSize totalSize = CGSizeZero;
 	
 	CGRect indicatorF = indicator.bounds;
-	indicatorF.size.width = MIN(indicatorF.size.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, indicatorF.size.width);
-	totalSize.height += indicatorF.size.height;
+	indicatorF.size.width = MIN(CGRectGetWidth(indicatorF), maxWidth);
+	totalSize.width = MAX(totalSize.width, CGRectGetWidth(indicatorF));
+	totalSize.height += CGRectGetHeight(indicatorF);
 	
 	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
 	labelSize.width = MIN(labelSize.width, maxWidth);
 	totalSize.width = MAX(totalSize.width, labelSize.width);
 	totalSize.height += labelSize.height;
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
+	if (labelSize.height > 0.f && CGRectGetHeight(indicatorF) > 0.f) {
 		totalSize.height += kPadding;
 	}
 
-	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
+	CGFloat remainingHeight = CGRectGetHeight(bounds) - totalSize.height - kPadding - 4 * margin;
 	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
 	CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
 	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
@@ -565,29 +565,29 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	totalSize.height += 2 * margin;
 	
 	// Position elements
-	CGFloat yPos = round(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
+	CGFloat yPos = round(((CGRectGetHeight(bounds) - totalSize.height) / 2)) + margin + yOffset;
 	CGFloat xPos = xOffset;
 	indicatorF.origin.y = yPos;
-	indicatorF.origin.x = round((bounds.size.width - indicatorF.size.width) / 2) + xPos;
+	indicatorF.origin.x = round((CGRectGetWidth(bounds) - CGRectGetWidth(indicatorF)) / 2) + xPos;
 	indicator.frame = indicatorF;
-	yPos += indicatorF.size.height;
+	yPos += CGRectGetHeight(indicatorF);
 	
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
+	if (labelSize.height > 0.f && CGRectGetHeight(indicatorF) > 0.f) {
 		yPos += kPadding;
 	}
 	CGRect labelF;
 	labelF.origin.y = yPos;
-	labelF.origin.x = round((bounds.size.width - labelSize.width) / 2) + xPos;
+	labelF.origin.x = round((CGRectGetWidth(bounds) - labelSize.width) / 2) + xPos;
 	labelF.size = labelSize;
 	label.frame = labelF;
 	yPos += labelF.size.height;
 	
-	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
+	if (detailsLabelSize.height > 0.f && (CGRectGetHeight(indicatorF) > 0.f || labelSize.height > 0.f)) {
 		yPos += kPadding;
 	}
 	CGRect detailsLabelF;
 	detailsLabelF.origin.y = yPos;
-	detailsLabelF.origin.x = round((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
+	detailsLabelF.origin.x = round((CGRectGetWidth(bounds) - detailsLabelSize.width) / 2) + xPos;
 	detailsLabelF.size = detailsLabelSize;
 	detailsLabel.frame = detailsLabelF;
 	
@@ -627,9 +627,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, gradColors, gradLocations, gradLocationsNum);
 		CGColorSpaceRelease(colorSpace);
 		//Gradient center
-		CGPoint gradCenter= CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+		CGPoint gradCenter= CGPointMake(CGRectGetWidth(self.bounds)/2, CGRectGetHeight(self.bounds)/2);
 		//Gradient radius
-		float gradRadius = MIN(self.bounds.size.width , self.bounds.size.height) ;
+		float gradRadius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) ;
 		//Gradient draw
 		CGContextDrawRadialGradient (context, gradient, gradCenter,
 									 0, gradCenter, gradRadius,
@@ -648,8 +648,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// Center HUD
 	CGRect allRect = self.bounds;
 	// Draw rounded HUD backgroud rect
-	CGRect boxRect = CGRectMake(round((allRect.size.width - size.width) / 2) + self.xOffset,
-								round((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
+	CGRect boxRect = CGRectMake(round((CGRectGetWidth(allRect) - size.width) / 2) + self.xOffset,
+								round((CGRectGetHeight(allRect) - size.height) / 2) + self.yOffset, size.width, size.height);
 	float radius = self.cornerRadius;
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
@@ -761,7 +761,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
             } else {
                 radians = (CGFloat)M_PI_2;
             }
-            self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
+            self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.bounds), CGRectGetWidth(self.bounds));
         } else {
             if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
                 radians = (CGFloat)M_PI;
@@ -831,8 +831,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
 		processBackgroundPath.lineWidth = lineWidth;
 		processBackgroundPath.lineCapStyle = kCGLineCapButt;
-		CGPoint center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-		CGFloat radius = (self.bounds.size.width - lineWidth)/2;
+		CGPoint center = CGPointMake(CGRectGetWidth(self.bounds)/2, CGRectGetHeight(self.bounds)/2);
+		CGFloat radius = (CGRectGetWidth(self.bounds) - lineWidth)/2;
 		CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
 		CGFloat endAngle = (2 * (float)M_PI) + startAngle;
 		[processBackgroundPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
@@ -854,8 +854,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		CGContextFillEllipseInRect(context, circleRect);
 		CGContextStrokeEllipseInRect(context, circleRect);
 		// Draw progress
-		CGPoint center = CGPointMake(allRect.size.width / 2, allRect.size.height / 2);
-		CGFloat radius = (allRect.size.width - 4) / 2;
+		CGPoint center = CGPointMake(CGRectGetWidth(allRect) / 2, CGRectGetHeight(allRect) / 2);
+		CGFloat radius = (CGRectGetWidth(allRect) - 4) / 2;
 		CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
 		CGFloat endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
 		CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white
@@ -933,40 +933,40 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
 	
 	// Draw background
-	float radius = (rect.size.height / 2) - 2;
-	CGContextMoveToPoint(context, 2, rect.size.height/2);
+	float radius = (CGRectGetHeight(rect) / 2) - 2;
+	CGContextMoveToPoint(context, 2, CGRectGetHeight(rect)/2);
 	CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
-	CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
-	CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
-	CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
-	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
-	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
+	CGContextAddLineToPoint(context, CGRectGetWidth(rect) - radius - 2, 2);
+	CGContextAddArcToPoint(context, CGRectGetWidth(rect) - 2, 2, CGRectGetWidth(rect) - 2, CGRectGetHeight(rect) / 2, radius);
+	CGContextAddArcToPoint(context, CGRectGetWidth(rect) - 2, CGRectGetHeight(rect) - 2, CGRectGetWidth(rect) - radius - 2, CGRectGetHeight(rect) - 2, radius);
+	CGContextAddLineToPoint(context, radius + 2, CGRectGetHeight(rect) - 2);
+	CGContextAddArcToPoint(context, 2, CGRectGetHeight(rect) - 2, 2, CGRectGetHeight(rect)/2, radius);
 	CGContextFillPath(context);
 	
 	// Draw border
-	CGContextMoveToPoint(context, 2, rect.size.height/2);
+	CGContextMoveToPoint(context, 2, CGRectGetHeight(rect)/2);
 	CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
-	CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
-	CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
-	CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
-	CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
-	CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
+	CGContextAddLineToPoint(context, CGRectGetWidth(rect) - radius - 2, 2);
+	CGContextAddArcToPoint(context, CGRectGetWidth(rect) - 2, 2, CGRectGetWidth(rect) - 2, CGRectGetHeight(rect) / 2, radius);
+	CGContextAddArcToPoint(context, CGRectGetWidth(rect) - 2, CGRectGetHeight(rect) - 2, CGRectGetWidth(rect) - radius - 2, CGRectGetHeight(rect) - 2, radius);
+	CGContextAddLineToPoint(context, radius + 2, CGRectGetHeight(rect) - 2);
+	CGContextAddArcToPoint(context, 2, CGRectGetHeight(rect) - 2, 2, CGRectGetHeight(rect)/2, radius);
 	CGContextStrokePath(context);
 	
 	CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
 	radius = radius - 2;
-	float amount = self.progress * rect.size.width;
+	float amount = self.progress * CGRectGetWidth(rect);
 	
 	// Progress in the middle area
-	if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4)) {
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
+	if (amount >= radius + 4 && amount <= (CGRectGetWidth(rect) - radius - 4)) {
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
 		CGContextAddLineToPoint(context, amount, 4);
 		CGContextAddLineToPoint(context, amount, radius + 4);
 		
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
-		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-		CGContextAddLineToPoint(context, amount, rect.size.height - 4);
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
+		CGContextAddArcToPoint(context, 4, CGRectGetHeight(rect) - 4, radius + 4, CGRectGetHeight(rect) - 4, radius);
+		CGContextAddLineToPoint(context, amount, CGRectGetHeight(rect) - 4);
 		CGContextAddLineToPoint(context, amount, radius + 4);
 		
 		CGContextFillPath(context);
@@ -974,36 +974,36 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	// Progress in the right arc
 	else if (amount > radius + 4) {
-		float x = amount - (rect.size.width - radius - 4);
+		float x = amount - (CGRectGetWidth(rect) - radius - 4);
 
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
-		CGContextAddLineToPoint(context, rect.size.width - radius - 4, 4);
+		CGContextAddLineToPoint(context, CGRectGetWidth(rect) - radius - 4, 4);
 		float angle = -acos(x/radius);
 		if (isnan(angle)) angle = 0;
-		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI, angle, 0);
-		CGContextAddLineToPoint(context, amount, rect.size.height/2);
+		CGContextAddArc(context, CGRectGetWidth(rect) - radius - 4, CGRectGetHeight(rect)/2, radius, M_PI, angle, 0);
+		CGContextAddLineToPoint(context, amount, CGRectGetHeight(rect)/2);
 
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
-		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-		CGContextAddLineToPoint(context, rect.size.width - radius - 4, rect.size.height - 4);
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
+		CGContextAddArcToPoint(context, 4, CGRectGetHeight(rect) - 4, radius + 4, CGRectGetHeight(rect) - 4, radius);
+		CGContextAddLineToPoint(context, CGRectGetWidth(rect) - radius - 4, CGRectGetHeight(rect) - 4);
 		angle = acos(x/radius);
 		if (isnan(angle)) angle = 0;
-		CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, -M_PI, angle, 1);
-		CGContextAddLineToPoint(context, amount, rect.size.height/2);
+		CGContextAddArc(context, CGRectGetWidth(rect) - radius - 4, CGRectGetHeight(rect)/2, radius, -M_PI, angle, 1);
+		CGContextAddLineToPoint(context, amount, CGRectGetHeight(rect)/2);
 		
 		CGContextFillPath(context);
 	}
 	
 	// Progress is in the left arc
 	else if (amount < radius + 4 && amount > 0) {
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
 		CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
-		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
+		CGContextAddLineToPoint(context, radius + 4, CGRectGetHeight(rect)/2);
 
-		CGContextMoveToPoint(context, 4, rect.size.height/2);
-		CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-		CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
+		CGContextMoveToPoint(context, 4, CGRectGetHeight(rect)/2);
+		CGContextAddArcToPoint(context, 4, CGRectGetHeight(rect) - 4, radius + 4, CGRectGetHeight(rect) - 4, radius);
+		CGContextAddLineToPoint(context, radius + 4, CGRectGetHeight(rect)/2);
 		
 		CGContextFillPath(context);
 	}
