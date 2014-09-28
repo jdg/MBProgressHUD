@@ -749,17 +749,27 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[self setNeedsDisplay];
 	}
 	
-	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    // Window coordinates differ below iOS8
+    // In iOS8 the UIScreen's bounds now interface-oriented
+    // more see https://developer.apple.com/videos/wwdc/2014/#214
 	CGFloat radians = 0;
-	if (UIInterfaceOrientationIsLandscape(orientation)) {
-		if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -(CGFloat)M_PI_2; } 
-		else { radians = (CGFloat)M_PI_2; }
-		// Window coordinates differ!
-		self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
-	} else {
-		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = (CGFloat)M_PI; } 
-		else { radians = 0; }
-	}
+    if (NSFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0) {
+        UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            if (orientation == UIInterfaceOrientationLandscapeLeft) {
+                radians = -(CGFloat)M_PI_2;
+            } else {
+                radians = (CGFloat)M_PI_2;
+            }
+            self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
+        } else {
+            if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+                radians = (CGFloat)M_PI;
+            } else {
+                radians = 0;
+            }
+        }
+    }
 	rotationTransform = CGAffineTransformMakeRotation(radians);
 	
 	if (animated) {
