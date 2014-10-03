@@ -7,22 +7,42 @@
 //
 
 #import "HudDemoViewController.h"
+#import "MBProgressHUD.h"
 #import <unistd.h>
 
 
 #define SCREENSHOT_MODE 0
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_8_0
+	#define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
+#endif
+
+
+@interface HudDemoViewController () <MBProgressHUDDelegate> {
+	MBProgressHUD *HUD;
+	long long expectedLength;
+	long long currentLength;
+}
+
+@property (retain, nonatomic) IBOutletCollection(UIButton) NSArray *buttons;
+
+@end
+
 
 @implementation HudDemoViewController
 
-#pragma mark -
-#pragma mark Lifecycle methods
+#pragma mark - Lifecycle methods
 
 - (void)viewDidLoad {
 	UIView *content = [[self.view subviews] objectAtIndex:0];
 #if SCREENSHOT_MODE
 	[content.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 #endif
+	if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
+		[self.buttons setValue:@5.f forKeyPath:@"layer.cornerRadius"];
+	} else {
+		[self.buttons setValue:nil forKey:@"backgroundColor"];
+	}
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
@@ -36,11 +56,11 @@
 }
 
 - (void)dealloc {
+	[_buttons release];
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark IBActions
+#pragma mark - Actions
 
 - (IBAction)showSimple:(id)sender {
 	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
@@ -213,7 +233,6 @@
 	hud.mode = MBProgressHUDModeText;
 	hud.labelText = @"Some message...";
 	hud.margin = 10.f;
-	hud.yOffset = 150.f;
 	hud.removeFromSuperViewOnHide = YES;
 	
 	[hud hide:YES afterDelay:3];
@@ -230,8 +249,7 @@
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];	
 }
 
-#pragma mark -
-#pragma mark Execution code
+#pragma mark - Execution code
 
 - (void)myTask {
 	// Do something usefull in here instead of sleeping ...
@@ -277,8 +295,7 @@
 	sleep(2);
 }
 
-#pragma mark -
-#pragma mark NSURLConnectionDelegete
+#pragma mark - NSURLConnectionDelegete
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	expectedLength = MAX([response expectedContentLength], 1);
@@ -301,8 +318,7 @@
 	[HUD hide:YES];
 }
 
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
+#pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
 	// Remove HUD from screen when the HUD was hidded
@@ -311,4 +327,8 @@
 	HUD = nil;
 }
 
+- (void)viewDidUnload {
+	[self setButtons:nil];
+	[super viewDidUnload];
+}
 @end
