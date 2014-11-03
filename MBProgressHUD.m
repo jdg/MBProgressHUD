@@ -48,10 +48,6 @@
 	#define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
 #endif
 
-#ifndef __IPHONE_8_0
-#define __IPHONE_8_0 80000
-#endif
-
 
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
@@ -304,19 +300,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - View Hierrarchy
 
 - (BOOL)shouldPerformOrientationTransform {
-    
-#if (__IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0)
-    static BOOL isPreiOS8SDK = YES;
-#else
-    static BOOL isPreiOS8SDK = NO;
-#endif
-    
-    BOOL isPreiOS8 = NSFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
-    BOOL transformationRequired = isPreiOS8 || isPreiOS8SDK;
-    
-    return transformationRequired && [self.superview isKindOfClass:[UIWindow class]];
+	BOOL isPreiOS8 = NSFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
+	// prior to iOS8 code needs to take care of rotation if it is being added to the window
+	return isPreiOS8 && [self.superview isKindOfClass:[UIWindow class]];
 }
-
 
 - (void)didMoveToSuperview {
 	if ([self shouldPerformOrientationTransform]) {
