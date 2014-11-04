@@ -124,6 +124,20 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
+ * Creates a new HUD, adds it to provided view with title and shows it. The counterpart to this method is hideHUDForView:animated:.
+ *
+ * @param view The view that the HUD will be added to
+ * @param title The title that the HUD will display
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ * @see animationType
+ */
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view title:(NSString *)title animated:(BOOL)animated;
+
+/**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @param view The view that is going to be searched for a HUD subview.
