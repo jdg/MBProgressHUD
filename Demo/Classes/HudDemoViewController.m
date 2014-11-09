@@ -7,9 +7,8 @@
 //
 
 #import "HudDemoViewController.h"
-#import "MBProgressHUD.h"
 #import <unistd.h>
-
+@import MBProgressHUD;
 
 #define SCREENSHOT_MODE 0
 

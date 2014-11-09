@@ -30,6 +30,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 
+//! Project version number for MBProgressHUD.
+FOUNDATION_EXPORT double MBProgressHUDVersionNumber;
+
+//! Project version string for MBProgressHUD.
+FOUNDATION_EXPORT const unsigned char MBProgressHUDVersionString[];
+
 @protocol MBProgressHUDDelegate;
 
 
