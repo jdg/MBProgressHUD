@@ -1,1 +1,4 @@
 language: objective-c
+xcode_workspace: MBProgressHUD.xcworkspace
+xcode_scheme: HudDemo
+xcode_sdk: iphonesimulator
