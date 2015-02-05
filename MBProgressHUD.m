@@ -300,7 +300,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - View Hierrarchy
 
 - (BOOL)shouldPerformOrientationTransform {
-	BOOL isPreiOS8 = NSFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
+	BOOL isPreiOS8 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
 	// prior to iOS8 code needs to take care of rotation if it is being added to the window
 	return isPreiOS8 && [self.superview isKindOfClass:[UIWindow class]];
 }
@@ -816,7 +816,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	
 	if (_annular) {
 		// Draw background
-		BOOL isPreiOS7 = NSFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+		BOOL isPreiOS7 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
 		CGFloat lineWidth = isPreiOS7 ? 5.f : 2.f;
 		UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
 		processBackgroundPath.lineWidth = lineWidth;
