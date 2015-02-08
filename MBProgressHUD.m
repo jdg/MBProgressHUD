@@ -299,16 +299,20 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - View Hierrarchy
 
+#ifndef APP_EXTENSION
 - (BOOL)shouldPerformOrientationTransform {
 	BOOL isPreiOS8 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
 	// prior to iOS8 code needs to take care of rotation if it is being added to the window
 	return isPreiOS8 && [self.superview isKindOfClass:[UIWindow class]];
 }
+#endif
 
 - (void)didMoveToSuperview {
+#ifndef APP_EXTENSION
 	if ([self shouldPerformOrientationTransform]) {
 		[self setTransformForCurrentOrientation:NO];
 	}
+#endif
 }
 
 #pragma mark - Internal show & hide operations
@@ -719,17 +723,22 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Notifications
 
 - (void)registerForNotifications {
+#ifndef APP_EXTENSION
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
 	[nc addObserver:self selector:@selector(statusBarOrientationDidChange:)
 			   name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+#endif
 }
 
 - (void)unregisterFromNotifications {
+#ifndef APP_EXTENSION
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+#endif
 }
 
+#ifndef APP_EXTENSION
 - (void)statusBarOrientationDidChange:(NSNotification *)notification {
 	UIView *superview = self.superview;
 	if (!superview) {
@@ -771,7 +780,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[UIView commitAnimations];
 	}
 }
-
+#endif
 @end
 
 
