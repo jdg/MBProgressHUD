@@ -46,16 +46,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D28CBB1C1A87A29D0052DCEC"
-               BuildableName = "MBProgressHUD Tests.xctest"
-               BlueprintName = "MBProgressHUD Tests"
-               ReferencedContainer = "container:../MBProgressHUD.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D28CBB2C1A87A45A0052DCEC"
                BuildableName = "HudTests.xctest"
                BlueprintName = "HudTests"
@@ -75,7 +65,7 @@
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       displayScaleIsEnabled = "NO"
       displayScale = "1.00"
       launchStyle = "0"
