@@ -314,7 +314,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
-	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
+	if (animated && (animationType == MBProgressHUDAnimationZoomIn || animationType == MBProgressHUDAnimationZoomInOut)) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
 	} else if (animated && animationType == MBProgressHUDAnimationZoomOut) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
@@ -325,7 +325,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.30];
 		self.alpha = 1.0f;
-		if (animationType == MBProgressHUDAnimationZoomIn || animationType == MBProgressHUDAnimationZoomOut) {
+		if (animationType == MBProgressHUDAnimationZoomIn || animationType == MBProgressHUDAnimationZoomOut || animationType == MBProgressHUDAnimationZoomInOut) {
 			self.transform = rotationTransform;
 		}
 		[UIView commitAnimations];
@@ -346,7 +346,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// in the done method
 		if (animationType == MBProgressHUDAnimationZoomIn) {
 			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
-		} else if (animationType == MBProgressHUDAnimationZoomOut) {
+		} else if (animationType == MBProgressHUDAnimationZoomOut || animationType == MBProgressHUDAnimationZoomInOut) {
 			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
 		}
 
