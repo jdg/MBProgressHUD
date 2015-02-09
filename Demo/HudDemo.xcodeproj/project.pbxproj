@@ -12,8 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */; };
+		6E2DD92B1A0F563600774727 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DD9281A0F561F00774727 /* MBProgressHUD.framework */; };
+		6E2DD92C1A0F563600774727 /* MBProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2DD9281A0F561F00774727 /* MBProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D21D40801611CF6C005FCE55 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D21D407F1611CF6C005FCE55 /* Default-568h@2x.png */; };
-		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
 		D24A23051780ADCD0020310A /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E61780AA77008D5939 /* Icon-Small.png */; };
 		D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E71780AA77008D5939 /* Icon-Small@2x.png */; };
 		D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */; };
@@ -30,6 +31,51 @@
 		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6E2DD9251A0F561F00774727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D286A7491518C70F00E13FB8;
+			remoteInfo = "MBProgressHUD-StaticLibrary";
+		};
+		6E2DD9271A0F561F00774727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2DD8FD1A0F54B700774727;
+			remoteInfo = MBProgressHUD;
+		};
+		6E2DD9291A0F561F00774727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2DD9071A0F54B700774727;
+			remoteInfo = MBProgressHUDTests;
+		};
+		6E2DD92D1A0F563600774727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E2DD8FC1A0F54B700774727;
+			remoteInfo = MBProgressHUD;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6E2DD92F1A0F563600774727 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6E2DD92C1A0F563600774727 /* MBProgressHUD.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* HudDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemoAppDelegate.h; sourceTree = "<group>"; };
@@ -40,6 +86,8 @@
 		28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudDemoViewController.m; sourceTree = "<group>"; usesTabs = 1; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemo_Prefix.pch; sourceTree = "<group>"; };
+		6E2DD91C1A0F55C500774727 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = MBProgressHUD.framework; path = "/Users/Coleman/Library/Developer/Xcode/DerivedData/MBProgressHUD-gkwiajjyioytzdeeykkqnylmtzkr/Build/Products/Debug-iphoneos/MBProgressHUD.framework"; sourceTree = "<absolute>"; };
+		6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MBProgressHUD.xcodeproj; path = ../MBProgressHUD.xcodeproj; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D21D407F1611CF6C005FCE55 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Images/Default-568h@2x.png"; sourceTree = "<group>"; };
 		D22568E31780A913008D5939 /* Default-iOS7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-iOS7-568h@2x.png"; path = "Images/Default-iOS7-568h@2x.png"; sourceTree = "<group>"; };
@@ -47,8 +95,6 @@
 		D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iOS7@2x.png"; path = "Images/Icon-iOS7@2x.png"; sourceTree = "<group>"; };
 		D22568E61780AA77008D5939 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Images/Icon-Small.png"; sourceTree = "<group>"; };
 		D22568E71780AA77008D5939 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Images/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
-		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../../MBProgressHUD.m; sourceTree = "<group>"; };
 		D277FDB211FC834200304321 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
 		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
 		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icon@2x.png"; sourceTree = "<group>"; };
@@ -65,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E2DD92B1A0F563600774727 /* MBProgressHUD.framework in Frameworks */,
 				D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -77,8 +124,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */,
-				D22F7D800F85241C00550BB3 /* MBProgressHUD.m */,
 				1D3623240D0F684500981E51 /* HudDemoAppDelegate.h */,
 				1D3623250D0F684500981E51 /* HudDemoAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HudDemoViewController.h */,
@@ -98,6 +143,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -129,11 +175,22 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E2DD91C1A0F55C500774727 /* MBProgressHUD.framework */,
 				D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E2DD9201A0F561F00774727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6E2DD9261A0F561F00774727 /* libMBProgressHUD.a */,
+				6E2DD9281A0F561F00774727 /* MBProgressHUD.framework */,
+				6E2DD92A1A0F561F00774727 /* MBProgressHUDTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D277FDBD11FC879500304321 /* Images */ = {
@@ -174,10 +231,12 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				6E2DD92F1A0F563600774727 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6E2DD92E1A0F563600774727 /* PBXTargetDependency */,
 			);
 			name = HudDemo;
 			productName = HudDemo;
@@ -206,12 +265,42 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6E2DD9201A0F561F00774727 /* Products */;
+					ProjectRef = 6E2DD91F1A0F561F00774727 /* MBProgressHUD.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* HudDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6E2DD9261A0F561F00774727 /* libMBProgressHUD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMBProgressHUD.a;
+			remoteRef = 6E2DD9251A0F561F00774727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6E2DD9281A0F561F00774727 /* MBProgressHUD.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MBProgressHUD.framework;
+			remoteRef = 6E2DD9271A0F561F00774727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6E2DD92A1A0F561F00774727 /* MBProgressHUDTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MBProgressHUDTests.xctest;
+			remoteRef = 6E2DD9291A0F561F00774727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -245,11 +334,18 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* HudDemoAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */,
-				D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6E2DD92E1A0F563600774727 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MBProgressHUD;
+			targetProxy = 6E2DD92D1A0F563600774727 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D286A7341518C53500E13FB8 /* HudDemoViewController.xib */ = {
@@ -275,12 +371,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MBProgressHUD-gkwiajjyioytzdeeykkqnylmtzkr/Build/Products/Debug-iphoneos",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = HudDemo;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -290,10 +393,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/MBProgressHUD-gkwiajjyioytzdeeykkqnylmtzkr/Build/Products/Debug-iphoneos",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = HudDemo;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
