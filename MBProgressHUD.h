@@ -481,6 +481,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (nonatomic, assign, getter = isAnnular) BOOL annular;
 
+/*
+ * Start degrees of round animation.
+ * Defaults 90.
+ */
+@property (nonatomic, assign) CGFloat startDegrees;
+
 @end
 
 
