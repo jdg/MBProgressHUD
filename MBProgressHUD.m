@@ -300,9 +300,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - View Hierrarchy
 
 - (BOOL)shouldPerformOrientationTransform {
+#ifdef __IPHONE_8_0
 	BOOL isPreiOS8 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0;
 	// prior to iOS8 code needs to take care of rotation if it is being added to the window
 	return isPreiOS8 && [self.superview isKindOfClass:[UIWindow class]];
+#else
+	return [self.superview isKindOfClass:[UIWindow class]];
+#endif
 }
 
 - (void)didMoveToSuperview {
