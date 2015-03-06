@@ -439,6 +439,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign, getter = isSquare) BOOL square;
 
+/**
+ *  the HUD visible status. default NO
+ */
+@property (assign, getter = isVisible) BOOL visible;
+
 @end
 
 
