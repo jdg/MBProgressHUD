@@ -1,6 +1,6 @@
 //
 // MBProgressHUD.m
-// Version 0.9
+// Version 0.9.1
 // Created by Matej Bukovinski on 2.4.09.
 //
 
@@ -69,7 +69,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *graceTimer;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
-
 
 @end
 

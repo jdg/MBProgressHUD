@@ -13,4 +13,7 @@
    <FileRef
       location = "group:LICENSE">
    </FileRef>
+   <FileRef
+      location = "group:MBProgressHUD.podspec">
+   </FileRef>
 </Workspace>
