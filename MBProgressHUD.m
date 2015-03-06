@@ -254,8 +254,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	} 
 	// ... otherwise show the HUD imediately 
 	else {
-		[self setNeedsDisplay];
-		[self showUsingAnimation:useAnimation];
+		[self showUsingSavedAnimation];
 	}
 }
 
@@ -288,8 +287,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)handleGraceTimer:(NSTimer *)theTimer {
 	// Show the HUD only if the task is still running
 	if (taskInProgress) {
-		[self setNeedsDisplay];
-		[self showUsingAnimation:useAnimation];
+		[self showUsingSavedAnimation];
 	}
 }
 
@@ -304,6 +302,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - Internal show & hide operations
+
+- (void)showUsingSavedAnimation {
+	// cancel delayed hide calls
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	[self setNeedsDisplay];
+	[self showUsingAnimation:useAnimation];
+}
 
 - (void)showUsingAnimation:(BOOL)animated {
 	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
