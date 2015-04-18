@@ -58,6 +58,8 @@
 			<string>{320, 480}</string>
 		</dict>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>MainWindow</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
