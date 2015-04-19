@@ -140,6 +140,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (MB_INSTANCETYPE)HUDForView:(UIView *)view {
+  NSAssert([NSThread currentThread] == [NSThread mainThread],
+           @"MBProgressHUD: should only be used from the main thread");
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
 		if ([subview isKindOfClass:self]) {
@@ -150,6 +152,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (NSArray *)allHUDsForView:(UIView *)view {
+  NSAssert([NSThread currentThread] == [NSThread mainThread],
+           @"MBProgressHUD: should only be used from the main thread");
 	NSMutableArray *huds = [NSMutableArray array];
 	NSArray *subviews = view.subviews;
 	for (UIView *aView in subviews) {
@@ -163,6 +167,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame {
+  NSAssert([NSThread currentThread] == [NSThread mainThread],
+           @"MBProgressHUD: should only be used from the main thread");
 	self = [super initWithFrame:frame];
 	if (self) {
 		// Set default values for properties
@@ -245,6 +251,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Show & hide
 
 - (void)show:(BOOL)animated {
+  NSAssert([NSThread currentThread] == [NSThread mainThread],
+           @"MBProgressHUD: should only be used from the main thread");
 	useAnimation = animated;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
@@ -258,6 +266,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated {
+  NSAssert([NSThread currentThread] == [NSThread mainThread],
+           @"MBProgressHUD: should only be used from the main thread");
 	useAnimation = animated;
 	// If the minShow time is set, calculate how long the hud was shown,
 	// and pospone the hiding operation if necessary
