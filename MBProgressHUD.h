@@ -98,21 +98,23 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * drawn centered as a rounded semi-transparent view which resizes depending on the user specified content.
  *
  * This view supports four modes of operation:
- * - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
- * - MBProgressHUDModeDeterminate - shows a custom round progress indicator
- * - MBProgressHUDModeAnnularDeterminate - shows a custom annular progress indicator
- * - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (@see customView)
+ *  - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
+ *  - MBProgressHUDModeDeterminate - shows a custom round progress indicator
+ *  - MBProgressHUDModeAnnularDeterminate - shows a custom annular progress indicator
+ *  - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (see `customView`)
  *
  * All three modes can have optional labels assigned:
- * - If the labelText property is set and non-empty then a label containing the provided content is placed below the
- *   indicator view.
- * - If also the detailsLabelText property is set then another label is placed below the first label.
+ *  - If the labelText property is set and non-empty then a label containing the provided content is placed below the
+ *    indicator view.
+ *  - If also the detailsLabelText property is set then another label is placed below the first label.
  */
 @interface MBProgressHUD : UIView
 
 /**
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
- * 
+ *
+ * @note This method sets `removeFromSuperViewOnHide`. The HUD will automatically be removed from the view hierarchy when hidden.
+ *
  * @param view The view that the HUD will be added to
  * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
  * animations while appearing.
@@ -126,10 +128,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
+ * @note This method sets `removeFromSuperViewOnHide`. The HUD will automatically be removed from the view hierarchy when hidden.
+ *
  * @param view The view that is going to be searched for a HUD subview.
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
  * animations while disappearing.
- * @return YES if a HUD was found and removed, NO otherwise. 
+ * @return YES if a HUD was found and removed, NO otherwise.
  *
  * @see showHUDAddedTo:animated:
  * @see animationType
@@ -138,6 +142,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 /**
  * Finds all the HUD subviews and hides them. 
+ *
+ * @note This method sets `removeFromSuperViewOnHide`. The HUDs will automatically be removed from the view hierarchy when hidden.
  *
  * @param view The view that is going to be searched for HUD subviews.
  * @param animated If set to YES the HUDs will disappear using the current animationType. If set to NO the HUDs will not use
