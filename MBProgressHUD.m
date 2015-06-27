@@ -248,8 +248,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	useAnimation = animated;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
-		self.graceTimer = [NSTimer scheduledTimerWithTimeInterval:self.graceTime target:self 
-						   selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
+        NSTimer *newGraceTimer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:newGraceTimer forMode:NSRunLoopCommonModes];
+        self.graceTimer = newGraceTimer;
 	} 
 	// ... otherwise show the HUD imediately 
 	else {
