@@ -32,7 +32,6 @@
 
 @protocol MBProgressHUDDelegate;
 
-
 typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
 	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
 	MBProgressHUDModeIndeterminate,
@@ -57,37 +56,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 	MBProgressHUDAnimationZoomIn
 };
 
-
-#ifndef MB_INSTANCETYPE
-#if __has_feature(objc_instancetype)
-	#define MB_INSTANCETYPE instancetype
-#else
-	#define MB_INSTANCETYPE id
-#endif
-#endif
-
-#ifndef MB_STRONG
-#if __has_feature(objc_arc)
-	#define MB_STRONG strong
-#else
-	#define MB_STRONG retain
-#endif
-#endif
-
-#ifndef MB_WEAK
-#if __has_feature(objc_arc_weak)
-	#define MB_WEAK weak
-#elif __has_feature(objc_arc)
-	#define MB_WEAK unsafe_unretained
-#else
-	#define MB_WEAK assign
-#endif
-#endif
-
-#if NS_BLOCKS_AVAILABLE
 typedef void (^MBProgressHUDCompletionBlock)();
-#endif
-
 
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
@@ -123,7 +92,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @see hideHUDForView:animated:
  * @see animationType
  */
-+ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
@@ -161,7 +130,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
  */
-+ (MB_INSTANCETYPE)HUDForView:(UIView *)view;
++ (instancetype)HUDForView:(UIView *)view;
 
 /**
  * Finds all HUD subviews and returns them.
@@ -238,8 +207,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
-#if NS_BLOCKS_AVAILABLE
-
 /**
  * Shows the HUD while a block is executing on a background queue, then hides the HUD.
  *
@@ -280,8 +247,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 
-#endif
-
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  *
@@ -300,14 +265,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
  */
-@property (MB_STRONG) UIView *customView;
+@property (strong) UIView *customView;
 
 /** 
  * The HUD delegate object. 
  *
  * @see MBProgressHUDDelegate
  */
-@property (MB_WEAK) id<MBProgressHUDDelegate> delegate;
+@property (weak) id<MBProgressHUDDelegate> delegate;
 
 /** 
  * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
@@ -332,7 +297,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * this UIColor and the opacity property is not used.  using retain because performing copy on
  * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
  */
-@property (MB_STRONG) UIColor *color;
+@property (strong) UIColor *color;
 
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
@@ -398,28 +363,28 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /** 
  * Font to be used for the main label. Set this property if the default is not adequate. 
  */
-@property (MB_STRONG) UIFont* labelFont;
+@property (strong) UIFont* labelFont;
 
 /**
  * Color to be used for the main label. Set this property if the default is not adequate.
  */
-@property (MB_STRONG) UIColor* labelColor;
+@property (strong) UIColor* labelColor;
 
 /**
  * Font to be used for the details label. Set this property if the default is not adequate.
  */
-@property (MB_STRONG) UIFont* detailsLabelFont;
+@property (strong) UIFont* detailsLabelFont;
 
 /** 
  * Color to be used for the details label. Set this property if the default is not adequate.
  */
-@property (MB_STRONG) UIColor* detailsLabelColor;
+@property (strong) UIColor* detailsLabelColor;
 
 /**
  * The color of the activity indicator. Defaults to [UIColor whiteColor]
  * Does nothing on pre iOS 5.
  */
-@property (MB_STRONG) UIColor *activityIndicatorColor;
+@property (strong) UIColor *activityIndicatorColor;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
@@ -474,13 +439,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Indicator progress color.
  * Defaults to white [UIColor whiteColor]
  */
-@property (nonatomic, MB_STRONG) UIColor *progressTintColor;
+@property (nonatomic, strong) UIColor *progressTintColor;
 
 /**
  * Indicator background (non-progress) color.
  * Defaults to translucent white (alpha 0.1)
  */
-@property (nonatomic, MB_STRONG) UIColor *backgroundTintColor;
+@property (nonatomic, strong) UIColor *backgroundTintColor;
 
 /*
  * Display mode - NO = round or YES = annular. Defaults to round.
@@ -504,18 +469,18 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Bar border line color.
  * Defaults to white [UIColor whiteColor].
  */
-@property (nonatomic, MB_STRONG) UIColor *lineColor;
+@property (nonatomic, strong) UIColor *lineColor;
 
 /**
  * Bar background color.
  * Defaults to clear [UIColor clearColor];
  */
-@property (nonatomic, MB_STRONG) UIColor *progressRemainingColor;
+@property (nonatomic, strong) UIColor *progressRemainingColor;
 
 /**
  * Bar progress color.
  * Defaults to white [UIColor whiteColor].
  */
-@property (nonatomic, MB_STRONG) UIColor *progressColor;
+@property (nonatomic, strong) UIColor *progressColor;
 
 @end

@@ -7,17 +7,6 @@
 #import "MBProgressHUD.h"
 #import <tgmath.h>
 
-
-#if __has_feature(objc_arc)
-	#define MB_AUTORELEASE(exp) exp
-	#define MB_RELEASE(exp) exp
-	#define MB_RETAIN(exp) exp
-#else
-	#define MB_AUTORELEASE(exp) [exp autorelease]
-	#define MB_RELEASE(exp) [exp release]
-	#define MB_RETAIN(exp) [exp retain]
-#endif
-
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
     #define MBLabelAlignmentCenter NSTextAlignmentCenter
 #else
@@ -48,11 +37,9 @@
 	#define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
 #endif
 
-
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
-
 
 @interface MBProgressHUD () {
 	BOOL useAnimation;
@@ -65,13 +52,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGAffineTransform rotationTransform;
 }
 
-@property (atomic, MB_STRONG) UIView *indicator;
-@property (atomic, MB_STRONG) NSTimer *graceTimer;
-@property (atomic, MB_STRONG) NSTimer *minShowTimer;
-@property (atomic, MB_STRONG) NSDate *showStarted;
+@property (atomic, strong) UIView *indicator;
+@property (atomic, strong) NSTimer *graceTimer;
+@property (atomic, strong) NSTimer *minShowTimer;
+@property (atomic, strong) NSDate *showStarted;
 
 @end
-
 
 @implementation MBProgressHUD
 
@@ -106,18 +92,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize progress;
 @synthesize size;
 @synthesize activityIndicatorColor;
-#if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
-#endif
 
 #pragma mark - Class methods
 
-+ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
 	MBProgressHUD *hud = [[self alloc] initWithView:view];
 	hud.removeFromSuperViewOnHide = YES;
 	[view addSubview:hud];
 	[hud show:animated];
-	return MB_AUTORELEASE(hud);
+	return hud;
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
@@ -139,7 +123,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return [huds count];
 }
 
-+ (MB_INSTANCETYPE)HUDForView:(UIView *)view {
++ (instancetype)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
 		if ([subview isKindOfClass:self]) {
@@ -220,26 +204,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)dealloc {
 	[self unregisterFromNotifications];
 	[self unregisterFromKVO];
-#if !__has_feature(objc_arc)
-	[color release];
-	[indicator release];
-	[label release];
-	[detailsLabel release];
-	[labelText release];
-	[detailsLabelText release];
-	[graceTimer release];
-	[minShowTimer release];
-	[showStarted release];
-	[customView release];
-	[labelFont release];
-	[labelColor release];
-	[detailsLabelFont release];
-	[detailsLabelColor release];
-#if NS_BLOCKS_AVAILABLE
-	[completionBlock release];
-#endif
-	[super dealloc];
-#endif
 }
 
 #pragma mark - Show & hide
@@ -367,12 +331,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
 	}
-#if NS_BLOCKS_AVAILABLE
 	if (self.completionBlock) {
 		self.completionBlock();
 		self.completionBlock = NULL;
 	}
-#endif
 	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
 		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
 	}
@@ -382,16 +344,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
 	methodForExecution = method;
-	targetForExecution = MB_RETAIN(target);
-	objectForExecution = MB_RETAIN(object);	
+	targetForExecution = target;
+	objectForExecution = object;
 	// Launch execution in new thread
 	self.taskInProgress = YES;
 	[NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
 	// Show HUD view
 	[self show:animated];
 }
-
-#if NS_BLOCKS_AVAILABLE
 
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block {
 	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -420,8 +380,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[self show:animated];
 }
 
-#endif
-
 - (void)launchExecution {
 	@autoreleasepool {
 #pragma clang diagnostic push
@@ -437,13 +395,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)cleanUp {
 	taskInProgress = NO;
-#if !__has_feature(objc_arc)
-	[targetForExecution release];
-	[objectForExecution release];
-#else
 	targetForExecution = nil;
 	objectForExecution = nil;
-#endif
 	[self hide:useAnimation];
 }
 
@@ -482,8 +435,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		if (!isActivityIndicator) {
 			// Update to indeterminate indicator
 			[indicator removeFromSuperview];
-			self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
-											 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
+			self.indicator = [[UIActivityIndicatorView alloc]
+											 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 			[(UIActivityIndicatorView *)indicator startAnimating];
 			[self addSubview:indicator];
 		}
@@ -494,14 +447,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
 		[indicator removeFromSuperview];
-		self.indicator = MB_AUTORELEASE([[MBBarProgressView alloc] init]);
+		self.indicator = [[MBBarProgressView alloc] init];
 		[self addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 		if (!isRoundIndicator) {
 			// Update to determinante indicator
 			[indicator removeFromSuperview];
-			self.indicator = MB_AUTORELEASE([[MBRoundProgressView alloc] init]);
+			self.indicator = [[MBRoundProgressView alloc] init];
 			[self addSubview:indicator];
 		}
 		if (mode == MBProgressHUDModeAnnularDeterminate) {
@@ -800,11 +753,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)dealloc {
 	[self unregisterFromKVO];
-#if !__has_feature(objc_arc)
-	[_progressTintColor release];
-	[_backgroundTintColor release];
-	[super dealloc];
-#endif
 }
 
 #pragma mark - Drawing
@@ -906,12 +854,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)dealloc {
 	[self unregisterFromKVO];
-#if !__has_feature(objc_arc)
-	[_lineColor release];
-	[_progressColor release];
-	[_progressRemainingColor release];
-	[super dealloc];
-#endif
 }
 
 #pragma mark - Drawing
