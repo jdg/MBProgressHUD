@@ -32,6 +32,7 @@
 
 @protocol MBProgressHUDDelegate;
 
+
 typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
 	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
 	MBProgressHUDModeIndeterminate,
@@ -58,6 +59,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 
 typedef void (^MBProgressHUDCompletionBlock)();
 
+
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
@@ -72,10 +74,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *  - MBProgressHUDModeAnnularDeterminate - shows a custom annular progress indicator
  *  - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (see `customView`)
  *
- * All three modes can have optional labels assigned:
- *  - If the labelText property is set and non-empty then a label containing the provided content is placed below the
- *    indicator view.
- *  - If also the detailsLabelText property is set then another label is placed below the first label.
+ * All three modes can have optional labels assigned.
  */
 @interface MBProgressHUD : UIView
 
@@ -274,18 +273,17 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (weak) id<MBProgressHUDDelegate> delegate;
 
-/** 
- * An optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
+/**
+ * A label that holds an optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
  * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
  * set to @"", then no message is displayed.
  */
-@property (copy) NSString *labelText;
+@property (strong, readonly) UILabel *label;
 
-/** 
- * An optional details message displayed below the labelText message. This message is displayed only if the labelText
- * property is also set and is different from an empty string (@""). The details text can span multiple lines. 
+/**
+ * A label that holds an optional details message displayed below the labelText message. The details text can span multiple lines.
  */
-@property (copy) NSString *detailsLabelText;
+@property (strong, readonly) UILabel *detailsLabel;
 
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
@@ -359,26 +357,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Defaults to NO. 
  */
 @property (assign) BOOL removeFromSuperViewOnHide;
-
-/** 
- * Font to be used for the main label. Set this property if the default is not adequate. 
- */
-@property (strong) UIFont* labelFont;
-
-/**
- * Color to be used for the main label. Set this property if the default is not adequate.
- */
-@property (strong) UIColor* labelColor;
-
-/**
- * Font to be used for the details label. Set this property if the default is not adequate.
- */
-@property (strong) UIFont* detailsLabelFont;
-
-/** 
- * Color to be used for the details label. Set this property if the default is not adequate.
- */
-@property (strong) UIColor* detailsLabelColor;
 
 /**
  * The color of the activity indicator. Defaults to [UIColor whiteColor]
@@ -482,5 +460,17 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Defaults to white [UIColor whiteColor].
  */
 @property (nonatomic, strong) UIColor *progressColor;
+
+@end
+
+
+@interface MBProgressHUD (Deprecated)
+
+@property (nonatomic, copy) NSString *labelText __attribute__((deprecated("use label.text instead")));
+@property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("use label.font instead")));
+@property (nonatomic, strong) UIColor *labelColor __attribute__((deprecated("use label.textColor instead")));
+@property (nonatomic, copy) NSString *detailsLabelText __attribute__((deprecated("use detailsLabel.text instead")));
+@property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("use detailsLabel.font instead")));
+@property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("use detailsLabel.textColor instead")));
 
 @end

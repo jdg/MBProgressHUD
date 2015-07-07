@@ -47,8 +47,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, assign) BOOL isFinished;
 @property (nonatomic, assign) CGAffineTransform rotationTransform;
 @property (nonatomic, assign, readwrite) CGSize size;
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UILabel *detailsLabel;
 @property (atomic, strong) UIView *indicator;
 @property (atomic, strong) NSTimer *graceTimer;
 @property (atomic, strong) NSTimer *minShowTimer;
@@ -117,10 +115,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_animationType = MBProgressHUDAnimationFade;
 		_mode = MBProgressHUDModeIndeterminate;
 		_opacity = 0.8f;
-		_labelFont = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];
-		_labelColor = [UIColor whiteColor];
-		_detailsLabelFont = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
-		_detailsLabelColor = [UIColor whiteColor];
 		_activityIndicatorColor = [UIColor whiteColor];
 		_margin = 20.0f;
 		_cornerRadius = 10.0f;
@@ -348,23 +342,20 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	label.textAlignment = MBLabelAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = self.labelColor;
-	label.font = self.labelFont;
-	label.text = self.labelText;
+	label.textColor = [UIColor whiteColor];
+	label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
 	[self addSubview:label];
-    self.label = label;
+    _label = label;
 	
 	UILabel *detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
-	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
 	detailsLabel.textAlignment = MBLabelAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
-	detailsLabel.textColor = self.detailsLabelColor;
+	detailsLabel.textColor = [UIColor whiteColor];
 	detailsLabel.numberOfLines = 0;
-	detailsLabel.font = self.detailsLabelFont;
-	detailsLabel.text = self.detailsLabelText;
-    self.detailsLabel = detailsLabel;
+	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
+    _detailsLabel = detailsLabel;
 	[self addSubview:detailsLabel];
 }
 
@@ -577,8 +568,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
-			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor", nil];
+	return [NSArray arrayWithObjects:@"mode", @"customView", @"progress", @"activityIndicatorColor", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -590,24 +580,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateUIForKeypath:(NSString *)keyPath {
-    UILabel *label = self.label;
-    UILabel *detailsLabel = self.detailsLabel;
     UIView *indicator = self.indicator;
 	if ([keyPath isEqualToString:@"mode"] || [keyPath isEqualToString:@"customView"] ||
 		[keyPath isEqualToString:@"activityIndicatorColor"]) {
 		[self updateIndicators];
-	} else if ([keyPath isEqualToString:@"labelText"]) {
-		label.text = self.labelText;
-	} else if ([keyPath isEqualToString:@"labelFont"]) {
-		label.font = self.labelFont;
-	} else if ([keyPath isEqualToString:@"labelColor"]) {
-		label.textColor = self.labelColor;
-	} else if ([keyPath isEqualToString:@"detailsLabelText"]) {
-		detailsLabel.text = self.detailsLabelText;
-	} else if ([keyPath isEqualToString:@"detailsLabelFont"]) {
-		detailsLabel.font = self.detailsLabelFont;
-	} else if ([keyPath isEqualToString:@"detailsLabelColor"]) {
-		detailsLabel.textColor = self.detailsLabelColor;
 	} else if ([keyPath isEqualToString:@"progress"]) {
 		if ([indicator respondsToSelector:@selector(setProgress:)]) {
 			[(id)indicator setValue:@(self.progress) forKey:@"progress"];
@@ -915,6 +891,58 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	[self setNeedsDisplay];
+}
+
+@end
+
+@implementation MBProgressHUD (Deprecated)
+
+- (NSString *)labelText {
+    return self.label.text;
+}
+
+- (void)setLabelText:(NSString *)labelText {
+    self.label.text = labelText;
+}
+
+- (UIFont *)labelFont {
+    return self.label.font;
+}
+
+- (void)setLabelFont:(UIFont *)labelFont {
+    self.label.font = labelFont;
+}
+
+- (UIColor *)labelColor {
+    return self.label.textColor;
+}
+
+- (void)setLabelColor:(UIColor *)labelColor {
+    self.label.textColor = labelColor;
+}
+
+- (NSString *)detailsLabelText {
+    return self.detailsLabel.text;
+}
+
+- (void)setDetailsLabelText:(NSString *)detailsLabelText {
+    self.detailsLabel.text = detailsLabelText;
+}
+
+- (UIFont *)detailsLabelFont {
+    return self.detailsLabel.font;
+}
+
+- (void)setDetailsLabelFont:(UIFont *)detailsLabelFont {
+    self.detailsLabel.font = detailsLabelFont;
+}
+
+- (UIColor *)detailsLabelColor {
+    return self.detailsLabel.textColor;
+}
+
+- (void)setDetailsLabelColor:(UIColor *)detailsLabelColor {
+    self.detailsLabel.textColor = detailsLabelColor;
 }
 
 @end
