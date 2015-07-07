@@ -44,9 +44,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @interface MBProgressHUD ()
 
 @property (nonatomic, assign) BOOL useAnimation;
-@property (nonatomic, assign) SEL methodForExecution;
-@property (nonatomic, strong) id targetForExecution;
-@property (nonatomic, strong) id objectForExecution;
 @property (nonatomic, assign) BOOL isFinished;
 @property (nonatomic, assign) CGAffineTransform rotationTransform;
 @property (nonatomic, assign, readwrite) CGSize size;
@@ -302,14 +299,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Threading
 
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
-	self.methodForExecution = method;
-	self.targetForExecution = target;
-	self.objectForExecution = object;
-	// Launch execution in new thread
-	self.taskInProgress = YES;
-	[NSThread detachNewThreadSelector:@selector(launchExecution) toTarget:self withObject:nil];
-	// Show HUD view
-	[self show:animated];
+    [self showAnimated:animated whileExecutingBlock:^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        // Start executing the requested task
+        [target performSelector:method withObject:object];
+#pragma clang diagnostic pop
+    }];
 }
 
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block {
@@ -339,23 +335,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	[self show:animated];
 }
 
-- (void)launchExecution {
-	@autoreleasepool {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-		// Start executing the requested task
-		[self.targetForExecution performSelector:self.methodForExecution withObject:self.objectForExecution];
-#pragma clang diagnostic pop
-		// Task completed, update view in main thread (note: view operations should
-		// be done only in the main thread)
-		[self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
-	}
-}
-
 - (void)cleanUp {
 	self.taskInProgress = NO;
-	self.targetForExecution = nil;
-	self.objectForExecution = nil;
 	[self hide:self.useAnimation];
 }
 
