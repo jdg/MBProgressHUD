@@ -140,15 +140,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (NSArray *)allHUDsForView:(UIView *)view;
 
 /**
- * A convenience constructor that initializes the HUD with the window's bounds. Calls the designated constructor with
- * window.bounds as the parameter.
- *
- * @param window The window instance that will provide the bounds for the HUD. Should be the same instance as
- * the HUD's superview (i.e., the window that the HUD will be added to).
- */
-- (id)initWithWindow:(UIWindow *)window;
-
-/**
  * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
  * view.bounds as the parameter
  *
@@ -466,11 +457,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 @interface MBProgressHUD (Deprecated)
 
-@property (nonatomic, copy) NSString *labelText __attribute__((deprecated("use label.text instead")));
-@property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("use label.font instead")));
-@property (nonatomic, strong) UIColor *labelColor __attribute__((deprecated("use label.textColor instead")));
-@property (nonatomic, copy) NSString *detailsLabelText __attribute__((deprecated("use detailsLabel.text instead")));
-@property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("use detailsLabel.font instead")));
-@property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("use detailsLabel.textColor instead")));
+- (id)initWithWindow:(UIWindow *)window; __attribute__((deprecated("Use initWithView: instead.")));
+
+@property (nonatomic, copy) NSString *labelText __attribute__((deprecated("Use label.text instead.")));
+@property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("Use label.font instead.")));
+@property (nonatomic, strong) UIColor *labelColor __attribute__((deprecated("Use label.textColor instead.")));
+@property (nonatomic, copy) NSString *detailsLabelText __attribute__((deprecated("Use detailsLabel.text instead.")));
+@property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("Use detailsLabel.font instead.")));
+@property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("Use detailsLabel.textColor instead.")));
 
 @end

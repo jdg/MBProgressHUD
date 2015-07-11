@@ -143,10 +143,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	return [self initWithFrame:view.bounds];
 }
 
-- (id)initWithWindow:(UIWindow *)window {
-	return [self initWithView:window];
-}
-
 - (void)dealloc {
 	[self unregisterFromNotifications];
 	[self unregisterFromKVO];
@@ -896,6 +892,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @end
 
 @implementation MBProgressHUD (Deprecated)
+
+#pragma mark - Lifecycle
+
+- (id)initWithWindow:(UIWindow *)window {
+    return [self initWithView:window];
+}
+
+#pragma mark - Labels
 
 - (NSString *)labelText {
     return self.label.text;
