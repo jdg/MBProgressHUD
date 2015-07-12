@@ -135,7 +135,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @see animationType
  */
-- (void)show:(BOOL)animated;
+- (void)showAnimated:(BOOL)animated;
 
 /** 
  * Hide the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
@@ -146,7 +146,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @see animationType
  */
-- (void)hide:(BOOL)animated;
+- (void)hideAnimated:(BOOL)animated;
 
 /** 
  * Hide the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
@@ -158,7 +158,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @see animationType
  */
-- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay;
+- (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
 /** 
  * Shows the HUD while a background task is executing in a new thread, then hides the HUD.
@@ -434,10 +434,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 @interface MBProgressHUD (Deprecated)
 
-+ (NSArray *)allHUDsForView:(UIView *)view; __attribute__((deprecated("Store references when using more than one HUD per view.")));
-+ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated; __attribute__((deprecated("Store references when using more than one HUD per view.")));
++ (NSArray *)allHUDsForView:(UIView *)view __attribute__((deprecated("Store references when using more than one HUD per view.")));
++ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated __attribute__((deprecated("Store references when using more than one HUD per view.")));
 
-- (id)initWithWindow:(UIWindow *)window; __attribute__((deprecated("Use initWithView: instead.")));
+- (id)initWithWindow:(UIWindow *)window __attribute__((deprecated("Use initWithView: instead.")));
+
+- (void)show:(BOOL)animated __attribute__((deprecated("Use showAnimated: instead.")));
+- (void)hide:(BOOL)animated __attribute__((deprecated("Use hideAnimated: instead.")));
+- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay __attribute__((deprecated("Use hideAnimated:afterDelay: instead.")));
 
 @property (nonatomic, copy) NSString *labelText __attribute__((deprecated("Use label.text instead.")));
 @property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("Use label.font instead.")));

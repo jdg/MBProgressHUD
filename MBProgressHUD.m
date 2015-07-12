@@ -62,7 +62,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	MBProgressHUD *hud = [[self alloc] initWithView:view];
 	hud.removeFromSuperViewOnHide = YES;
 	[view addSubview:hud];
-	[hud show:animated];
+    [hud showAnimated:animated];
 	return hud;
 }
 
@@ -70,7 +70,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	MBProgressHUD *hud = [self HUDForView:view];
 	if (hud != nil) {
 		hud.removeFromSuperViewOnHide = YES;
-		[hud hide:animated];
+		[hud hideAnimated:animated];
 		return YES;
 	}
 	return NO;
@@ -130,7 +130,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - Show & hide
 
-- (void)show:(BOOL)animated {
+- (void)showAnimated:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 	self.useAnimation = animated;
 	// If the grace time is set postpone the HUD display
@@ -145,7 +145,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	}
 }
 
-- (void)hide:(BOOL)animated {
+- (void)hideAnimated:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 	self.useAnimation = animated;
 	// If the minShow time is set, calculate how long the hud was shown,
@@ -162,12 +162,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	[self hideUsingAnimation:self.useAnimation];
 }
 
-- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+- (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay {
 	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
 }
 
 - (void)hideDelayed:(NSNumber *)animated {
-	[self hide:[animated boolValue]];
+	[self hideAnimated:[animated boolValue]];
 }
 
 #pragma mark - Timer callbacks
@@ -302,12 +302,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			[self cleanUp];
 		});
 	});
-	[self show:animated];
+    [self showAnimated:animated];
 }
 
 - (void)cleanUp {
 	self.taskInProgress = NO;
-	[self hide:self.useAnimation];
+	[self hideAnimated:self.useAnimation];
 }
 
 #pragma mark - UI
@@ -879,7 +879,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     NSArray *huds = [MBProgressHUD allHUDsForView:view];
     for (MBProgressHUD *hud in huds) {
         hud.removeFromSuperViewOnHide = YES;
-        [hud hide:animated];
+        [hud hideAnimated:animated];
     }
     return [huds count];
 }
@@ -899,6 +899,20 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (id)initWithWindow:(UIWindow *)window {
     return [self initWithView:window];
+}
+
+#pragma mark - Show & hide
+
+- (void)show:(BOOL)animated {
+    [self showAnimated:animated];
+}
+
+- (void)hide:(BOOL)animated {
+    [self hideAnimated:animated];
+}
+
+- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+    [self hideAnimated:animated afterDelay:delay];
 }
 
 #pragma mark - Labels
