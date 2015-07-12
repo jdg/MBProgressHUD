@@ -109,35 +109,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds all the HUD subviews and hides them. 
- *
- * @note This method sets `removeFromSuperViewOnHide`. The HUDs will automatically be removed from the view hierarchy when hidden.
- *
- * @param view The view that is going to be searched for HUD subviews.
- * @param animated If set to YES the HUDs will disappear using the current animationType. If set to NO the HUDs will not use
- * animations while disappearing.
- * @return the number of HUDs found and removed.
- *
- * @see hideHUDForView:animated:
- * @see animationType
- */
-+ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated;
-
-/**
  * Finds the top-most HUD subview and returns it. 
  *
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
  */
 + (instancetype)HUDForView:(UIView *)view;
-
-/**
- * Finds all HUD subviews and returns them.
- *
- * @param view The view that is going to be searched.
- * @return All found HUD views (array of MBProgressHUD objects).
- */
-+ (NSArray *)allHUDsForView:(UIView *)view;
 
 /**
  * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
@@ -456,6 +433,9 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 
 @interface MBProgressHUD (Deprecated)
+
++ (NSArray *)allHUDsForView:(UIView *)view; __attribute__((deprecated("Store references when using more than one HUD per view.")));
++ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated; __attribute__((deprecated("Store references when using more than one HUD per view.")));
 
 - (id)initWithWindow:(UIWindow *)window; __attribute__((deprecated("Use initWithView: instead.")));
 

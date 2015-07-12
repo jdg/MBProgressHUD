@@ -76,15 +76,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	return NO;
 }
 
-+ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
-	NSArray *huds = [MBProgressHUD allHUDsForView:view];
-	for (MBProgressHUD *hud in huds) {
-		hud.removeFromSuperViewOnHide = YES;
-		[hud hide:animated];
-	}
-	return [huds count];
-}
-
 + (instancetype)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
@@ -93,17 +84,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		}
 	}
 	return nil;
-}
-
-+ (NSArray *)allHUDsForView:(UIView *)view {
-	NSMutableArray *huds = [NSMutableArray array];
-	NSArray *subviews = view.subviews;
-	for (UIView *aView in subviews) {
-		if ([aView isKindOfClass:self]) {
-			[huds addObject:aView];
-		}
-	}
-	return [NSArray arrayWithArray:huds];
 }
 
 #pragma mark - Lifecycle
@@ -892,6 +872,28 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @end
 
 @implementation MBProgressHUD (Deprecated)
+
+#pragma mark - Class
+
++ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
+    NSArray *huds = [MBProgressHUD allHUDsForView:view];
+    for (MBProgressHUD *hud in huds) {
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:animated];
+    }
+    return [huds count];
+}
+
++ (NSArray *)allHUDsForView:(UIView *)view {
+    NSMutableArray *huds = [NSMutableArray array];
+    NSArray *subviews = view.subviews;
+    for (UIView *aView in subviews) {
+        if ([aView isKindOfClass:self]) {
+            [huds addObject:aView];
+        }
+    }
+    return [NSArray arrayWithArray:huds];
+}
 
 #pragma mark - Lifecycle
 
