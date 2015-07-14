@@ -29,6 +29,7 @@
 		D28CBB321A87A45A0052DCEC /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28CBB311A87A45A0052DCEC /* HudTests.m */; };
 		D28CBB381A87A4A10052DCEC /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
 		D2A6FD1D13ABC5A200BFE4C9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */; };
+		D2EEB37B1B558F0900F59EC1 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EEB3791B558F0900F59EC1 /* Launch.storyboard */; };
 		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		D28CBB301A87A45A0052DCEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28CBB311A87A45A0052DCEC /* HudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HudTests.m; sourceTree = "<group>"; };
 		D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images/Default@2x.png"; sourceTree = "<group>"; };
+		D2EEB37A1B558F0900F59EC1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Launch.storyboard; sourceTree = "<group>"; };
 		D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark.png"; path = "Images/37x-Checkmark.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -184,6 +186,7 @@
 		D277FDBF11FC880100304321 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D2EEB3791B558F0900F59EC1 /* Launch.storyboard */,
 				D286A7341518C53500E13FB8 /* HudDemoViewController.xib */,
 				D286A7381518C53C00E13FB8 /* MainWindow.xib */,
 			);
@@ -261,7 +264,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MB;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Matej Bukovinski";
 				TargetAttributes = {
 					D28CBB2C1A87A45A0052DCEC = {
@@ -279,6 +282,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -308,6 +312,7 @@
 				D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */,
 				D21D40801611CF6C005FCE55 /* Default-568h@2x.png in Resources */,
 				D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */,
+				D2EEB37B1B558F0900F59EC1 /* Launch.storyboard in Resources */,
 				D24A23091780ADE90020310A /* Default-iOS7@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +374,14 @@
 			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
+		D2EEB3791B558F0900F59EC1 /* Launch.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2EEB37A1B558F0900F59EC1 /* en */,
+			);
+			name = Launch.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -382,6 +395,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = HudDemo;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -395,6 +409,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = HudDemo;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -414,6 +429,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -486,6 +502,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HudDemo.app/HudDemo";
 			};
@@ -515,6 +532,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HudDemo.app/HudDemo";
 				VALIDATE_PRODUCT = YES;
