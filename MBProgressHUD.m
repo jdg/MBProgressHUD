@@ -37,6 +37,8 @@
 	#define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
 #endif
 
+#define MBMainThreadAssert() NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+
 static const CGFloat kPadding = 4.f;
 static const CGFloat MBDefaultLabelFontSize = 16.f;
 static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
@@ -47,10 +49,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, assign, getter=hasFinished) BOOL finished;
 @property (nonatomic, assign) CGAffineTransform rotationTransform;
 @property (nonatomic, assign, readwrite) CGSize size;
-@property (atomic, strong) UIView *indicator;
-@property (atomic, strong) NSTimer *graceTimer;
-@property (atomic, strong) NSTimer *minShowTimer;
-@property (atomic, strong) NSDate *showStarted;
+@property (nonatomic, strong) UIView *indicator;
+@property (nonatomic, strong) NSTimer *graceTimer;
+@property (nonatomic, strong) NSTimer *minShowTimer;
+@property (nonatomic, strong) NSDate *showStarted;
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
@@ -133,7 +135,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Show & hide
 
 - (void)showAnimated:(BOOL)animated {
-    NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    MBMainThreadAssert();
 	self.useAnimation = animated;
     self.finished = NO;
 	// If the grace time is set postpone the HUD display
@@ -149,7 +151,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideAnimated:(BOOL)animated {
-    NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    MBMainThreadAssert();
 	self.useAnimation = animated;
     self.finished = YES;
 	// If the minShow time is set, calculate how long the hud was shown,
@@ -295,7 +297,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateIndicators {
-
     UIView *indicator = self.indicator;
 	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
@@ -507,11 +508,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread:@selector(updateUIForKeypath:) withObject:keyPath waitUntilDone:NO];
-	} else {
-		[self updateUIForKeypath:keyPath];
-	}
+    MBMainThreadAssert();
+    [self updateUIForKeypath:keyPath];
 }
 
 - (void)updateUIForKeypath:(NSString *)keyPath {
@@ -921,50 +919,62 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Labels
 
 - (NSString *)labelText {
+    MBMainThreadAssert()
     return self.label.text;
 }
 
 - (void)setLabelText:(NSString *)labelText {
+    MBMainThreadAssert()
     self.label.text = labelText;
 }
 
 - (UIFont *)labelFont {
+    MBMainThreadAssert()
     return self.label.font;
 }
 
 - (void)setLabelFont:(UIFont *)labelFont {
+    MBMainThreadAssert()
     self.label.font = labelFont;
 }
 
 - (UIColor *)labelColor {
+    MBMainThreadAssert()
     return self.label.textColor;
 }
 
 - (void)setLabelColor:(UIColor *)labelColor {
+    MBMainThreadAssert()
     self.label.textColor = labelColor;
 }
 
 - (NSString *)detailsLabelText {
+    MBMainThreadAssert()
     return self.detailsLabel.text;
 }
 
 - (void)setDetailsLabelText:(NSString *)detailsLabelText {
+    MBMainThreadAssert()
     self.detailsLabel.text = detailsLabelText;
 }
 
 - (UIFont *)detailsLabelFont {
+    MBMainThreadAssert()
     return self.detailsLabel.font;
 }
 
 - (void)setDetailsLabelFont:(UIFont *)detailsLabelFont {
+    MBMainThreadAssert()
     self.detailsLabel.font = detailsLabelFont;
 }
 
 - (UIColor *)detailsLabelColor {
+    MBMainThreadAssert()
     return self.detailsLabel.textColor;
 }
 
 - (void)setDetailsLabelColor:(UIColor *)detailsLabelColor {
+    MBMainThreadAssert()
     self.detailsLabel.textColor = detailsLabelColor;
 }
 
