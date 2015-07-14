@@ -13,19 +13,13 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
-		D24A23051780ADCD0020310A /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E61780AA77008D5939 /* Icon-Small.png */; };
-		D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E71780AA77008D5939 /* Icon-Small@2x.png */; };
-		D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */; };
-		D277FDB911FC877E00304321 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB711FC877E00304321 /* Icon.png */; };
-		D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB811FC877E00304321 /* Icon@2x.png */; };
-		D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */; };
 		D286A7321518C53500E13FB8 /* HudDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286A7341518C53500E13FB8 /* HudDemoViewController.xib */; };
 		D286A7361518C53C00E13FB8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286A7381518C53C00E13FB8 /* MainWindow.xib */; };
 		D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */; };
 		D28CBB321A87A45A0052DCEC /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28CBB311A87A45A0052DCEC /* HudTests.m */; };
 		D28CBB381A87A4A10052DCEC /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
 		D2EEB37B1B558F0900F59EC1 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2EEB3791B558F0900F59EC1 /* Launch.storyboard */; };
-		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
+		D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2EEB3801B55967200F59EC1 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,14 +43,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iOS7@2x.png"; path = "Images/Icon-iOS7@2x.png"; sourceTree = "<group>"; };
-		D22568E61780AA77008D5939 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Images/Icon-Small.png"; sourceTree = "<group>"; };
-		D22568E71780AA77008D5939 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Images/Icon-Small@2x.png"; sourceTree = "<group>"; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../MBProgressHUD.m; sourceTree = "<group>"; };
-		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
-		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icon@2x.png"; sourceTree = "<group>"; };
-		D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark@2x.png"; path = "Images/37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		D286A7331518C53500E13FB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HudDemoViewController.xib; sourceTree = "<group>"; };
 		D286A7371518C53C00E13FB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -64,7 +52,7 @@
 		D28CBB301A87A45A0052DCEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28CBB311A87A45A0052DCEC /* HudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HudTests.m; sourceTree = "<group>"; };
 		D2EEB37A1B558F0900F59EC1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Launch.storyboard; sourceTree = "<group>"; };
-		D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark.png"; path = "Images/37x-Checkmark.png"; sourceTree = "<group>"; };
+		D2EEB3801B55967200F59EC1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HudDemo/Images.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				D277FDBF11FC880100304321 /* UI */,
-				D277FDBD11FC879500304321 /* Images */,
+				D2EEB3801B55967200F59EC1 /* Images.xcassets */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -152,20 +140,6 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D277FDBD11FC879500304321 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				D277FDB711FC877E00304321 /* Icon.png */,
-				D277FDB811FC877E00304321 /* Icon@2x.png */,
-				D22568E61780AA77008D5939 /* Icon-Small.png */,
-				D22568E71780AA77008D5939 /* Icon-Small@2x.png */,
-				D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */,
-				D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */,
-				D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		D277FDBF11FC880100304321 /* UI */ = {
@@ -285,14 +259,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D286A7361518C53C00E13FB8 /* MainWindow.xib in Resources */,
+				D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */,
 				D286A7321518C53500E13FB8 /* HudDemoViewController.xib in Resources */,
-				D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */,
-				D277FDB911FC877E00304321 /* Icon.png in Resources */,
-				D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */,
-				D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */,
-				D24A23051780ADCD0020310A /* Icon-Small.png in Resources */,
-				D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */,
-				D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */,
 				D2EEB37B1B558F0900F59EC1 /* Launch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -385,6 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;

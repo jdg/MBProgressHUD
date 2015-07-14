@@ -143,7 +143,7 @@
 	
 	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
 	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
 	
 	// Set custom view mode
 	HUD.mode = MBProgressHUDModeCustomView;
@@ -279,7 +279,7 @@
 	// UIImageView is a UIKit class, we have to initialize it on the main thread
 	__block UIImageView *imageView;
 	dispatch_sync(dispatch_get_main_queue(), ^{
-		UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
+		UIImage *image = [UIImage imageNamed:@"Checkmark"];
 		imageView = [[UIImageView alloc] initWithImage:image];
 	});
 	HUD.customView = imageView;
@@ -302,7 +302,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
 	HUD.mode = MBProgressHUDModeCustomView;
 	[HUD hide:YES afterDelay:2];
 }
