@@ -160,8 +160,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
-
-
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  *
@@ -204,7 +202,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /** 
  * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
  */
-@property (assign) float opacity;
+@property (assign) CGFloat opacity;
 
 /**
  * The color of the HUD window. Defaults to black. If this property is set, color is set using
@@ -216,24 +214,24 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /** 
  * The x-axis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float xOffset;
+@property (assign) CGFloat xOffset;
 
 /** 
  * The y-axis offset of the HUD relative to the centre of the superview. 
  */
-@property (assign) float yOffset;
+@property (assign) CGFloat yOffset;
 
 /**
  * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
  * Defaults to 20.0
  */
-@property (assign) float margin;
+@property (assign) CGFloat margin;
 
 /**
  * The corner radius for the HUD
  * Defaults to 10.0
  */
-@property (assign) float cornerRadius;
+@property (assign) CGFloat cornerRadius;
 
 /** 
  * Cover the HUD background view with a radial gradient. 
@@ -247,14 +245,14 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * This may be used to prevent HUD display for very short tasks.
  * Defaults to 0 (no grace time).
  */
-@property (assign) float graceTime;
+@property (assign) NSTimeInterval graceTime;
 
 /**
  * The minimum time (in seconds) that the HUD is shown. 
  * This avoids the problem of the HUD being shown and than instantly hidden.
  * Defaults to 0 (no minimum show time).
  */
-@property (assign) float minShowTime;
+@property (assign) NSTimeInterval minShowTime;
 
 /**
  * Removes the HUD from its parent view when hidden. 
