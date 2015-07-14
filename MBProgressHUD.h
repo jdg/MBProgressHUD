@@ -276,7 +276,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign) CGSize minSize;
 
-
 /**
  * The actual size of the HUD bezel.
  * You can use this to limit touch handling on the bezel aria only.
