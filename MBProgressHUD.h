@@ -65,16 +65,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * This is a simple drop-in class for displaying a progress HUD view similar to Apple's private UIProgressHUD class.
  * The MBProgressHUD window spans over the entire space given to it by the initWithFrame constructor and catches all
- * user input on this region, thereby preventing the user operations on components below the view. The HUD itself is
+ * user input on this region, thereby preventing the user operations on components below the view. To allow touches
+ * to pass through the HUD you can set hud.userInteractionEnabled = NO. The HUD itself is
  * drawn centered as a rounded semi-transparent view which resizes depending on the user specified content.
  *
- * This view supports four modes of operation:
- *  - MBProgressHUDModeIndeterminate - shows a UIActivityIndicatorView
- *  - MBProgressHUDModeDeterminate - shows a custom round progress indicator
- *  - MBProgressHUDModeAnnularDeterminate - shows a custom annular progress indicator
- *  - MBProgressHUDModeCustomView - shows an arbitrary, user specified view (see `customView`)
- *
- * All three modes can have optional labels assigned.
+ * @attention MBProgressHUD is a UI class and should therefore only be accessed on the main thread.
  */
 @interface MBProgressHUD : UIView
 
