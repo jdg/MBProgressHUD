@@ -44,13 +44,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @interface MBProgressHUD ()
 
 @property (nonatomic, assign) BOOL useAnimation;
-@property (nonatomic, assign) BOOL isFinished;
+@property (nonatomic, assign, getter=hasFinished) BOOL finished;
 @property (nonatomic, assign) CGAffineTransform rotationTransform;
 @property (nonatomic, assign, readwrite) CGSize size;
 @property (atomic, strong) UIView *indicator;
 @property (atomic, strong) NSTimer *graceTimer;
 @property (atomic, strong) NSTimer *minShowTimer;
 @property (atomic, strong) NSDate *showStarted;
+// Deprecated
+@property (copy) MBProgressHUDCompletionBlock completionBlock;
+@property (assign) BOOL taskInProgress;
 
 @end
 
@@ -98,7 +101,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_activityIndicatorColor = [UIColor whiteColor];
 		_margin = 20.0f;
 		_cornerRadius = 10.0f;
-        _taskInProgress = NO;
         _rotationTransform = CGAffineTransformIdentity;
 
 		// Transparent background
@@ -133,6 +135,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)showAnimated:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 	self.useAnimation = animated;
+    self.finished = NO;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
         NSTimer *newGraceTimer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
@@ -148,6 +151,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)hideAnimated:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 	self.useAnimation = animated;
+    self.finished = YES;
 	// If the minShow time is set, calculate how long the hud was shown,
 	// and pospone the hiding operation if necessary
 	if (self.minShowTime > 0.0 && self.showStarted) {
@@ -174,7 +178,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)handleGraceTimer:(NSTimer *)theTimer {
 	// Show the HUD only if the task is still running
-	if (self.taskInProgress) {
+	if (self.hasFinished) {
 		[self showUsingAnimation:self.useAnimation];
 	}
 }
@@ -250,7 +254,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)done {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	self.isFinished = YES;
 	self.alpha = 0.0f;
 	if (self.removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
@@ -264,50 +267,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
 		[delegate performSelector:@selector(hudWasHidden:) withObject:self];
 	}
-}
-
-#pragma mark - Threading
-
-- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
-    [self showAnimated:animated whileExecutingBlock:^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        // Start executing the requested task
-        [target performSelector:method withObject:object];
-#pragma clang diagnostic pop
-    }];
-}
-
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block {
-	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-	[self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:NULL];
-}
-
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)())completion {
-	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-	[self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:completion];
-}
-
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue {
-	[self showAnimated:animated whileExecutingBlock:block onQueue:queue	completionBlock:NULL];
-}
-
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
-	 completionBlock:(MBProgressHUDCompletionBlock)completion {
-	self.taskInProgress = YES;
-	self.completionBlock = completion;
-	dispatch_async(queue, ^(void) {
-		block();
-		dispatch_async(dispatch_get_main_queue(), ^(void) {
-			[self cleanUp];
-		});
-	});
-    [self showAnimated:animated];
-}
-
-- (void)cleanUp {
-	self.taskInProgress = NO;
-	[self hideAnimated:self.useAnimation];
 }
 
 #pragma mark - UI
@@ -913,6 +872,50 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
     [self hideAnimated:animated afterDelay:delay];
+}
+
+#pragma mark - Threading
+
+- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated {
+    [self showAnimated:animated whileExecutingBlock:^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        // Start executing the requested task
+        [target performSelector:method withObject:object];
+#pragma clang diagnostic pop
+    }];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    [self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:NULL];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)())completion {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    [self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:completion];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue {
+    [self showAnimated:animated whileExecutingBlock:block onQueue:queue	completionBlock:NULL];
+}
+
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
+     completionBlock:(MBProgressHUDCompletionBlock)completion {
+    self.taskInProgress = YES;
+    self.completionBlock = completion;
+    dispatch_async(queue, ^(void) {
+        block();
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self cleanUp];
+        });
+    });
+    [self showAnimated:animated];
+}
+
+- (void)cleanUp {
+    self.taskInProgress = NO;
+    [self hideAnimated:self.useAnimation];
 }
 
 #pragma mark - Labels
