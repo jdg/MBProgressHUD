@@ -30,6 +30,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 
+@class MBBackgroundView;
 @protocol MBProgressHUDDelegate;
 
 
@@ -181,6 +182,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @see MBProgressHUDDelegate
  */
 @property (weak) id<MBProgressHUDDelegate> delegate;
+
+@property (strong, readonly) MBBackgroundView *bezelView;
 
 /**
  * A label that holds an optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
@@ -359,6 +362,10 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 @end
 
+
+@interface MBBackgroundView : UIView
+
+@end
 
 @interface MBProgressHUD (Deprecated)
 

@@ -7,12 +7,6 @@
 #import "MBProgressHUD.h"
 #import <tgmath.h>
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
-    #define MBLabelAlignmentCenter NSTextAlignmentCenter
-#else
-    #define MBLabelAlignmentCenter UITextAlignmentCenter
-#endif
-
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 	#define MB_TEXTSIZE(text, font) [text length] > 0 ? [text \
 		sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
@@ -39,7 +33,7 @@
 
 #define MBMainThreadAssert() NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 
-static const CGFloat kPadding = 4.f;
+static const CGFloat MBDefaultPadding = 4.f;
 static const CGFloat MBDefaultLabelFontSize = 16.f;
 static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
@@ -110,11 +104,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		self.backgroundColor = [UIColor clearColor];
 		// Make it invisible for now
 		self.alpha = 0.0f;
-        self.contentMode = UIViewContentModeCenter;
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
-								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-		[self setupLabels];
+		[self setupViews];
 		[self updateIndicators];
 		[self registerForKVO];
 		[self registerForNotifications];
@@ -159,8 +151,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	if (self.minShowTime > 0.0 && self.showStarted) {
 		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:self.showStarted];
 		if (interv < self.minShowTime) {
-			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self 
-								selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
+			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
 			return;
 		} 
 	}
@@ -273,27 +264,35 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - UI
 
-- (void)setupLabels {
-	UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
+- (void)setupViews {
+    MBBackgroundView *bezelView = [MBBackgroundView new];
+    bezelView.translatesAutoresizingMaskIntoConstraints = NO;
+    bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    [self addSubview:bezelView];
+    _bezelView = bezelView;
+
+	UILabel *label = [UILabel new];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
 	label.adjustsFontSizeToFitWidth = NO;
-	label.textAlignment = MBLabelAlignmentCenter;
+	label.textAlignment = NSTextAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor whiteColor];
 	label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
-	[self addSubview:label];
+	[bezelView addSubview:label];
     _label = label;
 	
-	UILabel *detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
+	UILabel *detailsLabel = [UILabel new];
+    detailsLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
-	detailsLabel.textAlignment = MBLabelAlignmentCenter;
+	detailsLabel.textAlignment = NSTextAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
 	detailsLabel.textColor = [UIColor whiteColor];
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
+	[bezelView addSubview:detailsLabel];
     _detailsLabel = detailsLabel;
-	[self addSubview:detailsLabel];
 }
 
 - (void)updateIndicators {
@@ -308,17 +307,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			[indicator removeFromSuperview];
 			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 			[(UIActivityIndicatorView *)indicator startAnimating];
-			[self addSubview:indicator];
+			[self.bezelView addSubview:indicator];
 		}
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
 		[(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
-#endif
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
 		[indicator removeFromSuperview];
 		indicator = [[MBBarProgressView alloc] init];
-		[self addSubview:indicator];
+		[self.bezelView addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 		if (!isRoundIndicator) {
@@ -340,153 +337,50 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		[indicator removeFromSuperview];
 		indicator = nil;
 	}
+    indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
+
+    [self setNeedsUpdateConstraints];
 }
 
 #pragma mark - Layout
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	
-	// Entirely cover the parent view
-	UIView *parent = self.superview;
-	if (parent) {
-		self.frame = parent.bounds;
-	}
-	CGRect bounds = self.bounds;
-    CGFloat margin = self.margin;
+- (void)updateConstraints {
+    [super updateConstraints];
 
-	// Determine the total widt and height needed
-	CGFloat maxWidth = bounds.size.width - 4 * margin;
-	CGSize totalSize = CGSizeZero;
+    UIView *bezel = self.bezelView;
 
-    UIView *indicator = self.indicator;
-	CGRect indicatorF = indicator.bounds;
-	indicatorF.size.width = MIN(indicatorF.size.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, indicatorF.size.width);
-	totalSize.height += indicatorF.size.height;
+    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.label, self.detailsLabel, nil];
+    if (self.indicator) [subviews insertObject:self.indicator atIndex:0];
 
-    UILabel *label = self.label;
-	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
-	labelSize.width = MIN(labelSize.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, labelSize.width);
-	totalSize.height += labelSize.height;
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
-		totalSize.height += kPadding;
-	}
+    // Remove existing constraintes
+    [self removeConstraints:self.constraints];
+    [bezel removeConstraints:bezel.constraints];
 
-    UILabel *detailsLabel = self.detailsLabel;
-	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
-	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
-	CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
-	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
-	totalSize.height += detailsLabelSize.height;
-	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
-		totalSize.height += kPadding;
-	}
-	
-	totalSize.width += 2 * margin;
-	totalSize.height += 2 * margin;
-	
-	// Position elements
-	CGFloat yPos = round(((bounds.size.height - totalSize.height) / 2)) + margin + self.yOffset;
-	CGFloat xPos = self.xOffset;
-	indicatorF.origin.y = yPos;
-	indicatorF.origin.x = round((bounds.size.width - indicatorF.size.width) / 2) + xPos;
-	indicator.frame = indicatorF;
-	yPos += indicatorF.size.height;
-	
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
-		yPos += kPadding;
-	}
-	CGRect labelF;
-	labelF.origin.y = yPos;
-	labelF.origin.x = round((bounds.size.width - labelSize.width) / 2) + xPos;
-	labelF.size = labelSize;
-	label.frame = labelF;
-	yPos += labelF.size.height;
-	
-	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
-		yPos += kPadding;
-	}
-	CGRect detailsLabelF;
-	detailsLabelF.origin.y = yPos;
-	detailsLabelF.origin.x = round((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
-	detailsLabelF.size = detailsLabelSize;
-	detailsLabel.frame = detailsLabelF;
-	
-	// Enforce minsize and quare rules
-	if (self.square) {
-		CGFloat max = MAX(totalSize.width, totalSize.height);
-		if (max <= bounds.size.width - 2 * margin) {
-			totalSize.width = max;
-		}
-		if (max <= bounds.size.height - 2 * margin) {
-			totalSize.height = max;
-		}
-	}
-    CGSize minSize = self.minSize;
-	if (totalSize.width < minSize.width) {
-		totalSize.width = minSize.width;
-	} 
-	if (totalSize.height < minSize.height) {
-		totalSize.height = minSize.height;
-	}
-	
-	self.size = totalSize;
-}
+    // Center bezel in container (self)
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0.f]];
 
-#pragma mark BG Drawing
-
-- (void)drawRect:(CGRect)rect {
-	
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	UIGraphicsPushContext(context);
-
-	if (self.dimBackground) {
-		//Gradient colours
-		size_t gradLocationsNum = 2;
-		CGFloat gradLocations[2] = {0.0f, 1.0f};
-		CGFloat gradColors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.75f}; 
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-		CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, gradColors, gradLocations, gradLocationsNum);
-		CGColorSpaceRelease(colorSpace);
-		//Gradient center
-		CGPoint gradCenter= CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-		//Gradient radius
-		CGFloat gradRadius = MIN(self.bounds.size.width , self.bounds.size.height) ;
-		//Gradient draw
-		CGContextDrawRadialGradient (context, gradient, gradCenter,
-									 0, gradCenter, gradRadius,
-									 kCGGradientDrawsAfterEndLocation);
-		CGGradientRelease(gradient);
-	}
-
-	// Set background rect color
-	if (self.color) {
-		CGContextSetFillColorWithColor(context, self.color.CGColor);
-	} else {
-		CGContextSetGrayFillColor(context, 0.0f, self.opacity);
-	}
-
-	
-	// Center HUD
-	CGRect allRect = self.bounds;
-	// Draw rounded HUD backgroud rect
-    CGSize size = self.size;
-	CGRect boxRect = CGRectMake(round((allRect.size.width - size.width) / 2) + self.xOffset,
-								round((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
-	CGFloat radius = self.cornerRadius;
-	CGContextBeginPath(context);
-	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
-	CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMinY(boxRect) + radius, radius, 3 * (CGFloat)M_PI / 2, 0, 0);
-	CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMaxY(boxRect) - radius, radius, 0, (CGFloat)M_PI / 2, 0);
-	CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMaxY(boxRect) - radius, radius, (CGFloat)M_PI / 2, (CGFloat)M_PI, 0);
-	CGContextAddArc(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect) + radius, radius, (CGFloat)M_PI, 3 * (CGFloat)M_PI / 2, 0);
-	CGContextClosePath(context);
-	CGContextFillPath(context);
-
-	UIGraphicsPopContext();
+    // Layout subviews in bezel
+    [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+        // Center in bezel
+        [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
+        // Ensure the edge margin is kept
+        [bezel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[view]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(view)]];
+        // Element spacing
+        if (idx == 0) {
+            // First, ensure spacing to bezel edge
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+        } else if (idx == subviews.count - 1) {
+            // Last, ensure spacigin to bezel edge
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+        }
+        if (idx > 0) {
+            // Has previous
+            UIView *previous = subviews[idx - 1];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:previous attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+        }
+    }];
 }
 
 #pragma mark - KVO
@@ -827,6 +721,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 @end
+
+
+@implementation MBBackgroundView
+
+@end
+
 
 @implementation MBProgressHUD (Deprecated)
 
