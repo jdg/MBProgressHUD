@@ -352,6 +352,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [super updateConstraints];
 
     UIView *bezel = self.bezelView;
+    CGFloat margin = self.margin;
+    NSDictionary *metrics = @{@"margin": @(margin)};
 
     NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.label, self.detailsLabel, nil];
     if (self.indicator) [subviews insertObject:self.indicator atIndex:0];
@@ -363,25 +365,28 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Center bezel in container (self)
     [self addConstraint:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:0.f]];
+    // Ensure minimum side margin is kept
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
 
     // Layout subviews in bezel
     [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
         // Center in bezel
         [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
-        // Ensure the edge margin is kept
-        [bezel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-[view]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(view)]];
+        // Ensure the minimum edge margin is kept
+        [bezel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[view]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
         // Element spacing
         if (idx == 0) {
             // First, ensure spacing to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0]];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:margin]];
         } else if (idx == subviews.count - 1) {
             // Last, ensure spacigin to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:-margin]];
         }
         if (idx > 0) {
             // Has previous
             UIView *previous = subviews[idx - 1];
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:previous attribute:NSLayoutAttributeBottom multiplier:1.f constant:0]];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:previous attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
         }
     }];
 }
