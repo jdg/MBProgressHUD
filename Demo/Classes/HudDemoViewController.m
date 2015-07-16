@@ -254,7 +254,9 @@
 	float progress = 0.0f;
 	while (progress < 1.0f) {
 		progress += 0.01f;
-		HUD.progress = progress;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			HUD.progress = progress;
+		});
 		usleep(50000);
 	}
 }
