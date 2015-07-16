@@ -267,7 +267,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setupViews {
     MBBackgroundView *bezelView = [MBBackgroundView new];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
-    bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+    bezelView.layer.cornerRadius = 5.f;
     [self addSubview:bezelView];
     _bezelView = bezelView;
 
