@@ -519,6 +519,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	[self unregisterFromKVO];
 }
 
+#pragma mark - Layout
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(37.f, 37.f);
+}
+
 #pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
@@ -618,6 +624,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)dealloc {
 	[self unregisterFromKVO];
+}
+
+#pragma mark - Layout
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(120.f, 20.f);
 }
 
 #pragma mark - Drawing
