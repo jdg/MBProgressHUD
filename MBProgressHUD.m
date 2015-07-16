@@ -325,7 +325,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			// Update to determinante indicator
 			[indicator removeFromSuperview];
 			indicator = [[MBRoundProgressView alloc] init];
-			[self addSubview:indicator];
+			[self.bezelView addSubview:indicator];
 		}
 		if (mode == MBProgressHUDModeAnnularDeterminate) {
 			[(MBRoundProgressView *)indicator setAnnular:YES];
@@ -335,7 +335,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		// Update custom view indicator
 		[indicator removeFromSuperview];
 		indicator = self.customView;
-		[self addSubview:indicator];
+		[self.bezelView addSubview:indicator];
 	} else if (mode == MBProgressHUDModeText) {
 		[indicator removeFromSuperview];
 		indicator = nil;
