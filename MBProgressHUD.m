@@ -48,6 +48,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) NSTimer *graceTimer;
 @property (nonatomic, strong) NSTimer *minShowTimer;
 @property (nonatomic, strong) NSDate *showStarted;
+@property (nonatomic, strong) NSArray *paddingConstraints;
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
@@ -370,6 +371,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
 
     // Layout subviews in bezel
+    NSMutableArray *paddingConstraints = [NSMutableArray new];
     [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
         // Center in bezel
         [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
@@ -385,9 +387,32 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
         if (idx > 0) {
             // Has previous
-            UIView *previous = subviews[idx - 1];
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:previous attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
+            NSLayoutConstraint *padding = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:subviews[idx - 1] attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f];
+            [bezel addConstraint:padding];
+            [paddingConstraints addObject:padding];
         }
+    }];
+    self.paddingConstraints = [paddingConstraints copy];
+    [self updatePaddingConstraints];
+}
+
+- (void)layoutSubviews {
+    [self updatePaddingConstraints];
+    [super layoutSubviews];
+}
+
+- (void)updatePaddingConstraints {
+    // Set padding dynamically, depending on whether the view is visible or not
+    __block BOOL hasVisibleAnchestors = NO;
+    [self.paddingConstraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *padding, NSUInteger idx, BOOL *stop) {
+        UIView *firstView = (UIView *)padding.firstItem;
+        UIView *secondView = (UIView *)padding.secondItem;
+        BOOL firstVisible =  !CGSizeEqualToSize(firstView.intrinsicContentSize, CGSizeZero);
+        BOOL secondVisible = !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
+        // Set if both views are visible of if there's a visible view on top that yet doesn't have padding
+        // added relative to the current view
+        padding.constant = (firstVisible && (secondVisible || hasVisibleAnchestors)) ? MBDefaultPadding : 0.f;
+        hasVisibleAnchestors |= secondVisible;
     }];
 }
 
