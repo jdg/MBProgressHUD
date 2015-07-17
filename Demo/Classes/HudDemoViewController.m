@@ -265,28 +265,31 @@
 	// Indeterminate mode
 	sleep(2);
 	// Switch to determinate mode
-	HUD.mode = MBProgressHUDModeDeterminate;
-	HUD.labelText = @"Progress";
+	dispatch_async(dispatch_get_main_queue(), ^{
+		HUD.mode = MBProgressHUDModeDeterminate;
+		HUD.labelText = @"Progress";
+	});
 	float progress = 0.0f;
-	while (progress < 1.0f)
-	{
+	while (progress < 1.0f) {
 		progress += 0.01f;
-		HUD.progress = progress;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			HUD.progress = progress;
+		});
 		usleep(50000);
 	}
 	// Back to indeterminate mode
-	HUD.mode = MBProgressHUDModeIndeterminate;
-	HUD.labelText = @"Cleaning up";
+	dispatch_async(dispatch_get_main_queue(), ^{
+		HUD.mode = MBProgressHUDModeIndeterminate;
+		HUD.labelText = @"Cleaning up";
+	});
 	sleep(2);
-	// UIImageView is a UIKit class, we have to initialize it on the main thread
-	__block UIImageView *imageView;
 	dispatch_sync(dispatch_get_main_queue(), ^{
 		UIImage *image = [UIImage imageNamed:@"Checkmark"];
-		imageView = [[UIImageView alloc] initWithImage:image];
+		UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+		HUD.customView = imageView;
+		HUD.mode = MBProgressHUDModeCustomView;
+		HUD.labelText = @"Completed";
 	});
-	HUD.customView = imageView;
-	HUD.mode = MBProgressHUDModeCustomView;
-	HUD.labelText = @"Completed";
 	sleep(2);
 }
 
