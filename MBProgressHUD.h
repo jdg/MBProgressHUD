@@ -35,41 +35,40 @@
 
 
 typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
-	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
+	/// UIActivityIndicatorView.
 	MBProgressHUDModeIndeterminate,
-	/** Progress is shown using a round, pie-chart like, progress view. */
+	/// A round, pie-chart like, progress view.
 	MBProgressHUDModeDeterminate,
-	/** Progress is shown using a horizontal progress bar */
+	/// Horizontal progress bar.
 	MBProgressHUDModeDeterminateHorizontalBar,
-	/** Progress is shown using a ring-shaped progress view. */
+	/// Ring-shaped progress view.
 	MBProgressHUDModeAnnularDeterminate,
-	/** Shows a custom view */
+	/// Shows a custom view.
 	MBProgressHUDModeCustomView,
-	/** Shows only labels */
+	/// Shows only labels.
 	MBProgressHUDModeText
 };
 
 typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
-	/** Opacity animation */
+	/// Opacity animation
 	MBProgressHUDAnimationFade,
-	/** Opacity + scale animation */
-	MBProgressHUDAnimationZoom,
+	/// Opacity + scale animation
+    MBProgressHUDAnimationZoom,
+    /// Opacity + scale animation (zoom out style)
 	MBProgressHUDAnimationZoomOut = MBProgressHUDAnimationZoom,
+    /// Opacity + scale animation (zoom in style)
 	MBProgressHUDAnimationZoomIn
 };
-
-typedef void (^MBProgressHUDCompletionBlock)();
 
 
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
  * This is a simple drop-in class for displaying a progress HUD view similar to Apple's private UIProgressHUD class.
- * The MBProgressHUD window spans over the entire space given to it by the initWithFrame constructor and catches all
- * user input on this region, thereby preventing the user operations on components below the view. To allow touches
- * to pass through the HUD you can set hud.userInteractionEnabled = NO. The HUD itself is
- * drawn centered as a rounded semi-transparent view which resizes depending on the user specified content.
+ * The MBProgressHUD window spans over the entire space given to it by the initWithFrame: constructor and catches all
+ * user input on this region, thereby preventing the user operations on components below the view.
  *
+ * @note To still allow touches to pass through the HUD, you can set hud.userInteractionEnabled = NO.
  * @attention MBProgressHUD is a UI class and should therefore only be accessed on the main thread.
  */
 @interface MBProgressHUD : UIView
@@ -77,7 +76,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /**
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
  *
- * @note This method sets `removeFromSuperViewOnHide`. The HUD will automatically be removed from the view hierarchy when hidden.
+ * @note This method sets removeFromSuperViewOnHide. The HUD will automatically be removed from the view hierarchy when hidden.
  *
  * @param view The view that the HUD will be added to
  * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
@@ -119,10 +118,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @param view The view instance that will provide the bounds for the HUD. Should be the same instance as
  * the HUD's superview (i.e., the view that the HUD will be added to).
  */
-- (id)initWithView:(UIView *)view;
+- (instancetype)initWithView:(UIView *)view;
 
 /** 
- * Display the HUD. You need to make sure that the main thread completes its run loop soon after this method call so
+ * Displays the HUD. 
+ *
+ * @note You need to make sure that the main thread completes its run loop soon after this method call so
  * the user interface can be updated. Call this method when your task is already set-up to be executed in a new thread
  * (e.g., when using something like NSOperation or calling an asynchronous call like NSURLRequest).
  *
@@ -134,7 +135,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 - (void)showAnimated:(BOOL)animated;
 
 /** 
- * Hide the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
+ * Hides the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -145,7 +146,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 - (void)hideAnimated:(BOOL)animated;
 
 /** 
- * Hide the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
+ * Hides the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
  * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
@@ -156,85 +157,64 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
+/**
+ * The HUD delegate object. Recives HUD state notifications.
+ */
+@property (weak, nonatomic) id<MBProgressHUDDelegate> delegate;
+
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
- *
- * @see MBProgressHUDMode
  */
-@property (assign) MBProgressHUDMode mode;
+@property (assign, nonatomic) MBProgressHUDMode mode;
 
 /**
- * The animation type that should be used when the HUD is shown and hidden. 
- *
- * @see MBProgressHUDAnimation
+ * The animation type that should be used when the HUD is shown and hidden.
  */
-@property (assign) MBProgressHUDAnimation animationType;
+@property (assign, nonatomic) MBProgressHUDAnimation animationType;
+
+/**
+ * The view containing the labels and indicator (or customView).
+ */
+@property (strong, nonatomic, readonly) MBBackgroundView *bezelView;
 
 /**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
- * For best results use a 37 by 37 pixel view (so the bounds match the built in indicator bounds). 
+ * The view should implement intrinsicContentSize for proper sizing. For best results use approximately 37 by 37 pixel.
  */
-@property (strong) UIView *customView;
-
-/** 
- * The HUD delegate object. 
- *
- * @see MBProgressHUDDelegate
- */
-@property (weak) id<MBProgressHUDDelegate> delegate;
-
-@property (strong, readonly) MBBackgroundView *bezelView;
+@property (strong, nonatomic) UIView *customView;
 
 /**
  * A label that holds an optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
- * the entire text. If the text is too long it will get clipped by displaying "..." at the end. If left unchanged or
- * set to @"", then no message is displayed.
+ * the entire text.
  */
-@property (strong, readonly) UILabel *label;
+@property (strong, nonatomic, readonly) UILabel *label;
 
 /**
  * A label that holds an optional details message displayed below the labelText message. The details text can span multiple lines.
  */
-@property (strong, readonly) UILabel *detailsLabel;
-
-/** 
- * The opacity of the HUD window. Defaults to 0.8 (80% opacity). 
- */
-@property (assign) CGFloat opacity;
+@property (strong, nonatomic, readonly) UILabel *detailsLabel;
 
 /**
- * The color of the HUD window. Defaults to black. If this property is set, color is set using
- * this UIColor and the opacity property is not used.  using retain because performing copy on
- * UIColor base colors (like [UIColor greenColor]) cause problems with the copyZone.
+ * The bezel offset relative to the centre of the view.
  */
-@property (strong) UIColor *color;
-
-/** 
- * The x-axis offset of the HUD relative to the centre of the superview. 
- */
-@property (assign) CGFloat xOffset;
-
-/** 
- * The y-axis offset of the HUD relative to the centre of the superview. 
- */
-@property (assign) CGFloat yOffset;
+@property (assign, nonatomic) CGPoint offset;
 
 /**
  * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
- * Defaults to 20.0
+ * This also represents the minimum bezel distance to the edge of the HUD view.
+ * Defaults to 20.f
  */
-@property (assign) CGFloat margin;
+@property (assign, nonatomic) CGFloat margin;
 
 /**
- * The corner radius for the HUD
- * Defaults to 10.0
+ * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
-@property (assign) CGFloat cornerRadius;
+@property (assign, nonatomic) CGSize minSize;
 
-/** 
- * Cover the HUD background view with a radial gradient. 
+/**
+ * Force the HUD dimensions to be equal if possible.
  */
-@property (assign) BOOL dimBackground;
+@property (assign, nonatomic, getter = isSquare) BOOL square;
 
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
@@ -243,49 +223,25 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * This may be used to prevent HUD display for very short tasks.
  * Defaults to 0 (no grace time).
  */
-@property (assign) NSTimeInterval graceTime;
+@property (assign, nonatomic) NSTimeInterval graceTime;
 
 /**
  * The minimum time (in seconds) that the HUD is shown. 
  * This avoids the problem of the HUD being shown and than instantly hidden.
  * Defaults to 0 (no minimum show time).
  */
-@property (assign) NSTimeInterval minShowTime;
+@property (assign, nonatomic) NSTimeInterval minShowTime;
 
 /**
  * Removes the HUD from its parent view when hidden. 
  * Defaults to NO. 
  */
-@property (assign) BOOL removeFromSuperViewOnHide;
-
-/**
- * The color of the activity indicator. Defaults to [UIColor whiteColor]
- * Does nothing on pre iOS 5.
- */
-@property (strong) UIColor *activityIndicatorColor;
+@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
 
 /** 
  * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
  */
-@property (assign) float progress;
-
-/**
- * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
- */
-@property (assign) CGSize minSize;
-
-/**
- * The actual size of the HUD bezel.
- * You can use this to limit touch handling on the bezel aria only.
- * @see https://github.com/jdg/MBProgressHUD/pull/200
- */
-@property (atomic, assign, readonly) CGSize size;
-
-
-/**
- * Force the HUD dimensions to be equal if possible. 
- */
-@property (assign, getter = isSquare) BOOL square;
+@property (assign, nonatomic) float progress;
 
 @end
 
@@ -378,6 +334,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
 - (void)hide:(BOOL)animated __attribute__((deprecated("Use hideAnimated: instead.")));
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay __attribute__((deprecated("Use hideAnimated:afterDelay: instead.")));
 
+typedef void (^MBProgressHUDCompletionBlock)();
+
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated __attribute__((deprecated("Use GCD directly.")));
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block __attribute__((deprecated("Use GCD directly.")));
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
@@ -393,5 +351,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (nonatomic, copy) NSString *detailsLabelText __attribute__((deprecated("Use detailsLabel.text instead.")));
 @property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("Use detailsLabel.font instead.")));
 @property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("Use detailsLabel.textColor instead.")));
+@property (assign, nonatomic) CGFloat opacity __attribute__((deprecated("Customize bezelView properties instead.")));
+@property (strong, nonatomic) UIColor *color __attribute__((deprecated("Customize bezelView properties instead.")));
+@property (assign, nonatomic) CGFloat xOffset __attribute__((deprecated("Set offset.x instead.")));
+@property (assign, nonatomic) CGFloat yOffset __attribute__((deprecated("Set offset.y instead.")));
+@property (assign, nonatomic) CGFloat cornerRadius __attribute__((deprecated("Set bezelView.layer.cornerRadius instead.")));
+@property (assign, nonatomic) BOOL dimBackground __attribute__((deprecated("Customize HUD backgroudn properties instead.")));
+@property (strong, nonatomic) UIColor *activityIndicatorColor __attribute__((deprecated("Use UIAppearance to customize UIActivityIndicatorView.")));
+@property (atomic, assign, readonly) CGSize size __attribute__((deprecated("Get the bezelView.frame.size instead.")));
 
 @end

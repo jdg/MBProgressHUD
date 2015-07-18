@@ -52,6 +52,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
+@property (strong, nonatomic) UIColor *activityIndicatorColor;
 
 @end
 
@@ -96,10 +97,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		// Set default values for properties
 		_animationType = MBProgressHUDAnimationFade;
 		_mode = MBProgressHUDModeIndeterminate;
-		_opacity = 0.8f;
-		_activityIndicatorColor = [UIColor whiteColor];
 		_margin = 20.0f;
-		_cornerRadius = 10.0f;
         _rotationTransform = CGAffineTransformIdentity;
 
 		// Transparent background
@@ -313,7 +311,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			[(UIActivityIndicatorView *)indicator startAnimating];
 			[self.bezelView addSubview:indicator];
 		}
-		[(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
+        if (self.activityIndicatorColor) {
+            [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
+        }
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
@@ -864,63 +864,118 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Labels
 
 - (NSString *)labelText {
-    MBMainThreadAssert()
     return self.label.text;
 }
 
 - (void)setLabelText:(NSString *)labelText {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.label.text = labelText;
 }
 
 - (UIFont *)labelFont {
-    MBMainThreadAssert()
     return self.label.font;
 }
 
 - (void)setLabelFont:(UIFont *)labelFont {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.label.font = labelFont;
 }
 
 - (UIColor *)labelColor {
-    MBMainThreadAssert()
     return self.label.textColor;
 }
 
 - (void)setLabelColor:(UIColor *)labelColor {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.label.textColor = labelColor;
 }
 
 - (NSString *)detailsLabelText {
-    MBMainThreadAssert()
     return self.detailsLabel.text;
 }
 
 - (void)setDetailsLabelText:(NSString *)detailsLabelText {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.detailsLabel.text = detailsLabelText;
 }
 
 - (UIFont *)detailsLabelFont {
-    MBMainThreadAssert()
     return self.detailsLabel.font;
 }
 
 - (void)setDetailsLabelFont:(UIFont *)detailsLabelFont {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.detailsLabel.font = detailsLabelFont;
 }
 
 - (UIColor *)detailsLabelColor {
-    MBMainThreadAssert()
     return self.detailsLabel.textColor;
 }
 
 - (void)setDetailsLabelColor:(UIColor *)detailsLabelColor {
-    MBMainThreadAssert()
+    MBMainThreadAssert();
     self.detailsLabel.textColor = detailsLabelColor;
+}
+
+- (CGFloat)opacity {
+    // TODO: forward when appropriate
+    return 1.f;
+}
+
+- (void)setOpacity:(CGFloat)opacity {
+    MBMainThreadAssert();
+    // TODO: forward when appropriate
+}
+
+- (UIColor *)color {
+    // TODO: forward when appropriate
+    return nil;
+}
+
+- (void)setColor:(UIColor *)color {
+    MBMainThreadAssert();
+    // TODO: forward when appropriate
+}
+
+- (CGFloat)yOffset {
+    return self.offset.y;
+}
+
+- (void)setYOffset:(CGFloat)yOffset {
+    MBMainThreadAssert();
+    self.offset = CGPointMake(self.offset.x, yOffset);
+}
+
+- (CGFloat)xOffset {
+    return self.offset.x;
+}
+
+- (void)setXOffset:(CGFloat)xOffset {
+    MBMainThreadAssert();
+    self.offset = CGPointMake(xOffset, self.offset.y);
+}
+
+- (CGFloat)cornerRadius {
+    return self.bezelView.layer.cornerRadius;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+    MBMainThreadAssert();
+    self.bezelView.layer.cornerRadius = cornerRadius;
+}
+
+- (BOOL)dimBackground {
+    // TODO: forward when appropriate
+    return NO;
+}
+
+- (void)setDimBackground:(BOOL)dimBackground {
+    MBMainThreadAssert();
+    // TODO: forward when appropriate
+}
+
+- (CGSize)size {
+    return self.bezelView.frame.size;
 }
 
 @end
