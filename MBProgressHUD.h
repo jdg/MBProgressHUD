@@ -109,7 +109,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
  */
-+ (instancetype)HUDForView:(UIView *)view;
++ (MBProgressHUD *)HUDForView:(UIView *)view;
 
 /**
  * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with

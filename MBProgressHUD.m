@@ -7,6 +7,7 @@
 #import "MBProgressHUD.h"
 #import <tgmath.h>
 
+
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 	#define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
 #endif
@@ -16,6 +17,7 @@
 #endif
 
 #define MBMainThreadAssert() NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+
 
 static const CGFloat MBDefaultPadding = 4.f;
 static const CGFloat MBDefaultLabelFontSize = 16.f;
@@ -33,6 +35,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) NSTimer *minShowTimer;
 @property (nonatomic, strong) NSDate *showStarted;
 @property (nonatomic, strong) NSArray *paddingConstraints;
+
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
@@ -63,7 +66,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	return NO;
 }
 
-+ (instancetype)HUDForView:(UIView *)view {
++ (MBProgressHUD *)HUDForView:(UIView *)view {
 	NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
 	for (UIView *subview in subviewsEnum) {
 		if ([subview isKindOfClass:self]) {
@@ -75,9 +78,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
-	if (self) {
+- (instancetype)initWithFrame:(CGRect)frame {
+	if ((self = [super initWithFrame:frame])) {
 		// Set default values for properties
 		_animationType = MBProgressHUDAnimationFade;
 		_mode = MBProgressHUDModeIndeterminate;
