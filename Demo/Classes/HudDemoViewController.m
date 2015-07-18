@@ -143,7 +143,7 @@
 	
 	// The sample image is based on the work by http://www.pixelpressicons.com, http://creativecommons.org/licenses/by/2.5/ca/
 	// Make the customViews 37 by 37 pixels for best results (those are the bounds of the build-in progress indicators)
-	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+	HUD.customView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 	
 	// Set custom view mode
 	HUD.mode = MBProgressHUDModeCustomView;
@@ -284,7 +284,7 @@
 	});
 	sleep(2);
 	dispatch_sync(dispatch_get_main_queue(), ^{
-		UIImage *image = [UIImage imageNamed:@"Checkmark"];
+		UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
 		HUD.customView = imageView;
 		HUD.mode = MBProgressHUDModeCustomView;
@@ -307,7 +307,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
+	HUD.customView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 	HUD.mode = MBProgressHUDModeCustomView;
 	[HUD hide:YES afterDelay:2];
 }
