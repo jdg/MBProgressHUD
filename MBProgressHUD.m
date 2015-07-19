@@ -119,9 +119,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.finished = NO;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
-        NSTimer *newGraceTimer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:newGraceTimer forMode:NSRunLoopCommonModes];
-        self.graceTimer = newGraceTimer;
+        NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+        self.graceTimer = timer;
 	} 
 	// ... otherwise show the HUD imediately 
 	else {
@@ -138,7 +138,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	if (self.minShowTime > 0.0 && self.showStarted) {
 		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:self.showStarted];
 		if (interv < self.minShowTime) {
-			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
+            NSTimer *timer = [NSTimer timerWithTimeInterval:(self.minShowTime - interv) target:self selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+            self.minShowTimer = timer;
 			return;
 		} 
 	}
