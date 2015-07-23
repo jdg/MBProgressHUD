@@ -181,56 +181,67 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Cancel any scheduled hideDelayed: calls
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-    MBProgressHUDAnimation animationType = self.animationType;
-	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
-		self.transform = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
-	} else if (animated && animationType == MBProgressHUDAnimationZoomOut) {
-		self.transform = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
-	}
 	self.showStarted = [NSDate date];
-	// Fade in
+    self.alpha = 1.f;
+
 	if (animated) {
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.30];
-		self.alpha = 1.0f;
-		if (animationType == MBProgressHUDAnimationZoomIn || animationType == MBProgressHUDAnimationZoomOut) {
-			self.transform = self.rotationTransform;
-		}
-		[UIView commitAnimations];
-	}
-	else {
-		self.alpha = 1.0f;
+        [self animateIn:YES withType:self.animationType completion:NULL];
+	} else {
+		self.bezelView.alpha = 1.0f;
 	}
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
-	// Fade out
 	if (animated && self.showStarted) {
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.30];
-		[UIView setAnimationDelegate:self];
-		[UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
-		// 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
-		// in the done method
-        MBProgressHUDAnimation animationType = self.animationType;
-		if (animationType == MBProgressHUDAnimationZoomIn) {
-			self.transform = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
-		} else if (animationType == MBProgressHUDAnimationZoomOut) {
-			self.transform = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
-		}
-
-		self.alpha = 0.02f;
-		[UIView commitAnimations];
-	}
-	else {
-		self.alpha = 0.0f;
+        [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
+            [self done];
+        }];
+	} else {
+		self.bezelView.alpha = 0.0f;
 		[self done];
 	}
 	self.showStarted = nil;
 }
 
-- (void)animationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
-	[self done];
+- (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
+    UIView *bezelView = self.bezelView;
+
+    // Automatically determine the correct
+    if (type == MBProgressHUDAnimationZoom) {
+        type = animatingIn ? MBProgressHUDAnimationZoomIn : MBProgressHUDAnimationZoomOut;
+    }
+
+    CGAffineTransform small = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
+    CGAffineTransform large = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
+
+    // Set starting state
+    if (animatingIn && type == MBProgressHUDAnimationZoomIn) {
+        bezelView.transform = small;
+    } else if (animatingIn && type == MBProgressHUDAnimationZoomOut) {
+        self.transform = large;
+    }
+
+    // Perform animations
+    dispatch_block_t animations = ^{
+        if (animatingIn) {
+            bezelView.transform = self.rotationTransform;
+        } else if (!animatingIn && type == MBProgressHUDAnimationZoomIn) {
+            self.transform = large;
+        } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
+            self.transform = small;
+        }
+        bezelView.alpha = animatingIn ? 1.f : 0.f;
+    };
+
+    // Spring animations are nicer on iOS 7+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
+        [UIView animateWithDuration:0.3 delay:0. usingSpringWithDamping:1.f initialSpringVelocity:0.f options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
+    } else
+#endif
+    {
+        [UIView animateWithDuration:0.3 delay:0. options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
+    }
 }
 
 - (void)done {
@@ -257,6 +268,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
     bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     bezelView.layer.cornerRadius = 5.f;
+    bezelView.alpha = 0.f;
     [self addSubview:bezelView];
     _bezelView = bezelView;
 
