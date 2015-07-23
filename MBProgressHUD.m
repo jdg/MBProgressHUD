@@ -180,7 +180,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)showUsingAnimation:(BOOL)animated {
     // Cancel any scheduled hideDelayed: calls
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self setNeedsDisplay];
 
     MBProgressHUDAnimation animationType = self.animationType;
 	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
