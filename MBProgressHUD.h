@@ -52,10 +52,10 @@ typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
 typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 	/// Opacity animation
 	MBProgressHUDAnimationFade,
-	/// Opacity + scale animation
+	/// Opacity + scale animation (zoom in when appearing zoom out when disappearing)
     MBProgressHUDAnimationZoom,
     /// Opacity + scale animation (zoom out style)
-	MBProgressHUDAnimationZoomOut = MBProgressHUDAnimationZoom,
+	MBProgressHUDAnimationZoomOut,
     /// Opacity + scale animation (zoom in style)
 	MBProgressHUDAnimationZoomIn
 };
@@ -158,7 +158,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
 /**
- * The HUD delegate object. Recives HUD state notifications.
+ * The HUD delegate object. Receives HUD state notifications.
  */
 @property (weak, nonatomic) id<MBProgressHUDDelegate> delegate;
 
@@ -356,7 +356,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (assign, nonatomic) CGFloat xOffset __attribute__((deprecated("Set offset.x instead.")));
 @property (assign, nonatomic) CGFloat yOffset __attribute__((deprecated("Set offset.y instead.")));
 @property (assign, nonatomic) CGFloat cornerRadius __attribute__((deprecated("Set bezelView.layer.cornerRadius instead.")));
-@property (assign, nonatomic) BOOL dimBackground __attribute__((deprecated("Customize HUD backgroudn properties instead.")));
+@property (assign, nonatomic) BOOL dimBackground __attribute__((deprecated("Customize HUD background properties instead.")));
 @property (strong, nonatomic) UIColor *activityIndicatorColor __attribute__((deprecated("Use UIAppearance to customize UIActivityIndicatorView.")));
 @property (atomic, assign, readonly) CGSize size __attribute__((deprecated("Get the bezelView.frame.size instead.")));
 
