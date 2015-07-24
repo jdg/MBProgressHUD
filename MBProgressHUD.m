@@ -217,7 +217,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (animatingIn && bezelView.alpha == 0.f && type == MBProgressHUDAnimationZoomIn) {
         bezelView.transform = small;
     } else if (animatingIn && bezelView.alpha == 0.f && type == MBProgressHUDAnimationZoomOut) {
-        self.transform = large;
+        bezelView.transform = large;
     }
 
     // Perform animations
@@ -225,9 +225,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         if (animatingIn) {
             bezelView.transform = self.rotationTransform;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomIn) {
-            self.transform = large;
+            bezelView.transform = large;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
-            self.transform = small;
+            bezelView.transform = small;
         }
         bezelView.alpha = animatingIn ? 1.f : 0.f;
     };
