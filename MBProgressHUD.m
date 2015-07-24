@@ -204,8 +204,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
-    UIView *bezelView = self.bezelView;
-
     // Automatically determine the correct
     if (type == MBProgressHUDAnimationZoom) {
         type = animatingIn ? MBProgressHUDAnimationZoomIn : MBProgressHUDAnimationZoomOut;
@@ -215,9 +213,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGAffineTransform large = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
 
     // Set starting state
-    if (animatingIn && type == MBProgressHUDAnimationZoomIn) {
+    UIView *bezelView = self.bezelView;
+    if (animatingIn && bezelView.alpha == 0.f && type == MBProgressHUDAnimationZoomIn) {
         bezelView.transform = small;
-    } else if (animatingIn && type == MBProgressHUDAnimationZoomOut) {
+    } else if (animatingIn && bezelView.alpha == 0.f && type == MBProgressHUDAnimationZoomOut) {
         self.transform = large;
     }
 
@@ -230,18 +229,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
             self.transform = small;
         }
-        bezelView.alpha = animatingIn ? 1.f : 0.f;
     };
 
-    // Spring animations are nicer on iOS 7+
+    // Spring animations are nicer, but only available on iOS 7+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         [UIView animateWithDuration:0.3 delay:0. usingSpringWithDamping:1.f initialSpringVelocity:0.f options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
-    } else
-#endif
-    {
-        [UIView animateWithDuration:0.3 delay:0. options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
+        return;
     }
+#endif
+    [UIView animateWithDuration:0.3 delay:0. options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
 }
 
 - (void)done {
