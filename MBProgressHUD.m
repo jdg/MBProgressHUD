@@ -28,7 +28,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 @property (nonatomic, assign) BOOL useAnimation;
 @property (nonatomic, assign, getter=hasFinished) BOOL finished;
-@property (nonatomic, assign) CGAffineTransform rotationTransform;
 @property (nonatomic, assign, readwrite) CGSize size;
 @property (nonatomic, strong) UIView *indicator;
 @property (nonatomic, strong) NSTimer *graceTimer;
@@ -84,7 +83,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_animationType = MBProgressHUDAnimationFade;
 		_mode = MBProgressHUDModeIndeterminate;
 		_margin = 20.0f;
-        _rotationTransform = CGAffineTransformIdentity;
 
 		// Transparent background
 		self.opaque = NO;
@@ -209,8 +207,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         type = animatingIn ? MBProgressHUDAnimationZoomIn : MBProgressHUDAnimationZoomOut;
     }
 
-    CGAffineTransform small = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
-    CGAffineTransform large = CGAffineTransformConcat(self.rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
+    CGAffineTransform small = CGAffineTransformMakeScale(0.5f, 0.5f);
+    CGAffineTransform large = CGAffineTransformMakeScale(1.5f, 1.5f);
 
     // Set starting state
     UIView *bezelView = self.bezelView;
@@ -223,7 +221,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Perform animations
     dispatch_block_t animations = ^{
         if (animatingIn) {
-            bezelView.transform = self.rotationTransform;
+            bezelView.transform = CGAffineTransformIdentity;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomIn) {
             bezelView.transform = large;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
@@ -478,37 +476,32 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Stay in sync with the superview in any case
     if (self.superview) {
         self.bounds = self.superview.bounds;
-        [self setNeedsDisplay];
     }
 
     // Not needed on iOS 8+, compile out when the deployment target allows,
     // to avoid sharedApplication problems on extension targets
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-    // Only needed pre iOS 7 when added to a window
+    // Only needed pre iOS 8 when added to a window
     BOOL iOS8OrLater = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0;
     if (iOS8OrLater || ![self.superview isKindOfClass:[UIWindow class]]) return;
 
 	UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 	CGFloat radians = 0;
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
-		if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -(CGFloat)M_PI_2; } 
-		else { radians = (CGFloat)M_PI_2; }
+        radians = orientation == UIInterfaceOrientationLandscapeLeft ? -(CGFloat)M_PI_2 : (CGFloat)M_PI_2;
 		// Window coordinates differ!
 		self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
 	} else {
-		if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = (CGFloat)M_PI; } 
-		else { radians = 0; }
+        radians = orientation == UIInterfaceOrientationPortraitUpsideDown ? (CGFloat)M_PI : 0.f;
 	}
-	self.rotationTransform = CGAffineTransformMakeRotation(radians);
-	
-	if (animated) {
-		[UIView beginAnimations:nil context:nil];
-		[UIView setAnimationDuration:0.3];
-	}
-	[self setTransform:self.rotationTransform];
-	if (animated) {
-		[UIView commitAnimations];
-	}
+
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.transform = CGAffineTransformMakeRotation(radians);
+        }];
+    } else {
+        self.transform = CGAffineTransformMakeRotation(radians);
+    }
 #endif
 }
 
