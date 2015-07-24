@@ -229,6 +229,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
             self.transform = small;
         }
+        bezelView.alpha = animatingIn ? 1.f : 0.f;
     };
 
     // Spring animations are nicer, but only available on iOS 7+
