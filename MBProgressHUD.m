@@ -34,6 +34,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) NSTimer *minShowTimer;
 @property (nonatomic, strong) NSDate *showStarted;
 @property (nonatomic, strong) NSArray *paddingConstraints;
+@property (nonatomic, strong) UIView *topSpacer;
+@property (nonatomic, strong) UIView *bottomSpacer;
 
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
@@ -290,6 +292,18 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
 	[bezelView addSubview:detailsLabel];
     _detailsLabel = detailsLabel;
+
+    UIView *topSpacer = [UIView new];
+    topSpacer.translatesAutoresizingMaskIntoConstraints = NO;
+    topSpacer.hidden = YES;
+    [bezelView addSubview:topSpacer];
+    _topSpacer = topSpacer;
+
+    UIView *bottomSpacer = [UIView new];
+    bottomSpacer.translatesAutoresizingMaskIntoConstraints = NO;
+    bottomSpacer.hidden = YES;
+    [bezelView addSubview:bottomSpacer];
+    _bottomSpacer = bottomSpacer;
 }
 
 - (void)updateIndicators {
@@ -352,8 +366,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGFloat margin = self.margin;
     NSDictionary *metrics = @{@"margin": @(margin)};
 
-    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.label, self.detailsLabel, nil];
-    if (self.indicator) [subviews insertObject:self.indicator atIndex:0];
+    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.bottomSpacer, nil];
+    if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
 
     // Remove existing constraintes
     [self removeConstraints:self.constraints];
@@ -367,6 +381,24 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
 
+    // Extenra bezel constraints
+    CGSize minimumSize = self.minSize;
+    if (!CGSizeEqualToSize(minimumSize, CGSizeZero)) {
+        NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width];
+        width.priority = 999.f;
+        NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height];
+        height.priority = 999.f;
+        [bezel addConstraints:@[width, height]];
+    }
+
+    // Top and bottom spacing
+    UIView *topSpacer = self.topSpacer;
+    [topSpacer addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
+    UIView *bottomSpacer = self.bottomSpacer;
+    [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
+    // Top and bottom spaces should be equal
+    [bezel addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
+
     // Layout subviews in bezel
     NSMutableArray *paddingConstraints = [NSMutableArray new];
     [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
@@ -377,10 +409,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         // Element spacing
         if (idx == 0) {
             // First, ensure spacing to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:margin]];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         } else if (idx == subviews.count - 1) {
             // Last, ensure spacigin to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:-margin]];
+            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
         }
         if (idx > 0) {
             // Has previous
@@ -389,6 +421,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [paddingConstraints addObject:padding];
         }
     }];
+
     self.paddingConstraints = [paddingConstraints copy];
     [self updatePaddingConstraints];
 }
@@ -404,8 +437,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self.paddingConstraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *padding, NSUInteger idx, BOOL *stop) {
         UIView *firstView = (UIView *)padding.firstItem;
         UIView *secondView = (UIView *)padding.secondItem;
-        BOOL firstVisible =  !CGSizeEqualToSize(firstView.intrinsicContentSize, CGSizeZero);
-        BOOL secondVisible = !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
+        BOOL firstVisible = !firstView.hidden && !CGSizeEqualToSize(firstView.intrinsicContentSize, CGSizeZero);
+        BOOL secondVisible = !secondView.hidden && !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
         // Set if both views are visible of if there's a visible view on top that yet doesn't have padding
         // added relative to the current view
         padding.constant = (firstVisible && (secondVisible || hasVisibleAnchestors)) ? MBDefaultPadding : 0.f;
