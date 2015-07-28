@@ -332,7 +332,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		[indicator removeFromSuperview];
 		indicator = self.customView;
 		[self.bezelView addSubview:indicator];
-	} else if (mode == MBProgressHUDModeText) {
+	}
+    else if (mode == MBProgressHUDModeText) {
 		[indicator removeFromSuperview];
 		indicator = nil;
 	}
