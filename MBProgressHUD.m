@@ -381,7 +381,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
 
-    // Extenra bezel constraints
+    // Minimum bezel size, if set
     CGSize minimumSize = self.minSize;
     if (!CGSizeEqualToSize(minimumSize, CGSizeZero)) {
         NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width];
@@ -389,6 +389,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height];
         height.priority = 999.f;
         [bezel addConstraints:@[width, height]];
+    }
+
+    // Square aspect ratio, if set
+    if (self.square) {
+        NSLayoutConstraint *square = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeWidth multiplier:1.f constant:0];
+        square.priority = 998.f;
+        [bezel addConstraint:square];
     }
 
     // Top and bottom spacing
