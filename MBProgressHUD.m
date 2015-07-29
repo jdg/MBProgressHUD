@@ -95,7 +95,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 		[self setupViews];
 		[self updateIndicators];
-		[self registerForKVO];
 		[self registerForNotifications];
 	}
 	return self;
@@ -108,7 +107,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)dealloc {
 	[self unregisterFromNotifications];
-	[self unregisterFromKVO];
 }
 
 #pragma mark - Show & hide
@@ -354,6 +352,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
 
+    if ([indicator respondsToSelector:@selector(setProgress:)]) {
+        [(id)indicator setValue:@(self.progress) forKey:@"progress"];
+    }
+
     [self setNeedsUpdateConstraints];
 }
 
@@ -453,42 +455,32 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }];
 }
 
-#pragma mark - KVO
+#pragma mark - Properties
 
-- (void)registerForKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
-	}
+- (void)setMode:(MBProgressHUDMode)mode {
+    if (mode != _mode) {
+        _mode = mode;
+        [self updateIndicators];
+    }
 }
 
-- (void)unregisterFromKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self removeObserver:self forKeyPath:keyPath];
-	}
+- (void)setCustomView:(UIView *)customView {
+    if (customView != _customView) {
+        _customView = customView;
+        if (self.mode == MBProgressHUDModeCustomView) {
+            [self updateIndicators];
+        }
+    }
 }
 
-- (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"mode", @"customView", @"progress", @"activityIndicatorColor", nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    MBMainThreadAssert();
-    [self updateUIForKeypath:keyPath];
-}
-
-- (void)updateUIForKeypath:(NSString *)keyPath {
-    UIView *indicator = self.indicator;
-	if ([keyPath isEqualToString:@"mode"] || [keyPath isEqualToString:@"customView"] ||
-		[keyPath isEqualToString:@"activityIndicatorColor"]) {
-		[self updateIndicators];
-	} else if ([keyPath isEqualToString:@"progress"]) {
-		if ([indicator respondsToSelector:@selector(setProgress:)]) {
-			[(id)indicator setValue:@(self.progress) forKey:@"progress"];
-		}
-		return;
-	}
-	[self setNeedsLayout];
-	[self setNeedsDisplay];
+- (void)setProgress:(float)progress {
+    if (progress != _progress) {
+        _progress = progress;
+        UIView *indicator = self.indicator;
+        if ([indicator respondsToSelector:@selector(setProgress:)]) {
+            [(id)indicator setValue:@(self.progress) forKey:@"progress"];
+        }
+    }
 }
 
 #pragma mark - Notifications
@@ -1008,6 +1000,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (CGSize)size {
     return self.bezelView.frame.size;
+}
+
+- (void)setActivityIndicatorColor:(UIColor *)activityIndicatorColor {
+    if (activityIndicatorColor != _activityIndicatorColor) {
+        _activityIndicatorColor = activityIndicatorColor;
+        UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)self.indicator;
+        if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
+            [indicator setColor:activityIndicatorColor];
+        }
+    }
 }
 
 @end
