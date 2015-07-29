@@ -473,6 +473,34 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
+- (void)setOffset:(CGPoint)offset {
+    if (!CGPointEqualToPoint(offset, _offset)) {
+        _offset = offset;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
+- (void)setMargin:(CGFloat)margin {
+    if (margin != margin) {
+        _margin = margin;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
+- (void)setMinSize:(CGSize)minSize {
+    if (!CGSizeEqualToSize(minSize, _minSize)) {
+        _minSize = minSize;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
+- (void)setSquare:(BOOL)square {
+    if (square != _square) {
+        _square = square;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
