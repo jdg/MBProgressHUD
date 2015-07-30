@@ -196,6 +196,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.backgroundColor = [UIColor clearColor];
 		// Make it invisible for now
 		self.alpha = 0.0f;
+        self.visibilityState = MBProgressHUDVisibilityState_HIDDEN;
 		
 		taskInProgress = NO;
 		rotationTransform = CGAffineTransformIdentity;
@@ -246,6 +247,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)show:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    self.visibilityState = MBProgressHUDVisibilityState_SHOWING;
 	useAnimation = animated;
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
@@ -261,6 +263,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)hide:(BOOL)animated {
     NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    self.visibilityState = MBProgressHUDVisibilityState_HIDING;
 	useAnimation = animated;
 	// If the minShow time is set, calculate how long the hud was shown,
 	// and pospone the hiding operation if necessary
@@ -318,8 +321,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	self.showStarted = [NSDate date];
 	// Fade in
 	if (animated) {
+        self.visibilityState = MBProgressHUDVisibilityState_SHOWING;
 		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.30];
+        [UIView setAnimationDuration:0.30];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(showAnimationFinished:finished:context:)];
 		self.alpha = 1.0f;
 		if (animationType == MBProgressHUDAnimationZoomIn || animationType == MBProgressHUDAnimationZoomOut) {
 			self.transform = rotationTransform;
@@ -328,16 +334,29 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	else {
 		self.alpha = 1.0f;
+        self.visibilityState = MBProgressHUDVisibilityState_VISIBLE;
 	}
+}
+
+- (void)showAnimationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
+    if (self.visibilityState == MBProgressHUDVisibilityState_SHOWING)
+    {
+        [self doneShowing];
+    }
+}
+
+- (void)doneShowing {
+    self.visibilityState = MBProgressHUDVisibilityState_VISIBLE;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
 	// Fade out
 	if (animated && showStarted) {
+        self.visibilityState = MBProgressHUDVisibilityState_HIDING;
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.30];
 		[UIView setAnimationDelegate:self];
-		[UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
+        [UIView setAnimationDidStopSelector:@selector(hideAnimationFinished:finished:context:)];
 		// 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
 		// in the done method
 		if (animationType == MBProgressHUDAnimationZoomIn) {
@@ -351,19 +370,23 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	else {
 		self.alpha = 0.0f;
-		[self done];
+		[self doneHiding];
 	}
 	self.showStarted = nil;
 }
 
-- (void)animationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
-	[self done];
+- (void)hideAnimationFinished:(NSString *)animationID finished:(BOOL)finished context:(void*)context {
+    if (self.visibilityState == MBProgressHUDVisibilityState_HIDING)
+    {
+        [self doneHiding];
+    }
 }
 
-- (void)done {
+- (void)doneHiding {
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	isFinished = YES;
 	self.alpha = 0.0f;
+    self.visibilityState = MBProgressHUDVisibilityState_HIDDEN;
 	if (removeFromSuperViewOnHide) {
 		[self removeFromSuperview];
 	}
