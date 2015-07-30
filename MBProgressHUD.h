@@ -57,6 +57,14 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 	MBProgressHUDAnimationZoomIn
 };
 
+typedef NS_ENUM(NSInteger, MBProgressHUDVisibilityState)
+{
+    MBProgressHUDVisibilityState_UNINITIALIZED=0,
+    MBProgressHUDVisibilityState_SHOWING,
+    MBProgressHUDVisibilityState_VISIBLE,
+    MBProgressHUDVisibilityState_HIDING,
+    MBProgressHUDVisibilityState_HIDDEN,
+};
 
 #ifndef MB_INSTANCETYPE
 #if __has_feature(objc_instancetype)
@@ -444,6 +452,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * Force the HUD dimensions to be equal if possible. 
  */
 @property (assign, getter = isSquare) BOOL square;
+
+
+/**
+ * Visibility state tracking.
+ */
+@property (atomic, assign) MBProgressHUDVisibilityState visibilityState;
 
 @end
 
