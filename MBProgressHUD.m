@@ -92,6 +92,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		// Make it invisible for now
 		self.alpha = 0.0f;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.layer.allowsGroupOpacity = NO;
 
 		[self setupViews];
 		[self updateIndicators];
@@ -260,9 +261,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - UI
 
 - (void)setupViews {
+    UIColor *defaultColor = [UIColor colorWithRed:0.394f green:0.441f blue:0.491f alpha:1.f];
+
     MBBackgroundView *bezelView = [MBBackgroundView new];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
-    bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     bezelView.layer.cornerRadius = 5.f;
     bezelView.alpha = 0.f;
     [self addSubview:bezelView];
@@ -274,7 +276,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	label.textAlignment = NSTextAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
+	label.textColor = defaultColor;
 	label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
 	[bezelView addSubview:label];
     _label = label;
@@ -285,7 +287,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	detailsLabel.textAlignment = NSTextAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
-	detailsLabel.textColor = [UIColor whiteColor];
+	detailsLabel.textColor = defaultColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
 	[bezelView addSubview:detailsLabel];
@@ -315,6 +317,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			// Update to indeterminate indicator
 			[indicator removeFromSuperview];
 			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            [(UIActivityIndicatorView *)indicator setColor:[UIColor colorWithRed:0.394f green:0.441f blue:0.491f alpha:1.f]];
 			[(UIActivityIndicatorView *)indicator startAnimating];
 			[self.bezelView addSubview:indicator];
 		}
@@ -820,7 +823,74 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @end
 
 
+@interface MBBackgroundView ()
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+@property UIVisualEffectView *effectView;
+#endif
+@property UIToolbar *toolbar;
+
+@end
+
+
 @implementation MBBackgroundView
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        BOOL modernStyleSupported = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0;
+        _style = modernStyleSupported ? MBProgressHUDBackgroundStyleBlur : MBProgressHUDBackgroundStyleSolidColor;
+        _color = modernStyleSupported ? nil : [[UIColor blackColor] colorWithAlphaComponent:0.8];
+
+        self.clipsToBounds = YES;
+
+        [self updateForBackgroundStyle];
+    }
+    return self;
+}
+
+- (void)setStyle:(MBProgressHUDBackgroundStyle)style {
+    if (style == MBProgressHUDBackgroundStyleBlur && kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0) {
+        style = MBProgressHUDBackgroundStyleSolidColor;
+    }
+    if (_style != style) {
+        _style = style;
+        [self updateForBackgroundStyle];
+    }
+}
+
+- (void)updateForBackgroundStyle {
+    MBProgressHUDBackgroundStyle style = self.style;
+    if (style == MBProgressHUDBackgroundStyleBlur) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+        UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+        [self addSubview:effectView];
+        effectView.frame = self.bounds;
+        effectView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        self.backgroundColor = [UIColor colorWithWhite:0.8f alpha:0.6f];
+        self.layer.allowsGroupOpacity = NO;
+        self.effectView = effectView;
+#else
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectInset(self.bounds, -100.f, -100.f)];
+        toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        toolbar.barTintColor = self.color;
+        toolbar.translucent = YES;
+        toolbar.barTintColor = [UIColor colorWithWhite:0.95f alpha:0.6f];
+        [self addSubview:toolbar];
+        self.toolbar = toolbar;
+#endif
+    } else {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+        [self.effectView removeFromSuperview];
+        self.effectView = nil;
+#else
+        [self.toolbar removeFromSuperview];
+        self.toolbar = nil;
+#endif
+    }
+}
 
 @end
 

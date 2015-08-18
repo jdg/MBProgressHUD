@@ -60,6 +60,13 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 	MBProgressHUDAnimationZoomIn
 };
 
+typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
+    /// Solid color background
+    MBProgressHUDBackgroundStyleSolidColor,
+    /// UIVisualEffectView or UIToolbar.layer background view
+    MBProgressHUDBackgroundStyleBlur
+};
+
 
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
@@ -320,6 +327,14 @@ typedef NS_ENUM(NSInteger, MBProgressHUDAnimation) {
 
 
 @interface MBBackgroundView : UIView
+
+/**
+ * The background style. 
+ * Defaults to MBProgressHUDBackgroundStyleBlur on iOS 7 or later and MBProgressHUDBackgroundStyleSolidColor otherwise.
+ */
+@property (nonatomic) MBProgressHUDBackgroundStyle style;
+
+@property (nonatomic, strong) UIColor *color;
 
 @end
 
