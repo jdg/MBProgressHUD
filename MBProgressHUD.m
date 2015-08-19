@@ -458,6 +458,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.textColor = self.labelColor;
 	label.font = self.labelFont;
 	label.text = self.labelText;
+	label.numberOfLines = 0;
 	[self addSubview:label];
 	
 	detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
@@ -541,6 +542,15 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	totalSize.height += indicatorF.size.height;
 	
 	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
+	
+	// label multiple lines
+	CGFloat linesFloat = labelSize.width / maxWidth;
+	NSInteger lineNumber = (NSInteger)linesFloat;
+	if (lineNumber < linesFloat) {
+		lineNumber++;
+	}
+	labelSize.height *= lineNumber;
+	
 	labelSize.width = MIN(labelSize.width, maxWidth);
 	totalSize.width = MAX(totalSize.width, labelSize.width);
 	totalSize.height += labelSize.height;
