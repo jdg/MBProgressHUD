@@ -472,7 +472,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 /**
  *  To define the line's width
- *  if your OS version is before 7, default value is 0.5 or is 0.2
+ *  if your OS version is before 7, default value is 5.f or is 2.f
  */
 @property (nonatomic, assign) float lineWidth;
 
