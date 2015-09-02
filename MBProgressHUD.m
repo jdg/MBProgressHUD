@@ -113,11 +113,16 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Class methods
 
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUD *hud = [[self alloc] initWithView:view];
-	hud.removeFromSuperViewOnHide = YES;
-	[view addSubview:hud];
-	[hud show:animated];
-	return MB_AUTORELEASE(hud);
+    return [self showHUDAddedTo:view withColor:nil animated:animated];
+}
+
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view withColor:(UIColor *)color animated:(BOOL)animated {
+    MBProgressHUD *hud = [[self alloc] initWithView:view];
+    hud.removeFromSuperViewOnHide = YES;
+    hud.color = color;
+    [view addSubview:hud];
+    [hud show:animated];
+    return MB_AUTORELEASE(hud);
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
@@ -209,8 +214,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (id)initWithView:(UIView *)view {
-	NSAssert(view, @"View must not be nil.");
-	return [self initWithFrame:view.bounds];
+    NSAssert(view, @"View must not be nil.");
+    return [self initWithFrame:view.bounds];
 }
 
 - (id)initWithWindow:(UIWindow *)window {
