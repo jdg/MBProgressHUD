@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D286A7481518C70F00E13FB8"
                BuildableName = "libMBProgressHUD.a"
-               BlueprintName = "MBProgressHUD"
+               BlueprintName = "MBProgressHUD Static Library"
                ReferencedContainer = "container:MBProgressHUD.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,7 +44,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D286A7481518C70F00E13FB8"
             BuildableName = "libMBProgressHUD.a"
-            BlueprintName = "MBProgressHUD"
+            BlueprintName = "MBProgressHUD Static Library"
             ReferencedContainer = "container:MBProgressHUD.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
