@@ -685,12 +685,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         CGFloat lineWidth = 2.f;
         CGRect allRect = self.bounds;
         CGRect circleRect = CGRectInset(allRect, lineWidth/2.f, lineWidth/2.f);
+        CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 		[_progressTintColor setStroke];
 		[_backgroundTintColor setFill];
 		CGContextSetLineWidth(context, lineWidth);
-		CGContextFillEllipseInRect(context, circleRect);
+        if (isPreiOS7) {
+            CGContextFillEllipseInRect(context, circleRect);
+        }
 		CGContextStrokeEllipseInRect(context, circleRect);
-        CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
         // 90 degrees
         CGFloat startAngle = - ((float)M_PI / 2.f);
         // Draw progress

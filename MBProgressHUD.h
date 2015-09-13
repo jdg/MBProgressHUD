@@ -296,7 +296,8 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 @property (nonatomic, strong) UIColor *progressTintColor;
 
 /**
- * Indicator background (non-progress) color.
+ * Indicator background (non-progress) color. 
+ * Only applicable on iOS version older than iOS 7.
  * Defaults to translucent white (alpha 0.1)
  */
 @property (nonatomic, strong) UIColor *backgroundTintColor;
