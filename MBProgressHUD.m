@@ -382,6 +382,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
         ((MBBarProgressView *)indicator).progressColor = color;
         ((MBBarProgressView *)indicator).lineColor = color;
+    } else {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+        if ([indicator respondsToSelector:@selector(setTintColor:)]) {
+            [indicator setTintColor:color];
+        }
+#endif
     }
 }
 
