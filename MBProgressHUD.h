@@ -205,7 +205,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * for custom views on iOS 7+. Set to nil to manage color individually.
  * Defaults to semi-translucent black on iOS 7 and later and white on earlier iOS versions.
  */
-@property (strong, nonatomic) UIColor *color UI_APPEARANCE_SELECTOR;
+@property (strong, nonatomic) UIColor *contentColor UI_APPEARANCE_SELECTOR;
 
 /**
  * The animation type that should be used when the HUD is shown and hidden.
@@ -393,6 +393,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("Use detailsLabel.font instead.")));
 @property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("Use detailsLabel.textColor instead.")));
 @property (assign, nonatomic) CGFloat opacity __attribute__((deprecated("Customize bezelView properties instead.")));
+@property (strong, nonatomic) UIColor *color __attribute__((deprecated("Customize the bezelView color instead.")));
 @property (assign, nonatomic) CGFloat xOffset __attribute__((deprecated("Set offset.x instead.")));
 @property (assign, nonatomic) CGFloat yOffset __attribute__((deprecated("Set offset.y instead.")));
 @property (assign, nonatomic) CGFloat cornerRadius __attribute__((deprecated("Set bezelView.layer.cornerRadius instead.")));

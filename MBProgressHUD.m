@@ -24,11 +24,14 @@ static const CGFloat MBDefaultLabelFontSize = 16.f;
 static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 
-@interface MBProgressHUD ()
+@interface MBProgressHUD () {
+    // Depricated
+    UIColor *_activityIndicatorColor;
+    CGFloat _opacity;
+}
 
 @property (nonatomic, assign) BOOL useAnimation;
 @property (nonatomic, assign, getter=hasFinished) BOOL finished;
-@property (nonatomic, assign, readwrite) CGSize size;
 @property (nonatomic, strong) UIView *indicator;
 @property (nonatomic, strong) NSTimer *graceTimer;
 @property (nonatomic, strong) NSTimer *minShowTimer;
@@ -40,7 +43,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 // Deprecated
 @property (copy) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
-@property (strong, nonatomic) UIColor *activityIndicatorColor;
 
 @end
 
@@ -85,10 +87,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_animationType = MBProgressHUDAnimationFade;
 		_mode = MBProgressHUDModeIndeterminate;
 		_margin = 20.0f;
+        _opacity = 1.f;
 
         // Default color, depending on the current iOS version
         BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
-        _color = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
+        _contentColor = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
 		// Transparent background
 		self.opaque = NO;
 		self.backgroundColor = [UIColor clearColor];
@@ -189,7 +192,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
 	} else {
-		self.bezelView.alpha = 1.f;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+		self.bezelView.alpha = self.opacity;
+#pragma clang diagnostic pop
         self.backgroundView.alpha = 1.f;
 	}
 }
@@ -233,7 +239,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         } else if (!animatingIn && type == MBProgressHUDAnimationZoomOut) {
             bezelView.transform = small;
         }
-        bezelView.alpha = animatingIn ? 1.f : 0.f;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        bezelView.alpha = animatingIn ? self.opacity : 0.f;
+#pragma clang diagnostic pop
         self.backgroundView.alpha = animatingIn ? 1.f : 0.f;
     };
 
@@ -267,7 +276,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - UI
 
 - (void)setupViews {
-    UIColor *defaultColor = self.color;
+    UIColor *defaultColor = self.contentColor;
 
     MBBackgroundView *backgroundView = [[MBBackgroundView alloc] initWithFrame:self.bounds];
     backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
@@ -369,7 +378,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [(id)indicator setValue:@(self.progress) forKey:@"progress"];
     }
 
-    [self updateViewsForColor:self.color];
+    [self updateViewsForColor:self.contentColor];
     [self setNeedsUpdateConstraints];
 }
 
@@ -379,10 +388,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.label.textColor = color;
     self.detailsLabel.textColor = color;
 
-    // Deprecated
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.activityIndicatorColor) {
         color = self.activityIndicatorColor;
     }
+#pragma clang diagnostic pop
 
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
@@ -554,10 +565,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
-- (void)setColor:(UIColor *)color {
-    if (color != _color && ![color isEqual:_color]) {
-        _color = color;
-        [self updateViewsForColor:color];
+- (void)setContentColor:(UIColor *)contentColor {
+    if (contentColor != _contentColor && ![contentColor isEqual:_contentColor]) {
+        _contentColor = contentColor;
+        [self updateViewsForColor:contentColor];
     }
 }
 
@@ -1128,18 +1139,21 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (CGFloat)opacity {
-    // TODO: forward when appropriate
-    return 1.f;
+    return _opacity;
 }
 
 - (void)setOpacity:(CGFloat)opacity {
     MBMainThreadAssert();
-    // TODO: forward when appropriate
+    _opacity = opacity;
+}
+
+- (UIColor *)color {
+    return self.bezelView.color;
 }
 
 - (void)setColor:(UIColor *)color {
     MBMainThreadAssert();
-    // TODO: forward when appropriate
+    self.bezelView.color = color;
 }
 
 - (CGFloat)yOffset {
@@ -1183,6 +1197,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (CGSize)size {
     return self.bezelView.frame.size;
+}
+
+- (UIColor *)activityIndicatorColor {
+    return _activityIndicatorColor;
 }
 
 - (void)setActivityIndicatorColor:(UIColor *)activityIndicatorColor {
