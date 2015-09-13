@@ -249,6 +249,11 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 @property (strong, nonatomic, readonly) MBBackgroundView *bezelView;
 
 /**
+ *
+ */
+@property (strong, nonatomic, readonly) MBBackgroundView *backgroundView;
+
+/**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * The view should implement intrinsicContentSize for proper sizing. For best results use approximately 37 by 37 pixel.
  */

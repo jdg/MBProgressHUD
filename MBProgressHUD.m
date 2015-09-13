@@ -189,7 +189,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
 	} else {
-		self.bezelView.alpha = 1.0f;
+		self.bezelView.alpha = 1.f;
+        self.backgroundView.alpha = 1.f;
 	}
 }
 
@@ -199,7 +200,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [self done];
         }];
 	} else {
-		self.bezelView.alpha = 0.0f;
+		self.bezelView.alpha = 0.f;
+        self.backgroundView.alpha = 1.f;
 		[self done];
 	}
 	self.showStarted = nil;
@@ -232,6 +234,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             bezelView.transform = small;
         }
         bezelView.alpha = animatingIn ? 1.f : 0.f;
+        self.backgroundView.alpha = animatingIn ? 1.f : 0.f;
     };
 
     // Spring animations are nicer, but only available on iOS 7+
@@ -265,6 +268,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)setupViews {
     UIColor *defaultColor = self.color;
+
+    MBBackgroundView *backgroundView = [[MBBackgroundView alloc] initWithFrame:self.bounds];
+    backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    backgroundView.alpha = 0.f;
+    [self addSubview:backgroundView];
+    _backgroundView = backgroundView;
 
     MBBackgroundView *bezelView = [MBBackgroundView new];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1159,13 +1170,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (BOOL)dimBackground {
-    // TODO: forward when appropriate
-    return NO;
+    MBBackgroundView *backgroundView = self.backgroundView;
+    UIColor *dimmedColor =  [UIColor colorWithWhite:0.f alpha:.2f];
+    return backgroundView.style == MBProgressHUDBackgroundStyleSolidColor && [backgroundView.color isEqual:dimmedColor];
 }
 
 - (void)setDimBackground:(BOOL)dimBackground {
     MBMainThreadAssert();
-    // TODO: forward when appropriate
+    self.backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+    self.backgroundView.color = dimBackground ? [UIColor colorWithWhite:0.f alpha:.2f] : [UIColor clearColor];
 }
 
 - (CGSize)size {
