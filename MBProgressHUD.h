@@ -95,6 +95,8 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  */
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
+/// @name Showing and hiding
+
 /**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
@@ -169,6 +171,30 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  */
 @property (weak, nonatomic) id<MBProgressHUDDelegate> delegate;
 
+/*
+ * Grace period is the time (in seconds) that the invoked method may be run without
+ * showing the HUD. If the task finishes before the grace time runs out, the HUD will
+ * not be shown at all.
+ * This may be used to prevent HUD display for very short tasks.
+ * Defaults to 0 (no grace time).
+ */
+@property (assign, nonatomic) NSTimeInterval graceTime;
+
+/**
+ * The minimum time (in seconds) that the HUD is shown.
+ * This avoids the problem of the HUD being shown and than instantly hidden.
+ * Defaults to 0 (no minimum show time).
+ */
+@property (assign, nonatomic) NSTimeInterval minShowTime;
+
+/**
+ * Removes the HUD from its parent view when hidden.
+ * Defaults to NO.
+ */
+@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
+
+/// @name Appearance
+
 /** 
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  */
@@ -178,6 +204,37 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * The animation type that should be used when the HUD is shown and hidden.
  */
 @property (assign, nonatomic) MBProgressHUDAnimation animationType;
+
+/**
+ * The bezel offset relative to the centre of the view.
+ */
+@property (assign, nonatomic) CGPoint offset;
+
+/**
+ * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views).
+ * This also represents the minimum bezel distance to the edge of the HUD view.
+ * Defaults to 20.f
+ */
+@property (assign, nonatomic) CGFloat margin;
+
+/**
+ * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
+ */
+@property (assign, nonatomic) CGSize minSize;
+
+/**
+ * Force the HUD dimensions to be equal if possible.
+ */
+@property (assign, nonatomic, getter = isSquare) BOOL square;
+
+/// @name Progress
+
+/**
+ * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0.
+ */
+@property (assign, nonatomic) float progress;
+
+/// @name Views
 
 /**
  * The view containing the labels and indicator (or customView).
@@ -200,55 +257,6 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * A label that holds an optional details message displayed below the labelText message. The details text can span multiple lines.
  */
 @property (strong, nonatomic, readonly) UILabel *detailsLabel;
-
-/**
- * The bezel offset relative to the centre of the view.
- */
-@property (assign, nonatomic) CGPoint offset;
-
-/**
- * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views). 
- * This also represents the minimum bezel distance to the edge of the HUD view.
- * Defaults to 20.f
- */
-@property (assign, nonatomic) CGFloat margin;
-
-/**
- * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
- */
-@property (assign, nonatomic) CGSize minSize;
-
-/**
- * Force the HUD dimensions to be equal if possible.
- */
-@property (assign, nonatomic, getter = isSquare) BOOL square;
-
-/*
- * Grace period is the time (in seconds) that the invoked method may be run without 
- * showing the HUD. If the task finishes before the grace time runs out, the HUD will
- * not be shown at all. 
- * This may be used to prevent HUD display for very short tasks.
- * Defaults to 0 (no grace time).
- */
-@property (assign, nonatomic) NSTimeInterval graceTime;
-
-/**
- * The minimum time (in seconds) that the HUD is shown. 
- * This avoids the problem of the HUD being shown and than instantly hidden.
- * Defaults to 0 (no minimum show time).
- */
-@property (assign, nonatomic) NSTimeInterval minShowTime;
-
-/**
- * Removes the HUD from its parent view when hidden. 
- * Defaults to NO. 
- */
-@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
-
-/** 
- * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0. 
- */
-@property (assign, nonatomic) float progress;
 
 @end
 
