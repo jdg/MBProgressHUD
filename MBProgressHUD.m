@@ -620,19 +620,37 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_annular = NO;
 		_progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
 		_backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];
-		[self registerForKVO];
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[self unregisterFromKVO];
 }
 
 #pragma mark - Layout
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(37.f, 37.f);
+}
+
+#pragma mark - Properties
+
+- (void)setProgress:(float)progress {
+    if (progress != _progress) {
+        _progress = progress;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setProgressTintColor:(UIColor *)progressTintColor {
+    if (progressTintColor != _progressTintColor && ![progressTintColor isEqual:_progressTintColor]) {
+        _progressTintColor = progressTintColor;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setBackgroundTintColor:(UIColor *)backgroundTintColor {
+    if (backgroundTintColor != _backgroundTintColor && ![backgroundTintColor isEqual:_backgroundTintColor]) {
+        _backgroundTintColor = backgroundTintColor;
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark - Drawing
@@ -685,28 +703,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	}
 }
 
-#pragma mark - KVO
-
-- (void)registerForKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
-	}
-}
-
-- (void)unregisterFromKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self removeObserver:self forKeyPath:keyPath];
-	}
-}
-
-- (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"progressTintColor", @"backgroundTintColor", @"progress", @"annular", nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	[self setNeedsDisplay];
-}
-
 @end
 
 
@@ -727,19 +723,39 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_progressRemainingColor = [UIColor clearColor];
 		self.backgroundColor = [UIColor clearColor];
 		self.opaque = NO;
-		[self registerForKVO];
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[self unregisterFromKVO];
 }
 
 #pragma mark - Layout
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(120.f, 20.f);
+}
+
+#pragma mark - Properties
+
+// @"lineColor", @"progressRemainingColor", @"progressColor", @"progress"
+
+- (void)setProgress:(float)progress {
+    if (progress != _progress) {
+        _progress = progress;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setProgressColor:(UIColor *)progressColor {
+    if (progressColor != _progressColor && ![progressColor isEqual:_progressColor]) {
+        _progressColor = progressColor;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setProgressRemainingColor:(UIColor *)progressRemainingColor {
+    if (progressRemainingColor != _progressRemainingColor && ![progressRemainingColor isEqual:_progressRemainingColor]) {
+        _progressRemainingColor = progressRemainingColor;
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark - Drawing
@@ -826,28 +842,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		
 		CGContextFillPath(context);
 	}
-}
-
-#pragma mark - KVO
-
-- (void)registerForKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
-	}
-}
-
-- (void)unregisterFromKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
-		[self removeObserver:self forKeyPath:keyPath];
-	}
-}
-
-- (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"lineColor", @"progressRemainingColor", @"progressColor", @"progress", nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	[self setNeedsDisplay];
 }
 
 @end
