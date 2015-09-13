@@ -86,6 +86,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_mode = MBProgressHUDModeIndeterminate;
 		_margin = 20.0f;
 
+        // Default color, depending on the current iOS version
+        BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+        _color = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
 		// Transparent background
 		self.opaque = NO;
 		self.backgroundColor = [UIColor clearColor];
@@ -261,7 +264,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - UI
 
 - (void)setupViews {
-    UIColor *defaultColor = [UIColor colorWithRed:0.394f green:0.441f blue:0.491f alpha:1.f];
+    UIColor *defaultColor = self.color;
 
     MBBackgroundView *bezelView = [MBBackgroundView new];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -307,6 +310,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateIndicators {
+    UIColor *defaultColor = self.color;
     UIView *indicator = self.indicator;
 	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
@@ -317,25 +321,21 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 			// Update to indeterminate indicator
 			[indicator removeFromSuperview];
 			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [(UIActivityIndicatorView *)indicator setColor:[UIColor colorWithRed:0.394f green:0.441f blue:0.491f alpha:1.f]];
 			[(UIActivityIndicatorView *)indicator startAnimating];
 			[self.bezelView addSubview:indicator];
 		}
-        if (self.activityIndicatorColor) {
-            [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
-        }
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
 		[indicator removeFromSuperview];
-		indicator = [[MBBarProgressView alloc] init];
+        indicator = [[MBBarProgressView alloc] init];
 		[self.bezelView addSubview:indicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
 		if (!isRoundIndicator) {
 			// Update to determinante indicator
 			[indicator removeFromSuperview];
-			indicator = [[MBRoundProgressView alloc] init];
+            indicator = [[MBRoundProgressView alloc] init];
 			[self.bezelView addSubview:indicator];
 		}
 		if (mode == MBProgressHUDModeAnnularDeterminate) {
@@ -359,7 +359,31 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [(id)indicator setValue:@(self.progress) forKey:@"progress"];
     }
 
+    [self updateViewsForColor:self.color];
     [self setNeedsUpdateConstraints];
+}
+
+- (void)updateViewsForColor:(UIColor *)color {
+    if (!color) return;
+
+    self.label.textColor = color;
+    self.detailsLabel.textColor = color;
+
+    // Deprecated
+    if (self.activityIndicatorColor) {
+        color = self.activityIndicatorColor;
+    }
+
+    UIView *indicator = self.indicator;
+    if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
+        ((UIActivityIndicatorView *)indicator).color = color;
+    } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
+        ((MBRoundProgressView *)indicator).progressTintColor = color;
+        ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
+    } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
+        ((MBBarProgressView *)indicator).progressColor = color;
+        ((MBBarProgressView *)indicator).lineColor = color;
+    }
 }
 
 #pragma mark - Layout
@@ -511,6 +535,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         if ([indicator respondsToSelector:@selector(setProgress:)]) {
             [(id)indicator setValue:@(self.progress) forKey:@"progress"];
         }
+    }
+}
+
+- (void)setColor:(UIColor *)color {
+    if (color != _color && ![color isEqual:_color]) {
+        _color = color;
+        [self updateViewsForColor:color];
     }
 }
 
@@ -1081,11 +1112,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setOpacity:(CGFloat)opacity {
     MBMainThreadAssert();
     // TODO: forward when appropriate
-}
-
-- (UIColor *)color {
-    // TODO: forward when appropriate
-    return nil;
 }
 
 - (void)setColor:(UIColor *)color {

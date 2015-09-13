@@ -201,31 +201,37 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 @property (assign, nonatomic) MBProgressHUDMode mode;
 
 /**
+ * A color that gets forwarded to all labels and supported indicators. Set to nil to manage color individually.
+ * Defaults to semi-translucent black on iOS 7 and later and white on earlier iOS versions.
+ */
+@property (strong, nonatomic) UIColor *color;
+
+/**
  * The animation type that should be used when the HUD is shown and hidden.
  */
-@property (assign, nonatomic) MBProgressHUDAnimation animationType;
+@property (assign, nonatomic) MBProgressHUDAnimation animationType UI_APPEARANCE_SELECTOR;
 
 /**
  * The bezel offset relative to the centre of the view.
  */
-@property (assign, nonatomic) CGPoint offset;
+@property (assign, nonatomic) CGPoint offset UI_APPEARANCE_SELECTOR;
 
 /**
  * The amount of space between the HUD edge and the HUD elements (labels, indicators or custom views).
  * This also represents the minimum bezel distance to the edge of the HUD view.
  * Defaults to 20.f
  */
-@property (assign, nonatomic) CGFloat margin;
+@property (assign, nonatomic) CGFloat margin UI_APPEARANCE_SELECTOR;
 
 /**
  * The minimum size of the HUD bezel. Defaults to CGSizeZero (no minimum size).
  */
-@property (assign, nonatomic) CGSize minSize;
+@property (assign, nonatomic) CGSize minSize UI_APPEARANCE_SELECTOR;
 
 /**
  * Force the HUD dimensions to be equal if possible.
  */
-@property (assign, nonatomic, getter = isSquare) BOOL square;
+@property (assign, nonatomic, getter = isSquare) BOOL square UI_APPEARANCE_SELECTOR;
 
 /// @name Progress
 
@@ -380,7 +386,6 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("Use detailsLabel.font instead.")));
 @property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("Use detailsLabel.textColor instead.")));
 @property (assign, nonatomic) CGFloat opacity __attribute__((deprecated("Customize bezelView properties instead.")));
-@property (strong, nonatomic) UIColor *color __attribute__((deprecated("Customize bezelView properties instead.")));
 @property (assign, nonatomic) CGFloat xOffset __attribute__((deprecated("Set offset.x instead.")));
 @property (assign, nonatomic) CGFloat yOffset __attribute__((deprecated("Set offset.y instead.")));
 @property (assign, nonatomic) CGFloat cornerRadius __attribute__((deprecated("Set bezelView.layer.cornerRadius instead.")));
