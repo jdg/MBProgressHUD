@@ -742,7 +742,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Layout
 
 - (CGSize)intrinsicContentSize {
-    return CGSizeMake(120.f, 20.f);
+    BOOL isPreiOS7 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+    return CGSizeMake(120.f, isPreiOS7 ? 20.f : 10.f);
 }
 
 #pragma mark - Properties
