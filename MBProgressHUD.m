@@ -735,8 +735,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - Properties
 
-// @"lineColor", @"progressRemainingColor", @"progressColor", @"progress"
-
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
