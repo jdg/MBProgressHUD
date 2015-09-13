@@ -204,7 +204,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * A color that gets forwarded to all labels and supported indicators. Set to nil to manage color individually.
  * Defaults to semi-translucent black on iOS 7 and later and white on earlier iOS versions.
  */
-@property (strong, nonatomic) UIColor *color;
+@property (strong, nonatomic) UIColor *color UI_APPEARANCE_SELECTOR;
 
 /**
  * The animation type that should be used when the HUD is shown and hidden.
