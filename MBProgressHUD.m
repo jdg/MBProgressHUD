@@ -839,9 +839,17 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        BOOL modernStyleSupported = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0;
-        _style = modernStyleSupported ? MBProgressHUDBackgroundStyleBlur : MBProgressHUDBackgroundStyleSolidColor;
-        _color = modernStyleSupported ? nil : [[UIColor blackColor] colorWithAlphaComponent:0.8];
+        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
+            _style = MBProgressHUDBackgroundStyleBlur;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+            _color = [UIColor colorWithWhite:0.8f alpha:0.6f];
+#else
+            _color = [UIColor colorWithWhite:0.95f alpha:0.6f];
+#endif
+        } else {
+            _style = MBProgressHUDBackgroundStyleSolidColor;
+            _color = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+        }
 
         self.clipsToBounds = YES;
 
@@ -849,6 +857,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
     return self;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Appearance
 
 - (void)setStyle:(MBProgressHUDBackgroundStyle)style {
     if (style == MBProgressHUDBackgroundStyleBlur && kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0) {
@@ -860,6 +871,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
+- (void)setColor:(UIColor *)color {
+    if (color != _color && ![color isEqual:_color]) {
+        _color = color;
+        [self updateViewsForColor:color];
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Views
+
 - (void)updateForBackgroundStyle {
     MBProgressHUDBackgroundStyle style = self.style;
     if (style == MBProgressHUDBackgroundStyleBlur) {
@@ -869,7 +890,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [self addSubview:effectView];
         effectView.frame = self.bounds;
         effectView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        self.backgroundColor = [UIColor colorWithWhite:0.8f alpha:0.6f];
+        self.backgroundColor = self.color;
         self.layer.allowsGroupOpacity = NO;
         self.effectView = effectView;
 #else
@@ -877,7 +898,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         toolbar.barTintColor = self.color;
         toolbar.translucent = YES;
-        toolbar.barTintColor = [UIColor colorWithWhite:0.95f alpha:0.6f];
+        toolbar.barTintColor = color;
         [self addSubview:toolbar];
         self.toolbar = toolbar;
 #endif
@@ -889,6 +910,19 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [self.toolbar removeFromSuperview];
         self.toolbar = nil;
 #endif
+        self.backgroundColor = self.color;
+    }
+}
+
+- (void)updateViewsForColor:(UIColor *)color {
+    if (self.style == MBProgressHUDBackgroundStyleBlur) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+        self.backgroundColor = self.color;
+#else
+        self.toolbar.barTintColor = color;
+#endif
+    } else {
+        self.backgroundColor = self.color;
     }
 }
 

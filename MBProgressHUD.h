@@ -331,9 +331,14 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 /**
  * The background style. 
  * Defaults to MBProgressHUDBackgroundStyleBlur on iOS 7 or later and MBProgressHUDBackgroundStyleSolidColor otherwise.
+ * @note Due to iOS 7 not supporting UIVisualEffectView the blur effect differs slightly between iOS 7 and later versions.
  */
 @property (nonatomic) MBProgressHUDBackgroundStyle style;
 
+/**
+ * The background color or the blur tint color.
+ * @note Due to iOS 7 not supporting UIVisualEffectView the blur effect differs slightly between iOS 7 and later versions.
+ */
 @property (nonatomic, strong) UIColor *color;
 
 @end
