@@ -88,7 +88,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	MBExample *example = self.examples[indexPath.row];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[self performSelector:example.selector];
+#pragma clang diagnostic pop
 
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
