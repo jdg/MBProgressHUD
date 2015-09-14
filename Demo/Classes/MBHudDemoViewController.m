@@ -44,27 +44,49 @@
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	self.examples =
-	@[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"With label" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"With details label" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"On window" selector:@selector(simple)]],
-	  @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(simple)]],
-	  @[[MBExample exampleWithTitle:@"Custom view" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"Text only" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"Mode switching" selector:@selector(simple)]],
-	  @[[MBExample exampleWithTitle:@"NSURLConnection" selector:@selector(simple)]],
-	  @[[MBExample exampleWithTitle:@"Dim background" selector:@selector(simple)],
-		[MBExample exampleWithTitle:@"Colored" selector:@selector(simple)]]
+	@[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"With label" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"With details label" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)]],
+	  @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(indeterminateExample)]],
+	  @[[MBExample exampleWithTitle:@"Custom view" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"Text only" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"Mode switching" selector:@selector(indeterminateExample)]],
+	  @[[MBExample exampleWithTitle:@"NSURLConnection" selector:@selector(indeterminateExample)]],
+	  @[[MBExample exampleWithTitle:@"Dim background" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"Colored" selector:@selector(indeterminateExample)]]
 	  ];
 }
 
 #pragma mark - Examples
 
-- (void)simple {
+- (void)indeterminateExample {
+	// Show the HUD on the root view (self.view is a scrollable table view and thus not suitable,
+	// as the HUD would move with the content as we scroll).
 	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-	[hud hideAnimated:YES afterDelay:3.f];
+
+	// Fire off an asynchronous task, giving UIKit the opportunity to redraw wit the HUD added to the
+	// view hierarchy.
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+
+		// Do something useful in the background
+		[self doSomeWork];
+
+		// IMPORTANT - Dispatch back to the main thread. Always access UI
+		// classes (including MBProgressHUD) on the main thread.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+	});
+}
+
+#pragma mark - Tasks
+
+- (void)doSomeWork {
+	// Simulate by just waiting.
+	sleep(3.);
 }
 
 #pragma mark - UITableViewDelegate
