@@ -81,7 +81,7 @@
 	MBExample *example = self.examples[indexPath.section][indexPath.row];
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MBExampleCell" forIndexPath:indexPath];
 	cell.textLabel.text = example.title;
-	cell.textLabel.textColor = [UIColor colorWithRed:0.393f green:0.467f blue:0.572f alpha:1.f];
+	cell.textLabel.textColor = self.view.tintColor;
 	cell.textLabel.textAlignment = NSTextAlignmentCenter;
 	cell.selectedBackgroundView = [UIView new];
 	cell.selectedBackgroundView.backgroundColor = [cell.textLabel.textColor colorWithAlphaComponent:0.5];
