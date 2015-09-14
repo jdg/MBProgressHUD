@@ -32,7 +32,7 @@
 
 @interface MBHudDemoViewController ()
 
-@property (nonatomic, strong) NSArray<MBExample *> *examples;
+@property (nonatomic, strong) NSArray<NSArray<MBExample *> *> *examples;
 
 @end
 
@@ -44,20 +44,20 @@
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	self.examples =
-	@[[MBExample exampleWithTitle:@"Indeterminate progress" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"With label" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"With details label" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Determinate mode" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Custom view" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Mode switching" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Using blocks" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"On window" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"NSURLConnection" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Dim background" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Text only" selector:@selector(simple)],
-	  [MBExample exampleWithTitle:@"Colored" selector:@selector(simple)]];
+	@[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"With label" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"With details label" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"On window" selector:@selector(simple)]],
+	  @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(simple)]],
+	  @[[MBExample exampleWithTitle:@"Custom view" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"Text only" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"Mode switching" selector:@selector(simple)]],
+	  @[[MBExample exampleWithTitle:@"NSURLConnection" selector:@selector(simple)]],
+	  @[[MBExample exampleWithTitle:@"Dim background" selector:@selector(simple)],
+		[MBExample exampleWithTitle:@"Colored" selector:@selector(simple)]]
+	  ];
 }
 
 #pragma mark - Examples
@@ -69,12 +69,16 @@
 
 #pragma mark - UITableViewDelegate
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return self.examples.count;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return self.examples[section].count;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	MBExample *example = self.examples[indexPath.row];
+	MBExample *example = self.examples[indexPath.section][indexPath.row];
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MBExampleCell" forIndexPath:indexPath];
 	cell.textLabel.text = example.title;
 	cell.textLabel.textColor = [UIColor colorWithRed:0.393f green:0.467f blue:0.572f alpha:1.f];
@@ -87,7 +91,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	MBExample *example = self.examples[indexPath.row];
+	MBExample *example = self.examples[indexPath.section][indexPath.row];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	[self performSelector:example.selector];
