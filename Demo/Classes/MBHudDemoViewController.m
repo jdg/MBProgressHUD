@@ -84,7 +84,7 @@
 	cell.textLabel.textColor = self.view.tintColor;
 	cell.textLabel.textAlignment = NSTextAlignmentCenter;
 	cell.selectedBackgroundView = [UIView new];
-	cell.selectedBackgroundView.backgroundColor = [cell.textLabel.textColor colorWithAlphaComponent:0.5];
+	cell.selectedBackgroundView.backgroundColor = [cell.textLabel.textColor colorWithAlphaComponent:0.1f];
 	return cell;
 }
 
