@@ -45,8 +45,8 @@
 	[super awakeFromNib];
 	self.examples =
 	@[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
-		[MBExample exampleWithTitle:@"With label" selector:@selector(indeterminateExample)],
-		[MBExample exampleWithTitle:@"With details label" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"With label" selector:@selector(labelExample)],
+		[MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)],
 		[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)]],
 	  @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(indeterminateExample)],
 		[MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(indeterminateExample)],
@@ -76,6 +76,49 @@
 
 		// IMPORTANT - Dispatch back to the main thread. Always access UI
 		// classes (including MBProgressHUD) on the main thread.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+	});
+}
+
+- (void)labelExample {
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+	// Set the label text.
+	hud.label.text = NSLocalizedString(@"Loading...", @"HUD title");
+	// You can also adjust other label properties if needed.
+	// hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[self doSomeWork];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+	});
+}
+
+- (void)detailsLabelExample {
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+
+	// Set the label text.
+	hud.label.text = NSLocalizedString(@"Loading...", @"HUD title");
+	// Set the details label text. Let's make it multiline this time.
+	hud.detailsLabel.text = NSLocalizedString(@"Parsing data\n(1/1)", @"HUD title");
+
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[self doSomeWork];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+	});
+}
+
+- (void)windowExample {
+	// Covers the entire screen. Similar to using the root view controller view.
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[self doSomeWork];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[hud hideAnimated:YES];
 		});
