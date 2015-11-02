@@ -69,6 +69,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @property (atomic, MB_STRONG) NSTimer *graceTimer;
 @property (atomic, MB_STRONG) NSTimer *minShowTimer;
 @property (atomic, MB_STRONG) NSDate *showStarted;
+@property (atomic, MB_STRONG) UIView *label;
 
 @end
 
@@ -77,6 +78,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Properties
 
+@synthesize label = label;
 @synthesize animationType;
 @synthesize delegate;
 @synthesize opacity;
