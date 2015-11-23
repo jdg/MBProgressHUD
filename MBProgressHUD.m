@@ -743,11 +743,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             UIBezierPath *processPath = [UIBezierPath bezierPath];
             processPath.lineCapStyle = kCGLineCapButt;
             processPath.lineWidth = lineWidth * 2.f;
-            CGFloat radius = (CGRectGetWidth(self.bounds) / 2.f) - (processPath.lineWidth / 2.f) - lineWidth;
+            CGFloat radius = (CGRectGetWidth(self.bounds) / 2.f) - (processPath.lineWidth / 2.f);
             CGFloat endAngle = (self.progress * 2.f * (float)M_PI) + startAngle;
             [processPath addArcWithCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+            // Ensure that we don't get color overlaping when _progressTintColor alpha < 1.f.
+            CGContextSetBlendMode(context, kCGBlendModeCopy);
             [_progressTintColor set];
             [processPath stroke];
+            
         }
 	}
 }
