@@ -750,7 +750,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             CGContextSetBlendMode(context, kCGBlendModeCopy);
             [_progressTintColor set];
             [processPath stroke];
-            
         }
 	}
 }
