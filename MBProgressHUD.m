@@ -534,7 +534,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGRect bounds = self.bounds;
 	
 	// Determine the total widt and height needed
-	CGFloat maxWidth = bounds.size.width - 4 * margin;
+	CGFloat maxWidth = bounds.size.width - 2 * margin;
 	CGSize totalSize = CGSizeZero;
 	
 	CGRect indicatorF = indicator.bounds;
@@ -550,7 +550,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height += kPadding;
 	}
 
-	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
+	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 2 * margin; 
 	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
 	CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
 	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
