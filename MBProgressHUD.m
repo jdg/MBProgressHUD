@@ -304,9 +304,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = defaultColor;
 	label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
+    [label setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
+    [label setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 	[bezelView addSubview:label];
     _label = label;
-	
+
 	UILabel *detailsLabel = [UILabel new];
     detailsLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
@@ -316,6 +318,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 	detailsLabel.textColor = defaultColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
+    [detailsLabel setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
+    [detailsLabel setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 	[bezelView addSubview:detailsLabel];
     _detailsLabel = detailsLabel;
 
@@ -380,6 +384,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if ([indicator respondsToSelector:@selector(setProgress:)]) {
         [(id)indicator setValue:@(self.progress) forKey:@"progress"];
     }
+
+    [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
+    [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 
     [self updateViewsForColor:self.contentColor];
     [self setNeedsUpdateConstraints];
@@ -525,9 +532,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [bezel addConstraint:padding];
             [paddingConstraints addObject:padding];
         }
-        // Make it harder to compress items if the HUD is pushed off center
-        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
-        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
     }];
 
     self.paddingConstraints = [paddingConstraints copy];
