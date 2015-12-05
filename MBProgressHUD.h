@@ -238,6 +238,12 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  */
 @property (assign, nonatomic, getter = isSquare) BOOL square UI_APPEARANCE_SELECTOR;
 
+/**
+ * When enabled, the bezel center gets slightly affected by the device accelerometer data.
+ * Has no effect on iOS < 7.0. Defaults to YES.
+ */
+@property (assign, nonatomic, getter=areDefaultMotionEffectsEnabled) BOOL defaultMotionEffectsEnabled UI_APPEARANCE_SELECTOR;
+
 /// @name Progress
 
 /**

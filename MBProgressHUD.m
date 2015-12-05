@@ -89,6 +89,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 		_mode = MBProgressHUDModeIndeterminate;
 		_margin = 20.0f;
         _opacity = 1.f;
+        _defaultMotionEffectsEnabled = YES;
 
         // Default color, depending on the current iOS version
         BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
@@ -293,6 +294,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     bezelView.alpha = 0.f;
     [self addSubview:bezelView];
     _bezelView = bezelView;
+    [self updateBezelMotionEffects];
 
 	UILabel *label = [UILabel new];
     label.translatesAutoresizingMaskIntoConstraints = NO;
@@ -412,6 +414,34 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
 #endif
     }
+}
+
+- (void)updateBezelMotionEffects {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+    MBBackgroundView *bezelView = self.bezelView;
+    if (![bezelView respondsToSelector:@selector(addMotionEffect:)]) return;
+
+    if (self.defaultMotionEffectsEnabled) {
+        CGFloat effectOffset = 10.f;
+        UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        effectX.maximumRelativeValue = @(effectOffset);
+        effectX.minimumRelativeValue = @(-effectOffset);
+
+        UIInterpolatingMotionEffect *effectY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        effectY.maximumRelativeValue = @(effectOffset);
+        effectY.minimumRelativeValue = @(-effectOffset);
+
+        UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc] init];
+        group.motionEffects = @[effectX, effectY];
+
+        [bezelView addMotionEffect:group];
+    } else {
+        NSArray *effects = [bezelView motionEffects];
+        for (UIMotionEffect *effect in effects) {
+            [bezelView removeMotionEffect:effect];
+        }
+    }
+#endif
 }
 
 #pragma mark - Layout
@@ -590,6 +620,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (contentColor != _contentColor && ![contentColor isEqual:_contentColor]) {
         _contentColor = contentColor;
         [self updateViewsForColor:contentColor];
+    }
+}
+
+- (void)setDefaultMotionEffectsEnabled:(BOOL)defaultMotionEffectsEnabled {
+    if (defaultMotionEffectsEnabled != _defaultMotionEffectsEnabled) {
+        _defaultMotionEffectsEnabled = defaultMotionEffectsEnabled;
+        [self updateBezelMotionEffects];
     }
 }
 
