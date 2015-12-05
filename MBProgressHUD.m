@@ -932,7 +932,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     return self;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Appearance
 
 - (void)setStyle:(MBProgressHUDBackgroundStyle)style {
