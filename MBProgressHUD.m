@@ -18,6 +18,7 @@
 
 #define MBMainThreadAssert() NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
 
+CGFloat const MBProgressMaxOffset = 1000000.f;
 
 static const CGFloat MBDefaultPadding = 4.f;
 static const CGFloat MBDefaultLabelFontSize = 16.f;
@@ -429,29 +430,39 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self removeConstraints:self.constraints];
     [bezel removeConstraints:bezel.constraints];
 
-    // Center bezel in container (self)
+    // Bump content hugging, to get the smallest bezel posible
+    [bezel setContentHuggingPriority:UILayoutPriorityDefaultLow + 1 forAxis:UILayoutConstraintAxisHorizontal];
+    [bezel setContentHuggingPriority:UILayoutPriorityDefaultLow + 1 forAxis:UILayoutConstraintAxisVertical];
+
+    // Center bezel in container (self), applying the offset if set
     CGPoint offset = self.offset;
-    NSLayoutConstraint *xOffset = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:offset.x];
-    NSLayoutConstraint *yOffset = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:offset.y];
-    [self addConstraints:@[xOffset, yOffset]];
+    NSMutableArray *centeringConstraints = [NSMutableArray array];
+    [centeringConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:offset.x]];
+    [centeringConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:offset.y]];
+    [self applyPriority:998.f toConstraints:centeringConstraints];
+    [self addConstraints:centeringConstraints];
+
     // Ensure minimum side margin is kept
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    NSMutableArray *sideConstraints = [NSMutableArray array];
+    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    [self applyPriority:999.f toConstraints:sideConstraints];
+    [self addConstraints:sideConstraints];
 
     // Minimum bezel size, if set
     CGSize minimumSize = self.minSize;
     if (!CGSizeEqualToSize(minimumSize, CGSizeZero)) {
-        NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width];
-        width.priority = 999.f;
-        NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height];
-        height.priority = 999.f;
-        [bezel addConstraints:@[width, height]];
+        NSMutableArray *minSizeConstraints = [NSMutableArray array];
+        [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width]];
+        [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height]];
+        [self applyPriority:997.f toConstraints:minSizeConstraints];
+        [bezel addConstraints:minSizeConstraints];
     }
 
     // Square aspect ratio, if set
     if (self.square) {
         NSLayoutConstraint *square = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeWidth multiplier:1.f constant:0];
-        square.priority = 998.f;
+        square.priority = 997.f;
         [bezel addConstraint:square];
     }
 
@@ -484,6 +495,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [bezel addConstraint:padding];
             [paddingConstraints addObject:padding];
         }
+        // Make it harder to compress items if the HUD is pushed off center
+        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
+        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
     }];
 
     self.paddingConstraints = [paddingConstraints copy];
@@ -497,7 +511,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)updatePaddingConstraints {
     // Set padding dynamically, depending on whether the view is visible or not
-    __block BOOL hasVisibleAnchestors = NO;
+    __block BOOL hasVisibleAncestors = NO;
     [self.paddingConstraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *padding, NSUInteger idx, BOOL *stop) {
         UIView *firstView = (UIView *)padding.firstItem;
         UIView *secondView = (UIView *)padding.secondItem;
@@ -505,9 +519,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         BOOL secondVisible = !secondView.hidden && !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
         // Set if both views are visible of if there's a visible view on top that yet doesn't have padding
         // added relative to the current view
-        padding.constant = (firstVisible && (secondVisible || hasVisibleAnchestors)) ? MBDefaultPadding : 0.f;
-        hasVisibleAnchestors |= secondVisible;
+        padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding : 0.f;
+        hasVisibleAncestors |= secondVisible;
     }];
+}
+
+- (void)applyPriority:(UILayoutPriority)priority toConstraints:(NSArray *)constraints {
+    for (NSLayoutConstraint *constraint in constraints) {
+        constraint.priority = priority;
+    }
 }
 
 #pragma mark - Properties
@@ -930,6 +950,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [self updateForBackgroundStyle];
     }
     return self;
+}
+
+#pragma mark - Layout
+
+- (CGSize)intrinsicContentSize {
+    // Smallest size possible. Content pushes against this.
+    return CGSizeZero;
 }
 
 #pragma mark - Appearance

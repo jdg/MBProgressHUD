@@ -34,6 +34,8 @@
 @protocol MBProgressHUDDelegate;
 
 
+extern CGFloat const MBProgressMaxOffset;
+
 typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
 	/// UIActivityIndicatorView.
 	MBProgressHUDModeIndeterminate,
@@ -213,7 +215,9 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 @property (assign, nonatomic) MBProgressHUDAnimation animationType UI_APPEARANCE_SELECTOR;
 
 /**
- * The bezel offset relative to the centre of the view.
+ * The bezel offset relative to the center of the view. You can use MBProgressMaxOffset
+ * and -MBProgressMaxOffset to move the HUD all the way to the screen edge in each direction.
+ * E.g., CGPointMake(0.f, MBProgressMaxOffset) would position the HUD centered on the bottom edge.
  */
 @property (assign, nonatomic) CGPoint offset UI_APPEARANCE_SELECTOR;
 

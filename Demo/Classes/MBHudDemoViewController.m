@@ -195,8 +195,8 @@
 	// Set the annular determinate mode to show task progress.
 	hud.mode = MBProgressHUDModeText;
 	hud.label.text = NSLocalizedString(@"Message here!", @"HUD message title");
-	// TODO: support large values
-	//hud.offset = CGPointMake(0.f, CGFLOAT_MAX);
+	// Move to bottm center.
+	hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
 
 	[hud hideAnimated:YES afterDelay:3.f];
 }
