@@ -533,7 +533,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 	CGRect bounds = self.bounds;
 	
-	// Determine the total widt and height needed
+	// Determine the total width and height needed
 	CGFloat maxWidth = bounds.size.width - 4 * margin;
 	CGSize totalSize = CGSizeZero;
 	
