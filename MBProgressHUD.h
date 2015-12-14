@@ -471,6 +471,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (nonatomic, assign) float progress;
 
 /**
+ *  To define the line's width
+ *  if your OS version is before 7, default value is 5.f or is 2.f
+ */
+@property (nonatomic, assign) float lineWidth;
+
+/**
  * Indicator progress color.
  * Defaults to white [UIColor whiteColor]
  */

@@ -827,6 +827,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Draw background
 		BOOL isPreiOS7 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
 		CGFloat lineWidth = isPreiOS7 ? 5.f : 2.f;
+        
+        if (_lineWidth != 0) {
+            lineWidth = _lineWidth;
+        }
+        
 		UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
 		processBackgroundPath.lineWidth = lineWidth;
 		processBackgroundPath.lineCapStyle = kCGLineCapButt;
