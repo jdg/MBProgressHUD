@@ -93,7 +93,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize margin;
 @synthesize dimBackground;
 @synthesize graceTime;
-@synthesize minShowTime;
+@synthesize minShowTime = _minShowTime;
 @synthesize graceTimer;
 @synthesize minShowTimer;
 @synthesize taskInProgress;
@@ -109,6 +109,34 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif
+
+#pragma mark - Accessors
+
+- (float)minShowTime {
+	return _minShowTime;
+}
+
+- (void)setMinShowTime:(float)minShowTime {
+	if (!self.showStarted)
+	{
+		// original simple case: set the timer before show or hide is called
+		_minShowTime = minShowTime;
+	}
+	else if (!self.minShowTimer)
+	{
+		// alternate case 1: caller wants an interval set after self.showStarted is called
+		// (may occur when changing text within a running HUD, et al)
+		NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:self.showStarted];
+		_minShowTime = minShowTime + interv;
+	}
+	else							// extend time on a show timer running b
+	{
+		// alternate case 1: caller had already called hide after having set minShowTime,
+		// and now wants to extend.
+		self.minShowTimer.fireDate
+		  = [NSDate dateWithTimeInterval:minShowTime sinceDate:self.minShowTimer.fireDate];
+	}
+}
 
 #pragma mark - Class methods
 
