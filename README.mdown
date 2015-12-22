@@ -1,6 +1,8 @@
-# MBProgressHUD [![Build Status](https://travis-ci.org/matej/MBProgressHUD.svg?branch=master)](https://travis-ci.org/matej/MBProgressHUD)
+# MBProgressHUD
 
-MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features. 
+[![Build Status](https://travis-ci.org/matej/MBProgressHUD.svg?branch=master)](https://travis-ci.org/matej/MBProgressHUD) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) [![Cocoapods compatible](https://img.shields.io/cocoapods/v/MBProgressHUD.svg?style=flat)](https://cocoapods.org/pods/MBProgressHUD) [![License: MIT](https://img.shields.io/cocoapods/l/MBProgressHUD.svg?style=flat)](http://opensource.org/licenses/MIT)
+
+MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features.
 
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/1-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/1.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/2-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/2.png)
@@ -30,26 +32,32 @@ You will need the latest developer tools in order to build MBProgressHUD. Old Xc
 2. Install the pod(s) by running `pod install`.
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
+### Carthage
+
+1. Add MBProgressHUD to your Cartfile. e.g., `github "jdg/MBProgressHUD" ~> 0.9.2`
+2. Run `carthage update`
+3. Follow the rest of the [standard Carthage installation instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add MBProgressHUD to your project.
+
 ### Source files
 
 Alternatively you can directly add the `MBProgressHUD.h` and `MBProgressHUD.m` source files to your project.
 
-1. Download the [latest code version](https://github.com/matej/MBProgressHUD/archive/master.zip) or add the repository as a git submodule to your git-tracked project. 
-2. Open your project in Xcode, then drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
+1. Download the [latest code version](https://github.com/matej/MBProgressHUD/archive/master.zip) or add the repository as a git submodule to your git-tracked project.
+2. Open your project in Xcode, then drag and drop `MBProgressHUD.h` and `MBProgressHUD.m` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project.
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
 ### Static library
 
-You can also add MBProgressHUD as a static library to your project or workspace. 
+You can also add MBProgressHUD as a static library to your project or workspace.
 
-1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project. 
-2. Open your project in Xcode, then drag and drop `MBProgressHUD.xcodeproj` onto your project or workspace (use the "Product Navigator view"). 
-3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. You might also need to add `MBProgressHUD` to the Target Dependencies list. 
+1. Download the [latest code version](https://github.com/matej/MBProgressHUD/downloads) or add the repository as a git submodule to your git-tracked project.
+2. Open your project in Xcode, then drag and drop `MBProgressHUD.xcodeproj` onto your project or workspace (use the "Product Navigator view").
+3. Select your target and go to the Build phases tab. In the Link Binary With Libraries section select the add button. On the sheet find and add `libMBProgressHUD.a`. You might also need to add `MBProgressHUD` to the Target Dependencies list.
 4. Include MBProgressHUD wherever you need it with `#import <MBProgressHUD/MBProgressHUD.h>`.
 
 ## Usage
 
-The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and then spinning the task, that you want to perform, off onto a new thread. 
+The main guideline you need to follow when dealing with MBProgressHUD while running long-running tasks is keeping the main thread work-free, so the UI can be updated promptly. The recommended way of using MBProgressHUD is therefore to set it up on the main thread and then spinning the task, that you want to perform, off onto a new thread.
 
 ```objective-c
 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -61,7 +69,7 @@ dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 });
 ```
 
-If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns. 
+If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns.
 
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -94,8 +102,8 @@ For more examples, including how to use MBProgressHUD with asynchronous operatio
 
 ## License
 
-This code is distributed under the terms and conditions of the [MIT license](LICENSE). 
+This code is distributed under the terms and conditions of the [MIT license](LICENSE).
 
 ## Change-log
 
-A brief summary of each MBProgressHUD release can be found on the [wiki](https://github.com/matej/MBProgressHUD/wiki/Change-log). 
+A brief summary of each MBProgressHUD release can be found on the [wiki](https://github.com/matej/MBProgressHUD/wiki/Change-log).
