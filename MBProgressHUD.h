@@ -356,6 +356,13 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign) float cornerRadius;
 
+/**
+ * longxdragon add
+ * If the cornerRadiusAuto is YES, cornerRadius = size.height / 2
+ * Defaults to NO
+ */
+@property (assign) BOOL cornerRadiusAuto;
+
 /** 
  * Cover the HUD background view with a radial gradient. 
  */

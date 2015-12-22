@@ -182,6 +182,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.dimBackground = NO;
 		self.margin = 20.0f;
 		self.cornerRadius = 10.0f;
+        self.cornerRadiusAuto = NO;  // longxdragon add
 		self.graceTime = 0.0f;
 		self.minShowTime = 0.0f;
 		self.removeFromSuperViewOnHide = NO;
@@ -649,6 +650,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGRect boxRect = CGRectMake(round((allRect.size.width - size.width) / 2) + self.xOffset,
 								round((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
 	float radius = self.cornerRadius;
+    
+    // longxdragon add
+    if (self.cornerRadiusAuto) {
+        radius = size.height/2;
+    }
+    
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));
 	CGContextAddArc(context, CGRectGetMaxX(boxRect) - radius, CGRectGetMinY(boxRect) + radius, radius, 3 * (float)M_PI / 2, 0, 0);
