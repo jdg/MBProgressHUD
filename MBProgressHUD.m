@@ -310,6 +310,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self setNeedsDisplay];
 
+    if (mode == MBProgressHUDModeIndeterminate) {
+        if (((UIActivityIndicatorView*)indicator).isAnimating == NO) {
+            [(UIActivityIndicatorView*)indicator startAnimating];
+        }
+    }
+    
 	if (animated && animationType == MBProgressHUDAnimationZoomIn) {
 		self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
 	} else if (animated && animationType == MBProgressHUDAnimationZoomOut) {
