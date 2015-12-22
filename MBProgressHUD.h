@@ -445,6 +445,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign, getter = isSquare) BOOL square;
 
+/**
+ * Number of lines of main label. Set this property if the default is not adequate.
+ * Defaults to 1.
+ */
+@property (assign) int labelNumberOfLines;
+
 @end
 
 
