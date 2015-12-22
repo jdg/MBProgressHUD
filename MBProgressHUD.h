@@ -126,6 +126,22 @@ typedef void (^MBProgressHUDCompletionBlock)();
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
 /**
+ * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
+ *
+ * @note This method sets `removeFromSuperViewOnHide`. The HUD will automatically be removed from the view hierarchy when hidden.
+ *
+ * @param view The view that the HUD will be added to
+* @param color The color for the HUD
+ * @param animated If set to YES the HUD will appear using the current animationType. If set to NO the HUD will not use
+ * animations while appearing.
+ * @return A reference to the created HUD.
+ *
+ * @see hideHUDForView:animated:
+ * @see animationType
+ */
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view withColor:(UIColor *)color animated:(BOOL)animated;
+
+/**
  * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @note This method sets `removeFromSuperViewOnHide`. The HUD will automatically be removed from the view hierarchy when hidden.
