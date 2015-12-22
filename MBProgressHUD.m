@@ -121,11 +121,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUD *hud = [self HUDForView:view];
-	if (hud != nil) {
-		hud.removeFromSuperViewOnHide = YES;
-		[hud hide:animated];
-		return YES;
+	NSArray *huds = [MBProgressHUD allHUDsForView:view];
+	for (MBProgressHUD *hud in huds) {
+		if (hud != nil && !hud.removeFromSuperViewOnHide) {
+			hud.removeFromSuperViewOnHide = YES;
+			[hud hide:animated];
+			return YES;
+		}
 	}
 	return NO;
 }
