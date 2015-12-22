@@ -238,6 +238,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated;
 
+- (void)setTransformForCurrentOrientation:(BOOL)animated;
+
 #if NS_BLOCKS_AVAILABLE
 
 /**
