@@ -223,7 +223,20 @@ typedef void (^MBProgressHUDCompletionBlock)();
  * @see animationType
  */
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay;
-
+/**
+ * Hide the method local hud variable after a delay. This will not calls the hudWasHidden:delegate as you can not contain a valid delete for a method local variable.
+ * This is still the counterpart of the show: method. Use it to
+ * hide the hud at the end of your method and it provide you the chance to remove you super window/view if needed.
+ *
+ * @param animated If set to YES the HUD will disappear using the current animationType. If set to NO the HUD will not use
+ * animations while disappearing.
+ * @param delay Delay in seconds until the HUD is hidden.
+ * @see animationType
+ *
+ * @param completion will be called when the hud was hidden.
+ *
+ */
+- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay completion:(MBProgressHUDCompletionBlock)completion;
 /** 
  * Shows the HUD while a background task is executing in a new thread, then hides the HUD.
  *

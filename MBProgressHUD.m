@@ -280,6 +280,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
 }
 
+- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay completion:(MBProgressHUDCompletionBlock)completion
+{
+    self.completionBlock = completion;
+    [self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
+}
+
 - (void)hideDelayed:(NSNumber *)animated {
 	[self hide:[animated boolValue]];
 }
