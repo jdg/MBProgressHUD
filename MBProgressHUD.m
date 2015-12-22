@@ -277,6 +277,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+    // Cancel any previous delayed hide requests and replace them with the current one
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDelayed:) object:@NO];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDelayed:) object:@YES];
 	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
 }
 
