@@ -48,6 +48,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @end
 
 
+@interface MBProgressHUDRoundedButton : UIButton
+@end
+
+
 @implementation MBProgressHUD
 
 #pragma mark - Class methods
@@ -297,31 +301,32 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self updateBezelMotionEffects];
 
 	UILabel *label = [UILabel new];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
 	label.adjustsFontSizeToFitWidth = NO;
 	label.textAlignment = NSTextAlignmentCenter;
-	label.opaque = NO;
-	label.backgroundColor = [UIColor clearColor];
 	label.textColor = defaultColor;
 	label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
-    [label setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
-    [label setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
-	[bezelView addSubview:label];
     _label = label;
 
 	UILabel *detailsLabel = [UILabel new];
-    detailsLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	detailsLabel.adjustsFontSizeToFitWidth = NO;
 	detailsLabel.textAlignment = NSTextAlignmentCenter;
-	detailsLabel.opaque = NO;
-	detailsLabel.backgroundColor = [UIColor clearColor];
 	detailsLabel.textColor = defaultColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
-    [detailsLabel setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
-    [detailsLabel setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
-	[bezelView addSubview:detailsLabel];
     _detailsLabel = detailsLabel;
+
+    UIButton *button = [MBProgressHUDRoundedButton buttonWithType:UIButtonTypeCustom];
+    button.titleLabel.textAlignment = NSTextAlignmentCenter;
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
+    [button setTitleColor:defaultColor forState:UIControlStateNormal];
+    _button = button;
+
+    for (UIView *view in @[label, detailsLabel, button]) {
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
+        [view setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
+        [bezelView addSubview:view];
+    }
 
     UIView *topSpacer = [UIView new];
     topSpacer.translatesAutoresizingMaskIntoConstraints = NO;
@@ -397,6 +402,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     self.label.textColor = color;
     self.detailsLabel.textColor = color;
+    [self.button setTitleColor:color forState:UIControlStateNormal];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -460,7 +466,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGFloat margin = self.margin;
     NSDictionary *metrics = @{@"margin": @(margin)};
 
-    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.bottomSpacer, nil];
+    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
     if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
 
     // Remove existing constraintes
@@ -1287,6 +1293,54 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [indicator setColor:activityIndicatorColor];
         }
     }
+}
+
+@end
+
+@implementation MBProgressHUDRoundedButton
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        CALayer *layer = self.layer;
+        layer.borderWidth = 1.f;
+    }
+    return self;
+}
+
+#pragma mark - Layout
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    // Fully rounded corners.
+    CGFloat height = CGRectGetHeight(self.bounds);
+    self.layer.cornerRadius = ceil(height / 2.f);
+}
+
+- (CGSize)intrinsicContentSize {
+    // Only show, if we have associated control events.
+    if (self.allControlEvents == 0) return CGSizeZero;
+    CGSize size = [super intrinsicContentSize];
+    // Add some side padding.
+    size.width += 20.f;
+    return size;
+}
+
+#pragma mark - Color
+
+- (void)setTitleColor:(UIColor *)color forState:(UIControlState)state {
+    [super setTitleColor:color forState:state];
+    // Update related colors.
+    [self setHighlighted:self.highlighted];
+    self.layer.borderColor = color.CGColor;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    UIColor *baseColor = [self titleColorForState:UIControlStateSelected];
+    self.backgroundColor = highlighted ? [baseColor colorWithAlphaComponent:0.1f] : [UIColor clearColor];
 }
 
 @end

@@ -280,6 +280,11 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  */
 @property (strong, nonatomic, readonly) UILabel *detailsLabel;
 
+/**
+ * A button that is placed below the labels. Visible only if a target / action is added. 
+ */
+@property (strong, nonatomic, readonly) UIButton *button;
+
 @end
 
 
