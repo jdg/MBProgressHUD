@@ -277,11 +277,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay {
-	[self performSelector:@selector(hideDelayed:) withObject:[NSNumber numberWithBool:animated] afterDelay:delay];
+    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(hideDelayed:) userInfo:[NSNumber numberWithBool:animated] repeats:NO];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
-- (void)hideDelayed:(NSNumber *)animated {
-	[self hide:[animated boolValue]];
+- (void)hideDelayed:(NSTimer *)timer {
+    [self hide:[timer.userInfo boolValue]];
 }
 
 #pragma mark - Timer callbacks
