@@ -47,17 +47,17 @@
 	self.examples =
 	@[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
 		[MBExample exampleWithTitle:@"With label" selector:@selector(labelExample)],
-		[MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)],
-		[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)]],
+		[MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)]],
 	  @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(determinateExample)],
 		[MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(annularDeterminateExample)],
 		[MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(barDeterminateExample)]],
-	  @[[MBExample exampleWithTitle:@"Custom view" selector:@selector(customViewExample)],
-		[MBExample exampleWithTitle:@"Text only" selector:@selector(textExample)],
-		[MBExample exampleWithTitle:@"Cancel button" selector:@selector(cancelationExample)],
+	  @[[MBExample exampleWithTitle:@"Text only" selector:@selector(textExample)],
+		[MBExample exampleWithTitle:@"Custom view" selector:@selector(customViewExample)],
+		[MBExample exampleWithTitle:@"With action button" selector:@selector(cancelationExample)],
 		[MBExample exampleWithTitle:@"Mode switching" selector:@selector(modeSwitchingExample)]],
-	  @[[MBExample exampleWithTitle:@"NSURLSession" selector:@selector(networkingExample)]],
-	  @[[MBExample exampleWithTitle:@"Dim background" selector:@selector(indeterminateExample)],
+	  @[[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)],
+		[MBExample exampleWithTitle:@"NSURLSession" selector:@selector(networkingExample)],
+		[MBExample exampleWithTitle:@"Dim background" selector:@selector(indeterminateExample)],
 		[MBExample exampleWithTitle:@"Colored" selector:@selector(indeterminateExample)]]
 	  ];
 }
