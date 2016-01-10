@@ -544,12 +544,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
 	
 	// label multiple lines
-	CGFloat linesFloat = labelSize.width / maxWidth;
-	NSInteger lineNumber = (NSInteger)linesFloat;
-	if (lineNumber < linesFloat) {
-		lineNumber++;
-	}
-	labelSize.height *= lineNumber;
+	NSInteger lineNumber = ceil(labelSize.width / maxWidth);
+    	labelSize.height *= lineNumber;
 	
 	labelSize.width = MIN(labelSize.width, maxWidth);
 	totalSize.width = MAX(totalSize.width, labelSize.width);
