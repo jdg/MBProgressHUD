@@ -42,7 +42,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) UIView *bottomSpacer;
 
 // Deprecated
-@property (copy) MBProgressHUDCompletionBlock completionBlock;
+@property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
 
 @end
@@ -742,6 +742,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setProgressTintColor:(UIColor *)progressTintColor {
+    NSAssert(progressTintColor, @"The color should not be nil.");
     if (progressTintColor != _progressTintColor && ![progressTintColor isEqual:_progressTintColor]) {
         _progressTintColor = progressTintColor;
         [self setNeedsDisplay];
@@ -749,6 +750,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setBackgroundTintColor:(UIColor *)backgroundTintColor {
+    NSAssert(backgroundTintColor, @"The color should not be nil.");
     if (backgroundTintColor != _backgroundTintColor && ![backgroundTintColor isEqual:_backgroundTintColor]) {
         _backgroundTintColor = backgroundTintColor;
         [self setNeedsDisplay];
@@ -862,6 +864,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setProgressColor:(UIColor *)progressColor {
+    NSAssert(progressColor, @"The color should not be nil.");
     if (progressColor != _progressColor && ![progressColor isEqual:_progressColor]) {
         _progressColor = progressColor;
         [self setNeedsDisplay];
@@ -869,6 +872,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setProgressRemainingColor:(UIColor *)progressRemainingColor {
+    NSAssert(progressRemainingColor, @"The color should not be nil.");
     if (progressRemainingColor != _progressRemainingColor && ![progressRemainingColor isEqual:_progressRemainingColor]) {
         _progressRemainingColor = progressRemainingColor;
         [self setNeedsDisplay];
@@ -1019,6 +1023,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setColor:(UIColor *)color {
+    NSAssert(color, @"The color should not be nil.");
     if (color != _color && ![color isEqual:_color]) {
         _color = color;
         [self updateViewsForColor:color];
@@ -1146,8 +1151,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:NULL];
 }
 
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
-     completionBlock:(MBProgressHUDCompletionBlock)completion {
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue completionBlock:(nullable MBProgressHUDCompletionBlock)completion {
     self.taskInProgress = YES;
     self.completionBlock = completion;
     dispatch_async(queue, ^(void) {

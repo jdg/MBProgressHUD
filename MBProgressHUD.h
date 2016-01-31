@@ -70,6 +70,9 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 };
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 /** 
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
@@ -120,7 +123,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
  */
-+ (MBProgressHUD *)HUDForView:(UIView *)view;
++ (nullable MBProgressHUD *)HUDForView:(UIView *)view;
 
 /**
  * A convenience constructor that initializes the HUD with the view's bounds. Calls the designated constructor with
@@ -207,7 +210,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * for custom views on iOS 7+. Set to nil to manage color individually.
  * Defaults to semi-translucent black on iOS 7 and later and white on earlier iOS versions.
  */
-@property (strong, nonatomic) UIColor *contentColor UI_APPEARANCE_SELECTOR;
+@property (strong, nonatomic, nullable) UIColor *contentColor UI_APPEARANCE_SELECTOR;
 
 /**
  * The animation type that should be used when the HUD is shown and hidden.
@@ -267,7 +270,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.
  * The view should implement intrinsicContentSize for proper sizing. For best results use approximately 37 by 37 pixel.
  */
-@property (strong, nonatomic) UIView *customView;
+@property (strong, nonatomic, nullable) UIView *customView;
 
 /**
  * A label that holds an optional short message to be displayed below the activity indicator. The HUD is automatically resized to fit
@@ -324,7 +327,7 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
 @property (nonatomic, strong) UIColor *backgroundTintColor;
 
 /*
- * Display mode - NO = round or YES = annular. Defaults to round.
+ * Display mode - NO = round or YES = annular. De+faults to round.
  */
 @property (nonatomic, assign, getter = isAnnular) BOOL annular;
 
@@ -394,12 +397,12 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 - (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated __attribute__((deprecated("Use GCD directly.")));
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block __attribute__((deprecated("Use GCD directly.")));
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(nullable MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue __attribute__((deprecated("Use GCD directly.")));
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
-     completionBlock:(MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
-@property (copy) MBProgressHUDCompletionBlock completionBlock __attribute__((deprecated("Use GCD directly.")));
-@property (assign) BOOL taskInProgress __attribute__((deprecated("No longer needed for .")));
+     completionBlock:(nullable MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
+@property (copy, nullable) MBProgressHUDCompletionBlock completionBlock __attribute__((deprecated("Use GCD directly.")));
+@property (assign) BOOL taskInProgress __attribute__((deprecated("No longer needed.")));
 
 @property (nonatomic, copy) NSString *labelText __attribute__((deprecated("Use label.text instead.")));
 @property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("Use label.font instead.")));
@@ -417,3 +420,5 @@ typedef void (^MBProgressHUDCompletionBlock)();
 @property (atomic, assign, readonly) CGSize size __attribute__((deprecated("Get the bezelView.frame.size instead.")));
 
 @end
+
+NS_ASSUME_NONNULL_END
