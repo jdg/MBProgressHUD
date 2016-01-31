@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D28CBB2C1A87A45A0052DCEC"
+               BlueprintIdentifier = "D2B1740E1C5E3A3D00021915"
                BuildableName = "HudTests.xctest"
                BlueprintName = "HudTests"
                ReferencedContainer = "container:HudDemo.xcodeproj">
