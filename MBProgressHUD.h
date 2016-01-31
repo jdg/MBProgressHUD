@@ -262,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) MBBackgroundView *bezelView;
 
 /**
- *
+ * View coving the entire HUD area, placed behind bezelView.
  */
 @property (strong, nonatomic, readonly) MBBackgroundView *backgroundView;
 
