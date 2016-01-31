@@ -211,7 +211,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MB;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Matej Bukovinski";
 				TargetAttributes = {
 					D2B1740E1C5E3A3D00021915 = {
