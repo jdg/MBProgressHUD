@@ -1,4 +1,6 @@
 language: objective-c
-xcode_workspace: MBProgressHUD.xcworkspace
-xcode_scheme: HudDemo
-xcode_sdk: iphonesimulator
+osx_image: xcode7.2
+script: 
+  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudTests -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPad Air 2,OS=9.2" build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
