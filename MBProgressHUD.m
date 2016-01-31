@@ -86,29 +86,40 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
+- (void)commonInit {
+    // Set default values for properties
+    _animationType = MBProgressHUDAnimationFade;
+    _mode = MBProgressHUDModeIndeterminate;
+    _margin = 20.0f;
+    _opacity = 1.f;
+    _defaultMotionEffectsEnabled = YES;
+
+    // Default color, depending on the current iOS version
+    BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+    _contentColor = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
+    // Transparent background
+    self.opaque = NO;
+    self.backgroundColor = [UIColor clearColor];
+    // Make it invisible for now
+    self.alpha = 0.0f;
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.layer.allowsGroupOpacity = NO;
+
+    [self setupViews];
+    [self updateIndicators];
+    [self registerForNotifications];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
-        // Set default values for properties
-        _animationType = MBProgressHUDAnimationFade;
-        _mode = MBProgressHUDModeIndeterminate;
-        _margin = 20.0f;
-        _opacity = 1.f;
-        _defaultMotionEffectsEnabled = YES;
+        [self commonInit];
+    }
+    return self;
+}
 
-        // Default color, depending on the current iOS version
-        BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
-        _contentColor = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
-        // Transparent background
-        self.opaque = NO;
-        self.backgroundColor = [UIColor clearColor];
-        // Make it invisible for now
-        self.alpha = 0.0f;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.layer.allowsGroupOpacity = NO;
-
-        [self setupViews];
-        [self updateIndicators];
-        [self registerForNotifications];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self commonInit];
     }
     return self;
 }
