@@ -2,3 +2,4 @@ language: objective-c
 osx_image: xcode7.3
 xcode_workspace: MBProgressHUD.xcworkspace
 xcode_scheme: HudTests
+xcode_sdk: iphonesimulator
