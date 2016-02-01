@@ -38,6 +38,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) NSTimer *minShowTimer;
 @property (nonatomic, strong) NSDate *showStarted;
 @property (nonatomic, strong) NSArray *paddingConstraints;
+@property (nonatomic, strong) NSArray *bezelConstraints;
 @property (nonatomic, strong) UIView *topSpacer;
 @property (nonatomic, strong) UIView *bottomSpacer;
 
@@ -475,6 +476,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     UIView *bezel = self.bezelView;
     CGFloat margin = self.margin;
+    NSMutableArray *bezelConstraints = [NSMutableArray array];
     NSDictionary *metrics = @{@"margin": @(margin)};
 
     NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
@@ -482,11 +484,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     // Remove existing constraintes
     [self removeConstraints:self.constraints];
-    [bezel removeConstraints:bezel.constraints];
-
-    // Bump content hugging, to get the smallest bezel posible
-    [bezel setContentHuggingPriority:UILayoutPriorityDefaultLow + 1 forAxis:UILayoutConstraintAxisHorizontal];
-    [bezel setContentHuggingPriority:UILayoutPriorityDefaultLow + 1 forAxis:UILayoutConstraintAxisVertical];
+    if (self.bezelConstraints) {
+        [bezel removeConstraints:self.bezelConstraints];
+        self.bezelConstraints = nil;
+    }
 
     // Center bezel in container (self), applying the offset if set
     CGPoint offset = self.offset;
@@ -510,14 +511,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width]];
         [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height]];
         [self applyPriority:997.f toConstraints:minSizeConstraints];
-        [bezel addConstraints:minSizeConstraints];
+        [bezelConstraints addObjectsFromArray:minSizeConstraints];
     }
 
     // Square aspect ratio, if set
     if (self.square) {
         NSLayoutConstraint *square = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeWidth multiplier:1.f constant:0];
         square.priority = 997.f;
-        [bezel addConstraint:square];
+        [bezelConstraints addObject:square];
     }
 
     // Top and bottom spacing
@@ -526,31 +527,34 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     UIView *bottomSpacer = self.bottomSpacer;
     [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
     // Top and bottom spaces should be equal
-    [bezel addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
+    [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
 
     // Layout subviews in bezel
     NSMutableArray *paddingConstraints = [NSMutableArray new];
     [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
         // Center in bezel
-        [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
+        [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
         // Ensure the minimum edge margin is kept
-        [bezel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[view]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
+        [bezelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[view]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
         // Element spacing
         if (idx == 0) {
             // First, ensure spacing to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
+            [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         } else if (idx == subviews.count - 1) {
             // Last, ensure spacigin to bezel edge
-            [bezel addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
+            [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
         }
         if (idx > 0) {
             // Has previous
             NSLayoutConstraint *padding = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:subviews[idx - 1] attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f];
-            [bezel addConstraint:padding];
+            [bezelConstraints addObject:padding];
             [paddingConstraints addObject:padding];
         }
     }];
 
+    [bezel addConstraints:bezelConstraints];
+    self.bezelConstraints = bezelConstraints;
+    
     self.paddingConstraints = [paddingConstraints copy];
     [self updatePaddingConstraints];
 }
