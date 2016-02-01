@@ -475,6 +475,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [super updateConstraints];
 
     UIView *bezel = self.bezelView;
+    UIView *topSpacer = self.topSpacer;
+    UIView *bottomSpacer = self.bottomSpacer;
     CGFloat margin = self.margin;
     NSMutableArray *bezelConstraints = [NSMutableArray array];
     NSDictionary *metrics = @{@"margin": @(margin)};
@@ -484,6 +486,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     // Remove existing constraintes
     [self removeConstraints:self.constraints];
+    [topSpacer removeConstraints:topSpacer.constraints];
+    [bottomSpacer removeConstraints:bottomSpacer.constraints];
     if (self.bezelConstraints) {
         [bezel removeConstraints:self.bezelConstraints];
         self.bezelConstraints = nil;
@@ -522,9 +526,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 
     // Top and bottom spacing
-    UIView *topSpacer = self.topSpacer;
     [topSpacer addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
-    UIView *bottomSpacer = self.bottomSpacer;
     [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
     // Top and bottom spaces should be equal
     [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
