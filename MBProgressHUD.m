@@ -472,8 +472,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Layout
 
 - (void)updateConstraints {
-    [super updateConstraints];
-
     UIView *bezel = self.bezelView;
     UIView *topSpacer = self.topSpacer;
     UIView *bottomSpacer = self.bottomSpacer;
@@ -559,6 +557,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     
     self.paddingConstraints = [paddingConstraints copy];
     [self updatePaddingConstraints];
+    
+    [super updateConstraints];
 }
 
 - (void)layoutSubviews {
