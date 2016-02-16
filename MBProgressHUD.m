@@ -183,7 +183,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)handleGraceTimer:(NSTimer *)theTimer {
     // Show the HUD only if the task is still running
-    if (self.hasFinished) {
+    if (!self.hasFinished) {
         [self showUsingAnimation:self.useAnimation];
     }
 }
