@@ -186,9 +186,9 @@
     // Looks a bit nicer if we make it square.
     hud.square = YES;
     // Optional label text.
-    hud.label.text = NSLocalizedString(@"Done", @"HUD done title");
+    hud.labelText = NSLocalizedString(@"Done", @"HUD done title");
 
-    [hud hideAnimated:YES afterDelay:3.f];
+    [hud hide:YES afterDelay:3.f];
 }
 
 - (void)textExample {
