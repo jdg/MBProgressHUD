@@ -699,22 +699,28 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     BOOL iOS8OrLater = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0;
     if (iOS8OrLater || ![self.superview isKindOfClass:[UIWindow class]]) return;
 
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    CGFloat radians = 0;
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        radians = orientation == UIInterfaceOrientationLandscapeLeft ? -(CGFloat)M_PI_2 : (CGFloat)M_PI_2;
-        // Window coordinates differ!
-        self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
-    } else {
-        radians = orientation == UIInterfaceOrientationPortraitUpsideDown ? (CGFloat)M_PI : 0.f;
-    }
-
-    if (animated) {
-        [UIView animateWithDuration:0.3 animations:^{
+    // Make extension friendly
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+    if(UIApplicationClass && [UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
+        UIApplication *application = [UIApplication performSelector:@selector(sharedApplication)];
+        
+        UIInterfaceOrientation orientation = application.statusBarOrientation;
+        CGFloat radians = 0;
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            radians = orientation == UIInterfaceOrientationLandscapeLeft ? -(CGFloat)M_PI_2 : (CGFloat)M_PI_2;
+            // Window coordinates differ!
+            self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
+        } else {
+            radians = orientation == UIInterfaceOrientationPortraitUpsideDown ? (CGFloat)M_PI : 0.f;
+        }
+        
+        if (animated) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.transform = CGAffineTransformMakeRotation(radians);
+            }];
+        } else {
             self.transform = CGAffineTransformMakeRotation(radians);
-        }];
-    } else {
-        self.transform = CGAffineTransformMakeRotation(radians);
+        }
     }
 #endif
 }
