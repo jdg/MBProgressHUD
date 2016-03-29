@@ -433,7 +433,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         ((MBBarProgressView *)indicator).progressColor = color;
         ((MBBarProgressView *)indicator).lineColor = color;
     } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_TV_OS
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
         if ([indicator respondsToSelector:@selector(setTintColor:)]) {
             [indicator setTintColor:color];
         }
@@ -442,7 +442,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateBezelMotionEffects {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_TV_OS
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
     MBBackgroundView *bezelView = self.bezelView;
     if (![bezelView respondsToSelector:@selector(addMotionEffect:)]) return;
 
@@ -1004,7 +1004,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if ((self = [super initWithFrame:frame])) {
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
             _style = MBProgressHUDBackgroundStyleBlur;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_TV_OS
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
             _color = [UIColor colorWithWhite:0.8f alpha:0.6f];
 #else
             _color = [UIColor colorWithWhite:0.95f alpha:0.6f];
@@ -1086,7 +1086,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)updateViewsForColor:(UIColor *)color {
     if (self.style == MBProgressHUDBackgroundStyleBlur) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_TV_OS
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
         self.backgroundColor = self.color;
 #else
         self.toolbar.barTintColor = color;
