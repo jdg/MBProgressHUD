@@ -34,14 +34,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, assign) BOOL useAnimation;
 @property (nonatomic, assign, getter=hasFinished) BOOL finished;
 @property (nonatomic, strong) UIView *indicator;
-@property (nonatomic, strong) NSTimer *graceTimer;
-@property (nonatomic, strong) NSTimer *minShowTimer;
-@property (nonatomic, strong) NSTimer *hideDelayTimer;
 @property (nonatomic, strong) NSDate *showStarted;
 @property (nonatomic, strong) NSArray *paddingConstraints;
 @property (nonatomic, strong) NSArray *bezelConstraints;
 @property (nonatomic, strong) UIView *topSpacer;
 @property (nonatomic, strong) UIView *bottomSpacer;
+@property (nonatomic, weak) NSTimer *graceTimer;
+@property (nonatomic, weak) NSTimer *minShowTimer;
+@property (nonatomic, weak) NSTimer *hideDelayTimer;
 
 // Deprecated
 @property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
