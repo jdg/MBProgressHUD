@@ -46,7 +46,7 @@ _Pragma("clang diagnostic pop")
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:NO];
 
     XCTAssertNotNil(hud, @"A HUD should be created.");
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
     XCTAssertTrue(hud.removeFromSuperViewOnHide, @"removeFromSuperViewOnHide should be enabled");
     XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
@@ -75,7 +75,7 @@ _Pragma("clang diagnostic pop")
     hud.delegate = self;
 
     XCTAssertNotNil(hud, @"A HUD should be created.");
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
     XCTAssertTrue(hud.removeFromSuperViewOnHide, @"removeFromSuperViewOnHide should be enabled");
     XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
@@ -89,7 +89,7 @@ _Pragma("clang diagnostic pop")
 
     XCTAssertTrue([rootView.subviews containsObject:hud], @"The HUD should still be part of the view hierarchy.");
     XCTAssertEqual(hud.alpha, 1.f, @"The hud should still be visible.");
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
 
     weakify(self);
     self.hideChecks = ^{
@@ -154,6 +154,46 @@ _Pragma("clang diagnostic pop")
     });
 
     [self waitForExpectationsWithTimeout:5. handler:nil];
+}
+
+- (void)testMinShowTime {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    self.hideExpectation = [self expectationWithDescription:@"The hudWasHidden: delegate should have been called."];
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.minShowTime = 2.;
+    [rootView addSubview:hud];
+    [hud showAnimated:YES];
+
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+
+    [hud hideAnimated:YES];
+
+    __block BOOL checkedAfterOneSecond = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // Check that the hud is still visible
+        XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
+        XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
+        XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
+        XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+        checkedAfterOneSecond = YES;
+    });
+
+    weakify(self);
+    self.hideChecks = ^{
+        strongify(self);
+        XCTAssertTrue(checkedAfterOneSecond);
+    };
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+
+    XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should no longer be part of the view hierarchy.");
+    XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out.");
+    XCTAssertNil(hud.superview, @"The HUD should no longer be part of the view hierarchy.");
 }
 
 #pragma mark - MBProgressHUDDelegate
