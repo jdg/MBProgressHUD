@@ -43,14 +43,6 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
 @implementation HudTests
 
-- (void)setUp {
-    [super setUp];
-}
-
-- (void)tearDown {
-    [super tearDown];
-}
-
 #pragma mark - Convenience
 
 - (void)testNonAnimatedConvenienceHUDPresentation {
@@ -110,6 +102,8 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+#pragma mark - Ruse
+
 - (void)testNonAnimatedHudReuse {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
     UIView *rootView = rootViewController.view;
@@ -156,6 +150,8 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+#pragma mark - Min show time
+
 - (void)testMinShowTime {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
     UIView *rootView = rootViewController.view;
@@ -190,6 +186,8 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
+
+#pragma mark - Grace time
 
 - (void)testGraceTime {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
