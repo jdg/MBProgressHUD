@@ -18,6 +18,20 @@ _Pragma("clang diagnostic ignored \"-Wshadow\"") \
 __strong typeof(var) var = weak_##var; \
 _Pragma("clang diagnostic pop")
 
+#define MBTestHUDIsVisible(hud, rootView) \
+do { \
+XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view."); \
+XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible."); \
+XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
+XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible."); \
+} while (0)
+
+#define MBTestHUDIsHidenAndRemoved(hud, rootView) \
+do { \
+XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should not be part of the view hierarchy."); \
+XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out."); \
+XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
+} while (0)
 
 @interface HudTests : XCTestCase <MBProgressHUDDelegate>
 
@@ -46,10 +60,7 @@ _Pragma("clang diagnostic pop")
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:NO];
 
     XCTAssertNotNil(hud, @"A HUD should be created.");
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
-    XCTAssertTrue(hud.removeFromSuperViewOnHide, @"removeFromSuperViewOnHide should be enabled");
-    XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
-    XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
+    MBTestHUDIsVisible(hud, rootView);
 
     XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertFalse([hud.bezelView.layer.animationKeys containsObject:@"opacity"], @"The opacity should NOT be animated.");
@@ -58,9 +69,7 @@ _Pragma("clang diagnostic pop")
 
     XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:NO], @"The HUD should be found and removed.");
 
-    XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should no longer be part of the view hierarchy.");
-    XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out.");
-    XCTAssertNil(hud.superview, @"The HUD should no longer be part of the view hierarchy.");
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
 
     XCTAssertFalse([MBProgressHUD hideHUDForView:rootView animated:NO], @"A subsequent HUD hide operation should fail.");
 }
@@ -75,10 +84,7 @@ _Pragma("clang diagnostic pop")
     hud.delegate = self;
 
     XCTAssertNotNil(hud, @"A HUD should be created.");
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
-    XCTAssertTrue(hud.removeFromSuperViewOnHide, @"removeFromSuperViewOnHide should be enabled");
-    XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
-    XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
+    MBTestHUDIsVisible(hud, rootView);
 
     XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertTrue([hud.bezelView.layer.animationKeys containsObject:@"opacity"], @"The opacity should be animated.");
@@ -90,13 +96,13 @@ _Pragma("clang diagnostic pop")
     XCTAssertTrue([rootView.subviews containsObject:hud], @"The HUD should still be part of the view hierarchy.");
     XCTAssertEqual(hud.alpha, 1.f, @"The hud should still be visible.");
     XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
+    XCTAssertEqual(hud.bezelView.alpha, 0.f, @"The HUD bezel should be animated out.");
+    XCTAssertTrue([hud.bezelView.layer.animationKeys containsObject:@"opacity"], @"The opacity should be animated.");
 
     weakify(self);
     self.hideChecks = ^{
         strongify(self);
-        XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should no longer be part of the view hierarchy.");
-        XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out.");
-        XCTAssertNil(hud.superview, @"The HUD should no longer be part of the view hierarchy.");
+        MBTestHUDIsHidenAndRemoved(hud, rootView);
 
         XCTAssertFalse([MBProgressHUD hideHUDForView:rootView animated:YES], @"A subsequent HUD hide operation should fail.");
     };
@@ -117,10 +123,7 @@ _Pragma("clang diagnostic pop")
     [hud hideAnimated:NO];
     [hud showAnimated:NO];
 
-    XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
-    XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
-    XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
-    XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+    MBTestHUDIsVisible(hud, rootView);
 
     [hud hideAnimated:NO];
     [hud removeFromSuperview];
@@ -142,10 +145,7 @@ _Pragma("clang diagnostic pop")
     [hud showAnimated:YES];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
-        XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
-        XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
-        XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+        MBTestHUDIsVisible(hud, rootView);
 
         [hud hideAnimated:NO];
         [hud removeFromSuperview];
@@ -176,10 +176,7 @@ _Pragma("clang diagnostic pop")
     __block BOOL checkedAfterOneSecond = NO;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // Check that the hud is still visible
-        XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view.");
-        XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
-        XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
-        XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+        MBTestHUDIsVisible(hud, rootView);
         checkedAfterOneSecond = YES;
     });
 
@@ -191,9 +188,7 @@ _Pragma("clang diagnostic pop")
 
     [self waitForExpectationsWithTimeout:5. handler:nil];
 
-    XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should no longer be part of the view hierarchy.");
-    XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out.");
-    XCTAssertNil(hud.superview, @"The HUD should no longer be part of the view hierarchy.");
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
 #pragma mark - MBProgressHUDDelegate
