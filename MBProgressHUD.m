@@ -155,6 +155,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)hideAnimated:(BOOL)animated {
     MBMainThreadAssert();
+    [self.graceTimer invalidate];
     self.useAnimation = animated;
     self.finished = YES;
     // If the minShow time is set, calculate how long the hud was shown,
