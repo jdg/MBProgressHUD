@@ -191,6 +191,89 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
+- (void)testGraceTime {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    self.hideExpectation = [self expectationWithDescription:@"The hudWasHidden: delegate should have been called."];
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.graceTime = 2.;
+    [rootView addSubview:hud];
+    [hud showAnimated:YES];
+
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+
+    // The HUD should be added to the view but still hidden
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view."); \
+    XCTAssertEqual(hud.alpha, 0.f, @"The HUD should not be visible."); \
+    XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
+    XCTAssertEqual(hud.bezelView.alpha, 0.f, @"The HUD should not be visible."); \
+
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // The HUD should be added to the view but still hidden
+        XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view."); \
+        XCTAssertEqual(hud.alpha, 0.f, @"The HUD should not be visible."); \
+        XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
+        XCTAssertEqual(hud.bezelView.alpha, 0.f, @"The HUD should not be visible."); \
+    });
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // After the grace time passes, the HUD should be shown.
+        MBTestHUDIsVisible(hud, rootView);
+        [hud hideAnimated:YES];
+    });
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
+- (void)testHideBeforeGraceTimeElapsed {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    self.hideExpectation = [self expectationWithDescription:@"The hudWasHidden: delegate should have been called."];
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.delegate = self;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.graceTime = 2.;
+    [rootView addSubview:hud];
+    [hud showAnimated:YES];
+
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+
+    // The HUD should be added to the view but still hidden
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view."); \
+    XCTAssertEqual(hud.alpha, 0.f, @"The HUD should not be visible."); \
+    XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
+    XCTAssertEqual(hud.bezelView.alpha, 0.f, @"The HUD should not be visible."); \
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // The HUD should be added to the view but still hidden
+        XCTAssertEqualObjects(hud.superview, rootView, @"The hud should be added to the view."); \
+        XCTAssertEqual(hud.alpha, 0.f, @"The HUD should not be visible."); \
+        XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
+        XCTAssertEqual(hud.bezelView.alpha, 0.f, @"The HUD should not be visible."); \
+        [hud hideAnimated:YES];
+    });
+
+    XCTestExpectation *hideCheckExpectation = [self expectationWithDescription:@"Hide check"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // After the grace time passes, the HUD should still not be shown.
+        MBTestHUDIsHidenAndRemoved(hud, rootView);
+        [hideCheckExpectation fulfill];
+    });
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
