@@ -36,6 +36,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) UIView *indicator;
 @property (nonatomic, strong) NSTimer *graceTimer;
 @property (nonatomic, strong) NSTimer *minShowTimer;
+@property (nonatomic, strong) NSTimer *hideDelayTimer;
 @property (nonatomic, strong) NSDate *showStarted;
 @property (nonatomic, strong) NSArray *paddingConstraints;
 @property (nonatomic, strong) NSArray *bezelConstraints;
@@ -172,12 +173,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay {
-    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(hideDelayed:) userInfo:[NSNumber numberWithBool:animated] repeats:NO];
+    NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(handleHideTimer:) userInfo:@(animated) repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-}
-
-- (void)hideDelayed:(NSTimer *)timer {
-    [self hideAnimated:[timer.userInfo boolValue]];
+    self.hideDelayTimer = timer;
 }
 
 #pragma mark - Timer callbacks
@@ -193,6 +191,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self hideUsingAnimation:self.useAnimation];
 }
 
+- (void)handleHideTimer:(NSTimer *)timer {
+    [self hideAnimated:[timer.userInfo boolValue]];
+}
+
 #pragma mark - View Hierrarchy
 
 - (void)didMoveToSuperview {
@@ -203,7 +205,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)showUsingAnimation:(BOOL)animated {
     // Cancel any scheduled hideDelayed: calls
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self.hideDelayTimer invalidate];
 
     self.showStarted = [NSDate date];
     self.alpha = 1.f;
@@ -276,7 +278,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)done {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    // Cancel any scheduled hideDelayed: calls
+    [self.hideDelayTimer invalidate];
+
     self.alpha = 0.0f;
     if (self.removeFromSuperViewOnHide) {
         [self removeFromSuperview];
