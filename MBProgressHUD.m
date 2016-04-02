@@ -139,6 +139,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)showAnimated:(BOOL)animated {
     MBMainThreadAssert();
+    [self.minShowTimer invalidate];
     self.useAnimation = animated;
     self.finished = NO;
     // If the grace time is set postpone the HUD display
