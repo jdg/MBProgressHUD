@@ -72,6 +72,8 @@ dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 });
 ```
 
+You can add the HUD on any view or window. It is however a good idea to avoid adding the HUD to certain `UIKit` views with complex view hierarchies - like `UITableView` or `UICollectionView`. Those can mutate their subviews in unexpected ways and thereby break HUD display. 
+
 If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns.
 
 ```objective-c
