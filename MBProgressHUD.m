@@ -229,15 +229,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)hideUsingAnimation:(BOOL)animated {
     if (animated && self.showStarted) {
+        self.showStarted = nil;
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
             [self doneFinished:finished];
         }];
     } else {
+        self.showStarted = nil;
         self.bezelView.alpha = 0.f;
         self.backgroundView.alpha = 1.f;
         [self doneFinished:YES];
     }
-    self.showStarted = nil;
 }
 
 - (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
@@ -295,10 +296,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 
     if (self.completionBlock) {
-        self.completionBlock();
+        MBProgressHUDCompletionBlock block = self.completionBlock;
         self.completionBlock = NULL;
+        block();
     }
-
     id<MBProgressHUDDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
         [delegate performSelector:@selector(hudWasHidden:) withObject:self];
