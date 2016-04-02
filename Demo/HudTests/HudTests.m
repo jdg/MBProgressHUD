@@ -104,6 +104,58 @@ _Pragma("clang diagnostic pop")
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+- (void)testNonAnimatedHudReuse {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+
+    [hud hideAnimated:NO];
+    [hud showAnimated:NO];
+
+    XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
+    XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
+    XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
+    XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+
+    [hud hideAnimated:NO];
+    [hud removeFromSuperview];
+}
+
+- (void)testAnimatedImmediateHudReuse {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    XCTestExpectation *hideExpectation = [self expectationWithDescription:@"The hud should have been hidden."];
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    [rootView addSubview:hud];
+    [hud showAnimated:YES];
+
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+
+    [hud hideAnimated:YES];
+    [hud showAnimated:YES];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        XCTAssertEqualObjects(hud.superview, rootView, @"The hood should be added to the view.");
+        XCTAssertEqual(hud.alpha, 1.f, @"The HUD should be visible.");
+        XCTAssertFalse(hud.hidden, @"The HUD should be visible.");
+        XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
+
+        [hud hideAnimated:NO];
+        [hud removeFromSuperview];
+
+        [hideExpectation fulfill];
+    });
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+}
+
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {

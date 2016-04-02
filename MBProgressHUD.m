@@ -206,6 +206,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
+    // Cancel any previous animations
+    [self.bezelView.layer removeAllAnimations];
+    [self.backgroundView.layer removeAllAnimations];
+
     // Cancel any scheduled hideDelayed: calls
     [self.hideDelayTimer invalidate];
 
@@ -226,12 +230,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)hideUsingAnimation:(BOOL)animated {
     if (animated && self.showStarted) {
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
-            [self done];
+            [self doneFinished:finished];
         }];
     } else {
         self.bezelView.alpha = 0.f;
         self.backgroundView.alpha = 1.f;
-        [self done];
+        [self doneFinished:YES];
     }
     self.showStarted = nil;
 }
@@ -279,14 +283,17 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [UIView animateWithDuration:0.3 delay:0. options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
 }
 
-- (void)done {
+- (void)doneFinished:(BOOL)finished {
     // Cancel any scheduled hideDelayed: calls
     [self.hideDelayTimer invalidate];
 
-    self.alpha = 0.0f;
-    if (self.removeFromSuperViewOnHide) {
-        [self removeFromSuperview];
+    if (finished) {
+        self.alpha = 0.0f;
+        if (self.removeFromSuperViewOnHide) {
+            [self removeFromSuperview];
+        }
     }
+
     if (self.completionBlock) {
         self.completionBlock();
         self.completionBlock = NULL;
