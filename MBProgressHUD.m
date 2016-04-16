@@ -331,7 +331,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     label.adjustsFontSizeToFitWidth = NO;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = defaultColor;
-    label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];;
+    label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];
+    label.opaque = NO;
+    label.backgroundColor = [UIColor clearColor];
     _label = label;
 
     UILabel *detailsLabel = [UILabel new];
@@ -340,6 +342,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     detailsLabel.textColor = defaultColor;
     detailsLabel.numberOfLines = 0;
     detailsLabel.font = [UIFont boldSystemFontOfSize:MBDefaultDetailsLabelFontSize];
+    detailsLabel.opaque = NO;
+    detailsLabel.backgroundColor = [UIColor clearColor];
     _detailsLabel = detailsLabel;
 
     UIButton *button = [MBProgressHUDRoundedButton buttonWithType:UIButtonTypeCustom];
