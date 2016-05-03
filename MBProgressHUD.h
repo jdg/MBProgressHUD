@@ -254,6 +254,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) float progress;
 
+/// @name ProgressObject
+
+/**
+ * The NSProgress object feeding the progress information to the progress indicator.
+ */
+@property (strong, nonatomic, nullable) NSProgress *progressObject;
+
 /// @name Views
 
 /**

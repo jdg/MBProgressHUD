@@ -42,6 +42,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, weak) NSTimer *graceTimer;
 @property (nonatomic, weak) NSTimer *minShowTimer;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
+@property (nonatomic, weak) CADisplayLink *progressObjectDisplayLink;
 
 // Deprecated
 @property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
@@ -156,6 +157,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)hideAnimated:(BOOL)animated {
     MBMainThreadAssert();
+    self.progressObjectDisplayLink = nil;
     [self.graceTimer invalidate];
     self.useAnimation = animated;
     self.finished = YES;
@@ -650,6 +652,32 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _square = square;
         [self setNeedsUpdateConstraints];
     }
+}
+
+- (void)setProgressObjectDisplayLink:(CADisplayLink *)progressObjectDisplayLink {
+    if (progressObjectDisplayLink != _progressObjectDisplayLink) {
+        [_progressObjectDisplayLink invalidate];
+        
+        _progressObjectDisplayLink = progressObjectDisplayLink;
+        
+        [_progressObjectDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)setProgressObject:(NSProgress *)progressObject {
+    if (progressObject != _progressObject) {
+        _progressObject = progressObject;
+        
+        // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
+        // so we're refreshing the progress only every frame draw
+        self.progressObjectDisplayLink = [CADisplayLink displayLinkWithTarget:self
+                                                                     selector:@selector(updateProgressFromProgressObject)];
+        
+    }
+}
+
+- (void)updateProgressFromProgressObject {
+    self.progress = self.progressObject.fractionCompleted;
 }
 
 - (void)setProgress:(float)progress {
