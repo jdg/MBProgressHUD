@@ -288,6 +288,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) UIButton *button;
 
+/**
+ *  The color of the activity indicator.
+ *  default to [UIColor colorWithWhite:0.f alpha:0.7f] on iOS 7 or later and white [UIColor whiteColor] otherwise.
+ */
+@property (nonatomic, strong) UIColor *activityColor;
+
 @end
 
 

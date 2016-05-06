@@ -9,7 +9,30 @@
 #import "MBHudDemoViewController.h"
 #import "MBProgressHUD.h"
 
+@interface UIColor (Color)
+/**
+ *  Creat and return a random color.
+ */
++ (UIColor *)randomColor;
+/**
+ * Just sleep a second, no other purposes.
+ */
++ (void)sleep;
+@end
 
+@implementation UIColor (Color)
+
++ (UIColor *)randomColor {
+	UIColor *randColor = [UIColor colorWithRed:arc4random() % 255 / 255.0f
+										 green:arc4random() % 255 / 255.0f
+										  blue:arc4random() % 255 / 255.0f
+										 alpha:1.0f];
+	return randColor;
+}
++ (void)sleep {
+	sleep(1);
+}
+@end
 @interface MBExample : NSObject
 
 @property (nonatomic, copy) NSString *title;
@@ -45,7 +68,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.examples =
-    @[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
+	@[@[[MBExample exampleWithTitle:@"Custom activityIndicator's color" selector:@selector(customActivityIndicatorColor)],],@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
         [MBExample exampleWithTitle:@"With label" selector:@selector(labelExample)],
         [MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)]],
       @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(determinateExample)],
@@ -63,6 +86,30 @@
 }
 
 #pragma mark - Examples
+
+-(void)customActivityIndicatorColor {
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+	hud.activityColor = [UIColor randomColor];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[UIColor sleep];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				MBProgressHUD *hud1 = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+				hud1.activityColor = [UIColor randomColor];
+				hud1.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+				hud1.detailsLabel.text = NSLocalizedString(@"Parsing data", @"HUD title");
+				dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+					[UIColor sleep];
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[hud1 hideAnimated:YES];
+					});
+				});
+			});
+		});
+	});
+}
 
 - (void)indeterminateExample {
     // Show the HUD on the root view (self.view is a scrollable table view and thus not suitable,
