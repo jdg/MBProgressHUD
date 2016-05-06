@@ -290,7 +290,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The color of the activity indicator.
- *  default to [UIColor colorWithWhite:0.f alpha:0.7f] on iOS 7 or later and white [UIColor whiteColor] otherwise.
+ *  default to [UIColor colorWithWhite:0.f alpha:0.7f].
  */
 @property (nonatomic, strong) UIColor *activityColor;
 
