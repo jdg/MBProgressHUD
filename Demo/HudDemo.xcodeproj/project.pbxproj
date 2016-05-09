@@ -12,6 +12,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28D7ACF80DDB3853001CB0EB /* MBHudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MBHudDemoViewController.m */; };
+		6ED2E1B91CE090810061361E /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6ED2E1B81CE090810061361E /* MBProgressHUD.bundle */; };
+		6ED2E1BF1CE095940061361E /* MBProgressHUD+WJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED2E1BE1CE095940061361E /* MBProgressHUD+WJ.m */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
 		D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */; };
 		D2B174121C5E3A3D00021915 /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B174111C5E3A3D00021915 /* HudTests.m */; };
@@ -40,6 +42,9 @@
 		28D7ACF70DDB3853001CB0EB /* MBHudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBHudDemoViewController.m; sourceTree = "<group>"; usesTabs = 1; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemo_Prefix.pch; sourceTree = "<group>"; };
+		6ED2E1B81CE090810061361E /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		6ED2E1BD1CE095940061361E /* MBProgressHUD+WJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+WJ.h"; sourceTree = "<group>"; };
+		6ED2E1BE1CE095940061361E /* MBProgressHUD+WJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+WJ.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../MBProgressHUD.m; sourceTree = "<group>"; };
@@ -80,6 +85,9 @@
 				1D3623250D0F684500981E51 /* MBHudDemoAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* MBHudDemoViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MBHudDemoViewController.m */,
+				6ED2E1BD1CE095940061361E /* MBProgressHUD+WJ.h */,
+				6ED2E1BE1CE095940061361E /* MBProgressHUD+WJ.m */,
+				6ED2E1B81CE090810061361E /* MBProgressHUD.bundle */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 			);
@@ -247,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2BC092F1BA587FB00589A7C /* Main.storyboard in Resources */,
+				6ED2E1B91CE090810061361E /* MBProgressHUD.bundle in Resources */,
 				D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */,
 				D2EEB37B1B558F0900F59EC1 /* Launch.storyboard in Resources */,
 			);
@@ -267,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				6ED2E1BF1CE095940061361E /* MBProgressHUD+WJ.m in Sources */,
 				1D3623260D0F684500981E51 /* MBHudDemoAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MBHudDemoViewController.m in Sources */,
 				D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */,
@@ -488,6 +498,7 @@
 				D2B174181C5E3A3D00021915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
