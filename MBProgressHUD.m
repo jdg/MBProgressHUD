@@ -26,7 +26,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 
 @interface MBProgressHUD () {
-    // Depricated
+    // Deprecated
     UIColor *_activityIndicatorColor;
     CGFloat _opacity;
 }
@@ -142,7 +142,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self.minShowTimer invalidate];
     self.useAnimation = animated;
     self.finished = NO;
-    // If the grace time is set postpone the HUD display
+    // If the grace time is set, postpone the HUD display
     if (self.graceTime > 0.0) {
         NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -159,8 +159,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self.graceTimer invalidate];
     self.useAnimation = animated;
     self.finished = YES;
-    // If the minShow time is set, calculate how long the hud was shown,
-    // and pospone the hiding operation if necessary
+    // If the minShow time is set, calculate how long the HUD was shown,
+    // and postpone the hiding operation if necessary
     if (self.minShowTime > 0.0 && self.showStarted) {
         NSTimeInterval interv = [[NSDate date] timeIntervalSinceDate:self.showStarted];
         if (interv < self.minShowTime) {
@@ -242,7 +242,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)animateIn:(BOOL)animatingIn withType:(MBProgressHUDAnimation)type completion:(void(^)(BOOL finished))completion {
-    // Automatically determine the correct
+    // Automatically determine the correct zoom animation type
     if (type == MBProgressHUDAnimationZoom) {
         type = animatingIn ? MBProgressHUDAnimationZoomIn : MBProgressHUDAnimationZoomOut;
     }
@@ -501,7 +501,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
     if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
 
-    // Remove existing constraintes
+    // Remove existing constraints
     [self removeConstraints:self.constraints];
     [topSpacer removeConstraints:topSpacer.constraints];
     [bottomSpacer removeConstraints:bottomSpacer.constraints];
@@ -560,7 +560,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             // First, ensure spacing to bezel edge
             [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
         } else if (idx == subviews.count - 1) {
-            // Last, ensure spacigin to bezel edge
+            // Last, ensure spacing to bezel edge
             [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
         }
         if (idx > 0) {
@@ -593,8 +593,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         UIView *secondView = (UIView *)padding.secondItem;
         BOOL firstVisible = !firstView.hidden && !CGSizeEqualToSize(firstView.intrinsicContentSize, CGSizeZero);
         BOOL secondVisible = !secondView.hidden && !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
-        // Set if both views are visible of if there's a visible view on top that yet doesn't have padding
-        // added relative to the current view
+        // Set if both views are visible or if there's a visible view on top that doesn't have padding
+        // added relative to the current view yet
         padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding : 0.f;
         hasVisibleAncestors |= secondVisible;
     }];
@@ -1362,16 +1362,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    // Fully rounded corners.
+    // Fully rounded corners
     CGFloat height = CGRectGetHeight(self.bounds);
     self.layer.cornerRadius = ceil(height / 2.f);
 }
 
 - (CGSize)intrinsicContentSize {
-    // Only show, if we have associated control events.
+    // Only show if we have associated control events
     if (self.allControlEvents == 0) return CGSizeZero;
     CGSize size = [super intrinsicContentSize];
-    // Add some side padding.
+    // Add some side padding
     size.width += 20.f;
     return size;
 }
@@ -1380,7 +1380,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state {
     [super setTitleColor:color forState:state];
-    // Update related colors.
+    // Update related colors
     [self setHighlighted:self.highlighted];
     self.layer.borderColor = color.CGColor;
 }
