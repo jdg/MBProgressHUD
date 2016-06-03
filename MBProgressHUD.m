@@ -44,7 +44,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
 
 // Deprecated
-@property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
 @property (assign) BOOL taskInProgress;
 
 @end
@@ -294,11 +293,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [self removeFromSuperview];
         }
     }
-
-    if (self.completionBlock) {
-        MBProgressHUDCompletionBlock block = self.completionBlock;
-        self.completionBlock = NULL;
-        block();
+    MBProgressHUDCompletionBlock completionBlock = self.completionBlock;
+    if (completionBlock) {
+        completionBlock();
     }
     id<MBProgressHUDDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
