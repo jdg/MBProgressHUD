@@ -102,6 +102,24 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+- (void)testCompletionBlock {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    self.hideExpectation = [self expectationWithDescription:@"The hudWasHidden: delegate should have been called."];
+    XCTestExpectation *completionExpectation = [self expectationWithDescription:@"The completionBlock: should have been called."];
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:YES];
+    hud.delegate = self;
+    hud.completionBlock = ^{
+        [completionExpectation fulfill];
+    };
+
+    [hud hideAnimated:YES];
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+}
+
 #pragma mark - Delay
 
 - (void)testDelayedHide {
