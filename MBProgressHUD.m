@@ -439,15 +439,30 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 #pragma clang diagnostic pop
 
+    // UIApprance settings are prioritized. If they are preset the set color is ignored.
+
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-        ((UIActivityIndicatorView *)indicator).color = color;
+        UIActivityIndicatorView *appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        if (appearance.color == nil) {
+            ((UIActivityIndicatorView *)indicator).color = color;
+        }
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
-        ((MBRoundProgressView *)indicator).progressTintColor = color;
-        ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
+        MBRoundProgressView *appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        if (appearance.progressTintColor == nil) {
+            ((MBRoundProgressView *)indicator).progressTintColor = color;
+        }
+        if (appearance.backgroundTintColor == nil) {
+            ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
+        }
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
-        ((MBBarProgressView *)indicator).progressColor = color;
-        ((MBBarProgressView *)indicator).lineColor = color;
+        MBBarProgressView *appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        if (appearance.progressColor == nil) {
+            ((MBBarProgressView *)indicator).progressColor = color;
+        }
+        if (appearance.lineColor == nil) {
+            ((MBBarProgressView *)indicator).lineColor = color;
+        }
     } else {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
         if ([indicator respondsToSelector:@selector(setTintColor:)]) {
