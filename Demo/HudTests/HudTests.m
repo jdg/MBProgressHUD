@@ -174,6 +174,31 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [hud removeFromSuperview];
 }
 
+- (void)testUnfinishedHidingAnimation {
+  UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+  UIView *rootView = rootViewController.view;
+
+  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:NO];
+
+  [hud hideAnimated:YES];
+
+  // Cancel all animations. It will cause `UIView+animate...` to call completionBlock with `finished = NO`.
+  // It's same as if you call `[hud hideAnimated:YES]` while the app is in background.
+  [hud.bezelView.layer removeAllAnimations];
+  [hud.backgroundView.layer removeAllAnimations];
+
+  XCTestExpectation *hideCheckExpectation = [self expectationWithDescription:@"Hide check"];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    // After the grace time passes, the HUD should still not be shown.
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+    [hideCheckExpectation fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:5. handler:nil];
+
+  MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
 - (void)testAnimatedImmediateHudReuse {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
     UIView *rootView = rootViewController.view;

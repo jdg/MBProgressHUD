@@ -230,13 +230,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (animated && self.showStarted) {
         self.showStarted = nil;
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
-            [self doneFinished:finished];
+            [self done];
         }];
     } else {
         self.showStarted = nil;
         self.bezelView.alpha = 0.f;
         self.backgroundView.alpha = 1.f;
-        [self doneFinished:YES];
+        [self done];
     }
 }
 
@@ -283,11 +283,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [UIView animateWithDuration:0.3 delay:0. options:UIViewAnimationOptionBeginFromCurrentState animations:animations completion:completion];
 }
 
-- (void)doneFinished:(BOOL)finished {
+- (void)done {
     // Cancel any scheduled hideDelayed: calls
     [self.hideDelayTimer invalidate];
 
-    if (finished) {
+    if (self.hasFinished) {
         self.alpha = 0.0f;
         if (self.removeFromSuperViewOnHide) {
             [self removeFromSuperview];
