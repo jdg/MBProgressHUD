@@ -8,7 +8,7 @@
 
 #import "MBHudDemoViewController.h"
 #import "MBProgressHUD.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @interface MBExample : NSObject
 
@@ -33,7 +33,7 @@
 @interface MBHudDemoViewController () <NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSArray<NSArray<MBExample *> *> *examples;
-@property (nonatomic, assign) BOOL canceled;
+@property (atomic, assign) BOOL canceled; // atomic, because it may be cancelled from main thread, flag is read on a background thread
 
 @end
 
@@ -57,6 +57,7 @@
         [MBExample exampleWithTitle:@"Mode switching" selector:@selector(modeSwitchingExample)]],
       @[[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)],
         [MBExample exampleWithTitle:@"NSURLSession" selector:@selector(networkingExample)],
+        [MBExample exampleWithTitle:@"Determinate with NSProgress" selector:@selector(determinateNSProgressExample)],
         [MBExample exampleWithTitle:@"Dim background" selector:@selector(dimBackgroundExample)],
         [MBExample exampleWithTitle:@"Colored" selector:@selector(colorExample)]]
       ];
@@ -141,6 +142,26 @@
             [hud hideAnimated:YES];
         });
     });
+}
+
+- (void)determinateNSProgressExample {
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+	
+	// Set the determinate mode to show task progress.
+	hud.mode = MBProgressHUDModeDeterminate;
+	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+	
+	NSProgress *progressObject = [NSProgress progressWithTotalUnitCount:200000];
+	
+	hud.progressObject = progressObject;
+	
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		// Do something useful in the background and update the HUD periodically.
+		[self doSomeWorkWithProgressObject:progressObject];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+	});
 }
 
 - (void)annularDeterminateExample {
@@ -286,6 +307,16 @@
 - (void)doSomeWork {
     // Simulate by just waiting.
     sleep(3.);
+}
+
+- (void)doSomeWorkWithProgressObject:(NSProgress *)progressObject {
+	self.canceled = NO;
+	// This just increases the progress indicator in a loop.
+	while (progressObject.fractionCompleted < 1.0f) {
+		if (self.canceled) break;
+		[progressObject becomeCurrentWithPendingUnitCount:1];
+		[progressObject resignCurrent];
+	}
 }
 
 - (void)doSomeWorkWithProgress {
