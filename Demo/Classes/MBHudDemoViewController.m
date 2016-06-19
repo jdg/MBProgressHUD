@@ -8,8 +8,32 @@
 
 #import "MBHudDemoViewController.h"
 #import "MBProgressHUD.h"
+#import "MBProgressHUD+WJ.h"
 
+@interface UIColor (Color)
+/**
+ *  Creat and return a random color.
+ */
++ (UIColor *)randomColor;
+/**
+ * Just sleep a second, no other purposes.
+ */
++ (void)sleep;
+@end
 
+@implementation UIColor (Color)
+
++ (UIColor *)randomColor {
+	UIColor *randColor = [UIColor colorWithRed:arc4random() % 255 / 255.0f
+										 green:arc4random() % 255 / 255.0f
+										  blue:arc4random() % 255 / 255.0f
+										 alpha:1.0f];
+	return randColor;
+}
++ (void)sleep {
+	sleep(1);
+}
+@end
 @interface MBExample : NSObject
 
 @property (nonatomic, copy) NSString *title;
@@ -45,7 +69,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.examples =
-    @[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
+	@[@[[MBExample exampleWithTitle:@"Custom activityIndicator's color" selector:@selector(customActivityIndicatorColor)],],@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
         [MBExample exampleWithTitle:@"With label" selector:@selector(labelExample)],
         [MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)]],
       @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(determinateExample)],
@@ -64,7 +88,35 @@
 
 #pragma mark - Examples
 
+-(void)customActivityIndicatorColor {
+	[MBProgressHUD showError:@"错误！！！"];
+	return;
+	MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+	hud.activityColor = [UIColor randomColor];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[UIColor sleep];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				MBProgressHUD *hud1 = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+				hud1.activityColor = [UIColor randomColor];
+				hud1.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+				hud1.detailsLabel.text = NSLocalizedString(@"Parsing data", @"HUD title");
+				dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+					[UIColor sleep];
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[hud1 hideAnimated:YES];
+					});
+				});
+			});
+		});
+	});
+}
+
 - (void)indeterminateExample {
+	[MBProgressHUD showError:@"error" afterDelay:2];
+	return;
     // Show the HUD on the root view (self.view is a scrollable table view and thus not suitable,
     // as the HUD would move with the content as we scroll).
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -85,6 +137,8 @@
 }
 
 - (void)labelExample {
+	[MBProgressHUD showError:@"error"];
+	return;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
     // Set the label text.
@@ -101,6 +155,8 @@
 }
 
 - (void)detailsLabelExample {
+	[MBProgressHUD showSuccess:@"success"];
+	return;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
     // Set the label text.
@@ -117,6 +173,8 @@
 }
 
 - (void)windowExample {
+	[MBProgressHUD showSuccess:@"success" afterDelay:2];
+	return;
     // Covers the entire screen. Similar to using the root view controller view.
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
@@ -128,6 +186,8 @@
 }
 
 - (void)determinateExample {
+	[MBProgressHUD showMessage:@"message" afterDelay:2];
+	return;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
     // Set the determinate mode to show task progress.
@@ -144,6 +204,14 @@
 }
 
 - (void)annularDeterminateExample {
+	[MBProgressHUD showMessage:@"message"];
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		[self doSomeWork];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[MBProgressHUD hideHUD];
+		});
+	});
+	return;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
     // Set the annular determinate mode to show task progress.

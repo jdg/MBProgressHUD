@@ -688,6 +688,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
+- (void)setActivityColor:(UIColor *)activityColor {
+    if (activityColor != _activityColor && ![activityColor isEqual:_activityColor]) {
+        _activityColor = activityColor;
+        ((UIActivityIndicatorView *)self.indicator).color = activityColor;
+    }
+}
+
 #pragma mark - Notifications
 
 - (void)registerForNotifications {
