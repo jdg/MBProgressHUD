@@ -444,7 +444,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
         UIActivityIndicatorView *appearance = nil;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
         appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
 #else
         // For iOS9+
@@ -456,7 +456,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
         MBRoundProgressView *appearance = nil;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
         appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
 #else
         appearance = [MBRoundProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
@@ -469,7 +469,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
         MBBarProgressView *appearance = nil;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
         appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
 #else
         appearance = [MBBarProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
