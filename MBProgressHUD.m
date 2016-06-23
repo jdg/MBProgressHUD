@@ -443,12 +443,24 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-        UIActivityIndicatorView *appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        UIActivityIndicatorView *appearance = nil;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+        appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        // For iOS9+
+        appearance = [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
+        
         if (appearance.color == nil) {
             ((UIActivityIndicatorView *)indicator).color = color;
         }
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
-        MBRoundProgressView *appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        MBRoundProgressView *appearance = nil;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+        appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        appearance = [MBRoundProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
         if (appearance.progressTintColor == nil) {
             ((MBRoundProgressView *)indicator).progressTintColor = color;
         }
@@ -456,7 +468,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
         }
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
-        MBBarProgressView *appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        MBBarProgressView *appearance = nil;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+        appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        appearance = [MBBarProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
         if (appearance.progressColor == nil) {
             ((MBBarProgressView *)indicator).progressColor = color;
         }
