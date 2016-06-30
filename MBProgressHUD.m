@@ -147,7 +147,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
     } 
-    // ... otherwise show the HUD imediately 
+    // ... otherwise show the HUD immediately
     else {
         [self showUsingAnimation:self.useAnimation];
     }
@@ -439,7 +439,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 #pragma clang diagnostic pop
 
-    // UIApprance settings are prioritized. If they are preset the set color is ignored.
+    // UIAppearance settings are prioritized. If they are preset the set color is ignored.
 
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
@@ -447,7 +447,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
         appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
 #else
-        // For iOS9+
+        // For iOS 9+
         appearance = [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
 #endif
         
