@@ -610,7 +610,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)layoutSubviews {
-    [self updatePaddingConstraints];
+    // There is no need to update constraints if they are going to
+    // be recreated in [super layoutSubviews] due to needsUpdateConstraints being set.
+    // This also avoids an issue on iOS 8, where updatePaddingConstraints
+    // would trigger a zombie object access.
+    if (!self.needsUpdateConstraints) {
+        [self updatePaddingConstraints];
+    }
     [super layoutSubviews];
 }
 
