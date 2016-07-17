@@ -1,6 +1,24 @@
-**master**
+**Version 1.0.0** @ 14.07.16
 
- - Added support for `NSProgress`
+- Requires ARC and iOS 6+.
+- Includes a new default design for iOS 7+.
+- Deprecates certain helpers and exposes some more flexible API.
+- Removes KVO observing of local properties.
+- Migrates layout code to Auto Layout. 
+- Includes a rewritten demo app. 
+- Includes a rewritten example app. 
+- Updates and extends documentation.
+- Adds support for `NSProgress`
+- Adds a new customizable background view class. 
+- Adds new assertions. 
+- Adds basic unit tests.
+- Adds support for motion effects.
+- Adds nullability.
+- Adds basic interface builder support. 
+- Adds tvOS support.
+- Improves behavior when showing and hiding in quick succession. 
+- Improves support for `UIAppearance `. 
+- Various smaller bug-fixes
 
 **Version 0.9.2** @ 22.12.15
 
