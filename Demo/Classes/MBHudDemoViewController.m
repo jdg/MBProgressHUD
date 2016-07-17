@@ -151,7 +151,7 @@
 	hud.mode = MBProgressHUDModeDeterminate;
 	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
 	
-	NSProgress *progressObject = [NSProgress progressWithTotalUnitCount:200000];
+	NSProgress *progressObject = [NSProgress progressWithTotalUnitCount:100];
 	
 	hud.progressObject = progressObject;
 	
@@ -316,6 +316,7 @@
 		if (self.canceled) break;
 		[progressObject becomeCurrentWithPendingUnitCount:1];
 		[progressObject resignCurrent];
+		usleep(50000);
 	}
 }
 
