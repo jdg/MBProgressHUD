@@ -3,7 +3,7 @@
 //  HudDemo
 //
 //  Created by Matej Bukovinski on 2.4.09.
-//  Copyright bukovinski.com 2009-2015. All rights reserved.
+//  Copyright © 2009-2016 Matej Bukovinski. All rights reserved.
 //
 
 #import "MBHudDemoAppDelegate.h"
