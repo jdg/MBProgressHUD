@@ -1092,7 +1092,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
 @property UIVisualEffectView *effectView;
 #endif
+#if !TARGET_OS_TV
 @property UIToolbar *toolbar;
+#endif
 
 @end
 
@@ -1167,12 +1169,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             self.effectView = effectView;
         } else {
 #endif
+#if !TARGET_OS_TV
             UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectInset(self.bounds, -100.f, -100.f)];
             toolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             toolbar.barTintColor = self.color;
             toolbar.translucent = YES;
             [self addSubview:toolbar];
             self.toolbar = toolbar;
+#endif
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
         }
 #endif
@@ -1183,8 +1187,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             self.effectView = nil;
         } else {
 #endif
+#if !TARGET_OS_TV
             [self.toolbar removeFromSuperview];
             self.toolbar = nil;
+#endif
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
         }
 #endif
@@ -1197,7 +1203,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
             self.backgroundColor = self.color;
         } else {
+#if !TARGET_OS_TV
             self.toolbar.barTintColor = color;
+#endif
         }
     } else {
         self.backgroundColor = self.color;
