@@ -151,11 +151,15 @@
 	// Set the determinate mode to show task progress.
 	hud.mode = MBProgressHUDModeDeterminate;
 	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
-	
+
+	// Set up NSPorgress
 	NSProgress *progressObject = [NSProgress progressWithTotalUnitCount:100];
-	
 	hud.progressObject = progressObject;
-	
+
+	// Configure a cacnel button.
+	[hud.button setTitle:NSLocalizedString(@"Cancel", @"HUD cancel button title") forState:UIControlStateNormal];
+	[hud.button addTarget:progressObject action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+
 	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
 		// Do something useful in the background and update the HUD periodically.
 		[self doSomeWorkWithProgressObject:progressObject];
@@ -311,10 +315,9 @@
 }
 
 - (void)doSomeWorkWithProgressObject:(NSProgress *)progressObject {
-	self.canceled = NO;
 	// This just increases the progress indicator in a loop.
 	while (progressObject.fractionCompleted < 1.0f) {
-		if (self.canceled) break;
+		if (progressObject.isCancelled) break;
 		[progressObject becomeCurrentWithPendingUnitCount:1];
 		[progressObject resignCurrent];
 		usleep(50000);
