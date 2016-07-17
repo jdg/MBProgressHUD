@@ -8,6 +8,7 @@
 - Includes a rewritten demo app. 
 - Includes a rewritten iOS example app.
 - Updates and extends documentation.
+- Adds a new button property (cancellation support).
 - Adds support for `NSProgress`
 - Adds a new customizable background view class. 
 - Adds new assertions. 
