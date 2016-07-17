@@ -1,13 +1,10 @@
 {
   "layers" : [
     {
-      "filename" : "Front.imagestacklayer"
+      "filename" : "vector-smart-object.imagestacklayer"
     },
     {
-      "filename" : "Middle.imagestacklayer"
-    },
-    {
-      "filename" : "Back.imagestacklayer"
+      "filename" : "gradient-fill-6-copy.imagestacklayer"
     }
   ],
   "info" : {
