@@ -11,11 +11,11 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		5BE141EE1CD8C33D0023BC9E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE141ED1CD8C33D0023BC9E /* QuartzCore.framework */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
+		D274948B1D3B74AA00ABEB66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D274948A1D3B74AA00ABEB66 /* Images.xcassets */; };
 		D27F18451D3B5878009D7482 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18441D3B5878009D7482 /* main.m */; };
 		D27F18481D3B5878009D7482 /* MBHudDemoTVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18471D3B5878009D7482 /* MBHudDemoTVAppDelegate.m */; };
 		D27F184B1D3B5878009D7482 /* MBHudDemoTVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F184A1D3B5878009D7482 /* MBHudDemoTVViewController.m */; };
 		D27F184E1D3B5878009D7482 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27F184C1D3B5878009D7482 /* Main.storyboard */; };
-		D27F18501D3B5878009D7482 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27F184F1D3B5878009D7482 /* Assets.xcassets */; };
 		D27F18551D3B5AAF009D7482 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
 		D27F185A1D3B5DFF009D7482 /* MBHudDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18581D3B5DFF009D7482 /* MBHudDemoAppDelegate.m */; };
 		D27F185B1D3B5DFF009D7482 /* MBHudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18591D3B5DFF009D7482 /* MBHudDemoViewController.m */; };
@@ -44,6 +44,7 @@
 		5BE141ED1CD8C33D0023BC9E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../MBProgressHUD.m; sourceTree = "<group>"; };
+		D274948A1D3B74AA00ABEB66 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D27F18411D3B5878009D7482 /* HudDemoTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HudDemoTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D27F18441D3B5878009D7482 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D27F18461D3B5878009D7482 /* MBHudDemoTVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBHudDemoTVAppDelegate.h; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		D27F18491D3B5878009D7482 /* MBHudDemoTVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBHudDemoTVViewController.h; sourceTree = "<group>"; };
 		D27F184A1D3B5878009D7482 /* MBHudDemoTVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBHudDemoTVViewController.m; sourceTree = "<group>"; };
 		D27F184D1D3B5878009D7482 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D27F184F1D3B5878009D7482 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D27F18511D3B5878009D7482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D27F18561D3B5DFF009D7482 /* MBHudDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBHudDemoAppDelegate.h; path = HudDemo/MBHudDemoAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		D27F18571D3B5DFF009D7482 /* MBHudDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBHudDemoViewController.h; path = HudDemo/MBHudDemoViewController.h; sourceTree = SOURCE_ROOT; };
@@ -201,8 +201,8 @@
 			isa = PBXGroup;
 			children = (
 				D27F184C1D3B5878009D7482 /* Main.storyboard */,
-				D27F184F1D3B5878009D7482 /* Assets.xcassets */,
 				D27F18511D3B5878009D7482 /* Info.plist */,
+				D274948A1D3B74AA00ABEB66 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -337,8 +337,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D27F18501D3B5878009D7482 /* Assets.xcassets in Resources */,
 				D27F184E1D3B5878009D7482 /* Main.storyboard in Resources */,
+				D274948B1D3B74AA00ABEB66 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +515,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icons;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -549,7 +549,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icons;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -661,6 +661,7 @@
 				D27F18531D3B5878009D7482 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2B174161C5E3A3D00021915 /* Build configuration list for PBXNativeTarget "HudTests" */ = {
 			isa = XCConfigurationList;
