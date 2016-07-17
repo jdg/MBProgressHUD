@@ -156,7 +156,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)hideAnimated:(BOOL)animated {
     MBMainThreadAssert();
-    self.progressObjectDisplayLink = nil;
     [self.graceTimer invalidate];
     self.useAnimation = animated;
     self.finished = YES;
@@ -216,6 +215,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     self.showStarted = [NSDate date];
     self.alpha = 1.f;
+
+    // Needed in case we hide and re-show with the same NSProgress object attached.
+    [self setUpProgressDidsplayLink];
 
     if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
@@ -288,6 +290,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)done {
     // Cancel any scheduled hideDelayed: calls
     [self.hideDelayTimer invalidate];
+    [self invalidateProgressDisplayLink];
 
     if (self.hasFinished) {
         self.alpha = 0.0f;
@@ -702,17 +705,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgressObject:(NSProgress *)progressObject {
     if (progressObject != _progressObject) {
         _progressObject = progressObject;
-        
-        // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
-        // so we're refreshing the progress only every frame draw
-        self.progressObjectDisplayLink = [CADisplayLink displayLinkWithTarget:self
-                                                                     selector:@selector(updateProgressFromProgressObject)];
-        
+        [self setUpProgressDidsplayLink];
     }
-}
-
-- (void)updateProgressFromProgressObject {
-    self.progress = self.progressObject.fractionCompleted;
 }
 
 - (void)setProgress:(float)progress {
@@ -737,6 +731,24 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _defaultMotionEffectsEnabled = defaultMotionEffectsEnabled;
         [self updateBezelMotionEffects];
     }
+}
+
+#pragma mark - NSProgress
+
+- (void)setUpProgressDidsplayLink {
+    if (self.progressObject) {
+        // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
+        // so we're refreshing the progress only every frame draw
+        self.progressObjectDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateProgressFromProgressObject)];
+    }
+}
+
+- (void)invalidateProgressDisplayLink {
+    self.progressObjectDisplayLink = nil;
+}
+
+- (void)updateProgressFromProgressObject {
+    self.progress = self.progressObject.fractionCompleted;
 }
 
 #pragma mark - Notifications
