@@ -6,7 +6,7 @@
 - Removes KVO observing of local properties.
 - Migrates layout code to Auto Layout. 
 - Includes a rewritten demo app. 
-- Includes a rewritten example app. 
+- Includes a rewritten iOS example app.
 - Updates and extends documentation.
 - Adds support for `NSProgress`
 - Adds a new customizable background view class. 
@@ -16,6 +16,7 @@
 - Adds nullability.
 - Adds basic interface builder support. 
 - Adds tvOS support.
+- Adds a simple tvOS example app.
 - Improves behavior when showing and hiding in quick succession. 
 - Improves support for `UIAppearance `. 
 - Various smaller bug-fixes
