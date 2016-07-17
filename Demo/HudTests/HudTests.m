@@ -226,28 +226,6 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-- (void)testDoubleHide {
-    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
-    UIView *rootView = rootViewController.view;
-
-    self.hideExpectation = [self expectationWithDescription:@"The hud should have been hidden."];
-
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
-    [rootView addSubview:hud];
-    [hud showAnimated:YES];
-
-    XCTAssertNotNil(hud, @"A HUD should be created.");
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        MBTestHUDIsVisible(hud, rootView);
-
-        [hud hideAnimated:YES];
-//        [hud hideAnimated:YES];
-    });
-
-    [self waitForExpectationsWithTimeout:5. handler:nil];
-}
-
 #pragma mark - Min show time
 
 - (void)testMinShowTime {
