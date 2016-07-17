@@ -217,7 +217,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.alpha = 1.f;
 
     // Needed in case we hide and re-show with the same NSProgress object attached.
-    [self setUpProgressDidsplayLink];
+    [self setNSProgressDisplayLinkEnabled:YES];
 
     if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
@@ -290,7 +290,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)done {
     // Cancel any scheduled hideDelayed: calls
     [self.hideDelayTimer invalidate];
-    [self invalidateProgressDisplayLink];
+    [self setNSProgressDisplayLinkEnabled:NO];
 
     if (self.hasFinished) {
         self.alpha = 0.0f;
@@ -705,7 +705,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgressObject:(NSProgress *)progressObject {
     if (progressObject != _progressObject) {
         _progressObject = progressObject;
-        [self setUpProgressDidsplayLink];
+        [self setNSProgressDisplayLinkEnabled:YES];
     }
 }
 
@@ -735,16 +735,17 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 #pragma mark - NSProgress
 
-- (void)setUpProgressDidsplayLink {
-    if (self.progressObject) {
-        // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
-        // so we're refreshing the progress only every frame draw
-        self.progressObjectDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateProgressFromProgressObject)];
+- (void)setNSProgressDisplayLinkEnabled:(BOOL)enabled {
+    // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
+    // so we're refreshing the progress only every frame draw
+    if (enabled && self.progressObject) {
+        // Only create if not already active.
+        if (!self.progressObjectDisplayLink) {
+            self.progressObjectDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateProgressFromProgressObject)];
+        }
+    } else {
+        self.progressObjectDisplayLink = nil;
     }
-}
-
-- (void)invalidateProgressDisplayLink {
-    self.progressObjectDisplayLink = nil;
 }
 
 - (void)updateProgressFromProgressObject {
