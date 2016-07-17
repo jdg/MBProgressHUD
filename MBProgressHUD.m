@@ -1,6 +1,6 @@
 //
 // MBProgressHUD.m
-// Version 0.9.2
+// Version 1.0.0
 // Created by Matej Bukovinski on 2.4.09.
 //
 
@@ -148,7 +148,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
     } 
-    // ... otherwise show the HUD imediately 
+    // ... otherwise show the HUD immediately
     else {
         [self showUsingAnimation:self.useAnimation];
     }
@@ -441,16 +441,28 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 #pragma clang diagnostic pop
 
-    // UIApprance settings are prioritized. If they are preset the set color is ignored.
+    // UIAppearance settings are prioritized. If they are preset the set color is ignored.
 
     UIView *indicator = self.indicator;
     if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-        UIActivityIndicatorView *appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        UIActivityIndicatorView *appearance = nil;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
+        appearance = [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        // For iOS 9+
+        appearance = [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
+        
         if (appearance.color == nil) {
             ((UIActivityIndicatorView *)indicator).color = color;
         }
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
-        MBRoundProgressView *appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        MBRoundProgressView *appearance = nil;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
+        appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        appearance = [MBRoundProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
         if (appearance.progressTintColor == nil) {
             ((MBRoundProgressView *)indicator).progressTintColor = color;
         }
@@ -458,7 +470,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
         }
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
-        MBBarProgressView *appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+        MBBarProgressView *appearance = nil;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
+        appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
+#else
+        appearance = [MBBarProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
+#endif
         if (appearance.progressColor == nil) {
             ((MBBarProgressView *)indicator).progressColor = color;
         }
@@ -595,7 +612,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)layoutSubviews {
-    [self updatePaddingConstraints];
+    // There is no need to update constraints if they are going to
+    // be recreated in [super layoutSubviews] due to needsUpdateConstraints being set.
+    // This also avoids an issue on iOS 8, where updatePaddingConstraints
+    // would trigger a zombie object access.
+    if (!self.needsUpdateConstraints) {
+        [self updatePaddingConstraints];
+    }
     [super layoutSubviews];
 }
 
