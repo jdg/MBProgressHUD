@@ -1,21 +1,21 @@
 **Version 0.9.2** @ 22.12.15
 
- - Timer improvements
- - Additional assertions 
- - Added a framework target
- - Tint progress tint color enhancements
+- Timer improvements
+- Additional assertions 
+- Added a framework target
+- Tint progress tint color enhancements
 
 **Version 0.9.1** @ 06.03.15
 
- - Bug-fixes
- - Modernization
+- Bug-fixes
+- Modernization
 
 **Version 0.9** @ 12.08.14
 
- - iOS 8 compatibility and some bug fixes.
- - Additional iOS 7 / iOS 8 styling enhancements. 
- - Improved 64bit support. 
- - Demo modernization. 
+- iOS 8 compatibility and some bug fixes.
+- Additional iOS 7 / iOS 8 styling enhancements. 
+- Improved 64bit support. 
+- Demo modernization. 
 
 **Version 0.8** @ 19.09.13
 
