@@ -784,7 +784,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)updateForCurrentOrientationAnimated:(BOOL)animated {
     // Stay in sync with the superview in any case
     if (self.superview) {
-        self.bounds = self.superview.bounds;
+        self.frame = self.superview.bounds;
     }
 
     // Not needed on iOS 8+, compile out when the deployment target allows,
