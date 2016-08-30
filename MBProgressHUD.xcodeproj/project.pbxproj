@@ -209,7 +209,6 @@
 				TargetAttributes = {
 					1777D3DE1D757AF50037C7F1 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = RW4GJT4298;
 						ProvisioningStyle = Automatic;
 					};
 					1D104D791ACA36CC00973364 = {
@@ -296,7 +295,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = RW4GJT4298;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -306,7 +305,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.matej.MBProgressHUD-Framework-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matej.MBProgressHUD;
 				PRODUCT_NAME = MBProgressHUD;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -333,7 +332,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = RW4GJT4298;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -344,7 +343,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.matej.MBProgressHUD-Framework-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.matej.MBProgressHUD;
 				PRODUCT_NAME = MBProgressHUD;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -366,6 +365,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -401,6 +401,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -525,6 +526,7 @@
 				1777D3E51D757AF50037C7F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1D104D8D1ACA36CC00973364 /* Build configuration list for PBXNativeTarget "MBProgressHUD Framework" */ = {
 			isa = XCConfigurationList;

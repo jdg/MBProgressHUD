@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1777D3DE1D757AF50037C7F1"
-               BuildableName = "MBProgressHUD Framework tvOS.framework"
+               BuildableName = "MBProgressHUD.framework"
                BlueprintName = "MBProgressHUD Framework tvOS"
                ReferencedContainer = "container:MBProgressHUD.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1777D3DE1D757AF50037C7F1"
-            BuildableName = "MBProgressHUD Framework tvOS.framework"
+            BuildableName = "MBProgressHUD.framework"
             BlueprintName = "MBProgressHUD Framework tvOS"
             ReferencedContainer = "container:MBProgressHUD.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1777D3DE1D757AF50037C7F1"
-            BuildableName = "MBProgressHUD Framework tvOS.framework"
+            BuildableName = "MBProgressHUD.framework"
             BlueprintName = "MBProgressHUD Framework tvOS"
             ReferencedContainer = "container:MBProgressHUD.xcodeproj">
          </BuildableReference>
