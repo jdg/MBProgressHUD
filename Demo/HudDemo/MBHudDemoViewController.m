@@ -220,7 +220,7 @@
 - (void)textExample {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
-    // Set the annular determinate mode to show task progress.
+    // Set the text mode to show only text.
     hud.mode = MBProgressHUDModeText;
     hud.label.text = NSLocalizedString(@"Message here!", @"HUD message title");
     // Move to bottm center.
