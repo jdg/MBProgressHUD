@@ -152,11 +152,11 @@
 	hud.mode = MBProgressHUDModeDeterminate;
 	hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
 
-	// Set up NSPorgress
+	// Set up NSProgress
 	NSProgress *progressObject = [NSProgress progressWithTotalUnitCount:100];
 	hud.progressObject = progressObject;
 
-	// Configure a cacnel button.
+	// Configure a cancel button.
 	[hud.button setTitle:NSLocalizedString(@"Cancel", @"HUD cancel button title") forState:UIControlStateNormal];
 	[hud.button addTarget:progressObject action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
 
@@ -220,7 +220,7 @@
 - (void)textExample {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
-    // Set the annular determinate mode to show task progress.
+    // Set the text mode to show only text.
     hud.mode = MBProgressHUDModeText;
     hud.label.text = NSLocalizedString(@"Message here!", @"HUD message title");
     // Move to bottm center.
