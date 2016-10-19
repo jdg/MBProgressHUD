@@ -234,7 +234,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (animated && self.showStarted) {
         self.showStarted = nil;
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
-            [self done];
+	    if (finished) {
+	      [self done];
+	    }
         }];
     } else {
         self.showStarted = nil;
