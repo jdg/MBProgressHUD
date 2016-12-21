@@ -66,6 +66,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     return hud;
 }
 
++ (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view title:(NSString *)title animated:(BOOL)animated {
+    MBProgressHUD *hud = [[self alloc] initWithView:view];
+    hud.labelText = title;
+    hud.removeFromSuperViewOnHide = YES;
+    [view addSubview:hud];
+    [hud show:animated];
+    return MB_AUTORELEASE(hud);
+}
+
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
     MBProgressHUD *hud = [self HUDForView:view];
     if (hud != nil) {
