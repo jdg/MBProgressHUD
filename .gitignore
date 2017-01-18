@@ -20,3 +20,6 @@ profile
 
 # AppCode noise
 .idea/
+
+# Ruby
+.ruby-version
