@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name Showing and hiding
 
 /**
- * Finds the top-most HUD subview and hides it. The counterpart to this method is showHUDAddedTo:animated:.
+ * Finds the top-most HUD subview that hasn't finished and hides it. The counterpart to this method is showHUDAddedTo:animated:.
  *
  * @note This method sets removeFromSuperViewOnHide. The HUD will automatically be removed from the view hierarchy when hidden.
  *
@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;
 
 /**
- * Finds the top-most HUD subview and returns it. 
+ * Finds the top-most HUD subview that hasn't finished and returns it.
  *
  * @param view The view that is going to be searched.
  * @return A reference to the last HUD subview discovered.
