@@ -225,6 +225,7 @@
     hud.label.text = NSLocalizedString(@"Message here!", @"HUD message title");
     // Move to bottm center.
     hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
+    hud.contentInsets = UIEdgeInsetsMake(20, 80, 20, 80);
 
     [hud hideAnimated:YES afterDelay:3.f];
 }
