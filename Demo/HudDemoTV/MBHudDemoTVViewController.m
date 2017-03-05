@@ -17,7 +17,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     // Set the determinate mode to show task progress.
-    hud.mode = MBProgressHUDModeDeterminate;
+    hud.mode = ProgressHUDModeDeterminate;
     hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{

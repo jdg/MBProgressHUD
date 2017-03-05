@@ -10,6 +10,21 @@
 		1315DD7617804CBC0032507D /* MBProgressHUD.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D286A7511518C70F00E13FB8 /* MBProgressHUD.h */; };
 		1D104D931ACA371400973364 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		1D104D941ACA373100973364 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = D286A7511518C70F00E13FB8 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75A9E2C11E6C3CF80001A1A2 /* ProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2C01E6C3CF80001A1A2 /* ProgressHUD.h */; };
+		75A9E2C41E6C44960001A1A2 /* MBRoundProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2C21E6C44960001A1A2 /* MBRoundProgressView.h */; };
+		75A9E2C51E6C44960001A1A2 /* MBRoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2C31E6C44960001A1A2 /* MBRoundProgressView.m */; };
+		75A9E2C61E6C44960001A1A2 /* MBRoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2C31E6C44960001A1A2 /* MBRoundProgressView.m */; };
+		75A9E2C91E6C44EE0001A1A2 /* MBBarProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2C71E6C44EE0001A1A2 /* MBBarProgressView.h */; };
+		75A9E2CA1E6C44EE0001A1A2 /* MBBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2C81E6C44EE0001A1A2 /* MBBarProgressView.m */; };
+		75A9E2CB1E6C44EE0001A1A2 /* MBBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2C81E6C44EE0001A1A2 /* MBBarProgressView.m */; };
+		75A9E2CE1E6C45DD0001A1A2 /* MBBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2CC1E6C45DD0001A1A2 /* MBBackgroundView.h */; };
+		75A9E2CF1E6C45DD0001A1A2 /* MBBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2CD1E6C45DD0001A1A2 /* MBBackgroundView.m */; };
+		75A9E2D01E6C45DD0001A1A2 /* MBBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2CD1E6C45DD0001A1A2 /* MBBackgroundView.m */; };
+		75A9E2D21E6C464C0001A1A2 /* ProgressBackgroundViewing.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2D11E6C464C0001A1A2 /* ProgressBackgroundViewing.h */; };
+		75A9E2D51E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2D31E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.h */; };
+		75A9E2D61E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2D41E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m */; };
+		75A9E2D71E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A9E2D41E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m */; };
+		75A9E2D91E6C4F7A0001A1A2 /* ProgressHUDDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A9E2D81E6C4F7A0001A1A2 /* ProgressHUDDelegate.h */; };
 		D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A74C1518C70F00E13FB8 /* Foundation.framework */; };
 		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
@@ -33,6 +48,17 @@
 		1315DD73178045000032507D /* MBProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		1D104D7A1ACA36CC00973364 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D104D951ACA376200973364 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = SOURCE_ROOT; };
+		75A9E2C01E6C3CF80001A1A2 /* ProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUD.h; sourceTree = SOURCE_ROOT; };
+		75A9E2C21E6C44960001A1A2 /* MBRoundProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBRoundProgressView.h; sourceTree = SOURCE_ROOT; };
+		75A9E2C31E6C44960001A1A2 /* MBRoundProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBRoundProgressView.m; sourceTree = SOURCE_ROOT; };
+		75A9E2C71E6C44EE0001A1A2 /* MBBarProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBarProgressView.h; sourceTree = SOURCE_ROOT; };
+		75A9E2C81E6C44EE0001A1A2 /* MBBarProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBarProgressView.m; sourceTree = SOURCE_ROOT; };
+		75A9E2CC1E6C45DD0001A1A2 /* MBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBackgroundView.h; sourceTree = SOURCE_ROOT; };
+		75A9E2CD1E6C45DD0001A1A2 /* MBBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBackgroundView.m; sourceTree = SOURCE_ROOT; };
+		75A9E2D11E6C464C0001A1A2 /* ProgressBackgroundViewing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBackgroundViewing.h; sourceTree = SOURCE_ROOT; };
+		75A9E2D31E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUDRoundedButton.h; sourceTree = SOURCE_ROOT; };
+		75A9E2D41E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUDRoundedButton.m; sourceTree = SOURCE_ROOT; };
+		75A9E2D81E6C4F7A0001A1A2 /* ProgressHUDDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressHUDDelegate.h; sourceTree = SOURCE_ROOT; };
 		D286A7491518C70F00E13FB8 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D286A74C1518C70F00E13FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D286A7511518C70F00E13FB8 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
@@ -102,8 +128,19 @@
 		D286A74E1518C70F00E13FB8 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
+				75A9E2CC1E6C45DD0001A1A2 /* MBBackgroundView.h */,
+				75A9E2CD1E6C45DD0001A1A2 /* MBBackgroundView.m */,
+				75A9E2C71E6C44EE0001A1A2 /* MBBarProgressView.h */,
+				75A9E2C81E6C44EE0001A1A2 /* MBBarProgressView.m */,
 				D286A7511518C70F00E13FB8 /* MBProgressHUD.h */,
 				D286A7521518C70F00E13FB8 /* MBProgressHUD.m */,
+				75A9E2D31E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.h */,
+				75A9E2D41E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m */,
+				75A9E2C21E6C44960001A1A2 /* MBRoundProgressView.h */,
+				75A9E2C31E6C44960001A1A2 /* MBRoundProgressView.m */,
+				75A9E2D11E6C464C0001A1A2 /* ProgressBackgroundViewing.h */,
+				75A9E2C01E6C3CF80001A1A2 /* ProgressHUD.h */,
+				75A9E2D81E6C4F7A0001A1A2 /* ProgressHUDDelegate.h */,
 				1315DD72178044770032507D /* Supporting Files */,
 			);
 			path = MBProgressHUD;
@@ -117,6 +154,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D104D941ACA373100973364 /* MBProgressHUD.h in Headers */,
+				75A9E2D51E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.h in Headers */,
+				75A9E2D21E6C464C0001A1A2 /* ProgressBackgroundViewing.h in Headers */,
+				75A9E2CE1E6C45DD0001A1A2 /* MBBackgroundView.h in Headers */,
+				75A9E2D91E6C4F7A0001A1A2 /* ProgressHUDDelegate.h in Headers */,
+				75A9E2C91E6C44EE0001A1A2 /* MBBarProgressView.h in Headers */,
+				75A9E2C11E6C3CF80001A1A2 /* ProgressHUD.h in Headers */,
+				75A9E2C41E6C44960001A1A2 /* MBRoundProgressView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,7 +209,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MB;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Matej Bukovinski";
 				TargetAttributes = {
 					1D104D791ACA36CC00973364 = {
@@ -207,6 +251,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D104D931ACA371400973364 /* MBProgressHUD.m in Sources */,
+				75A9E2D71E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m in Sources */,
+				75A9E2CB1E6C44EE0001A1A2 /* MBBarProgressView.m in Sources */,
+				75A9E2C61E6C44960001A1A2 /* MBRoundProgressView.m in Sources */,
+				75A9E2D01E6C45DD0001A1A2 /* MBBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +263,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */,
+				75A9E2D61E6C4CF50001A1A2 /* MBProgressHUDRoundedButton.m in Sources */,
+				75A9E2CA1E6C44EE0001A1A2 /* MBBarProgressView.m in Sources */,
+				75A9E2C51E6C44960001A1A2 /* MBRoundProgressView.m in Sources */,
+				75A9E2CF1E6C45DD0001A1A2 /* MBBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +282,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -265,7 +317,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -300,7 +352,9 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -339,7 +393,9 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;

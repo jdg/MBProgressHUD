@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MBProgressHUD"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "An iOS activity indicator view."
   s.description  = <<-DESC
                     MBProgressHUD is an iOS drop-in class that displays a translucent HUD 
