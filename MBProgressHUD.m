@@ -23,7 +23,8 @@ CGFloat const MBProgressMaxOffset = 1000000.f;
 static const CGFloat MBDefaultPadding = 4.f;
 static const CGFloat MBDefaultLabelFontSize = 16.f;
 static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
-
+static UIColor *_deaultBarColor;
+static UIColor *_deaultRoundColor;
 
 @interface MBProgressHUD () {
     // Deprecated
@@ -460,29 +461,17 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((UIActivityIndicatorView *)indicator).color = color;
         }
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
-        MBRoundProgressView *appearance = nil;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
-        appearance = [MBRoundProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
-#else
-        appearance = [MBRoundProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
-#endif
-        if (appearance.progressTintColor == nil) {
+        if (((MBRoundProgressView *)indicator).progressTintColor == _deaultRoundColor) {
             ((MBRoundProgressView *)indicator).progressTintColor = color;
         }
-        if (appearance.backgroundTintColor == nil) {
+        if (((MBRoundProgressView *)indicator).backgroundTintColor == _deaultRoundColor) {
             ((MBRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
         }
     } else if ([indicator isKindOfClass:[MBBarProgressView class]]) {
-        MBBarProgressView *appearance = nil;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
-        appearance = [MBBarProgressView appearanceWhenContainedIn:[MBProgressHUD class], nil];
-#else
-        appearance = [MBBarProgressView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
-#endif
-        if (appearance.progressColor == nil) {
+        if (((MBBarProgressView *)indicator).progressColor == _deaultBarColor) {
             ((MBBarProgressView *)indicator).progressColor = color;
         }
-        if (appearance.lineColor == nil) {
+        if (((MBBarProgressView *)indicator).lineColor == _deaultBarColor) {
             ((MBBarProgressView *)indicator).lineColor = color;
         }
     } else {
@@ -829,6 +818,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
+    _deaultRoundColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
     return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
 }
 
@@ -839,8 +829,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         self.opaque = NO;
         _progress = 0.f;
         _annular = NO;
-        _progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
-        _backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];
+        _progressTintColor = _deaultRoundColor;
+        _backgroundTintColor = _deaultRoundColor;
     }
     return self;
 }
@@ -950,6 +940,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
+    _deaultBarColor = [UIColor whiteColor];
     return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
 
@@ -957,8 +948,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self = [super initWithFrame:frame];
     if (self) {
         _progress = 0.f;
-        _lineColor = [UIColor whiteColor];
-        _progressColor = [UIColor whiteColor];
+        _lineColor = _deaultBarColor;
+        _progressColor = _deaultBarColor;
         _progressRemainingColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
