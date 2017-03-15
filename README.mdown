@@ -78,7 +78,7 @@ If you need to configure the HUD you can do this by using the MBProgressHUD refe
 
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-hud.mode = MBProgressHUDModeAnnularDeterminate;
+hud.mode = ProgressHUDModeAnnularDeterminate;
 hud.labelText = @"Loading";
 [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
 	hud.progress = progress;
@@ -91,7 +91,7 @@ You can also use a `NSProgress` object and MBProgressHUD will update itself when
 
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-hud.mode = MBProgressHUDModeAnnularDeterminate;
+hud.mode = ProgressHUDModeAnnularDeterminate;
 hud.labelText = @"Loading";
 NSProgress *progress = [self doSomethingInBackgroundCompletion:^{
 	[hud hide:YES];

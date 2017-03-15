@@ -33,7 +33,7 @@ XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out."); \
 XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 } while (0)
 
-@interface HudTests : XCTestCase <MBProgressHUDDelegate>
+@interface HudTests : XCTestCase <ProgressHUDDelegate>
 
 @property (nonatomic) XCTestExpectation *hideExpectation;
 @property (nonatomic, copy) dispatch_block_t hideChecks;
@@ -348,9 +348,9 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
-#pragma mark - MBProgressHUDDelegate
+#pragma mark - ProgressHUDDelegate
 
-- (void)hudWasHidden:(MBProgressHUD *)hud {
+- (void)hudWasHidden:(id<ProgressHUD>)hud {
     if (self.hideChecks) self.hideChecks();
     self.hideChecks = nil;
 
