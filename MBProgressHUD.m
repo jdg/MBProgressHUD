@@ -1110,6 +1110,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if ((self = [super initWithFrame:frame])) {
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
             _style = MBProgressHUDBackgroundStyleBlur;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
+            _blurEffectStyle = UIBlurEffectStyleLight;
+#endif
             if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
                 _color = [UIColor colorWithWhite:0.8f alpha:0.6f];
             } else {
@@ -1154,6 +1157,20 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
+
+- (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
+    if (_blurEffectStyle == blurEffectStyle) {
+        return;
+    }
+
+    _blurEffectStyle = blurEffectStyle;
+
+    [self updateForBackgroundStyle];
+}
+
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Views
 
@@ -1162,7 +1179,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (style == MBProgressHUDBackgroundStyleBlur) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
-            UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            UIBlurEffect *effect = [UIBlurEffect effectWithStyle:self.blurEffectStyle];
             UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
             [self addSubview:effectView];
             effectView.frame = self.bounds;

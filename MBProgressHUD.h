@@ -388,6 +388,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) MBProgressHUDBackgroundStyle style;
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
+/**
+ * The blur effect style, when using MBProgressHUDBackgroundStyleBlur.
+ * Defaults to UIBlurEffectStyleLight.
+ */
+@property (nonatomic) UIBlurEffectStyle blurEffectStyle;
+#endif
+
 /**
  * The background color or the blur tint color.
  * @note Due to iOS 7 not supporting UIVisualEffectView, the blur effect differs slightly between iOS 7 and later versions.
