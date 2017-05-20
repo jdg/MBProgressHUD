@@ -33,7 +33,7 @@
 @interface MBHudDemoViewController () <NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSArray<NSArray<MBExample *> *> *examples;
-// Atomic, because it may be cancelled from main thread, flag is read on a background thread
+// Atomic, because it may be canceled from main thread, flag is read on a background thread
 @property (atomic, assign) BOOL canceled;
 
 @end
