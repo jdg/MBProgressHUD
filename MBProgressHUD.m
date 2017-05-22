@@ -1292,7 +1292,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.taskInProgress = YES;
     self.completionBlock = completion;
     dispatch_async(queue, ^(void) {
-        block();
+        if (block) {
+            block();
+        }
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             [self cleanUp];
         });
