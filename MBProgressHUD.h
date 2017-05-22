@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Removes the HUD from its parent view when hidden.
- * Defaults to NO.
+ * Defaults to YES.
  */
 @property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
 
