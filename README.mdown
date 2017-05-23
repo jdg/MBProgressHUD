@@ -13,7 +13,7 @@
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/v1/6-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/v1/6.png)
 [![](http://dl.dropbox.com/u/378729/MBProgressHUD/v1/7-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/v1/7.png)
 
-**NOTE:** The class has recently undegone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it. 
+**NOTE:** The class has recently undergone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it. 
 
 ## Requirements
 
