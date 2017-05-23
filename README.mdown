@@ -13,7 +13,7 @@
 [![](https://cloud.githubusercontent.com/assets/91322/26737583/955ba17c-477f-11e7-93aa-d952fb0bbce3.png)](https://cloud.githubusercontent.com/assets/91322/26737582/9552886c-477f-11e7-8e90-46acd9a8527c.png)
 [![](https://cloud.githubusercontent.com/assets/91322/26737585/95a31822-477f-11e7-9ca6-b33ceb3a3f49.png)](https://cloud.githubusercontent.com/assets/91322/26737584/956392f6-477f-11e7-918f-717a42758156.png)
 
-**NOTE:** The class has recently undegone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it. 
+**NOTE:** The class has recently undergone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it. 
 
 ## Requirements
 
