@@ -348,6 +348,36 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
+#pragma mark - Table view
+
+- (void)testTableViewCrashOniOS8 {
+    UINavigationController *rootViewController = (UINavigationController *)UIApplication.sharedApplication.keyWindow.rootViewController;
+    XCTAssertTrue([rootViewController isKindOfClass:[UINavigationController class]]);
+    UITableViewController *tableViewController = (UITableViewController *)rootViewController.topViewController;
+    XCTAssertTrue([tableViewController isKindOfClass:[UITableViewController class]]);
+
+    UITableView *rootView = tableViewController.tableView;
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:rootView animated:NO];
+    hud.label.text = @"Downloading...";
+    hud.detailsLabel.text = @"0%";
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+
+    XCTestExpectation *modeChange = [self expectationWithDescription:@"Mode change"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        MBProgressHUD *hud = [MBProgressHUD HUDForView:rootView];
+        hud.label.text = @"Restoring...";
+        hud.mode = MBProgressHUDModeIndeterminate;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [modeChange fulfill];
+        });
+    });
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+
+    [hud hideAnimated:NO];
+}
+
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
