@@ -56,7 +56,7 @@
         [MBExample exampleWithTitle:@"Custom view" selector:@selector(customViewExample)],
         [MBExample exampleWithTitle:@"With action button" selector:@selector(cancelationExample)],
         [MBExample exampleWithTitle:@"Mode switching" selector:@selector(modeSwitchingExample)]],
-      @[[MBExample exampleWithTitle:@"On window" selector:@selector(indeterminateExample)],
+      @[[MBExample exampleWithTitle:@"On window" selector:@selector(windowExample)],
         [MBExample exampleWithTitle:@"NSURLSession" selector:@selector(networkingExample)],
         [MBExample exampleWithTitle:@"Determinate with NSProgress" selector:@selector(determinateNSProgressExample)],
         [MBExample exampleWithTitle:@"Dim background" selector:@selector(dimBackgroundExample)],
