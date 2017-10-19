@@ -1,8 +1,8 @@
 language: objective-c
 osx_image: xcode9
 script: 
-  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudDemo -sdk iphonesimulator clean build
-  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudDemoTV -sdk iphonesimulator clean build
-  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudTests -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPad Air 2,OS=11.0" clean build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
+  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudDemo -sdk iphonesimulator build
+  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudDemoTV -sdk iphonesimulator build
+  - xctool -workspace MBProgressHUD.xcworkspace -scheme HudTests -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPad Air 2,OS=11.0" build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
 after_success:
   - bash <(curl -s https://codecov.io/bash)
