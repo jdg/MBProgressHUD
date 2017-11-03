@@ -79,11 +79,11 @@ If you need to configure the HUD you can do this by using the MBProgressHUD refe
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 hud.mode = MBProgressHUDModeAnnularDeterminate;
-hud.labelText = @"Loading";
+hud.label.text = @"Loading";
 [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
 	hud.progress = progress;
 } completionCallback:^{
-	[hud hide:YES];
+	[hud hideAnimated:YES];
 }];
 ```
 
@@ -92,14 +92,14 @@ You can also use a `NSProgress` object and MBProgressHUD will update itself when
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 hud.mode = MBProgressHUDModeAnnularDeterminate;
-hud.labelText = @"Loading";
+hud.label.text = @"Loading";
 NSProgress *progress = [self doSomethingInBackgroundCompletion:^{
-	[hud hide:YES];
+	[hud hideAnimated:YES];
 }];
 hud.progressObject = progress;
 ```
 
-UI updates should always be done on the main thread. Some MBProgressHUD setters are however considered "thread safe" and can be called from background threads. Those also include `setMode:`, `setCustomView:`, `setLabelText:`, `setLabelFont:`, `setDetailsLabelText:`, `setDetailsLabelFont:` and `setProgress:`.
+Keep in mind that UI updates, inclining calls to MBProgressHUD should always be done on the main thread.
 
 If you need to run your long-running task in the main thread, you should perform it with a slight delay, so UIKit will have enough time to update the UI (i.e., draw the HUD) before you block the main thread with your task.
 
