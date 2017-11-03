@@ -252,7 +252,7 @@ NS_ASSUME_NONNULL_BEGIN
  * When enabled, the bezel center gets slightly affected by the device accelerometer data.
  * Has no effect on iOS < 7.0. Defaults to YES.
  */
-@property (assign, nonatomic, getter=areDefaultMotionEffectsEnabled) BOOL defaultMotionEffectsEnabled UI_APPEARANCE_SELECTOR;
+@property (assign, nonatomic, getter=areDefaultMotionEffectsEnabled) NSInteger defaultMotionEffectsEnabled UI_APPEARANCE_SELECTOR;
 
 /// @name Progress
 
