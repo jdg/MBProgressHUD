@@ -106,7 +106,7 @@
 				D286A7521518C70F00E13FB8 /* MBProgressHUD.m */,
 				1315DD72178044770032507D /* Supporting Files */,
 			);
-			path = MBProgressHUD;
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
