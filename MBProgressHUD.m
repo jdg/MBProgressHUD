@@ -1010,26 +1010,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
     CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
     
-    // Draw background
+    // Draw background and Border
     CGFloat radius = (rect.size.height / 2) - 2;
     CGContextMoveToPoint(context, 2, rect.size.height/2);
     CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
-    CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
     CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
     CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
-    CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
     CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
-    CGContextFillPath(context);
-    
-    // Draw border
-    CGContextMoveToPoint(context, 2, rect.size.height/2);
-    CGContextAddArcToPoint(context, 2, 2, radius + 2, 2, radius);
-    CGContextAddLineToPoint(context, rect.size.width - radius - 2, 2);
-    CGContextAddArcToPoint(context, rect.size.width - 2, 2, rect.size.width - 2, rect.size.height / 2, radius);
-    CGContextAddArcToPoint(context, rect.size.width - 2, rect.size.height - 2, rect.size.width - radius - 2, rect.size.height - 2, radius);
-    CGContextAddLineToPoint(context, radius + 2, rect.size.height - 2);
-    CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
-    CGContextStrokePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
     
     CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
     radius = radius - 2;
