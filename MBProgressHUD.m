@@ -298,7 +298,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self.hasFinished) {
         self.alpha = 0.0f;
         if (self.removeFromSuperViewOnHide) {
-            [self removeFromSuperview];
+            //Check if superview is still valid.
+            //https://github.com/jdg/MBProgressHUD/issues/342
+            if(self.superview != nil){
+                [self removeFromSuperview];
+            }
         }
     }
     MBProgressHUDCompletionBlock completionBlock = self.completionBlock;
