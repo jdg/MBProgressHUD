@@ -189,6 +189,8 @@ NS_ASSUME_NONNULL_BEGIN
  * not be shown at all.
  * This may be used to prevent HUD display for very short tasks.
  * Defaults to 0 (no grace time).
+ * @note The graceTime needs to be set before the hud is shown. You thus can't use `showHUDAddedTo:animated:`,
+ * but instead need to alloc / init the HUD, configure the grace time and than show it manually.
  */
 @property (assign, nonatomic) NSTimeInterval graceTime;
 
