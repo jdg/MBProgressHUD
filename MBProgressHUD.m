@@ -44,9 +44,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
 @property (nonatomic, weak) CADisplayLink *progressObjectDisplayLink;
 
-// Deprecated
-@property (assign) BOOL taskInProgress;
-
 @end
 
 
