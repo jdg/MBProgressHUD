@@ -404,40 +404,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MBProgressHUD (Deprecated)
-
-+ (NSArray *)allHUDsForView:(UIView *)view __attribute__((deprecated("Store references when using more than one HUD per view.")));
-+ (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated __attribute__((deprecated("Store references when using more than one HUD per view.")));
-
-- (id)initWithWindow:(UIWindow *)window __attribute__((deprecated("Use initWithView: instead.")));
-
-- (void)show:(BOOL)animated __attribute__((deprecated("Use showAnimated: instead.")));
-- (void)hide:(BOOL)animated __attribute__((deprecated("Use hideAnimated: instead.")));
-- (void)hide:(BOOL)animated afterDelay:(NSTimeInterval)delay __attribute__((deprecated("Use hideAnimated:afterDelay: instead.")));
-
-- (void)showWhileExecuting:(SEL)method onTarget:(id)target withObject:(id)object animated:(BOOL)animated __attribute__((deprecated("Use GCD directly.")));
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block __attribute__((deprecated("Use GCD directly.")));
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(nullable MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue __attribute__((deprecated("Use GCD directly.")));
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
-     completionBlock:(nullable MBProgressHUDCompletionBlock)completion __attribute__((deprecated("Use GCD directly.")));
-@property (assign) BOOL taskInProgress __attribute__((deprecated("No longer needed.")));
-
-@property (nonatomic, copy) NSString *labelText __attribute__((deprecated("Use label.text instead.")));
-@property (nonatomic, strong) UIFont *labelFont __attribute__((deprecated("Use label.font instead.")));
-@property (nonatomic, strong) UIColor *labelColor __attribute__((deprecated("Use label.textColor instead.")));
-@property (nonatomic, copy) NSString *detailsLabelText __attribute__((deprecated("Use detailsLabel.text instead.")));
-@property (nonatomic, strong) UIFont *detailsLabelFont __attribute__((deprecated("Use detailsLabel.font instead.")));
-@property (nonatomic, strong) UIColor *detailsLabelColor __attribute__((deprecated("Use detailsLabel.textColor instead.")));
-@property (assign, nonatomic) CGFloat opacity __attribute__((deprecated("Customize bezelView properties instead.")));
-@property (strong, nonatomic) UIColor *color __attribute__((deprecated("Customize the bezelView color instead.")));
-@property (assign, nonatomic) CGFloat xOffset __attribute__((deprecated("Set offset.x instead.")));
-@property (assign, nonatomic) CGFloat yOffset __attribute__((deprecated("Set offset.y instead.")));
-@property (assign, nonatomic) CGFloat cornerRadius __attribute__((deprecated("Set bezelView.layer.cornerRadius instead.")));
-@property (assign, nonatomic) BOOL dimBackground __attribute__((deprecated("Customize HUD background properties instead.")));
-@property (strong, nonatomic) UIColor *activityIndicatorColor __attribute__((deprecated("Use UIAppearance to customize UIActivityIndicatorView. E.g.: [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil].color = [UIColor redColor];")));
-@property (atomic, assign, readonly) CGSize size __attribute__((deprecated("Get the bezelView.frame.size instead.")));
-
-@end
-
 NS_ASSUME_NONNULL_END
