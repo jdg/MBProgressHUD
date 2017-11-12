@@ -131,6 +131,58 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Modes
+
+- (void)testRoundDeterminate {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.mode = MBProgressHUDModeDeterminate;
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+
+    MBTestHUDIsVisible(hud, rootView);
+    XCTAssertNotNil([self view:hud firstSubviewOfClass:[MBRoundProgressView class]]);
+
+    XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:NO], @"The HUD should be found and removed.");
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
+- (void)testRoundAnnularDeterminate {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+
+    MBTestHUDIsVisible(hud, rootView);
+    XCTAssertNotNil([self view:hud firstSubviewOfClass:[MBRoundProgressView class]]);
+
+    XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:NO], @"The HUD should be found and removed.");
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
+- (void)testDeterminateHorizontalBar {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+
+    MBTestHUDIsVisible(hud, rootView);
+    XCTAssertNotNil([self view:hud firstSubviewOfClass:[MBBarProgressView class]]);
+
+    XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:NO], @"The HUD should be found and removed.");
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+
+}
+
 #pragma mark - Delay
 
 - (void)testDelayedHide {
@@ -367,6 +419,23 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
     [self.hideExpectation fulfill];
     self.hideExpectation = nil;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Helpers
+
+- (nullable UIView *)view:(UIView *)view firstSubviewOfClass:(Class)clazz {
+    for (__unsafe_unretained UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:clazz]) {
+            return subview;
+        }
+    }
+    __unsafe_unretained UIView *theView;
+    for (__unsafe_unretained UIView *subview in view.subviews) {
+        theView = [self view:subview firstSubviewOfClass:clazz];
+        if (theView) { break; }
+    }
+    return theView;
 }
 
 @end
