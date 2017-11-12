@@ -43,6 +43,17 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
 @implementation HudTests
 
+#pragma mark - Initialization
+
+- (void)testInitializers {
+    XCTAssertNotNil([[MBProgressHUD alloc] initWithView:[UIView new]]);
+    UIView *nilView = nil;
+    XCTAssertThrows([[MBProgressHUD alloc] initWithView:nilView]);
+    XCTAssertNotNil([[MBProgressHUD alloc] initWithFrame:CGRectZero]);
+    NSKeyedUnarchiver *dummyUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:[NSData data]];
+    XCTAssertNotNil([[MBProgressHUD alloc] initWithCoder:dummyUnarchiver]);
+}
+
 #pragma mark - Convenience
 
 - (void)testNonAnimatedConvenienceHUDPresentation {
