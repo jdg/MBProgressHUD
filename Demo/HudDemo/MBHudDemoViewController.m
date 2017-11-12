@@ -259,7 +259,7 @@
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         // Do something useful in the background and update the HUD periodically.
-        [self doSomeWorkWithMixedProgress];
+        [self doSomeWorkWithMixedProgress:hud];
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hideAnimated:YES];
         });
@@ -340,8 +340,7 @@
     }
 }
 
-- (void)doSomeWorkWithMixedProgress {
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.navigationController.view];
+- (void)doSomeWorkWithMixedProgress:(MBProgressHUD *)hud {
     // Indeterminate mode
     sleep(2);
     // Switch to determinate mode
