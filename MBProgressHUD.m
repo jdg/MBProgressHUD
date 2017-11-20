@@ -446,10 +446,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         // For iOS 9+
         appearance = [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]];
 #endif
-        
+
         if (appearance.color == nil) {
             ((UIActivityIndicatorView *)indicator).color = color;
         }
+
+		((UIActivityIndicatorView *)indicator).hidesWhenStopped = NO;
     } else if ([indicator isKindOfClass:[MBRoundProgressView class]]) {
         MBRoundProgressView *appearance = nil;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 90000
