@@ -26,10 +26,15 @@ XCTAssertFalse(hud.hidden, @"The HUD should be visible."); \
 XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible."); \
 } while (0)
 
+#define MBTestHUDIsHiden(hud, rootView) \
+do { \
+XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out."); \
+} while (0)
+
 #define MBTestHUDIsHidenAndRemoved(hud, rootView) \
 do { \
 XCTAssertFalse([rootView.subviews containsObject:hud], @"The HUD should not be part of the view hierarchy."); \
-XCTAssertEqual(hud.alpha, 0.f, @"The hud should be faded out."); \
+MBTestHUDIsHiden(hud, rootView); \
 XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 } while (0)
 
@@ -213,6 +218,34 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
     [self waitForExpectationsWithTimeout:5. handler:nil];
 
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
+- (void)testDelayedHideDoesNotRace {
+    // https://github.com/jdg/MBProgressHUD/issues/503
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    [rootView addSubview:hud];
+
+    [hud showAnimated:YES];
+    [hud hideAnimated:YES afterDelay:0.3];
+    MBTestHUDIsVisible(hud, rootView);
+
+    XCTestExpectation *hideCheckExpectation = [self expectationWithDescription:@"Hide check"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [hud showAnimated:YES];
+        [hud hideAnimated:YES afterDelay:0.3];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            MBTestHUDIsHiden(hud, rootView);
+            [hideCheckExpectation fulfill];
+        });
+    });
+
+    [self waitForExpectationsWithTimeout:5. handler:nil];
+
+    [hud removeFromSuperview];
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
