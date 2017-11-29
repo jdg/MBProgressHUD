@@ -197,6 +197,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)handleHideTimer:(NSTimer *)timer {
+    NSLog(@"Handle hide timer!");
     [self hideAnimated:[timer.userInfo boolValue]];
 }
 
@@ -231,6 +232,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
+    // Cancel any scheduled hideDelayed: calls.
+    // This needs to happen here instead of in done,
+    // to avoid races if another hideAnimated:afterDelay:
+    // call comes in while the HUD is animating out.
+    [self.hideDelayTimer invalidate];
+
     if (animated && self.showStarted) {
         self.showStarted = nil;
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
@@ -286,8 +293,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)done {
-    // Cancel any scheduled hideDelayed: calls
-    [self.hideDelayTimer invalidate];
     [self setNSProgressDisplayLinkEnabled:NO];
 
     if (self.hasFinished) {
