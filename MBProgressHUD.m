@@ -175,7 +175,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay {
-    // Cancel any scheduled hideDelayed: calls
+    // Cancel any scheduled hideAnimated:afterDelay: calls
     [self.hideDelayTimer invalidate];
 
     NSTimer *timer = [NSTimer timerWithTimeInterval:delay target:self selector:@selector(handleHideTimer:) userInfo:@(animated) repeats:NO];
@@ -214,7 +214,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self.bezelView.layer removeAllAnimations];
     [self.backgroundView.layer removeAllAnimations];
 
-    // Cancel any scheduled hideDelayed: calls
+    // Cancel any scheduled hideAnimated:afterDelay: calls
     [self.hideDelayTimer invalidate];
 
     self.showStarted = [NSDate date];
@@ -232,7 +232,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideUsingAnimation:(BOOL)animated {
-    // Cancel any scheduled hideDelayed: calls.
+    // Cancel any scheduled hideAnimated:afterDelay: calls.
     // This needs to happen here instead of in done,
     // to avoid races if another hideAnimated:afterDelay:
     // call comes in while the HUD is animating out.
