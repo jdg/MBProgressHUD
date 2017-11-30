@@ -197,7 +197,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)handleHideTimer:(NSTimer *)timer {
-    NSLog(@"Handle hide timer!");
     [self hideAnimated:[timer.userInfo boolValue]];
 }
 
