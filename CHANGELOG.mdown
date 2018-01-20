@@ -1,6 +1,5 @@
 **Version 1.1.0** @ 12.11.17
 
-- Removes deprecated propertys and selectors.
 - Adds support for `UIBlurEffectStyle`.
 - Various bug-fixes and enhancements.
 
