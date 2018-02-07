@@ -136,7 +136,6 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     [self waitForExpectationsWithTimeout:5. handler:nil];
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Modes
 
 - (void)testRoundDeterminate {
@@ -444,6 +443,31 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
+#pragma mark - Customization
+
+- (void)testShape {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.removeFromSuperViewOnHide = YES;
+    hud.offset = CGPointMake(50, 50);
+    hud.square = YES;
+    hud.label.text = @"Some long text...";
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+
+    [hud setNeedsLayout];
+    [hud layoutIfNeeded];
+
+    CGRect frame = hud.bezelView.frame;
+    XCTAssertEqual(frame.size.width, frame.size.height);
+
+    [hud hideAnimated:NO];
+
+    MBTestHUDIsHidenAndRemoved(hud, rootView);
+}
+
 #pragma mark - MBProgressHUDDelegate
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {
@@ -454,7 +478,6 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     self.hideExpectation = nil;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Helpers
 
 - (nullable UIView *)view:(UIView *)view firstSubviewOfClass:(Class)clazz {
