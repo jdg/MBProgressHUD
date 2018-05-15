@@ -210,6 +210,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self updateForCurrentOrientationAnimated:NO];
 }
 
+#pragma mark - Accessibility
+
+- (void)postAccessibilityScreenChangedNotificationWith:(id)element {
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, element);
+}
+
+- (void)postAccessibilityLayoutChangedNotificationWith:(id)element {
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, element);
+}
+
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
@@ -228,12 +238,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     if (animated) {
         [self animateIn:YES withType:self.animationType completion:^(BOOL finished) {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
+            [self postAccessibilityScreenChangedNotificationWith:self];
         }];
     } else {
         self.bezelView.alpha = 1.f;
         self.backgroundView.alpha = 1.f;
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
+
+        [self postAccessibilityScreenChangedNotificationWith:self];
     }
 }
 
@@ -304,7 +315,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self.hasFinished) {
         self.alpha = 0.0f;
 
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.superview);
+        [self postAccessibilityScreenChangedNotificationWith:self.superview];
 
         if (self.removeFromSuperViewOnHide) {
             [self removeFromSuperview];
@@ -429,7 +440,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     else if (mode == MBProgressHUDModeText) {
         [indicator removeFromSuperview];
         indicator = nil;
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.label);
+       
+        [self postAccessibilityLayoutChangedNotificationWith:self.label];
     }
     indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
@@ -441,7 +453,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 
-    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self);
+    [self postAccessibilityLayoutChangedNotificationWith:self];
     
     [self updateViewsForColor:self.contentColor];
     [self setNeedsUpdateConstraints];
@@ -725,7 +737,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         UIView *indicator = self.indicator;
         if ([indicator respondsToSelector:@selector(setProgress:)]) {
             [(id)indicator setValue:@(self.progress) forKey:@"progress"];
-            indicator.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
+            indicator.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
         }
     }
 }
@@ -874,7 +886,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
-        self.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
+        self.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
         [self setNeedsDisplay];
     }
 }
@@ -1006,7 +1018,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
-        self.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
+        self.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
 
         [self setNeedsDisplay];
     }
