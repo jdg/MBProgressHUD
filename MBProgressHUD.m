@@ -106,6 +106,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.alpha = 0.0f;
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.layer.allowsGroupOpacity = NO;
+    // Set this view's accessibility to false, as long as sub-elements are accessible
+    // Modal is used to prevent accessing elements behind "underneath" the progress HUD.
+    self.isAccessibilityElement = false;
+    self.accessibilityViewIsModal = true;
 
     [self setupViews];
     [self updateIndicators];
@@ -223,10 +227,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self setNSProgressDisplayLinkEnabled:YES];
 
     if (animated) {
-        [self animateIn:YES withType:self.animationType completion:NULL];
+        [self animateIn:YES withType:self.animationType completion:^(BOOL finished) {
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
+        }];
     } else {
         self.bezelView.alpha = 1.f;
         self.backgroundView.alpha = 1.f;
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self);
     }
 }
 
@@ -296,6 +303,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     if (self.hasFinished) {
         self.alpha = 0.0f;
+
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.superview);
+
         if (self.removeFromSuperViewOnHide) {
             [self removeFromSuperview];
         }
@@ -395,13 +405,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         // Update to bar determinate indicator
         [indicator removeFromSuperview];
         indicator = [[MBBarProgressView alloc] init];
+        indicator.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
         [self.bezelView addSubview:indicator];
     }
     else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
         if (!isRoundIndicator) {
-            // Update to determinante indicator
+            // Update to determinate indicator
             [indicator removeFromSuperview];
             indicator = [[MBRoundProgressView alloc] init];
+            indicator.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
             [self.bezelView addSubview:indicator];
         }
         if (mode == MBProgressHUDModeAnnularDeterminate) {
@@ -417,6 +429,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     else if (mode == MBProgressHUDModeText) {
         [indicator removeFromSuperview];
         indicator = nil;
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.label);
     }
     indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
@@ -428,6 +441,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self);
+    
     [self updateViewsForColor:self.contentColor];
     [self setNeedsUpdateConstraints];
 }
@@ -710,6 +725,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         UIView *indicator = self.indicator;
         if ([indicator respondsToSelector:@selector(setProgress:)]) {
             [(id)indicator setValue:@(self.progress) forKey:@"progress"];
+            indicator.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
         }
     }
 }
@@ -824,6 +840,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
+    self.isAccessibilityElement = true;
+    self.accessibilityLabel = @"Progress";
+    self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
+
     return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
 }
 
@@ -832,6 +852,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+        self.isAccessibilityElement = true;
+        self.accessibilityLabel = @"Progress";
+        self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
         _progress = 0.f;
         _annular = NO;
         _progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
@@ -851,6 +874,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
+        self.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
         [self setNeedsDisplay];
     }
 }
@@ -876,6 +900,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     BOOL isPreiOS7 = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+
+    self.accessibilityFrame = [self convertRect: rect toCoordinateSpace: [[UIScreen mainScreen] coordinateSpace] ];
 
     if (_annular) {
         // Draw background
@@ -945,6 +971,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
+    self.isAccessibilityElement = true;
+    self.accessibilityLabel = @"Progress";
+    self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
+    
     return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
 
@@ -957,6 +987,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _progressRemainingColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+        self.isAccessibilityElement = true;
+        self.accessibilityLabel = @"Progress";
+        self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     }
     return self;
 }
@@ -973,6 +1006,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
+        self.accessibilityValue = [[NSNumber numberWithFloat:progress] stringValue];
+
         [self setNeedsDisplay];
     }
 }
@@ -1002,6 +1037,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
     CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
     
+    self.accessibilityFrame = [self convertRect: rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+
     // Draw background and Border
     CGFloat radius = (rect.size.height / 2) - 2;
     CGContextMoveToPoint(context, 2, rect.size.height/2);
