@@ -108,8 +108,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.layer.allowsGroupOpacity = NO;
     // Set this view's accessibility to false, as long as sub-elements are accessible
     // Modal is used to prevent accessing elements behind "underneath" the progress HUD.
-    self.isAccessibilityElement = false;
-    self.accessibilityViewIsModal = true;
+    self.isAccessibilityElement = NO;
+    self.accessibilityViewIsModal = YES;
 
     [self setupViews];
     [self updateIndicators];
@@ -859,7 +859,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (id)init {
     // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
-    self.isAccessibilityElement = true;
+    self.isAccessibilityElement = YES;
     self.accessibilityLabel = @"Progress";
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
 
@@ -871,7 +871,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
-        self.isAccessibilityElement = true;
+        self.isAccessibilityElement = YES;
         self.accessibilityLabel = @"Progress";
         self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
         _progress = 0.f;
@@ -991,7 +991,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (id)init {
     // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
-    self.isAccessibilityElement = true;
+    self.isAccessibilityElement = YES;
     self.accessibilityLabel = @"Progress";
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     
@@ -1007,7 +1007,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _progressRemainingColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
-        self.isAccessibilityElement = true;
+        self.isAccessibilityElement = YES;
         self.accessibilityLabel = @"Progress";
         self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     }
