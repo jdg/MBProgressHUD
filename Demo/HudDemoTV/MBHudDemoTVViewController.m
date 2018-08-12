@@ -38,7 +38,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             // Instead we could have also passed a reference to the HUD
             // to the HUD to myProgressTask as a method parameter.
-            [MBProgressHUD HUDForView:self.view].progress = progress;
+            [MBProgressHUD lookupHUDInView:self.view].progress = progress;
         });
         usleep(50000);
     }

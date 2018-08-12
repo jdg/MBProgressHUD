@@ -60,7 +60,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-    MBProgressHUD *hud = [self HUDForView:view];
+    MBProgressHUD *hud = [self lookupHUDInView:view];
     if (hud != nil) {
         hud.removeFromSuperViewOnHide = YES;
         [hud hideAnimated:animated];
@@ -69,7 +69,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     return NO;
 }
 
-+ (MBProgressHUD *)HUDForView:(UIView *)view {
++ (MBProgressHUD *)lookupHUDInView:(UIView *)view {
     NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {

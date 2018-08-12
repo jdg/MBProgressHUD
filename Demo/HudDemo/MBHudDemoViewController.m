@@ -334,7 +334,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             // Instead we could have also passed a reference to the HUD
             // to the HUD to myProgressTask as a method parameter.
-            [MBProgressHUD HUDForView:self.navigationController.view].progress = progress;
+            [MBProgressHUD lookupHUDInView:self.navigationController.view].progress = progress;
         });
         usleep(50000);
     }
@@ -426,7 +426,7 @@
 
     // Update the UI on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.navigationController.view];
+        MBProgressHUD *hud = [MBProgressHUD lookupHUDInView:self.navigationController.view];
         UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         hud.customView = imageView;
@@ -441,7 +441,7 @@
 
     // Update the UI on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.navigationController.view];
+        MBProgressHUD *hud = [MBProgressHUD lookupHUDInView:self.navigationController.view];
         hud.mode = MBProgressHUDModeDeterminate;
         hud.progress = progress;
     });
