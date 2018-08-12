@@ -73,7 +73,7 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertFalse([hud.bezelView.layer.animationKeys containsObject:@"opacity"], @"The opacity should NOT be animated.");
 
-    XCTAssertEqualObjects([MBProgressHUD HUDForView:rootView], hud, @"The HUD should be found via the convenience operation.");
+    XCTAssertEqualObjects([MBProgressHUD lookupHUDInView:rootView], hud, @"The HUD should be found via the convenience operation.");
 
     XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:NO], @"The HUD should be found and removed.");
 
@@ -97,7 +97,7 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     XCTAssertEqual(hud.bezelView.alpha, 1.f, @"The HUD should be visible.");
     XCTAssertTrue([hud.bezelView.layer.animationKeys containsObject:@"opacity"], @"The opacity should be animated.");
 
-    XCTAssertEqualObjects([MBProgressHUD HUDForView:rootView], hud, @"The HUD should be found via the convenience operation.");
+    XCTAssertEqualObjects([MBProgressHUD lookupHUDInView:rootView], hud, @"The HUD should be found via the convenience operation.");
 
     XCTAssertTrue([MBProgressHUD hideHUDForView:rootView animated:YES], @"The HUD should be found and removed.");
 
