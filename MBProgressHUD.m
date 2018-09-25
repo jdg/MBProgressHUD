@@ -25,11 +25,7 @@ static const CGFloat MBDefaultLabelFontSize = 16.f;
 static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 
-@interface MBProgressHUD () {
-    // Deprecated
-    UIColor *_activityIndicatorColor;
-    CGFloat _opacity;
-}
+@interface MBProgressHUD ()
 
 @property (nonatomic, assign) BOOL useAnimation;
 @property (nonatomic, assign, getter=hasFinished) BOOL finished;
@@ -93,7 +89,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _animationType = MBProgressHUDAnimationFade;
     _mode = MBProgressHUDModeIndeterminate;
     _margin = 20.0f;
-    _opacity = 1.f;
     _defaultMotionEffectsEnabled = YES;
 
     // Default color, depending on the current iOS version
