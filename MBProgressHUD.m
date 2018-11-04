@@ -1150,13 +1150,26 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Views
 
 - (void)updateForBackgroundStyle {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
+        [self.effectView removeFromSuperview];
+        self.effectView = nil;
+    } else {
+#endif
+#if !TARGET_OS_TV
+        [self.toolbar removeFromSuperview];
+        self.toolbar = nil;
+#endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
+    }
+#endif
     MBProgressHUDBackgroundStyle style = self.style;
     if (style == MBProgressHUDBackgroundStyleBlur) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
             UIBlurEffect *effect = [UIBlurEffect effectWithStyle:self.blurEffectStyle];
             UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
-            [self addSubview:effectView];
+            [self insertSubview:effectView atIndex:0];
             effectView.frame = self.bounds;
             effectView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             self.backgroundColor = self.color;
@@ -1176,19 +1189,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
 #endif
     } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
-        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0) {
-            [self.effectView removeFromSuperview];
-            self.effectView = nil;
-        } else {
-#endif
-#if !TARGET_OS_TV
-            [self.toolbar removeFromSuperview];
-            self.toolbar = nil;
-#endif
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
-        }
-#endif
         self.backgroundColor = self.color;
     }
 }
