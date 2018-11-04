@@ -188,6 +188,25 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
 
 }
 
+#pragma mark - Customization
+
+- (void)testEffectViewOrderAfterSettingBlurStyle {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+
+    [hud.bezelView.subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+        XCTAssert(![view isKindOfClass:UIVisualEffectView.class] || idx == 0, @"Just the first subview should be a visual effect view.");
+    }];
+
+    hud.bezelView.blurEffectStyle = UIBlurEffectStyleDark;
+
+    [hud.bezelView.subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+        XCTAssert(![view isKindOfClass:UIVisualEffectView.class] || idx == 0, @"Just the first subview should be a visual effect view even after changing the blurEffectStyle.");
+    }];
+}
+
 #pragma mark - Delay
 
 - (void)testDelayedHide {
