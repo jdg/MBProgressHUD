@@ -834,11 +834,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
-    // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
-    self.isAccessibilityElement = YES;
-    self.accessibilityLabel = @"Progress";
-    self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
-
     return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
 }
 
@@ -847,8 +842,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+        // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
         self.isAccessibilityElement = YES;
-        self.accessibilityLabel = @"Progress";
+        self.accessibilityLabel = NSLocalizedString(@"Progress", nil);
         self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
         _progress = 0.f;
         _annular = NO;
@@ -895,7 +891,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    self.accessibilityFrame = [self convertRect: rect toCoordinateSpace: [[UIScreen mainScreen] coordinateSpace] ];
+    self.accessibilityFrame = [self convertRect:rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
 
     if (_annular) {
         // Draw background
@@ -952,11 +948,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)init {
-    // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
-    self.isAccessibilityElement = YES;
-    self.accessibilityLabel = @"Progress";
-    self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
-    
     return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
 
@@ -969,8 +960,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _progressRemainingColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+
+        // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
         self.isAccessibilityElement = YES;
-        self.accessibilityLabel = @"Progress";
+        self.accessibilityLabel = NSLocalizedString(@"Progress", nil);
         self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     }
     return self;
@@ -1019,7 +1012,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
     CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
     
-    self.accessibilityFrame = [self convertRect: rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+    self.accessibilityFrame = [self convertRect:rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
 
     // Draw background and Border
     CGFloat radius = (rect.size.height / 2) - 2;
