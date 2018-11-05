@@ -90,6 +90,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.alpha = 0.0f;
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.layer.allowsGroupOpacity = NO;
+    // Set this view's accessibility to false, as long as sub-elements are accessible
+    // Modal is used to prevent accessing elements behind "underneath" the progress HUD.
+    self.isAccessibilityElement = NO;
+    self.accessibilityViewIsModal = YES;
 
     [self setupViews];
     [self updateIndicators];
@@ -131,7 +135,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
-    } 
+    }
     // ... otherwise show the HUD immediately
     else {
         [self showUsingAnimation:self.useAnimation];
@@ -152,7 +156,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
             self.minShowTimer = timer;
             return;
-        } 
+        }
     }
     // ... otherwise hide the HUD immediately
     [self hideUsingAnimation:self.useAnimation];
@@ -190,6 +194,28 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self updateForCurrentOrientationAnimated:NO];
 }
 
+#pragma mark - Accessibility
+
+- (void)postAccessibilityScreenChangedNotificationWith:(id)element {
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, element);
+}
+
+- (void)postAccessibilityLayoutChangedNotificationWith:(id)element {
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, element);
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([object isKindOfClass:[UILabel class]] && self.label == (UILabel *)object) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(text))]) {
+            self.accessibilityLabel = self.label.text;
+            [self updateIndicators];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
@@ -206,11 +232,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Needed in case we hide and re-show with the same NSProgress object attached.
     [self setNSProgressDisplayLinkEnabled:YES];
 
+    // Notify UIAccessibility that the HUD (self) is shown after animation completes.
     if (animated) {
-        [self animateIn:YES withType:self.animationType completion:NULL];
+        [self animateIn:YES withType:self.animationType completion:^(BOOL finished) {
+            [self postAccessibilityScreenChangedNotificationWith:self];
+        }];
     } else {
         self.bezelView.alpha = 1.f;
         self.backgroundView.alpha = 1.f;
+
+        [self postAccessibilityScreenChangedNotificationWith:self];
     }
 }
 
@@ -221,6 +252,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // call comes in while the HUD is animating out.
     [self.hideDelayTimer invalidate];
 
+    // Note that we post UIAccessibility notifications in the -done method.
     if (animated && self.showStarted) {
         self.showStarted = nil;
         [self animateIn:NO withType:self.animationType completion:^(BOOL finished) {
@@ -272,6 +304,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     if (self.hasFinished) {
         self.alpha = 0.0f;
+
+        // Use a screen change on the superview to let UIAccessibility focus on the last clicked element.
+        [self postAccessibilityScreenChangedNotificationWith:self.superview];
+
         if (self.removeFromSuperViewOnHide) {
             [self removeFromSuperview];
         }
@@ -314,6 +350,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];
     label.opaque = NO;
     label.backgroundColor = [UIColor clearColor];
+    // Disable accessibility element on the label, since with KVO, we use the text value on the indicator view's accessibilityLabel
+    // See updateIndicators to manually reset accessibilityElement for custom/text indicators
+    label.isAccessibilityElement = NO;
+    [label addObserver:self
+            forKeyPath:@"text"
+               options:NSKeyValueObservingOptionNew
+               context:nil];
     _label = label;
 
     UILabel *detailsLabel = [UILabel new];
@@ -375,7 +418,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
     else if (mode == MBProgressHUDModeDeterminate || mode == MBProgressHUDModeAnnularDeterminate) {
         if (!isRoundIndicator) {
-            // Update to determinante indicator
+            // Update to determinate indicator
             [indicator removeFromSuperview];
             indicator = [[MBRoundProgressView alloc] init];
             [self.bezelView addSubview:indicator];
@@ -383,8 +426,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         if (mode == MBProgressHUDModeAnnularDeterminate) {
             [(MBRoundProgressView *)indicator setAnnular:YES];
         }
-    } 
+    }
     else if (mode == MBProgressHUDModeCustomView && self.customView != indicator) {
+        // For custom views, reenable label accessibility as the indicator is unknown
+        self.label.isAccessibilityElement = YES;
         // Update custom view indicator
         [indicator removeFromSuperview];
         indicator = self.customView;
@@ -393,6 +438,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     else if (mode == MBProgressHUDModeText) {
         [indicator removeFromSuperview];
         indicator = nil;
+
+        // For a text only HUD, make sure UIAccessibility focuses on the label (and that it is an accessibilityElement).
+        self.label.isAccessibilityElement = YES;
+        [self postAccessibilityLayoutChangedNotificationWith:self.label];
     }
     indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
@@ -404,6 +453,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
 
+    // Since this method is called when label text is updated with KVO, ensure the indicator view uses the new label value for accessibility
+    indicator.accessibilityLabel = self.accessibilityLabel;
+
+    // If indicators are updated, notify UIAccessibility.
+    // This may seem redundant, but is needed if multiple mode changes are used.
+    [self postAccessibilityLayoutChangedNotificationWith:self];
+    
     [self updateViewsForColor:self.contentColor];
     [self setNeedsUpdateConstraints];
 }
@@ -686,6 +742,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         UIView *indicator = self.indicator;
         if ([indicator respondsToSelector:@selector(setProgress:)]) {
             [(id)indicator setValue:@(self.progress) forKey:@"progress"];
+            // Setting accessibilityValue allows for a gradual and accurate description of progress.
+            // This is used in conjunction with the UpdatesFrequently Accessibility Trait.
+            indicator.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
         }
     }
 }
@@ -808,6 +867,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+        // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
+        self.isAccessibilityElement = YES;
+        self.accessibilityLabel = NSLocalizedString(@"Progress", nil);
+        self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
         _progress = 0.f;
         _annular = NO;
         _progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
@@ -827,6 +890,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
+        self.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
         [self setNeedsDisplay];
     }
 }
@@ -851,6 +915,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
+
+    self.accessibilityFrame = [self convertRect:rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
 
     if (_annular) {
         // Draw background
@@ -919,6 +985,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _progressRemainingColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
+
+        // Ensure that this is an accessibility element and set the trait to allow percentage completion to be accessible.
+        self.isAccessibilityElement = YES;
+        self.accessibilityLabel = NSLocalizedString(@"Progress", nil);
+        self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     }
     return self;
 }
@@ -934,6 +1005,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setProgress:(float)progress {
     if (progress != _progress) {
         _progress = progress;
+        // Along with the UpdatesFrequently trait, this allows percentages to be read accessibly.
+        self.accessibilityValue = [NSString stringWithFormat:@"%2.f %%", (progress * 100)];
+
         [self setNeedsDisplay];
     }
 }
@@ -963,6 +1037,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
     CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
     
+    self.accessibilityFrame = [self convertRect:rect toCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+
     // Draw background and Border
     CGFloat radius = (rect.size.height / 2) - 2;
     CGContextMoveToPoint(context, 2, rect.size.height/2);
