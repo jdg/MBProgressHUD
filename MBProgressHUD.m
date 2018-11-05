@@ -204,6 +204,18 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, element);
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([object isKindOfClass:[UILabel class]] && self.label == (UILabel *)object) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(text))]) {
+            self.accessibilityLabel = self.label.text;
+            [self updateIndicators];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 #pragma mark - Internal show & hide operations
 
 - (void)showUsingAnimation:(BOOL)animated {
@@ -338,6 +350,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];
     label.opaque = NO;
     label.backgroundColor = [UIColor clearColor];
+    // Disable accessibility element on the label, since with KVO, we use the text value on the indicator view's accessibilityLabel
+    // See updateIndicators to manually reset accessibilityElement for custom/text indicators
+    label.isAccessibilityElement = NO;
+    [label addObserver:self
+            forKeyPath:@"text"
+               options:NSKeyValueObservingOptionNew
+               context:nil];
     _label = label;
 
     UILabel *detailsLabel = [UILabel new];
@@ -409,6 +428,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
     }
     else if (mode == MBProgressHUDModeCustomView && self.customView != indicator) {
+        // For custom views, reenable label accessibility as the indicator is unknown
+        self.label.isAccessibilityElement = YES;
         // Update custom view indicator
         [indicator removeFromSuperview];
         indicator = self.customView;
@@ -418,7 +439,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [indicator removeFromSuperview];
         indicator = nil;
 
-        // For a text only HUD, make sure UIAccessibility focuses on the label.
+        // For a text only HUD, make sure UIAccessibility focuses on the label (and that it is an accessibilityElement).
+        self.label.isAccessibilityElement = YES;
         [self postAccessibilityLayoutChangedNotificationWith:self.label];
     }
     indicator.translatesAutoresizingMaskIntoConstraints = NO;
@@ -430,6 +452,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
     [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
+
+    // Since this method is called when label text is updated with KVO, ensure the indicator view uses the new label value for accessibility
+    indicator.accessibilityLabel = self.accessibilityLabel;
 
     // If indicators are updated, notify UIAccessibility.
     // This may seem redundant, but is needed if multiple mode changes are used.
