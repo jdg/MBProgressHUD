@@ -88,7 +88,7 @@
 
 - (void)labelExample {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
+    hud.padding = 10;
     // Set the label text.
     hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
     // You can also adjust other label properties if needed.

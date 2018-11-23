@@ -80,6 +80,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _animationType = MBProgressHUDAnimationFade;
     _mode = MBProgressHUDModeIndeterminate;
     _margin = 20.0f;
+    _padding = MBDefaultPadding;
     _defaultMotionEffectsEnabled = YES;
     _contentColor = [UIColor colorWithWhite:0.f alpha:0.7f];
 
@@ -606,7 +607,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         BOOL secondVisible = !secondView.hidden && !CGSizeEqualToSize(secondView.intrinsicContentSize, CGSizeZero);
         // Set if both views are visible or if there's a visible view on top that doesn't have padding
         // added relative to the current view yet
-        padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? MBDefaultPadding : 0.f;
+        padding.constant = (firstVisible && (secondVisible || hasVisibleAncestors)) ? self.padding : 0.f;
         hasVisibleAncestors |= secondVisible;
     }];
 }
@@ -645,6 +646,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setMargin:(CGFloat)margin {
     if (margin != _margin) {
         _margin = margin;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
+- (void)setPadding:(CGFloat)padding {
+    if (padding != _padding) {
+        _padding = padding;
         [self setNeedsUpdateConstraints];
     }
 }
