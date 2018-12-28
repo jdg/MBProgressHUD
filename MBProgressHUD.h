@@ -69,6 +69,15 @@ typedef NS_ENUM(NSInteger, MBProgressHUDBackgroundStyle) {
     MBProgressHUDBackgroundStyleBlur
 };
 
+typedef NS_ENUM(NSUInteger, MBProgressHUDInteractionMode) {
+    /// Block all touches. No interaction behin the HUD is possible
+    MBProgressHUDInteractionModeBlockAllTouches = 0,
+    /// Block touches on the HUD view
+    MBProgressHUDInteractionModeBlockTouchesOnHUDView,
+    /// Block no touches
+    MBProgressHUDInteractionModeBlockNoTouches
+};
+
 typedef void (^MBProgressHUDCompletionBlock)(void);
 
 
@@ -213,6 +222,12 @@ NS_ASSUME_NONNULL_BEGIN
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  */
 @property (assign, nonatomic) MBProgressHUDMode mode;
+
+/**
+ * Interaction mode of the HUD. Determines whether touches should be let through to the views
+ behind the HUD. The default is MBProgressHUDInteractionModeBlockAllTouches.
+ */
+@property (assign, nonatomic) MBProgressHUDInteractionMode interactionMode;
 
 /**
  * A color that gets forwarded to all labels and supported indicators. Also sets the tintColor

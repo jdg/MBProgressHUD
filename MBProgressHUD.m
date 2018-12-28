@@ -119,6 +119,22 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     [self unregisterFromNotifications];
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (self.interactionMode == MBProgressHUDInteractionModeBlockNoTouches) {
+        return nil;
+    } else {
+        UIView *view = [super hitTest:point withEvent:event];
+        
+        if (self.interactionMode == MBProgressHUDInteractionModeBlockAllTouches) {
+            return view;
+        }
+        else if (self.interactionMode == MBProgressHUDInteractionModeBlockTouchesOnHUDView && view != self.backgroundView) {
+            return view;
+        }
+        return nil;
+    }
+}
+
 #pragma mark - Show & hide
 
 - (void)showAnimated:(BOOL)animated {
