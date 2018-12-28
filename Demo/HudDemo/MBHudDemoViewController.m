@@ -49,6 +49,9 @@
     @[@[[MBExample exampleWithTitle:@"Indeterminate mode" selector:@selector(indeterminateExample)],
         [MBExample exampleWithTitle:@"With label" selector:@selector(labelExample)],
         [MBExample exampleWithTitle:@"With details label" selector:@selector(detailsLabelExample)]],
+      @[[MBExample exampleWithTitle:@"Block all touches mode" selector:@selector(blockAllTouchesExample)],
+        [MBExample exampleWithTitle:@"Block touches on hud mode" selector:@selector(blockTouchesOnHudExample)],
+        [MBExample exampleWithTitle:@"Block no touches mode" selector:@selector(blockNoTouchesExample)]],
       @[[MBExample exampleWithTitle:@"Determinate mode" selector:@selector(determinateExample)],
         [MBExample exampleWithTitle:@"Annular determinate mode" selector:@selector(annularDeterminateExample)],
         [MBExample exampleWithTitle:@"Bar determinate mode" selector:@selector(barDeterminateExample)]],
@@ -110,6 +113,54 @@
     // Set the details label text. Let's make it multiline this time.
     hud.detailsLabel.text = NSLocalizedString(@"Parsing data\n(1/1)", @"HUD title");
 
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [self doSomeWork];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hideAnimated:YES];
+        });
+    });
+}
+
+- (void)blockAllTouchesExample {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.interactionMode = MBProgressHUDInteractionModeBlockAllTouches;
+    // Set the label text.
+    hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [self doSomeWork];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hideAnimated:YES];
+        });
+    });
+}
+
+- (void)blockTouchesOnHudExample {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.interactionMode = MBProgressHUDInteractionModeBlockTouchesOnHUDView;
+    // Set the label text.
+    hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [self doSomeWork];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hideAnimated:YES];
+        });
+    });
+}
+
+- (void)blockNoTouchesExample {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.interactionMode = MBProgressHUDInteractionModeBlockNoTouches;
+    // Set the label text.
+    hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         [self doSomeWork];
         dispatch_async(dispatch_get_main_queue(), ^{
