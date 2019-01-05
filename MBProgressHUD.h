@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
 
-/*
+/**
  * Grace period is the time (in seconds) that the invoked method may be run without
  * showing the HUD. If the task finishes before the grace time runs out, the HUD will
  * not be shown at all.
