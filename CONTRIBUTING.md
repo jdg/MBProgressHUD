@@ -24,8 +24,8 @@ Guidelines for bug reports:
 2. **Check if the issue has been fixed** &mdash; try to reproduce it using the
    latest `master` branch in the repository.
 
-3. **Isolate the problem** &mdash; provide exact reporduction steps, preferably
-   in form of a failing test case or by providing modification steps in the 
+3. **Isolate the problem** &mdash; provide exact reproduction steps, preferably
+   in the form of a failing test case or by providing modification steps in the 
    `MBProgressHUD` Demo application.
 
 A good bug report shouldn't leave others needing to chase you up for more
