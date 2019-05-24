@@ -482,8 +482,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
         UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc] init];
         group.motionEffects = @[effectX, effectY];
-
-        [bezelView addMotionEffect:group];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [bezelView addMotionEffect:group];
+        });
     } else {
         NSArray *effects = [bezelView motionEffects];
         for (UIMotionEffect *effect in effects) {
