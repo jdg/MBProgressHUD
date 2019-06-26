@@ -209,6 +209,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
     } else {
+        self.bezelView.transform = CGAffineTransformIdentity;
         self.bezelView.alpha = 1.f;
         self.backgroundView.alpha = 1.f;
     }
