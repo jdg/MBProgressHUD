@@ -267,7 +267,7 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsHidenAndRemoved(hud, rootView);
 }
 
-#pragma mark - Ruse
+#pragma mark - Reuse
 
 - (void)testNonAnimatedHudReuse {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
@@ -285,6 +285,31 @@ XCTAssertNil(hud.superview, @"The HUD should not have a superview."); \
     MBTestHUDIsVisible(hud, rootView);
 
     [hud hideAnimated:NO];
+    [hud removeFromSuperview];
+}
+
+- (void)testMixAndMatchHudReuseWithZoomInAnimation {
+    UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
+    UIView *rootView = rootViewController.view;
+    
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:rootView];
+    hud.animationType = MBProgressHUDAnimationZoomIn;
+    [rootView addSubview:hud];
+    [hud showAnimated:NO];
+    
+    XCTAssertNotNil(hud, @"A HUD should be created.");
+    
+    [hud hideAnimated:YES];
+    [hud showAnimated:NO];
+    
+    XCTAssertTrue(CGAffineTransformEqualToTransform(hud.bezelView.transform, CGAffineTransformIdentity), @"The HUD should have no transformations.");
+    
+    MBTestHUDIsVisible(hud, rootView);
+    
+    [hud hideAnimated:NO];
+    
+    XCTAssertEqual(hud.backgroundView.alpha, 0.f, @"The background view should be hidden.");
+    
     [hud removeFromSuperview];
 }
 
