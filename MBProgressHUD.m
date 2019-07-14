@@ -81,7 +81,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _animationType = MBProgressHUDAnimationFade;
     _mode = MBProgressHUDModeIndeterminate;
     _margin = 20.0f;
-    _defaultMotionEffectsEnabled = YES;
+    _defaultMotionEffectsEnabled = NO;
     _contentColor = [UIColor colorWithWhite:0.f alpha:0.7f];
 
     // Transparent background
