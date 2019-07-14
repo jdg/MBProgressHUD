@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<MBProgressHUDDelegate> delegate;
 
 /**
- * Called after the HUD is hiden.
+ * Called after the HUD is hidden.
  */
 @property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;
 
