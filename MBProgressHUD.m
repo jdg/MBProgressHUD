@@ -26,6 +26,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 @property (nonatomic, strong) NSArray *bezelConstraints;
 @property (nonatomic, strong) UIView *topSpacer;
 @property (nonatomic, strong) UIView *bottomSpacer;
+@property (nonatomic, strong) UIMotionEffectGroup *bezelMotionEffects;
 @property (nonatomic, weak) NSTimer *graceTimer;
 @property (nonatomic, weak) NSTimer *minShowTimer;
 @property (nonatomic, weak) NSTimer *hideDelayTimer;
@@ -44,6 +45,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
     MBProgressHUD *hud = [[self alloc] initWithView:view];
+    hud.defaultMotionEffectsEnabled = NO;
     hud.removeFromSuperViewOnHide = YES;
     [view addSubview:hud];
     [hud showAnimated:animated];
@@ -206,6 +208,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Needed in case we hide and re-show with the same NSProgress object attached.
     [self setNSProgressDisplayLinkEnabled:YES];
 
+    // Set up motion effects only at this point to avoid needlessly
+    // creating the effect if it was disabled after initialization.
+    [self updateBezelMotionEffects];
+
     if (animated) {
         [self animateIn:YES withType:self.animationType completion:NULL];
     } else {
@@ -305,7 +311,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     bezelView.alpha = 0.f;
     [self addSubview:bezelView];
     _bezelView = bezelView;
-    [self updateBezelMotionEffects];
 
     UILabel *label = [UILabel new];
     label.adjustsFontSizeToFitWidth = NO;
@@ -457,20 +462,15 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((MBBarProgressView *)indicator).lineColor = color;
         }
     } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
-        if ([indicator respondsToSelector:@selector(setTintColor:)]) {
-            [indicator setTintColor:color];
-        }
-#endif
+        [indicator setTintColor:color];
     }
 }
 
 - (void)updateBezelMotionEffects {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
     MBBackgroundView *bezelView = self.bezelView;
-    if (![bezelView respondsToSelector:@selector(addMotionEffect:)]) return;
+    UIMotionEffectGroup *bezelMotionEffects = self.bezelMotionEffects;
 
-    if (self.defaultMotionEffectsEnabled) {
+    if (self.defaultMotionEffectsEnabled && !bezelMotionEffects) {
         CGFloat effectOffset = 10.f;
         UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
         effectX.maximumRelativeValue = @(effectOffset);
@@ -483,14 +483,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc] init];
         group.motionEffects = @[effectX, effectY];
 
+        self.bezelMotionEffects = group;
         [bezelView addMotionEffect:group];
-    } else {
-        NSArray *effects = [bezelView motionEffects];
-        for (UIMotionEffect *effect in effects) {
-            [bezelView removeMotionEffect:effect];
-        }
+    } else if (bezelMotionEffects) {
+        self.bezelMotionEffects = nil;
+        [bezelView removeMotionEffect:bezelMotionEffects];
     }
-#endif
 }
 
 #pragma mark - Layout
@@ -1079,8 +1077,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
-
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
     if (_blurEffectStyle == blurEffectStyle) {
         return;
@@ -1090,8 +1086,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     [self updateForBackgroundStyle];
 }
-
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Views
