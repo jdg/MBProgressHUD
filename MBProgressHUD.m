@@ -457,15 +457,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((MBBarProgressView *)indicator).lineColor = color;
         }
     } else {
-        if ([indicator respondsToSelector:@selector(setTintColor:)]) {
-            [indicator setTintColor:color];
-        }
+        [indicator setTintColor:color];
     }
 }
 
 - (void)updateBezelMotionEffects {
     MBBackgroundView *bezelView = self.bezelView;
-    if (![bezelView respondsToSelector:@selector(addMotionEffect:)]) return;
 
     if (self.defaultMotionEffectsEnabled) {
         CGFloat effectOffset = 10.f;
