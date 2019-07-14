@@ -457,16 +457,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             ((MBBarProgressView *)indicator).lineColor = color;
         }
     } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
         if ([indicator respondsToSelector:@selector(setTintColor:)]) {
             [indicator setTintColor:color];
         }
-#endif
     }
 }
 
 - (void)updateBezelMotionEffects {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 || TARGET_OS_TV
     MBBackgroundView *bezelView = self.bezelView;
     if (![bezelView respondsToSelector:@selector(addMotionEffect:)]) return;
 
@@ -490,7 +487,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [bezelView removeMotionEffect:effect];
         }
     }
-#endif
 }
 
 #pragma mark - Layout
@@ -1079,8 +1075,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 || TARGET_OS_TV
-
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle {
     if (_blurEffectStyle == blurEffectStyle) {
         return;
@@ -1090,8 +1084,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     [self updateForBackgroundStyle];
 }
-
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Views
