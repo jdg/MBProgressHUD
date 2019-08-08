@@ -1048,7 +1048,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if ((self = [super initWithFrame:frame])) {
         _style = MBProgressHUDBackgroundStyleBlur;
         if (@available(iOS 13.0, *)) {
-            _blurEffectStyle = UIBlurEffectStyleSystemMaterial;
+            _blurEffectStyle = UIBlurEffectStyleRegular;
             _color = [[UIColor secondarySystemBackgroundColor] colorWithAlphaComponent:0.8f];
         } else {
             _blurEffectStyle = UIBlurEffectStyleLight;
