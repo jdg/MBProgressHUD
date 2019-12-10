@@ -1143,7 +1143,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (CGSize)intrinsicContentSize {
     // Only show if we have associated control events and a title
-    if ((self.allControlEvents == 0) && ([self titleForState:UIControlStateNormal].length == 0))
+    if ((self.allControlEvents == 0) || ([self titleForState:UIControlStateNormal].length == 0))
 		return CGSizeZero;
     CGSize size = [super intrinsicContentSize];
     // Add some side padding
