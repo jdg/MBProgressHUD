@@ -1051,7 +1051,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             #if TARGET_OS_TV
             _blurEffectStyle = UIBlurEffectStyleRegular;
             #else
-            _blurEffectStyle = UIBlurEffectStyleSystemChromeMaterial;
+            _blurEffectStyle = UIBlurEffectStyleSystemThickMaterial;
             #endif
             // Leaving the color unassigned yields best results.
         } else {
