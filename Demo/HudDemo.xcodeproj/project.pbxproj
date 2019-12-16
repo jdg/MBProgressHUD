@@ -24,6 +24,7 @@
 		D27F18641D3B5E21009D7482 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27F18611D3B5E21009D7482 /* Main.storyboard */; };
 		D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */; };
 		D2B174121C5E3A3D00021915 /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B174111C5E3A3D00021915 /* HudTests.m */; };
+		D2D75D5323A8193100485497 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2D75D5123A8193000485497 /* Launch.storyboard */; };
 		D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2EEB3801B55967200F59EC1 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		D2B1740F1C5E3A3D00021915 /* HudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B174111C5E3A3D00021915 /* HudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HudTests.m; sourceTree = "<group>"; };
 		D2B174131C5E3A3D00021915 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2D75D5223A8193000485497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Launch.storyboard; sourceTree = "<group>"; };
 		D2EEB3801B55967200F59EC1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HudDemo/Images.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -199,6 +201,7 @@
 		D27F18671D3B5E43009D7482 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D2D75D5123A8193000485497 /* Launch.storyboard */,
 				D27F184C1D3B5878009D7482 /* Main.storyboard */,
 				D27F18511D3B5878009D7482 /* Info.plist */,
 				D274948A1D3B74AA00ABEB66 /* Images.xcassets */,
@@ -334,6 +337,7 @@
 			files = (
 				D27F184E1D3B5878009D7482 /* Main.storyboard in Resources */,
 				D274948B1D3B74AA00ABEB66 /* Images.xcassets in Resources */,
+				D2D75D5323A8193100485497 /* Launch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +414,14 @@
 				D27F18621D3B5E21009D7482 /* en */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D2D75D5123A8193000485497 /* Launch.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2D75D5223A8193000485497 /* Base */,
+			);
+			name = Launch.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

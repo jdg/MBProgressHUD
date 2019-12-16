@@ -83,7 +83,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _margin = 20.0f;
     _defaultMotionEffectsEnabled = NO;
 
-    if (@available(iOS 13.0, *)) {
+    if (@available(iOS 13.0, tvOS 13, *)) {
        _contentColor = [[UIColor labelColor] colorWithAlphaComponent:0.7f];
     } else {
         _contentColor = [UIColor colorWithWhite:0.f alpha:0.7f];
