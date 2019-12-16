@@ -83,7 +83,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _margin = 20.0f;
     _defaultMotionEffectsEnabled = NO;
 
-    if (@available(iOS 13.0, tvOS 13.0, *)) {
+    if (@available(iOS 13.0, *)) {
        _contentColor = [[UIColor labelColor] colorWithAlphaComponent:0.7f];
     } else {
         _contentColor = [UIColor colorWithWhite:0.f alpha:0.7f];
@@ -1047,8 +1047,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (instancetype)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         _style = MBProgressHUDBackgroundStyleBlur;
-        if (@available(iOS 13.0, tvOS 13.0, *)) {
+        if (@available(iOS 13.0, *)) {
+            #if TARGET_OS_TV
+            _blurEffectStyle = UIBlurEffectStyleRegular;
+            #else
             _blurEffectStyle = UIBlurEffectStyleSystemChromeMaterial;
+            #endif
             // Leaving the color unassigned yields best results.
         } else {
             _blurEffectStyle = UIBlurEffectStyleLight;
