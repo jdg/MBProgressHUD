@@ -11,9 +11,9 @@ before_install:
 script:
   - set -o pipefail
 
-  - xcodebuild clean build -workspace MBProgressHUD.xcworkspace -scheme HudDemo -sdk iphonesimulator -configuration Debug CODE_SIGNING_REQUIRED=NO | xcpretty -c
-  - xcodebuild clean build -workspace MBProgressHUD.xcworkspace -scheme HudDemoTV -sdk iphonesimulator -configuration Debug CODE_SIGNING_REQUIRED=NO | xcpretty -c
-  - xcodebuild clean build test -workspace MBProgressHUD.xcworkspace -scheme HudTests -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPad Air (3rd generation),OS=13.2.2" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES CODE_SIGNING_REQUIRED=NO | xcpretty -c
+  - xcodebuild clean build -workspace MBProgressHUD.xcworkspace -scheme HudDemo -sdk iphonesimulator -configuration Debug | xcpretty -c
+  - xcodebuild clean build -workspace MBProgressHUD.xcworkspace -scheme HudDemoTV -sdk appletvsimulator -configuration Debug | xcpretty -c
+  - xcodebuild clean build test -workspace MBProgressHUD.xcworkspace -scheme HudTests -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPad Air (3rd generation),OS=13.2.2" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -c
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
