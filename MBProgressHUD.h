@@ -399,8 +399,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * The background color or the blur tint color.
+ *
+ * Defaults to nil on iOS 13 and later and
+ * `[UIColor colorWithWhite:0.8f alpha:0.6f]`
+ * on older systems.
  */
-@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong, nullable) UIColor *color;
 
 @end
 
