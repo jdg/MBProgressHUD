@@ -4,7 +4,6 @@ osx_image: xcode11.2
 before_install:
   - env
   - locale
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
   - xcpretty --version
   - xcodebuild -version
   - xcodebuild -showsdks
