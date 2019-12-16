@@ -302,7 +302,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) UILabel *detailsLabel;
 
 /**
- * A button that is placed below the labels. Visible only if a target / action is added. 
+ * A button that is placed below the labels. Visible only if a target / action is added and a title is assigned.. 
  */
 @property (strong, nonatomic, readonly) UIButton *button;
 
