@@ -1,5 +1,5 @@
 module MBProgressHUD {
-     umbrella header "MBProgressHUD.h"
+     umbrella header "MBProgressHUD/MBProgressHUD.h"
      export *
      module * { export * }
  }
