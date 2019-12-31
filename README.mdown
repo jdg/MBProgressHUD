@@ -1,7 +1,7 @@
 # MBProgressHUD
 
 [![Build Status](https://travis-ci.org/matej/MBProgressHUD.svg?branch=master)](https://travis-ci.org/matej/MBProgressHUD) [![codecov.io](https://codecov.io/github/matej/MBProgressHUD/coverage.svg?branch=master)](https://codecov.io/github/matej/MBProgressHUD?branch=master)
- [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) [![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio) [![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBProgressHUD.svg?style=flat)](https://cocoapods.org/pods/MBProgressHUD) [![License: MIT](https://img.shields.io/cocoapods/l/MBProgressHUD.svg?style=flat)](http://opensource.org/licenses/MIT)
+ [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) [![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio) [![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBProgressHUD.svg?style=flat)](https://cocoapods.org/pods/MBProgressHUD) [![License: MIT](https://img.shields.io/cocoapods/l/MBProgressHUD.svg?style=flat)](http://opensource.org/licenses/MIT)
 
 `MBProgressHUD` is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private `UIKit` `UIProgressHUD` with some additional features.
 
@@ -13,7 +13,7 @@
 [![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6.png)
 [![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7.png)
 
-**NOTE:** The class has recently undergone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it. 
+**NOTE:** The class has recently undergone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it.
 
 ## Requirements
 
@@ -84,7 +84,7 @@ dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 });
 ```
 
-You can add the HUD on any view or window. It is however a good idea to avoid adding the HUD to certain `UIKit` views with complex view hierarchies - like `UITableView` or `UICollectionView`. Those can mutate their subviews in unexpected ways and thereby break HUD display. 
+You can add the HUD on any view or window. It is however a good idea to avoid adding the HUD to certain `UIKit` views with complex view hierarchies - like `UITableView` or `UICollectionView`. Those can mutate their subviews in unexpected ways and thereby break HUD display.
 
 If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns.
 
@@ -135,4 +135,4 @@ This code is distributed under the terms and conditions of the [MIT license](LIC
 
 ## Change-log
 
-A brief summary of each MBProgressHUD release can be found in the [CHANGELOG](CHANGELOG.mdown). 
+A brief summary of each MBProgressHUD release can be found in the [CHANGELOG](CHANGELOG.mdown).
