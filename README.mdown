@@ -41,7 +41,7 @@ You will need the latest developer tools in order to build `MBProgressHUD`. Old 
 2. Run `carthage update`
 3. Follow the rest of the [standard Carthage installation instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add MBProgressHUD to your project.
 
-### Accio
+### SwiftPM / Accio
 
 1. Add the following to your `Package.swift`:
 	```swift
@@ -51,7 +51,7 @@ You will need the latest developer tools in order to build `MBProgressHUD`. Old 
 	```swift
 	.target(name: "App", dependencies: ["MBProgressHUD"]),
 	```
-3. Then run `accio update`.
+3. Then open your project in Xcode 11+ (SwiftPM) or run `accio update` (Accio).
 
 ### Source files
 
