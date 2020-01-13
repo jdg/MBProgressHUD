@@ -1,10 +1,10 @@
 //
 //  MBProgressHUD.h
-//  Version 1.1.0
+//  Version 1.2.0
 //  Created by Matej Bukovinski on 2.4.09.
 //
 
-// This code is distributed under the terms and conditions of the MIT license. 
+// This code is distributed under the terms and conditions of the MIT license.
 
 // Copyright © 2009-2016 Matej Bukovinski
 //
@@ -75,7 +75,7 @@ typedef void (^MBProgressHUDCompletionBlock)(void);
 NS_ASSUME_NONNULL_BEGIN
 
 
-/** 
+/**
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
  *
  * This is a simple drop-in class for displaying a progress HUD view similar to Apple's private UIProgressHUD class.
@@ -136,8 +136,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithView:(UIView *)view;
 
-/** 
- * Displays the HUD. 
+/**
+ * Displays the HUD.
  *
  * @note You need to make sure that the main thread completes its run loop soon after this method call so that
  * the user interface can be updated. Call this method when your task is already set up to be executed in a new thread
@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)showAnimated:(BOOL)animated;
 
-/** 
+/**
  * Hides the HUD. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
@@ -161,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)hideAnimated:(BOOL)animated;
 
-/** 
+/**
  * Hides the HUD after a delay. This still calls the hudWasHidden: delegate. This is the counterpart of the show: method. Use it to
  * hide the HUD when your task completes.
  *
@@ -209,7 +209,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// @name Appearance
 
-/** 
+/**
  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
  */
 @property (assign, nonatomic) MBProgressHUDMode mode;
@@ -302,7 +302,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) UILabel *detailsLabel;
 
 /**
- * A button that is placed below the labels. Visible only if a target / action is added and a title is assigned.. 
+ * A button that is placed below the labels. Visible only if a target / action is added and a title is assigned..
  */
 @property (strong, nonatomic, readonly) UIButton *button;
 
@@ -313,8 +313,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-/** 
- * Called after the HUD was fully hidden from the screen. 
+/**
+ * Called after the HUD was fully hidden from the screen.
  */
 - (void)hudWasHidden:(MBProgressHUD *)hud;
 
@@ -324,7 +324,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A progress view for showing definite progress by filling up a circle (pie chart).
  */
-@interface MBRoundProgressView : UIView 
+@interface MBRoundProgressView : UIView
 
 /**
  * Progress (0.0 to 1.0)
@@ -338,7 +338,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *progressTintColor;
 
 /**
- * Indicator background (non-progress) color. 
+ * Indicator background (non-progress) color.
  * Only applicable on iOS versions older than iOS 7.
  * Defaults to translucent white (alpha 0.1).
  */
@@ -353,7 +353,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * A flat bar progress view. 
+ * A flat bar progress view.
  */
 @interface MBBarProgressView : UIView
 
@@ -386,7 +386,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MBBackgroundView : UIView
 
 /**
- * The background style. 
+ * The background style.
  * Defaults to MBProgressHUDBackgroundStyleBlur.
  */
 @property (nonatomic) MBProgressHUDBackgroundStyle style;
