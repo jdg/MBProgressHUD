@@ -51,6 +51,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D2B1740E1C5E3A3D00021915"
+               BuildableName = "HudTests.xctest"
+               BlueprintName = "HudTests"
+               ReferencedContainer = "container:HudDemo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
