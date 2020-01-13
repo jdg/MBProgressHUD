@@ -370,9 +370,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     if (mode == MBProgressHUDModeIndeterminate) {
         if (!isActivityIndicator) {
             // Update to indeterminate indicator
+            UIActivityIndicatorView *activityIndicator;
             [indicator removeFromSuperview];
-            indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [(UIActivityIndicatorView *)indicator startAnimating];
+            if (@available(iOS 13.0, *)) {
+                activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+                activityIndicator.color = [UIColor whiteColor];
+            } else {
+               activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:0 /* UIActivityIndicatorViewStyleWhiteLarge */];
+            }
+            [activityIndicator startAnimating];
+            indicator = activityIndicator;
             [self.bezelView addSubview:indicator];
         }
     }
@@ -728,7 +735,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Notifications
 
 - (void)registerForNotifications {
-#if !TARGET_OS_TV
+#if !TARGET_OS_TV && !TARGET_OS_MACCATALYST
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
     [nc addObserver:self selector:@selector(statusBarOrientationDidChange:)
@@ -737,13 +744,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)unregisterFromNotifications {
-#if !TARGET_OS_TV
+#if !TARGET_OS_TV && !TARGET_OS_MACCATALYST
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 #endif
 }
 
-#if !TARGET_OS_TV
+#if !TARGET_OS_TV && !TARGET_OS_MACCATALYST
 - (void)statusBarOrientationDidChange:(NSNotification *)notification {
     UIView *superview = self.superview;
     if (!superview) {
