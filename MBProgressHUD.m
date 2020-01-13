@@ -372,12 +372,16 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             // Update to indeterminate indicator
             UIActivityIndicatorView *activityIndicator;
             [indicator removeFromSuperview];
+#if !TARGET_OS_MACCATALYST
             if (@available(iOS 13.0, *)) {
+#endif
                 activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
                 activityIndicator.color = [UIColor whiteColor];
+#if !TARGET_OS_MACCATALYST
             } else {
-               activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:0 /* UIActivityIndicatorViewStyleWhiteLarge */];
+               activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
             }
+#endif
             [activityIndicator startAnimating];
             indicator = activityIndicator;
             [self.bezelView addSubview:indicator];
