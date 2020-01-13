@@ -13,8 +13,6 @@
 [![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6.png)
 [![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7.png)
 
-**NOTE:** The class has recently undergone a major rewrite. The old version is available in the [legacy](https://github.com/jdg/MBProgressHUD/tree/legacy) branch, should you need it.
-
 ## Requirements
 
 `MBProgressHUD` works on iOS 9.0+. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
