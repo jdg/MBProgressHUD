@@ -17,7 +17,7 @@
 
 ## Requirements
 
-`MBProgressHUD` works on iOS 6+ and requires ARC to build. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+`MBProgressHUD` works on iOS 9.0+. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * Foundation.framework
 * UIKit.framework
