@@ -373,7 +373,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             UIActivityIndicatorView *activityIndicator;
             [indicator removeFromSuperview];
 #if !TARGET_OS_MACCATALYST
-            if (@available(iOS 13.0, *)) {
+            if (@available(iOS 13.0, tvOS 13.0, *)) {
 #endif
                 activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
                 activityIndicator.color = [UIColor whiteColor];
