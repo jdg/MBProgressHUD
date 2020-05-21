@@ -109,7 +109,7 @@ NSProgress *progress = [self doSomethingInBackgroundCompletion:^{
 hud.progressObject = progress;
 ```
 
-Keep in mind that UI updates, inclining calls to MBProgressHUD should always be done on the main thread.
+Keep in mind that UI updates, including calls to MBProgressHUD should always be done on the main thread.
 
 If you need to run your long-running task in the main thread, you should perform it with a slight delay, so UIKit will have enough time to update the UI (i.e., draw the HUD) before you block the main thread with your task.
 
