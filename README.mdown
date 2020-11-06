@@ -134,3 +134,7 @@ This code is distributed under the terms and conditions of the [MIT license](LIC
 ## Change-log
 
 A brief summary of each MBProgressHUD release can be found in the [CHANGELOG](CHANGELOG.mdown).
+
+## Privacy
+
+MBProgressHUD does not collecty any data. See [SDK Privacy Practices](https://bukovinski.com/sdk-privacy/mbprogresshud/) for more infromation.
