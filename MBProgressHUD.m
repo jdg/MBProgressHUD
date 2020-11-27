@@ -987,58 +987,64 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
     radius = radius - 2;
-    CGFloat amount = self.progress * rect.size.width;
+    CGFloat amount = self.progress * (rect.size.width - 4 - 4);
 
     // Progress in the middle area
-    if (amount >= radius + 4 && amount <= (rect.size.width - radius - 4)) {
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
-        CGContextAddLineToPoint(context, amount, 4);
-        CGContextAddLineToPoint(context, amount, radius + 4);
+    if (amount >= radius && amount <= (rect.size.width - 4 - 4 - radius)) {
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
+            CGContextAddLineToPoint(context, amount + 4, 4);
+    //        CGContextAddLineToPoint(context, amount, radius + 4);
 
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-        CGContextAddLineToPoint(context, amount, rect.size.height - 4);
-        CGContextAddLineToPoint(context, amount, radius + 4);
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
+            CGContextAddLineToPoint(context, amount + 4, rect.size.height - 4);
+            CGContextAddLineToPoint(context, amount + 4, 4);
 
-        CGContextFillPath(context);
-    }
+            CGContextFillPath(context);
+        }
 
     // Progress in the right arc
-    else if (amount > radius + 4) {
-        CGFloat x = amount - (rect.size.width - radius - 4);
-
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
-        CGContextAddLineToPoint(context, rect.size.width - radius - 4, 4);
-        CGFloat angle = -acos(x/radius);
-        if (isnan(angle)) angle = 0;
-        CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI, angle, 0);
-        CGContextAddLineToPoint(context, amount, rect.size.height/2);
-
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-        CGContextAddLineToPoint(context, rect.size.width - radius - 4, rect.size.height - 4);
-        angle = acos(x/radius);
-        if (isnan(angle)) angle = 0;
-        CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, -M_PI, angle, 1);
-        CGContextAddLineToPoint(context, amount, rect.size.height/2);
-
-        CGContextFillPath(context);
+    else if (amount > (rect.size.width - 4 - 4 - radius)) {
+            if(amount + 4 + 4 > rect.size.width){
+                amount = rect.size.width - 4 - 4;
+            }
+            CGFloat x = amount + 4 - (rect.size.width - 4 - radius);
+            
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
+            CGContextAddLineToPoint(context, rect.size.width - radius - 4, 4);
+            CGFloat angle = -acos(x/radius);
+            if (isnan(angle)) angle = 0;
+            CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI_2 * 3, angle, 0);
+            CGContextAddLineToPoint(context, amount + 4, rect.size.height/2);
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
+            CGContextAddLineToPoint(context, rect.size.width - radius - 4, rect.size.height - 4);
+            angle = -asin(x/radius);
+            if (isnan(angle)) angle = 0;
+            CGContextAddArc(context, rect.size.width - radius - 4, rect.size.height/2, radius, M_PI_2, M_PI_2 + angle, 1);
+            CGContextAddLineToPoint(context, amount + 4, rect.size.height/2);
+            CGContextFillPath(context);
     }
 
     // Progress is in the left arc
-    else if (amount < radius + 4 && amount > 0) {
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, 4, radius + 4, 4, radius);
-        CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
+    else if (amount < radius && amount > 0) {
+            CGFloat x = amount;
+        
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            CGFloat angle = acos((radius - x)/radius);
+            if (isnan(angle)) angle = 0;
+            CGContextAddArc(context, radius + 4, rect.size.height/2, radius, M_PI, M_PI + angle, 0);
+            CGContextAddLineToPoint(context, amount + 4, rect.size.height/2);
 
-        CGContextMoveToPoint(context, 4, rect.size.height/2);
-        CGContextAddArcToPoint(context, 4, rect.size.height - 4, radius + 4, rect.size.height - 4, radius);
-        CGContextAddLineToPoint(context, radius + 4, rect.size.height/2);
-
-        CGContextFillPath(context);
-    }
+            CGContextMoveToPoint(context, 4, rect.size.height/2);
+            angle = -acos((radius - x)/radius);
+            if (isnan(angle)) angle = 0;
+            CGContextAddArc(context, radius + 4, rect.size.height/2, radius, M_PI, M_PI + angle, 1);
+            CGContextAddLineToPoint(context, amount + 4, rect.size.height/2);
+            CGContextFillPath(context);
+        }
 }
 
 @end
