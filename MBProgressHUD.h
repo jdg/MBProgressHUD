@@ -344,6 +344,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor *backgroundTintColor;
 
+/**
+* Indicator line width.
+* Defaults to 2.0.
+*/
+@property (nonatomic, assign) CGFloat lineWidth;
+
 /*
  * Display mode - NO = round or YES = annular. Defaults to round.
  */
