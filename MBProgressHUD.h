@@ -27,8 +27,9 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
+#if __has_include(<UIKit/UIKit.h>)
+#import <UIKit/UIKit.h>
 
 @class MBBackgroundView;
 @protocol MBProgressHUDDelegate;
@@ -409,3 +410,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+#endif
