@@ -79,7 +79,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Set default values for properties
     _animationType = MBProgressHUDAnimationFade;
     _mode = MBProgressHUDModeIndeterminate;
-    _margin = 20.0f;
+    _vMargin = 20.0f;
+    _hMargin = 20.0f;
     _defaultMotionEffectsEnabled = YES;
     _contentColor = [UIColor colorWithWhite:0.f alpha:0.7f];
 
@@ -499,9 +500,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     UIView *bezel = self.bezelView;
     UIView *topSpacer = self.topSpacer;
     UIView *bottomSpacer = self.bottomSpacer;
-    CGFloat margin = self.margin;
+    CGFloat vMargin = self.vMargin;
+    CGFloat hMargin = self.hMargin;
     NSMutableArray *bezelConstraints = [NSMutableArray array];
-    NSDictionary *metrics = @{@"margin": @(margin)};
+    NSDictionary *metrics = @{@"vMargin": @(vMargin), @"hMargin": @(hMargin)};
 
     NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
     if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
@@ -525,8 +527,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     // Ensure minimum side margin is kept
     NSMutableArray *sideConstraints = [NSMutableArray array];
-    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
-    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=hMargin)-[bezel]-(>=hMargin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
+    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=vMargin)-[bezel]-(>=vMargin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
     [self applyPriority:999.f toConstraints:sideConstraints];
     [self addConstraints:sideConstraints];
 
@@ -548,8 +550,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 
     // Top and bottom spacing
-    [topSpacer addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
-    [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
+    [topSpacer addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:vMargin]];
+    [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:vMargin]];
     // Top and bottom spaces should be equal
     [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
 
@@ -559,7 +561,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         // Center in bezel
         [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
         // Ensure the minimum edge margin is kept
-        [bezelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[view]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
+        [bezelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=hMargin)-[view]-(>=hMargin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
         // Element spacing
         if (idx == 0) {
             // First, ensure spacing to bezel edge
@@ -642,9 +644,17 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
 }
 
-- (void)setMargin:(CGFloat)margin {
-    if (margin != _margin) {
-        _margin = margin;
+
+- (void)setVMargin:(CGFloat)vMargin {
+    if (vMargin != _vMargin) {
+        _vMargin = vMargin;
+        [self setNeedsUpdateConstraints];
+    }
+}
+
+- (void)setHMargin:(CGFloat)hMargin {
+    if (hMargin != _hMargin) {
+        _hMargin = hMargin;
         [self setNeedsUpdateConstraints];
     }
 }
