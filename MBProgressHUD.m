@@ -825,6 +825,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         _annular = NO;
         _progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
         _backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];
+        _lineWidth = 2;
     }
     return self;
 }
@@ -867,7 +868,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
     if (_annular) {
         // Draw background
-        CGFloat lineWidth = 2.f;
+        CGFloat lineWidth = _lineWidth;
         UIBezierPath *processBackgroundPath = [UIBezierPath bezierPath];
         processBackgroundPath.lineWidth = lineWidth;
         processBackgroundPath.lineCapStyle = kCGLineCapButt;
@@ -888,7 +889,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         [processPath stroke];
     } else {
         // Draw background
-        CGFloat lineWidth = 2.f;
+        CGFloat lineWidth = _lineWidth;
         CGRect allRect = self.bounds;
         CGRect circleRect = CGRectInset(allRect, lineWidth/2.f, lineWidth/2.f);
         CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
