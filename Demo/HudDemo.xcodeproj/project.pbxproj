@@ -7,33 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* HudDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HudDemoAppDelegate.m */; };
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */; };
-		D21D40801611CF6C005FCE55 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D21D407F1611CF6C005FCE55 /* Default-568h@2x.png */; };
+		5BE141EE1CD8C33D0023BC9E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE141ED1CD8C33D0023BC9E /* QuartzCore.framework */; };
 		D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
-		D24A23051780ADCD0020310A /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E61780AA77008D5939 /* Icon-Small.png */; };
-		D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E71780AA77008D5939 /* Icon-Small@2x.png */; };
-		D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */; };
-		D24A23081780ADE60020310A /* Default-iOS7-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E31780A913008D5939 /* Default-iOS7-568h@2x.png */; };
-		D24A23091780ADE90020310A /* Default-iOS7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22568E41780A913008D5939 /* Default-iOS7@2x.png */; };
-		D277FDB311FC834200304321 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB211FC834200304321 /* Default.png */; };
-		D277FDB911FC877E00304321 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB711FC877E00304321 /* Icon.png */; };
-		D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D277FDB811FC877E00304321 /* Icon@2x.png */; };
-		D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */; };
-		D286A7321518C53500E13FB8 /* HudDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286A7341518C53500E13FB8 /* HudDemoViewController.xib */; };
-		D286A7361518C53C00E13FB8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286A7381518C53C00E13FB8 /* MainWindow.xib */; };
+		D274948B1D3B74AA00ABEB66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D274948A1D3B74AA00ABEB66 /* Images.xcassets */; };
+		D27F18451D3B5878009D7482 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18441D3B5878009D7482 /* main.m */; };
+		D27F18481D3B5878009D7482 /* MBHudDemoTVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18471D3B5878009D7482 /* MBHudDemoTVAppDelegate.m */; };
+		D27F184B1D3B5878009D7482 /* MBHudDemoTVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F184A1D3B5878009D7482 /* MBHudDemoTVViewController.m */; };
+		D27F184E1D3B5878009D7482 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27F184C1D3B5878009D7482 /* Main.storyboard */; };
+		D27F18551D3B5AAF009D7482 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
+		D27F185A1D3B5DFF009D7482 /* MBHudDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18581D3B5DFF009D7482 /* MBHudDemoAppDelegate.m */; };
+		D27F185B1D3B5DFF009D7482 /* MBHudDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F18591D3B5DFF009D7482 /* MBHudDemoViewController.m */; };
+		D27F185E1D3B5E0D009D7482 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D27F185D1D3B5E0D009D7482 /* main.m */; };
+		D27F18631D3B5E21009D7482 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27F185F1D3B5E21009D7482 /* Launch.storyboard */; };
+		D27F18641D3B5E21009D7482 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27F18611D3B5E21009D7482 /* Main.storyboard */; };
 		D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */; };
-		D28CBB321A87A45A0052DCEC /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28CBB311A87A45A0052DCEC /* HudTests.m */; };
-		D28CBB381A87A4A10052DCEC /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F7D800F85241C00550BB3 /* MBProgressHUD.m */; };
-		D2A6FD1D13ABC5A200BFE4C9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */; };
-		D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */; };
+		D2B174121C5E3A3D00021915 /* HudTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B174111C5E3A3D00021915 /* HudTests.m */; };
+		D2D75D5323A8193100485497 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2D75D5123A8193000485497 /* Launch.storyboard */; };
+		D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2EEB3801B55967200F59EC1 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D28CBB331A87A45A0052DCEC /* PBXContainerItemProxy */ = {
+		D2B174141C5E3A3D00021915 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -44,35 +40,36 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* HudDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemoAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* HudDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudDemoAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* HudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		28D7ACF60DDB3853001CB0EB /* HudDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemoViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudDemoViewController.m; sourceTree = "<group>"; usesTabs = 1; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudDemo_Prefix.pch; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D21D407F1611CF6C005FCE55 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Images/Default-568h@2x.png"; sourceTree = "<group>"; };
-		D22568E31780A913008D5939 /* Default-iOS7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-iOS7-568h@2x.png"; path = "Images/Default-iOS7-568h@2x.png"; sourceTree = "<group>"; };
-		D22568E41780A913008D5939 /* Default-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-iOS7@2x.png"; path = "Images/Default-iOS7@2x.png"; sourceTree = "<group>"; };
-		D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iOS7@2x.png"; path = "Images/Icon-iOS7@2x.png"; sourceTree = "<group>"; };
-		D22568E61780AA77008D5939 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Images/Icon-Small.png"; sourceTree = "<group>"; };
-		D22568E71780AA77008D5939 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Images/Icon-Small@2x.png"; sourceTree = "<group>"; };
+		5BE141ED1CD8C33D0023BC9E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D22F7D7F0F85241C00550BB3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = ../MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		D22F7D800F85241C00550BB3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = ../MBProgressHUD.m; sourceTree = "<group>"; };
-		D277FDB211FC834200304321 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
-		D277FDB711FC877E00304321 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images/Icon.png; sourceTree = "<group>"; };
-		D277FDB811FC877E00304321 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images/Icon@2x.png"; sourceTree = "<group>"; };
-		D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark@2x.png"; path = "Images/37x-Checkmark@2x.png"; sourceTree = "<group>"; };
-		D286A7331518C53500E13FB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HudDemoViewController.xib; sourceTree = "<group>"; };
-		D286A7371518C53C00E13FB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		D274948A1D3B74AA00ABEB66 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D27F18411D3B5878009D7482 /* HudDemoTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HudDemoTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27F18441D3B5878009D7482 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D27F18461D3B5878009D7482 /* MBHudDemoTVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBHudDemoTVAppDelegate.h; sourceTree = "<group>"; };
+		D27F18471D3B5878009D7482 /* MBHudDemoTVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBHudDemoTVAppDelegate.m; sourceTree = "<group>"; };
+		D27F18491D3B5878009D7482 /* MBHudDemoTVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBHudDemoTVViewController.h; sourceTree = "<group>"; };
+		D27F184A1D3B5878009D7482 /* MBHudDemoTVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBHudDemoTVViewController.m; sourceTree = "<group>"; };
+		D27F184D1D3B5878009D7482 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D27F18511D3B5878009D7482 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D27F18561D3B5DFF009D7482 /* MBHudDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBHudDemoAppDelegate.h; path = HudDemo/MBHudDemoAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		D27F18571D3B5DFF009D7482 /* MBHudDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBHudDemoViewController.h; path = HudDemo/MBHudDemoViewController.h; sourceTree = SOURCE_ROOT; };
+		D27F18581D3B5DFF009D7482 /* MBHudDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBHudDemoAppDelegate.m; path = HudDemo/MBHudDemoAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		D27F18591D3B5DFF009D7482 /* MBHudDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBHudDemoViewController.m; path = HudDemo/MBHudDemoViewController.m; sourceTree = SOURCE_ROOT; };
+		D27F185C1D3B5E0D009D7482 /* HudDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HudDemo_Prefix.pch; path = HudDemo/HudDemo_Prefix.pch; sourceTree = "<group>"; };
+		D27F185D1D3B5E0D009D7482 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = HudDemo/main.m; sourceTree = "<group>"; };
+		D27F18601D3B5E21009D7482 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = HudDemo/en.lproj/Launch.storyboard; sourceTree = "<group>"; };
+		D27F18621D3B5E21009D7482 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = HudDemo/en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D27F18651D3B5E2D009D7482 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = HudDemo/Info.plist; sourceTree = "<group>"; };
 		D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		D28CBB2D1A87A45A0052DCEC /* HudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D28CBB301A87A45A0052DCEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D28CBB311A87A45A0052DCEC /* HudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HudTests.m; sourceTree = "<group>"; };
-		D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images/Default@2x.png"; sourceTree = "<group>"; };
-		D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "37x-Checkmark.png"; path = "Images/37x-Checkmark.png"; sourceTree = "<group>"; };
+		D2B1269B23CB8D9C00A01F4C /* HudDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HudDemo.entitlements; sourceTree = "<group>"; };
+		D2B1740F1C5E3A3D00021915 /* HudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2B174111C5E3A3D00021915 /* HudTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HudTests.m; sourceTree = "<group>"; };
+		D2B174131C5E3A3D00021915 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2D75D5223A8193000485497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Launch.storyboard; sourceTree = "<group>"; };
+		D2EEB3801B55967200F59EC1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HudDemo/Images.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,13 +77,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BE141EE1CD8C33D0023BC9E /* QuartzCore.framework in Frameworks */,
 				D286A76D1518CA9F00E13FB8 /* CoreGraphics.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D28CBB2A1A87A45A0052DCEC /* Frameworks */ = {
+		D27F183E1D3B5878009D7482 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2B1740C1C5E3A3D00021915 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -99,22 +104,23 @@
 		080E96DDFE201D6D7F000001 /* HudDemo */ = {
 			isa = PBXGroup;
 			children = (
-				1D3623240D0F684500981E51 /* HudDemoAppDelegate.h */,
-				1D3623250D0F684500981E51 /* HudDemoAppDelegate.m */,
-				28D7ACF60DDB3853001CB0EB /* HudDemoViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* HudDemoViewController.m */,
+				D2B1269B23CB8D9C00A01F4C /* HudDemo.entitlements */,
+				D27F18561D3B5DFF009D7482 /* MBHudDemoAppDelegate.h */,
+				D27F18571D3B5DFF009D7482 /* MBHudDemoViewController.h */,
+				D27F18581D3B5DFF009D7482 /* MBHudDemoAppDelegate.m */,
+				D27F18591D3B5DFF009D7482 /* MBHudDemoViewController.m */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 			);
-			name = HudDemo;
-			path = Classes;
+			path = HudDemo;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* HudDemo.app */,
-				D28CBB2D1A87A45A0052DCEC /* HudTests.xctest */,
+				D2B1740F1C5E3A3D00021915 /* HudTests.xctest */,
+				D27F18411D3B5878009D7482 /* HudDemoTV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,7 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* HudDemo */,
-				D28CBB2E1A87A45A0052DCEC /* HudTests */,
+				D27F18421D3B5878009D7482 /* HudDemoTV */,
+				D2B174101C5E3A3D00021915 /* HudTests */,
 				D28CBB391A87A6B00052DCEC /* MBProgressHUD */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -134,8 +141,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* HudDemo_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
+				D27F185C1D3B5E0D009D7482 /* HudDemo_Prefix.pch */,
+				D27F185D1D3B5E0D009D7482 /* main.m */,
 			);
 			name = "Other Sources";
 			path = ..;
@@ -144,9 +151,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D27F18651D3B5E2D009D7482 /* Info.plist */,
 				D277FDBF11FC880100304321 /* UI */,
-				D277FDBD11FC879500304321 /* Images */,
-				8D1107310486CEB800E47090 /* Info.plist */,
+				D2EEB3801B55967200F59EC1 /* Images.xcassets */,
 			);
 			name = Resources;
 			path = ..;
@@ -155,6 +162,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BE141ED1CD8C33D0023BC9E /* QuartzCore.framework */,
 				D286A76C1518CA9F00E13FB8 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -162,49 +170,45 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D277FDBD11FC879500304321 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				D277FDB711FC877E00304321 /* Icon.png */,
-				D277FDB811FC877E00304321 /* Icon@2x.png */,
-				D22568E61780AA77008D5939 /* Icon-Small.png */,
-				D22568E71780AA77008D5939 /* Icon-Small@2x.png */,
-				D22568E51780A9C6008D5939 /* Icon-iOS7@2x.png */,
-				D277FDB211FC834200304321 /* Default.png */,
-				D2A6FD1C13ABC5A200BFE4C9 /* Default@2x.png */,
-				D21D407F1611CF6C005FCE55 /* Default-568h@2x.png */,
-				D22568E31780A913008D5939 /* Default-iOS7-568h@2x.png */,
-				D22568E41780A913008D5939 /* Default-iOS7@2x.png */,
-				D2F88CD5115E9F7F00E6DB82 /* 37x-Checkmark.png */,
-				D286A67F1518736B00E13FB8 /* 37x-Checkmark@2x.png */,
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		D277FDBF11FC880100304321 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D286A7341518C53500E13FB8 /* HudDemoViewController.xib */,
-				D286A7381518C53C00E13FB8 /* MainWindow.xib */,
+				D27F185F1D3B5E21009D7482 /* Launch.storyboard */,
+				D27F18611D3B5E21009D7482 /* Main.storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
 		};
-		D28CBB2E1A87A45A0052DCEC /* HudTests */ = {
+		D27F18421D3B5878009D7482 /* HudDemoTV */ = {
 			isa = PBXGroup;
 			children = (
-				D28CBB311A87A45A0052DCEC /* HudTests.m */,
-				D28CBB2F1A87A45A0052DCEC /* Supporting Files */,
+				D27F18461D3B5878009D7482 /* MBHudDemoTVAppDelegate.h */,
+				D27F18471D3B5878009D7482 /* MBHudDemoTVAppDelegate.m */,
+				D27F18491D3B5878009D7482 /* MBHudDemoTVViewController.h */,
+				D27F184A1D3B5878009D7482 /* MBHudDemoTVViewController.m */,
+				D27F18431D3B5878009D7482 /* Other Sources */,
+				D27F18671D3B5E43009D7482 /* Resources */,
 			);
-			path = HudTests;
+			path = HudDemoTV;
 			sourceTree = "<group>";
 		};
-		D28CBB2F1A87A45A0052DCEC /* Supporting Files */ = {
+		D27F18431D3B5878009D7482 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D28CBB301A87A45A0052DCEC /* Info.plist */,
+				D27F18441D3B5878009D7482 /* main.m */,
 			);
-			name = "Supporting Files";
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		D27F18671D3B5E43009D7482 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D2D75D5123A8193000485497 /* Launch.storyboard */,
+				D27F184C1D3B5878009D7482 /* Main.storyboard */,
+				D27F18511D3B5878009D7482 /* Info.plist */,
+				D274948A1D3B74AA00ABEB66 /* Images.xcassets */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		D28CBB391A87A6B00052DCEC /* MBProgressHUD */ = {
@@ -214,6 +218,15 @@
 				D22F7D800F85241C00550BB3 /* MBProgressHUD.m */,
 			);
 			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		D2B174101C5E3A3D00021915 /* HudTests */ = {
+			isa = PBXGroup;
+			children = (
+				D2B174111C5E3A3D00021915 /* HudTests.m */,
+				D2B174131C5E3A3D00021915 /* Info.plist */,
+			);
+			path = HudTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,22 +249,39 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* HudDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D28CBB2C1A87A45A0052DCEC /* HudTests */ = {
+		D27F18401D3B5878009D7482 /* HudDemoTV */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D28CBB351A87A45A0052DCEC /* Build configuration list for PBXNativeTarget "HudTests" */;
+			buildConfigurationList = D27F18541D3B5878009D7482 /* Build configuration list for PBXNativeTarget "HudDemoTV" */;
 			buildPhases = (
-				D28CBB291A87A45A0052DCEC /* Sources */,
-				D28CBB2A1A87A45A0052DCEC /* Frameworks */,
-				D28CBB2B1A87A45A0052DCEC /* Resources */,
+				D27F183D1D3B5878009D7482 /* Sources */,
+				D27F183E1D3B5878009D7482 /* Frameworks */,
+				D27F183F1D3B5878009D7482 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D28CBB341A87A45A0052DCEC /* PBXTargetDependency */,
+			);
+			name = HudDemoTV;
+			productName = HudDemoTV;
+			productReference = D27F18411D3B5878009D7482 /* HudDemoTV.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D2B1740E1C5E3A3D00021915 /* HudTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2B174161C5E3A3D00021915 /* Build configuration list for PBXNativeTarget "HudTests" */;
+			buildPhases = (
+				D2B1740B1C5E3A3D00021915 /* Sources */,
+				D2B1740C1C5E3A3D00021915 /* Frameworks */,
+				D2B1740D1C5E3A3D00021915 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D2B174151C5E3A3D00021915 /* PBXTargetDependency */,
 			);
 			name = HudTests;
 			productName = HudTests;
-			productReference = D28CBB2D1A87A45A0052DCEC /* HudTests.xctest */;
+			productReference = D2B1740F1C5E3A3D00021915 /* HudTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -261,31 +291,33 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MB;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Matej Bukovinski";
 				TargetAttributes = {
-					D28CBB2C1A87A45A0052DCEC = {
-						CreatedOnToolsVersion = 6.1.1;
+					D27F18401D3B5878009D7482 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					D2B1740E1C5E3A3D00021915 = {
+						CreatedOnToolsVersion = 7.2;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "HudDemo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* HudDemo */,
-				D28CBB2C1A87A45A0052DCEC /* HudTests */,
+				D27F18401D3B5878009D7482 /* HudDemoTV */,
+				D2B1740E1C5E3A3D00021915 /* HudTests */,
 			);
 		};
 /* End PBXProject section */
@@ -295,24 +327,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D286A7361518C53C00E13FB8 /* MainWindow.xib in Resources */,
-				D286A7321518C53500E13FB8 /* HudDemoViewController.xib in Resources */,
-				D2F88CD6115E9F7F00E6DB82 /* 37x-Checkmark.png in Resources */,
-				D277FDB311FC834200304321 /* Default.png in Resources */,
-				D277FDB911FC877E00304321 /* Icon.png in Resources */,
-				D277FDBA11FC877E00304321 /* Icon@2x.png in Resources */,
-				D2A6FD1D13ABC5A200BFE4C9 /* Default@2x.png in Resources */,
-				D286A6801518736B00E13FB8 /* 37x-Checkmark@2x.png in Resources */,
-				D24A23081780ADE60020310A /* Default-iOS7-568h@2x.png in Resources */,
-				D24A23051780ADCD0020310A /* Icon-Small.png in Resources */,
-				D24A23071780ADDA0020310A /* Icon-iOS7@2x.png in Resources */,
-				D21D40801611CF6C005FCE55 /* Default-568h@2x.png in Resources */,
-				D24A23061780ADD10020310A /* Icon-Small@2x.png in Resources */,
-				D24A23091780ADE90020310A /* Default-iOS7@2x.png in Resources */,
+				D27F18641D3B5E21009D7482 /* Main.storyboard in Resources */,
+				D2EEB3811B55967200F59EC1 /* Images.xcassets in Resources */,
+				D27F18631D3B5E21009D7482 /* Launch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D28CBB2B1A87A45A0052DCEC /* Resources */ = {
+		D27F183F1D3B5878009D7482 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27F184E1D3B5878009D7482 /* Main.storyboard in Resources */,
+				D274948B1D3B74AA00ABEB66 /* Images.xcassets in Resources */,
+				D2D75D5323A8193100485497 /* Launch.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2B1740D1C5E3A3D00021915 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -326,47 +357,73 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* HudDemoAppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* HudDemoViewController.m in Sources */,
+				D27F185B1D3B5DFF009D7482 /* MBHudDemoViewController.m in Sources */,
 				D22F7D810F85241C00550BB3 /* MBProgressHUD.m in Sources */,
+				D27F185E1D3B5E0D009D7482 /* main.m in Sources */,
+				D27F185A1D3B5DFF009D7482 /* MBHudDemoAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D28CBB291A87A45A0052DCEC /* Sources */ = {
+		D27F183D1D3B5878009D7482 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D28CBB321A87A45A0052DCEC /* HudTests.m in Sources */,
-				D28CBB381A87A4A10052DCEC /* MBProgressHUD.m in Sources */,
+				D27F184B1D3B5878009D7482 /* MBHudDemoTVViewController.m in Sources */,
+				D27F18481D3B5878009D7482 /* MBHudDemoTVAppDelegate.m in Sources */,
+				D27F18451D3B5878009D7482 /* main.m in Sources */,
+				D27F18551D3B5AAF009D7482 /* MBProgressHUD.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2B1740B1C5E3A3D00021915 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2B174121C5E3A3D00021915 /* HudTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D28CBB341A87A45A0052DCEC /* PBXTargetDependency */ = {
+		D2B174151C5E3A3D00021915 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1D6058900D05DD3D006BFB54 /* HudDemo */;
-			targetProxy = D28CBB331A87A45A0052DCEC /* PBXContainerItemProxy */;
+			targetProxy = D2B174141C5E3A3D00021915 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D286A7341518C53500E13FB8 /* HudDemoViewController.xib */ = {
+		D27F184C1D3B5878009D7482 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D286A7331518C53500E13FB8 /* en */,
+				D27F184D1D3B5878009D7482 /* Base */,
 			);
-			name = HudDemoViewController.xib;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		D286A7381518C53C00E13FB8 /* MainWindow.xib */ = {
+		D27F185F1D3B5E21009D7482 /* Launch.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D286A7371518C53C00E13FB8 /* en */,
+				D27F18601D3B5E21009D7482 /* en */,
 			);
-			name = MainWindow.xib;
+			name = Launch.storyboard;
+			sourceTree = "<group>";
+		};
+		D27F18611D3B5E21009D7482 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D27F18621D3B5E21009D7482 /* en */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D2D75D5123A8193000485497 /* Launch.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2D75D5223A8193000485497 /* Base */,
+			);
+			name = Launch.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -376,14 +433,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HudDemo/HudDemo.entitlements;
 				COPY_PHASE_STRIP = NO;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
+				GCC_PREFIX_HEADER = HudDemo/HudDemo_Prefix.pch;
+				INFOPLIST_FILE = HudDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = HudDemo;
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -392,13 +454,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HudDemo/HudDemo.entitlements;
 				COPY_PHASE_STRIP = YES;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = HudDemo_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
+				GCC_PREFIX_HEADER = HudDemo/HudDemo_Prefix.pch;
+				INFOPLIST_FILE = HudDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = HudDemo;
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -406,14 +473,25 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -425,7 +503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -434,14 +512,25 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -452,27 +541,24 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
-		D28CBB361A87A45A0052DCEC /* Debug */ = {
+		D27F18521D3B5878009D7482 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -480,20 +566,49 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = HudTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				INFOPLIST_FILE = HudDemoTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bukovinski.HudDemoTV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HudDemo.app/HudDemo";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
-		D28CBB371A87A45A0052DCEC /* Release */ = {
+		D27F18531D3B5878009D7482 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HudDemoTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bukovinski.HudDemoTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D2B174171C5E3A3D00021915 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -501,24 +616,53 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = HudTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bukovinski.HudTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HudDemo.app/HudDemo";
+			};
+			name = Debug;
+		};
+		D2B174181C5E3A3D00021915 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = HudTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bukovinski.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bukovinski.HudTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HudDemo.app/HudDemo";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -545,11 +689,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D28CBB351A87A45A0052DCEC /* Build configuration list for PBXNativeTarget "HudTests" */ = {
+		D27F18541D3B5878009D7482 /* Build configuration list for PBXNativeTarget "HudDemoTV" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D28CBB361A87A45A0052DCEC /* Debug */,
-				D28CBB371A87A45A0052DCEC /* Release */,
+				D27F18521D3B5878009D7482 /* Debug */,
+				D27F18531D3B5878009D7482 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2B174161C5E3A3D00021915 /* Build configuration list for PBXNativeTarget "HudTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2B174171C5E3A3D00021915 /* Debug */,
+				D2B174181C5E3A3D00021915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,118 @@
+**Version 1.0.0** @ 14.07.16
+
+- Requires ARC and iOS 6+.
+- Includes a new default design for iOS 7+.
+- Deprecates certain helpers and exposes some more flexible API.
+- Removes KVO observing of local properties.
+- Migrates layout code to Auto Layout. 
+- Includes a rewritten demo app. 
+- Includes a rewritten iOS example app.
+- Updates and extends documentation.
+- Adds a new button property (cancellation support).
+- Adds support for `NSProgress`
+- Adds a new customizable background view class. 
+- Adds new assertions. 
+- Adds basic unit tests.
+- Adds support for motion effects.
+- Adds nullability.
+- Adds basic interface builder support. 
+- Adds tvOS support.
+- Adds a simple tvOS example app.
+- Improves behavior when showing and hiding in quick succession. 
+- Improves support for `UIAppearance `. 
+- Various smaller bug-fixes
+
+**Version 0.9.2** @ 22.12.15
+
+- Timer improvements
+- Additional assertions 
+- Added a framework target
+- Tint progress tint color enhancements
+
+**Version 0.9.1** @ 06.03.15
+
+- Bug-fixes
+- Modernization
+
+**Version 0.9** @ 12.08.14
+
+- iOS 8 compatibility and some bug fixes.
+- Additional iOS 7 / iOS 8 styling enhancements. 
+- Improved 64bit support. 
+- Demo modernization. 
+
+**Version 0.8** @ 19.09.13
+
+- iOS 7 compatibility and some bug fixes.
+
+**Version 0.7** @ 25.06.13
+
+- Added horizontal bar mode. ([jjxtra](https://github.com/jjxtra)).
+- CI integration.
+
+**Version 0.6** @ 13.03.13
+
+- Full cocoapods support.
+- Static library integration option.
+- Improved blocks support. 
+- Bezel color. 
+- Demo app fixes (iOS 6).
+- Various bug-fixes and enhancements.
+
+**Version 0.5** @ 22.03.12
+
+- Major source code modernization and cleanup (KVO, layout code, instance vars, etc.).
+- New annular determinate mode.
+- New text only mode. 
+- Added a static library project and Xcode 4 workspace. 
+- Added methods to find and return HUD(s) on a view.
+- Various bug fixes.
+- Various demo project enhancements (hi-res rescues, new samples). 
+
+IMPORTANT: Requires LLVM 3+.
+
+**Version 0.41** @ 03.01.12
+
+- Support for ARC.
+
+**Version 0.4** @ 25.07.10
+
+- Different animation modes. Default set to zoom.
+- Class convenience methods ([tadelv](http://github.com/tadelv)).
+- Autorotation when added to a UIWindow ([wuf810](http://github.com/wuf810)).
+- Extended demo app. 
+- Several smaller fixes.
+
+**Version 0.33** @ 27.03.10
+
+- Custom view operation mode added.
+- Fixed a memory leak.
+
+**Version 0.32** @ 4.01.10
+
+- Added minShowTime, graceTime, xOffset, yOffset.
+- Various fixes.
+
+**Version 0.31** @ 8.10.09
+
+- Fix for touch through during the fade-out animation.
+
+**Version 0.3** @ 30.9.09
+
+- Added show: and hide: methods.
+- Now using UIViews layoutSubviews to automate layout calls.
+- Added some floors to round pixel positions and thereby prevent unsharp views.
+- Some additional documentation and code cleanup. 
+
+**Version 0.2** @ 21.7.09
+
+- Added determinate progress mode and switching capabilities between determinate and indeterminate modes. 
+- Various bug-fixes.
+
+**Version 0.11** @ 2.6.09.
+
+- Updated labelText and detailsLabelText properties to support text modifications while the HUD is being shown. 
+
+**Version 0.1** @ 2.4.09
+
+- Initial release.

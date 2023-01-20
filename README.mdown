@@ -1,42 +1,55 @@
 # MBProgressHUD
 
-[![Build Status](https://travis-ci.org/matej/MBProgressHUD.svg?branch=master)](https://travis-ci.org/matej/MBProgressHUD) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) [![Cocoapods compatible](https://img.shields.io/cocoapods/v/MBProgressHUD.svg?style=flat)](https://cocoapods.org/pods/MBProgressHUD) [![License: MIT](https://img.shields.io/cocoapods/l/MBProgressHUD.svg?style=flat)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/matej/MBProgressHUD.svg?branch=master)](https://travis-ci.org/matej/MBProgressHUD) [![codecov.io](https://codecov.io/github/matej/MBProgressHUD/coverage.svg?branch=master)](https://codecov.io/github/matej/MBProgressHUD?branch=master)
+ [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) [![Accio supported](https://img.shields.io/badge/Accio-supported-0A7CF5.svg?style=flat)](https://github.com/JamitLabs/Accio) [![CocoaPods compatible](https://img.shields.io/cocoapods/v/MBProgressHUD.svg?style=flat)](https://cocoapods.org/pods/MBProgressHUD) [![License: MIT](https://img.shields.io/cocoapods/l/MBProgressHUD.svg?style=flat)](http://opensource.org/licenses/MIT)
 
-MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private UIKit UIProgressHUD with some additional features.
+`MBProgressHUD` is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels while work is being done in a background thread. The HUD is meant as a replacement for the undocumented, private `UIKit` `UIProgressHUD` with some additional features.
 
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/1-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/1.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/2-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/2.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/3-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/3.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/4-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/4.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/5-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/5.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/6-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/6.png)
-[![](http://dl.dropbox.com/u/378729/MBProgressHUD/7-thumb.png)](http://dl.dropbox.com/u/378729/MBProgressHUD/7.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/1-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/1.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/2-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/2.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/3-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/3.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/4-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/4.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/5-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/5.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/6.png)
+[![](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7-small.png)](https://raw.githubusercontent.com/wiki/matej/MBProgressHUD/Screenshots/7.png)
 
 ## Requirements
 
-MBProgressHUD works on any iOS version and is compatible with both ARC and non-ARC projects. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+`MBProgressHUD` works on iOS 9.0+. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * Foundation.framework
 * UIKit.framework
 * CoreGraphics.framework
 
-You will need the latest developer tools in order to build MBProgressHUD. Old Xcode versions might work, but compatibility will not be explicitly maintained.
+You will need the latest developer tools in order to build `MBProgressHUD`. Old Xcode versions might work, but compatibility will not be explicitly maintained.
 
 ## Adding MBProgressHUD to your project
 
-### Cocoapods
+### CocoaPods
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add MBProgressHUD to your project.
 
-1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 0.9.2'`
+1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 1.2.0'`
 2. Install the pod(s) by running `pod install`.
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
 ### Carthage
 
-1. Add MBProgressHUD to your Cartfile. e.g., `github "jdg/MBProgressHUD" ~> 0.9.2`
+1. Add MBProgressHUD to your Cartfile. e.g., `github "jdg/MBProgressHUD" ~> 1.2.0`
 2. Run `carthage update`
 3. Follow the rest of the [standard Carthage installation instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add MBProgressHUD to your project.
+
+### SwiftPM / Accio
+
+1. Add the following to your `Package.swift`:
+	```swift
+	.package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "1.2.0")),
+	```
+2. Next, add `MBProgressHUD` to your App targets dependencies like so:
+	```swift
+	.target(name: "App", dependencies: ["MBProgressHUD"]),
+	```
+3. Then open your project in Xcode 11+ (SwiftPM) or run `accio update` (Accio).
 
 ### Source files
 
@@ -69,20 +82,34 @@ dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 });
 ```
 
+You can add the HUD on any view or window. It is however a good idea to avoid adding the HUD to certain `UIKit` views with complex view hierarchies - like `UITableView` or `UICollectionView`. Those can mutate their subviews in unexpected ways and thereby break HUD display.
+
 If you need to configure the HUD you can do this by using the MBProgressHUD reference that showHUDAddedTo:animated: returns.
 
 ```objective-c
 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 hud.mode = MBProgressHUDModeAnnularDeterminate;
-hud.labelText = @"Loading";
+hud.label.text = @"Loading";
 [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
 	hud.progress = progress;
 } completionCallback:^{
-	[hud hide:YES];
+	[hud hideAnimated:YES];
 }];
 ```
 
-UI updates should always be done on the main thread. Some MBProgressHUD setters are however considered "thread safe" and can be called from background threads. Those also include `setMode:`, `setCustomView:`, `setLabelText:`, `setLabelFont:`, `setDetailsLabelText:`, `setDetailsLabelFont:` and `setProgress:`.
+You can also use a `NSProgress` object and MBProgressHUD will update itself when there is progress reported through that object.
+
+```objective-c
+MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+hud.mode = MBProgressHUDModeAnnularDeterminate;
+hud.label.text = @"Loading";
+NSProgress *progress = [self doSomethingInBackgroundCompletion:^{
+	[hud hideAnimated:YES];
+}];
+hud.progressObject = progress;
+```
+
+Keep in mind that UI updates, including calls to MBProgressHUD should always be done on the main thread.
 
 If you need to run your long-running task in the main thread, you should perform it with a slight delay, so UIKit will have enough time to update the UI (i.e., draw the HUD) before you block the main thread with your task.
 
@@ -106,4 +133,8 @@ This code is distributed under the terms and conditions of the [MIT license](LIC
 
 ## Change-log
 
-A brief summary of each MBProgressHUD release can be found on the [wiki](https://github.com/matej/MBProgressHUD/wiki/Change-log).
+A brief summary of each MBProgressHUD release can be found in the [CHANGELOG](CHANGELOG.mdown).
+
+## Privacy
+
+MBProgressHUD does not collect any data. See [SDK Privacy Practices](https://bukovinski.com/sdk-privacy/mbprogresshud/) for more information.
