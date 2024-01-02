@@ -15,7 +15,7 @@
 
 ## Requirements
 
-`MBProgressHUD` works on iOS 9.0+. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+`MBProgressHUD` works on iOS 12.0+. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * Foundation.framework
 * UIKit.framework
@@ -29,13 +29,13 @@ You will need the latest developer tools in order to build `MBProgressHUD`. Old 
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add MBProgressHUD to your project.
 
-1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 1.2.0'`
+1. Add a pod entry for MBProgressHUD to your Podfile `pod 'MBProgressHUD', '~> 2.0.0'`
 2. Install the pod(s) by running `pod install`.
 3. Include MBProgressHUD wherever you need it with `#import "MBProgressHUD.h"`.
 
 ### Carthage
 
-1. Add MBProgressHUD to your Cartfile. e.g., `github "jdg/MBProgressHUD" ~> 1.2.0`
+1. Add MBProgressHUD to your Cartfile. e.g., `github "jdg/MBProgressHUD" ~> 2.0.0`
 2. Run `carthage update`
 3. Follow the rest of the [standard Carthage installation instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add MBProgressHUD to your project.
 
@@ -43,7 +43,7 @@ You will need the latest developer tools in order to build `MBProgressHUD`. Old 
 
 1. Add the following to your `Package.swift`:
 	```swift
-	.package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "1.2.0")),
+	.package(url: "https://github.com/jdg/MBProgressHUD.git", .upToNextMajor(from: "2.0.0")),
 	```
 2. Next, add `MBProgressHUD` to your App targets dependencies like so:
 	```swift
