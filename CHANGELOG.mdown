@@ -1,4 +1,4 @@
-**Unreleased**
+**Version 2.0.1** @ 26.02.24
 - Adds PrivacyInfo.xcprivacy to satisfy upcoming Apple submission requirements.
 
 **Version 2.0.0** @ 02.01.24
