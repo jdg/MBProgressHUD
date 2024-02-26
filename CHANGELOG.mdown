@@ -1,3 +1,6 @@
+**Unreleased**
+- Adds PrivacyInfo.xcprivacy to satisfy upcoming Apple submission requirements.
+
 **Version 2.0.0** @ 02.01.24
 - Requires iOS 12.0+ to work in XCode 15.0.1
 
