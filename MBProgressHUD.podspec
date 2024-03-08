@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.tvos.deployment_target = '12.0'
   s.source_files = '*.{h,m}'
+  s.resource_bundles = { 'MBProgressHUD_Privacy' => ['PrivacyInfo.xcprivacy'] }
   s.frameworks   = "CoreGraphics", "QuartzCore"
   s.requires_arc = true
 end
