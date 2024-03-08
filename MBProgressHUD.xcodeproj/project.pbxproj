@@ -12,6 +12,8 @@
 		1777D3E81D757B6E0037C7F1 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		1D104D931ACA371400973364 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		1D104D941ACA373100973364 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = D286A7511518C70F00E13FB8 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5C3DAB32B8807940022800E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A5C3DAB22B88078C0022800E /* PrivacyInfo.xcprivacy */; };
+		A5C3DAB42B8808B20022800E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A5C3DAB22B88078C0022800E /* PrivacyInfo.xcprivacy */; };
 		D286A74D1518C70F00E13FB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A74C1518C70F00E13FB8 /* Foundation.framework */; };
 		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
@@ -37,6 +39,7 @@
 		1777D3E21D757AF50037C7F1 /* Framework-tvOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-tvOS-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1D104D7A1ACA36CC00973364 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D104D951ACA376200973364 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A5C3DAB22B88078C0022800E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D286A7491518C70F00E13FB8 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D286A74C1518C70F00E13FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D286A7511518C70F00E13FB8 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
@@ -86,6 +89,7 @@
 		D286A73E1518C70E00E13FB8 = {
 			isa = PBXGroup;
 			children = (
+				A5C3DAB22B88078C0022800E /* PrivacyInfo.xcprivacy */,
 				D286A74E1518C70F00E13FB8 /* MBProgressHUD */,
 				D286A74B1518C70F00E13FB8 /* Frameworks */,
 				D286A74A1518C70F00E13FB8 /* Products */,
@@ -241,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C3DAB42B8808B20022800E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C3DAB32B8807940022800E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +318,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -351,7 +357,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -382,6 +388,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -417,6 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -473,7 +481,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -515,7 +523,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -527,6 +535,7 @@
 				DSTROOT = /tmp/MBProgressHUD.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBProgressHUD-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MBProgressHUD;
 				SKIP_INSTALL = YES;
@@ -539,6 +548,7 @@
 				DSTROOT = /tmp/MBProgressHUD.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MBProgressHUD-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MBProgressHUD;
 				SKIP_INSTALL = YES;
