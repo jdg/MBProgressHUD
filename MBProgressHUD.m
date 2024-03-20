@@ -140,6 +140,10 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     }
     // ... otherwise show the HUD immediately
     else {
+        // Modified grace time to 0 and show again
+        [self.graceTimer invalidate];
+        // fix #605: https://github.com/jdg/MBProgressHUD/issues/605
+        [self.hideDelayTimer invalidate];
         [self showUsingAnimation:self.useAnimation];
     }
 }
@@ -202,9 +206,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     // Cancel any previous animations
     [self.bezelView.layer removeAllAnimations];
     [self.backgroundView.layer removeAllAnimations];
-
-    // Cancel any scheduled hideAnimated:afterDelay: calls
-    [self.hideDelayTimer invalidate];
 
     self.showStarted = [NSDate date];
     self.alpha = 1.f;
