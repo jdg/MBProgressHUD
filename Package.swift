@@ -13,6 +13,7 @@ let package = Package(
             path: ".",
             exclude: ["Demo"],
             sources: ["MBProgressHUD.h", "MBProgressHUD.m"],
+            resources: [.copy("PrivacyInfo.xcprivacy")],
             publicHeadersPath: "include"
         )
     ]
