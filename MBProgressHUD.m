@@ -589,7 +589,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         }
     }];
 
-    [bezel addConstraints:bezelConstraints];
+//    [bezel addConstraints:bezelConstraints];
+    [NSLayoutConstraint activateConstraints:bezelConstraints];
     self.bezelConstraints = bezelConstraints;
 
     self.paddingConstraints = [paddingConstraints copy];
