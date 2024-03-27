@@ -315,6 +315,7 @@
 }
 
 - (void)doSomeWorkWithProgressObject:(NSProgress *)progressObject {
+    progressObject.localizedDescription = @"Download Progress";
 	// This just increases the progress indicator in a loop.
 	while (progressObject.fractionCompleted < 1.0f) {
 		if (progressObject.isCancelled) break;

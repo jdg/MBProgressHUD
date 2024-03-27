@@ -734,6 +734,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)updateProgressFromProgressObject {
     self.progress = self.progressObject.fractionCompleted;
+    self.label.text = self.progressObject.localizedDescription;
+    self.detailsLabel.text = self.progressObject.localizedAdditionalDescription;
 }
 
 #pragma mark - Notifications
