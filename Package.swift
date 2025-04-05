@@ -14,7 +14,10 @@ let package = Package(
             exclude: ["Demo"],
             sources: ["MBProgressHUD.h", "MBProgressHUD.m"],
             resources: [.copy("PrivacyInfo.xcprivacy")],
-            publicHeadersPath: "include"
+            publicHeadersPath: "include",
+            cSettings: [
+                .define("NS_BLOCK_ASSERTIONS", to: "1", .when(configuration: .release))
+            ]
         )
     ]
 )
